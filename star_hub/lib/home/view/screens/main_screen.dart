@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   }
 
   AppBar buildAppBar() {
-    String title = "STAR HUB";
+    String title = "🌟 STAR HUB";
     Widget? actions;
 
     if (_currentIndex == 0) {
