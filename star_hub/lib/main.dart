@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_hub/home/view/screens/home_screen.dart';
+import 'package:star_hub/home/view/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       // ),
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const MainPage(),
     );
   }
 }
