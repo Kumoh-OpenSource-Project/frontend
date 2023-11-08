@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Design: Add home design">
-      <change afterPath="$PROJECT_DIR$/star_hub/assets/cloudy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/assets/sunny.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/date_navigation.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/image_slider.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/page_indicator.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/sun_moon_info.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/custom_box.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/date_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/date_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/sun_moon_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/sun_moon_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +82,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699316410704</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Design: Add home design">
+      <created>1699346834067</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699346834067</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -20,7 +20,7 @@ class WeatherInfo extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(left: 35),
                   child: Text(
-                    '9˚',
+                    '1˚',
                     style: TextStyle(
                       fontSize: 100,
                       fontWeight: FontWeight.w200,

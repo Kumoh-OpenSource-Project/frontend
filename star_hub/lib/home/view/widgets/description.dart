@@ -5,14 +5,16 @@ class Description extends StatelessWidget {
     super.key,
   });
 
+  final text = '현재 구름이 적고 대기가 맑아\n천체를 관측하기 매우 좋습니다';
+
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
       child: Text(
-        '현재 구름이 적고 대기가 맑아\n천체를 관측하기 매우 좋습니다',
+        text,
         textAlign: TextAlign.center,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 18,
           color: Colors.white70,
         ),

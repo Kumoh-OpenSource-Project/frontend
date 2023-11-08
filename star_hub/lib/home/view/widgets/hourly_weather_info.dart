@@ -13,11 +13,13 @@ class HourlyWeatherInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
+      padding: const EdgeInsets.only(bottom: 30, right: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/sunny.png'),
+          Image.asset(
+            'assets/sunny.png',
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
           ImageSlider(controller: controller, pages: pages),
           PageIndicator(controller: controller, pages: pages),
           const Description(),
-          const SunMoonInfo(),
+          SunMoonInfo(),
           const WeatherInfo(),
           HourlyWeatherInfo(hourlyWeatherData: hourlyWeatherData)
         ],
