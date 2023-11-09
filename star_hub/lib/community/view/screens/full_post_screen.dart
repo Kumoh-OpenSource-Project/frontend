@@ -1,104 +1,151 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/styles/fonts/fonts.dart';
+import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 
-class FullPostPage extends ConsumerWidget {
+import '../widgets/post_box.dart';
+
+class FullPostPage extends ConsumerStatefulWidget {
   const FullPostPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FullPostPage> createState() => _FullPostPageState();
+}
+
+class _FullPostPageState extends ConsumerState<FullPostPage>
+    with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: TABS.length, vsync: this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final viewModel = ref.watch(postViewModelProvider);
-    return DefaultTabController(
-      length: 3, // 탭의 개수를 지정
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0), // 탭바를 둥근 모양으로 만듭니다.
-            ),
-            child: TabBar(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: DefaultTabController(
+        length: TABS.length,
+        child: Column(
+          children: [
+            TabBar(
+              padding: const EdgeInsets.only(bottom: 15.0),
+              controller: _tabController,
               isScrollable: true,
-              indicator: const BoxDecoration(
-                color: Colors.transparent,
-              ),
-              labelStyle: const TextStyle(
+              unselectedLabelColor: Colors.white,
+              labelColor: Colors.black,
+              indicatorColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.0,
               ),
-              unselectedLabelStyle: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.0,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+              tabs: TABS
+                  .map(
+                    (e) => Tab(
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _tabController.animateTo(TABS.indexOf(e));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 14.0,
+                              vertical: 10.0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              border:
+                                  Border.all(color: Colors.white, width: 2.0),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(e.icon),
+                                const SizedBox(width: 10),
+                                Text(e.label, style: kTextContentStyleSmall),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  // 첫 번째 탭의 내용
+                  viewModel.state is SuccessState
+                      ? ListView.builder(
+                          itemCount: viewModel.entity.length,
+                          itemBuilder: (context, index) {
+                            final post = viewModel.entity[index];
+                            return PostBox2(
+                              title: post.title,
+                              content: post.content,
+                              nickName: post.nickName,
+                              writeDate: post.writeDate,
+                              level: post.level,
+                              likes: post.likes,
+                              clips: post.clips,
+                              comments: post.comments,
+                            );
+                          },
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                  // 두 번째 탭의 내용
+                  viewModel.state is SuccessState
+                      ? ListView.builder(
+                    itemCount: viewModel.entity.length,
+                    itemBuilder: (context, index) {
+                      final post = viewModel.entity[index];
+                      return PostBox2(
+                        title: post.title,
+                        content: post.content,
+                        nickName: post.nickName,
+                        writeDate: post.writeDate,
+                        level: post.level,
+                        likes: post.likes,
+                        clips: post.clips,
+                        comments: post.comments,
+                      );
+                    },
+                  )
+                      : const Center(child: CircularProgressIndicator()),
+                  // 세 번째 탭의 내용
+                  viewModel.state is SuccessState
+                      ? ListView.builder(
+                    itemCount: viewModel.entity.length,
+                    itemBuilder: (context, index) {
+                      final post = viewModel.entity[index];
+                      return PostBox(
+                        title: post.title,
+                        content: post.content,
+                        nickName: post.nickName,
+                        writeDate: post.writeDate,
+                        level: post.level,
+                        likes: post.likes,
+                        clips: post.clips,
+                        comments: post.comments,
+                      );
+                    },
+                  )
+                      : const Center(child: CircularProgressIndicator()),
+                ],
               ),
-              tabs: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(40.0),
-                  ),
-                  child: const Tab(
-                    text: '관측도구',
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(40.0),
-                  ),
-                  child: const Tab(
-                    text: '관측장소',
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2),
-                    borderRadius: BorderRadius.circular(40.0),
-                  ),
-                  child: const Tab(
-                    text: '사진자랑',
-                  ),
-                ),
-              ],
             ),
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                // 첫 번째 탭의 내용
-                viewModel.state is SuccessState
-                    ? ListView.builder(
-                  itemCount: viewModel.entity.length,
-                  itemBuilder: (context, index) {
-                    final post = viewModel.entity[index];
-                    return PostBox2(
-                      title: post.title,
-                      content: post.content,
-                      nickName: post.nickName,
-                      writeDate: post.writeDate,
-                      level: post.level,
-                      likes: post.likes,
-                      clips: post.clips,
-                      comments: post.comments,
-                    );
-                  },
-                )
-                    : Center(child: CircularProgressIndicator()),
-                // 두 번째 탭의 내용
-                Center(child: Text('Tab 2 Content')),
-                // 세 번째 탭의 내용
-                Center(child: Text('Tab 3 Content')),
-                // 추가적인 탭의 내용을 필요에 따라 추가할 수 있습니다.
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

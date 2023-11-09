@@ -37,81 +37,74 @@ class PostBox2 extends StatelessWidget {
         likes: likes,
         clips: clips,
         comments: comments);
-    return Container(
-        // margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-        // padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-        // decoration: BoxDecoration(
-        //   border: Border.all(color: Colors.white, width: 2.0),
-        //   borderRadius: BorderRadius.circular(20.0),
-        // ),
-        child: Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Divider(color: Colors.white, thickness: 1),
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
+    const Divider(color: Colors.white, thickness: 0.5),
+    Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    post.title,
-                    style: kTextContentStyleMiddle,
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.more_vert,
-                  ),
-                ],
+              Text(
+                post.title,
+                style: kTextContentStyleMiddle,
               ),
-              const SizedBox(
-                height: kPaddingSmallSize,
+              const Spacer(),
+              const Icon(
+                Icons.more_vert,
               ),
-              Container(
-                // decoration: BoxDecoration(
-                //     border: Border.all(color: Colors.white, width: 2.0),),
-                padding: const EdgeInsets.symmetric(horizontal:0),
-                child: Text(
-                  post.content,
-                  overflow: TextOverflow.ellipsis, // 여기서 설정
-                  maxLines: 2,
-                  style: kTextContentStyleXSmall,
-                ),
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Row(
-                children: [
-                  const IconWithNumber(
-                    icon: FontAwesomeIcons.heart,
-                    number: 5,
-                  ),
-                  const IconWithNumber(
-                    icon: Icons.bookmark_border,
-                    number: 5,
-                  ),
-                  const IconWithNumber(
-                    icon: Icons.messenger_outline,
-                    number: 5,
-                  ),
-                  Row(
-                    children: [
-                      Text("|  ${post.nickName}", style: kTextContentStyleXSmall),
-                      const Text("  |  ", style: kTextContentStyleXSmall,),
-                      Text(
-                        post.writeDate,
-                        style: kTextContentStyleXSmall,
-                      )
-                    ],
-                  ),
-                ],
-              )
             ],
           ),
-        ),
+          const SizedBox(
+            height: kPaddingSmallSize,
+          ),
+          Container(
+            // decoration: BoxDecoration(
+            //     border: Border.all(color: Colors.white, width: 2.0),),
+            padding: const EdgeInsets.symmetric(horizontal:0),
+            child: Text(
+              post.content,
+              overflow: TextOverflow.ellipsis, // 여기서 설정
+              maxLines: 2,
+              style: kTextContentStyleXSmall,
+            ),
+          ),
+          const SizedBox(
+            height: kPaddingSmallSize,
+          ),
+          Row(
+            children: [
+              const IconWithNumber(
+                icon: FontAwesomeIcons.heart,
+                number: 5,
+              ),
+              const IconWithNumber(
+                icon: Icons.bookmark_border,
+                number: 5,
+              ),
+              const IconWithNumber(
+                icon: Icons.messenger_outline,
+                number: 5,
+              ),
+              Row(
+                children: [
+                  Text("|  ${post.nickName}", style: kTextContentStyleXSmall),
+                  const Text("  |  ", style: kTextContentStyleXSmall,),
+                  Text(
+                    post.writeDate,
+                    style: kTextContentStyleXSmall,
+                  )
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    ),
       ],
-    ));
+    );
   }
 }
 

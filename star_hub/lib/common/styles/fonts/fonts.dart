@@ -9,7 +9,6 @@ const TextStyle kTextContentStyleMiddle = TextStyle(
 );
 
 const TextStyle kTextContentStyleSmall = TextStyle(
-  color: Colors.white,
   fontSize: kTextSmallSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.visible,
@@ -38,3 +37,14 @@ const TextStyle kTextSubContentStyleXSmall = TextStyle(
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
+
+const TextStyle kTextContentStyleSmallLogo = TextStyle(
+  letterSpacing: -1,
+  color: Colors.white,
+  fontSize: kTextMediumSize,
+  fontWeight: FontWeight.w700,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
+

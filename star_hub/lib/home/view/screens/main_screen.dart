@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
+import 'package:star_hub/common/styles/fonts/fonts.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/home/view/screens/home_screen.dart';
 
@@ -44,6 +45,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   AppBar buildAppBar() {
     String title = "STAR HUB";
     Widget? actions;
+    final PreferredSizeWidget? widget;
 
     if (_currentIndex == 0) {
       actions = IconButton(
@@ -58,9 +60,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
 
     return AppBar(
+      elevation: 0.0,
       centerTitle: true,
       backgroundColor: Colors.black,
-      title: Text(title),
+      title: Text(title, style: kTextContentStyleSmallLogo),
       actions: actions != null ? [actions] : null,
     );
   }
