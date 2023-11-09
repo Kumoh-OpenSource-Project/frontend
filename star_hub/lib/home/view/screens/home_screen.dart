@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
-import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
-import 'package:star_hub/community/view/screens/full_post_screen.dart';
+import '../../model/home_repository.dart';
+import '../widgets/description.dart';
+import '../widgets/hourly_weather_info.dart';
+import '../widgets/image_slider.dart';
+import '../widgets/date_navigation.dart';
+import '../widgets/page_indicator.dart';
+import '../widgets/sun_moon_info.dart';
+import '../widgets/weather_info.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,91 +15,51 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  MotionTabBarController? _motionTabBarController;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _motionTabBarController = MotionTabBarController(
-      initialIndex: 1,
-      length: 3,
-      vsync: this,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _motionTabBarController!.dispose();
-  }
+class _HomePageState extends State<HomePage> {
+  final controller = PageController(viewportFraction: 0.8, keepPage: true);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        title: const Text(
-          'STAR HUB',
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.calendar_today_rounded),
-            onPressed: () {
-              // handle the press
-            },
-          )
+    final pages = [
+      _buildPage(imagePath: 'assets/moon.png'),
+      _buildPage(title: '보름달'),
+      _buildPage(title: 'D-DAY'),
+    ];
+
+    final hourlyWeatherData = [
+      HourlyWeather(hour: '1시', weather: 'cloudy', temperature: '20˚'),
+      HourlyWeather(hour: '2시', weather: 'cloudy', temperature: '19˚'),
+      HourlyWeather(hour: '3시', weather: 'cloudy', temperature: '18˚'),
+      HourlyWeather(hour: '4시', weather: 'sunny', temperature: '18˚'),
+      HourlyWeather(hour: '5시', weather: 'sunny', temperature: '17˚'),
+      HourlyWeather(hour: '6시', weather: 'sunny', temperature: '16˚'),
+    ];
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const DateNavigation(),
+          ImageSlider(controller: controller, pages: pages),
+          PageIndicator(controller: controller, pages: pages),
+          const Description(),
+          SunMoonInfo(),
+          const WeatherInfo(),
+          HourlyWeatherInfo(hourlyWeatherData: hourlyWeatherData)
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment(0, 0),
-            end: Alignment(0, 5),
-            colors: [Colors.black, Colors.white],
-          ),
-        ),
-        child: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _motionTabBarController,
-          children: const <Widget>[
-            Center(
-              child: Text("Home"),
-            ),
-            FullPostScreen(),
-            Center(
-              child: Text("My Page"),
-            ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: MotionTabBar(
-        controller: _motionTabBarController,
-        initialSelectedTab: "HOME",
-        labels: const ["HOME", "COMMUNITY", "MY PAGE"],
-        icons: const [Icons.home, Icons.speaker_notes_rounded, Icons.person],
-        tabSize: 50,
-        tabBarHeight: 55,
-        textStyle: const TextStyle(
-          fontSize: 12,
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
-        ),
-        tabIconColor: Colors.white,
-        tabIconSize: 30.0,
-        tabIconSelectedSize: 28.0,
-        tabSelectedColor: Colors.white,
-        tabIconSelectedColor: Colors.black,
-        tabBarColor: Colors.black,
-        onTabItemSelected: (int value) {
-          setState(() {
-            _motionTabBarController!.index = value;
-          });
-        },
-      ),
+    );
+  }
+
+  Widget _buildPage({String? imagePath, String? title}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: imagePath != null
+          ? Center(child: Image.asset(imagePath))
+          : Center(
+          child: Text(
+            title ?? '',
+            style: const TextStyle(fontSize: 28),
+          )),
     );
   }
 }

@@ -146,6 +146,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "smooth_page_indicator",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.0",
       "packageUri": "lib/",
@@ -200,6 +206,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "weather_icons",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/weather_icons-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "web",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.1.4-beta",
       "packageUri": "lib/",
@@ -212,7 +224,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-11-08T04:08:17.747364Z",
+  "generated": "2023-11-09T11:58:55.468454Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

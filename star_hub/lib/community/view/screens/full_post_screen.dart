@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/community/FullPostEntity.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 
-import '../widgets/post_box.dart';
-
-class FullPostScreen extends ConsumerWidget {
-  const FullPostScreen({super.key});
+class FullPostPage extends ConsumerWidget {
+  const FullPostPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
