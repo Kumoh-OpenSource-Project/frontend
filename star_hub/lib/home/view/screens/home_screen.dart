@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
+import 'package:star_hub/community/view/screens/full_post_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -63,9 +64,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             Center(
               child: Text("Home"),
             ),
-            Center(
-              child: Text("Community"),
-            ),
+            FullPostScreen(),
             Center(
               child: Text("My Page"),
             ),

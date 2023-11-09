@@ -5,7 +5,7 @@ import 'package:star_hub/community/view/widgets/icon_num.dart';
 
 import '../../../common/styles/fonts/fonts.dart';
 
-class PostBox extends StatelessWidget {
+class PostBox2 extends StatelessWidget {
   final String title;
   final String content;
   final String nickName;
@@ -15,7 +15,7 @@ class PostBox extends StatelessWidget {
   final int clips;
   final int comments;
 
-  const PostBox(
+  const PostBox2(
       {super.key,
       required this.title,
       required this.content,
@@ -38,20 +38,20 @@ class PostBox extends StatelessWidget {
         clips: clips,
         comments: comments);
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 2.0),
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-              //border: Border.all(width:2.0, color: Colors.blue)
-              ),
+        // margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+        // padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+        // decoration: BoxDecoration(
+        //   border: Border.all(color: Colors.white, width: 2.0),
+        //   borderRadius: BorderRadius.circular(20.0),
+        // ),
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: Colors.white, thickness: 1),
+        Container(
+          padding: const EdgeInsets.all(10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               Row(
                 children: [
                   Text(
@@ -67,72 +67,51 @@ class PostBox extends StatelessWidget {
               const SizedBox(
                 height: kPaddingSmallSize,
               ),
+              Container(
+                // decoration: BoxDecoration(
+                //     border: Border.all(color: Colors.white, width: 2.0),),
+                padding: const EdgeInsets.symmetric(horizontal:0),
+                child: Text(
+                  post.content,
+                  overflow: TextOverflow.ellipsis, // 여기서 설정
+                  maxLines: 2,
+                  style: kTextContentStyleXSmall,
+                ),
+              ),
+              const SizedBox(
+                height: kPaddingSmallSize,
+              ),
               Row(
                 children: [
-                  const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      radius: 15,
-                      child: Icon(
-                        Icons.person,
-                        size: 25,
-                      )),
-                  const SizedBox(
-                    width: kPaddingSmallSize,
+                  const IconWithNumber(
+                    icon: FontAwesomeIcons.heart,
+                    number: 5,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const IconWithNumber(
+                    icon: Icons.bookmark_border,
+                    number: 5,
+                  ),
+                  const IconWithNumber(
+                    icon: Icons.messenger_outline,
+                    number: 5,
+                  ),
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(post.nickName, style: kTextContentStyleSmall),
-                          const Text(" • "),
-                          Text(
-                            post.writeDate,
-                            style: kTextContentStyleXSmall,
-                          )
-                        ],
-                      ),
+                      Text("|  ${post.nickName}", style: kTextContentStyleXSmall),
+                      const Text("  |  ", style: kTextContentStyleXSmall,),
                       Text(
-                        post.level,
-                        style: kTextSubContentStyleXSmall,
+                        post.writeDate,
+                        style: kTextContentStyleXSmall,
                       )
                     ],
                   ),
                 ],
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Text(
-                post.content,
-                overflow: TextOverflow.ellipsis, // 여기서 설정
-                maxLines: 2, // 최대 두 줄까지 표시
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Row(
-                children: [
-                  IconWithNumber(
-                    icon: FontAwesomeIcons.heart,
-                    number: 5,
-                  ),
-                  IconWithNumber(
-                    icon: Icons.bookmark_border,
-                    number: 5,
-                  ),
-                  IconWithNumber(
-                    icon: Icons.messenger_outline,
-                    number: 5,
-                  ),
-
-                ],
               )
             ],
           ),
-        ));
+        ),
+      ],
+    ));
   }
 }
 
