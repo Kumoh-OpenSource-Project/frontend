@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
-
 import '../../../common/styles/fonts/fonts.dart';
 
 class PostBox2 extends StatelessWidget {
@@ -40,69 +39,71 @@ class PostBox2 extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    const Divider(color: Colors.white, thickness: 0.5),
-    Container(
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Row(
+        const Divider(color: Colors.white, thickness: 0.5),
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
             children: [
-              Text(
-                post.title,
-                style: kTextContentStyleMiddle,
+              Row(
+                children: [
+                  Text(
+                    post.title,
+                    style: kTextContentStyleMiddle,
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    Icons.more_vert,
+                  ),
+                ],
               ),
-              const Spacer(),
-              const Icon(
-                Icons.more_vert,
+              const SizedBox(
+                height: kPaddingSmallSize,
               ),
-            ],
-          ),
-          const SizedBox(
-            height: kPaddingSmallSize,
-          ),
-          Container(
-            // decoration: BoxDecoration(
-            //     border: Border.all(color: Colors.white, width: 2.0),),
-            padding: const EdgeInsets.symmetric(horizontal:0),
-            child: Text(
-              post.content,
-              overflow: TextOverflow.ellipsis, // 여기서 설정
-              maxLines: 2,
-              style: kTextContentStyleXSmall,
-            ),
-          ),
-          const SizedBox(
-            height: kPaddingSmallSize,
-          ),
-          Row(
-            children: [
-              const IconWithNumber(
-                icon: FontAwesomeIcons.heart,
-                number: 5,
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 0),
+                child: Text(
+                  post.content,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: kTextContentStyleXSmall,
+                ),
               ),
-              const IconWithNumber(
-                icon: Icons.bookmark_border,
-                number: 5,
-              ),
-              const IconWithNumber(
-                icon: Icons.messenger_outline,
-                number: 5,
+              const SizedBox(
+                height: kPaddingSmallSize,
               ),
               Row(
                 children: [
-                  Text("|  ${post.nickName}", style: kTextContentStyleXSmall),
-                  const Text("  |  ", style: kTextContentStyleXSmall,),
-                  Text(
-                    post.writeDate,
-                    style: kTextContentStyleXSmall,
-                  )
+                  const IconWithNumber(
+                    icon: FontAwesomeIcons.heart,
+                    number: 5,
+                  ),
+                  const IconWithNumber(
+                    icon: Icons.bookmark_border,
+                    number: 5,
+                  ),
+                  const IconWithNumber(
+                    icon: Icons.messenger_outline,
+                    number: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text("|  ${post.nickName}",
+                          style: kTextContentStyleXSmall),
+                      const Text(
+                        "  |  ",
+                        style: kTextContentStyleXSmall,
+                      ),
+                      Text(
+                        post.writeDate,
+                        style: kTextContentStyleXSmall,
+                      )
+                    ],
+                  ),
                 ],
-              ),
+              )
             ],
-          )
-        ],
-      ),
-    ),
+          ),
+        ),
       ],
     );
   }

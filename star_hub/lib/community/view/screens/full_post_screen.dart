@@ -22,7 +22,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: TABS.length, vsync: this);
+    _tabController = TabController(length: tabs.length, vsync: this);
   }
 
   @override
@@ -31,7 +31,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     return Scaffold(
       backgroundColor: Colors.black,
       body: DefaultTabController(
-        length: TABS.length,
+        length: tabs.length,
         child: Column(
           children: [
             TabBar(
@@ -47,13 +47,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                 color: Colors.white,
               ),
               labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-              tabs: TABS
+              tabs: tabs
                   .map(
                     (e) => Tab(
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
-                            _tabController.animateTo(TABS.indexOf(e));
+                            _tabController.animateTo(tabs.indexOf(e));
                           },
                           child: Container(
                             padding: const EdgeInsets.symmetric(
@@ -106,40 +106,40 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                   // 두 번째 탭의 내용
                   viewModel.state is SuccessState
                       ? ListView.builder(
-                    itemCount: viewModel.entity.length,
-                    itemBuilder: (context, index) {
-                      final post = viewModel.entity[index];
-                      return PostBox2(
-                        title: post.title,
-                        content: post.content,
-                        nickName: post.nickName,
-                        writeDate: post.writeDate,
-                        level: post.level,
-                        likes: post.likes,
-                        clips: post.clips,
-                        comments: post.comments,
-                      );
-                    },
-                  )
+                          itemCount: viewModel.entity.length,
+                          itemBuilder: (context, index) {
+                            final post = viewModel.entity[index];
+                            return PostBox2(
+                              title: post.title,
+                              content: post.content,
+                              nickName: post.nickName,
+                              writeDate: post.writeDate,
+                              level: post.level,
+                              likes: post.likes,
+                              clips: post.clips,
+                              comments: post.comments,
+                            );
+                          },
+                        )
                       : const Center(child: CircularProgressIndicator()),
                   // 세 번째 탭의 내용
                   viewModel.state is SuccessState
                       ? ListView.builder(
-                    itemCount: viewModel.entity.length,
-                    itemBuilder: (context, index) {
-                      final post = viewModel.entity[index];
-                      return PostBox(
-                        title: post.title,
-                        content: post.content,
-                        nickName: post.nickName,
-                        writeDate: post.writeDate,
-                        level: post.level,
-                        likes: post.likes,
-                        clips: post.clips,
-                        comments: post.comments,
-                      );
-                    },
-                  )
+                          itemCount: viewModel.entity.length,
+                          itemBuilder: (context, index) {
+                            final post = viewModel.entity[index];
+                            return PostBox(
+                              title: post.title,
+                              content: post.content,
+                              nickName: post.nickName,
+                              writeDate: post.writeDate,
+                              level: post.level,
+                              likes: post.likes,
+                              clips: post.clips,
+                              comments: post.comments,
+                            );
+                          },
+                        )
                       : const Center(child: CircularProgressIndicator()),
                 ],
               ),

@@ -4,7 +4,8 @@ class IconWithNumber extends StatelessWidget {
   final IconData icon;
   final int number;
 
-  const IconWithNumber({super.key,
+  const IconWithNumber({
+    super.key,
     required this.icon,
     required this.number,
   });
@@ -13,13 +14,16 @@ class IconWithNumber extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 15,),
-        SizedBox(width: 5),
+        Icon(
+          icon,
+          size: 15,
+        ),
+        const SizedBox(width: 5),
         Text(
           number.toString(),
-          style: TextStyle(fontSize: 15),
-        ), // 숫자 표시
-        SizedBox(width: 10),
+          style: const TextStyle(fontSize: 15),
+        ),
+        const SizedBox(width: 10),
       ],
     );
   }

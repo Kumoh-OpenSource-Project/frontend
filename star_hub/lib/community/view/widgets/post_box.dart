@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
-
 import '../../../common/styles/fonts/fonts.dart';
 
 class PostBox extends StatelessWidget {
@@ -44,94 +43,87 @@ class PostBox extends StatelessWidget {
           border: Border.all(color: Colors.white, width: 2.0),
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: Container(
-          decoration: BoxDecoration(
-              //border: Border.all(width:2.0, color: Colors.blue)
-              ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              
-              Row(
-                children: [
-                  Text(
-                    post.title,
-                    style: kTextContentStyleMiddle,
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.more_vert,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Row(
-                children: [
-                  const CircleAvatar(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.black,
-                      radius: 15,
-                      child: Icon(
-                        Icons.person,
-                        size: 25,
-                      )),
-                  const SizedBox(
-                    width: kPaddingSmallSize,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(post.nickName, style: kTextContentStyleSmall),
-                          const Text(" • "),
-                          Text(
-                            post.writeDate,
-                            style: kTextContentStyleXSmall,
-                          )
-                        ],
-                      ),
-                      Text(
-                        post.level,
-                        style: kTextSubContentStyleXSmall,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Text(
-                post.content,
-                overflow: TextOverflow.ellipsis, // 여기서 설정
-                maxLines: 2, // 최대 두 줄까지 표시
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Row(
-                children: [
-                  IconWithNumber(
-                    icon: FontAwesomeIcons.heart,
-                    number: 5,
-                  ),
-                  IconWithNumber(
-                    icon: Icons.bookmark_border,
-                    number: 5,
-                  ),
-                  IconWithNumber(
-                    icon: Icons.messenger_outline,
-                    number: 5,
-                  ),
-
-                ],
-              )
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  post.title,
+                  style: kTextContentStyleMiddle,
+                ),
+                const Spacer(),
+                const Icon(
+                  Icons.more_vert,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: kPaddingSmallSize,
+            ),
+            Row(
+              children: [
+                const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    radius: 15,
+                    child: Icon(
+                      Icons.person,
+                      size: 25,
+                    )),
+                const SizedBox(
+                  width: kPaddingSmallSize,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(post.nickName, style: kTextContentStyleSmall),
+                        const Text(" • "),
+                        Text(
+                          post.writeDate,
+                          style: kTextContentStyleXSmall,
+                        )
+                      ],
+                    ),
+                    Text(
+                      post.level,
+                      style: kTextSubContentStyleXSmall,
+                    )
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: kPaddingSmallSize,
+            ),
+            Text(
+              post.content,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+            ),
+            const SizedBox(
+              height: kPaddingSmallSize,
+            ),
+            const Row(
+              children: [
+                IconWithNumber(
+                  icon: FontAwesomeIcons.heart,
+                  number: 5,
+                ),
+                IconWithNumber(
+                  icon: Icons.bookmark_border,
+                  number: 5,
+                ),
+                IconWithNumber(
+                  icon: Icons.messenger_outline,
+                  number: 5,
+                ),
+              ],
+            )
+          ],
         ));
   }
 }

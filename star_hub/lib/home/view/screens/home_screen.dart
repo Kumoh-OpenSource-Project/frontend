@@ -56,10 +56,10 @@ class _HomePageState extends State<HomePage> {
       child: imagePath != null
           ? Center(child: Image.asset(imagePath))
           : Center(
-          child: Text(
-            title ?? '',
-            style: const TextStyle(fontSize: 28),
-          )),
+              child: Text(
+              title ?? '',
+              style: const TextStyle(fontSize: 28),
+            )),
     );
   }
 }

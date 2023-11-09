@@ -45,7 +45,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   AppBar buildAppBar() {
     String title = "STAR HUB";
     Widget? actions;
-    final PreferredSizeWidget? widget;
 
     if (_currentIndex == 0) {
       actions = IconButton(
@@ -99,15 +98,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       tabBarHeight: 55,
       textStyle: _currentIndex == 1
           ? const TextStyle(
-        fontSize: 12,
-        color: Colors.black,
-        fontWeight: FontWeight.w500,
-      )
+              fontSize: 12,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            )
           : const TextStyle(
-        fontSize: 12,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
       tabIconColor: _currentIndex == 1 ? Colors.black : Colors.white,
       tabIconSize: 30.0,
       tabIconSelectedSize: 28.0,
