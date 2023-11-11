@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../model/home_repository.dart';
+
 class WeatherInfo extends StatelessWidget {
+  final RealTimeWeatherInfo? realTimeWeatherData;
+
   const WeatherInfo({
-    super.key,
-  });
+    Key? key,
+    this.realTimeWeatherData,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +18,15 @@ class WeatherInfo extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Column(
+          Column(
             children: [
               SizedBox(
                 height: 100,
                 child: Padding(
-                  padding: EdgeInsets.only(left: 35),
+                  padding: const EdgeInsets.only(left: 35),
                   child: Text(
-                    '1˚',
-                    style: TextStyle(
+                    '${realTimeWeatherData!.temp.ceil().toString()}˚',
+                    style: const TextStyle(
                       fontSize: 100,
                       fontWeight: FontWeight.w200,
                     ),
@@ -30,7 +35,7 @@ class WeatherInfo extends StatelessWidget {
               ),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                     child: Icon(
                       Icons.arrow_drop_up,
@@ -38,10 +43,10 @@ class WeatherInfo extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '9˚',
-                    style: TextStyle(fontSize: 18),
+                    '${realTimeWeatherData!.tempMax.toString()}˚',
+                    style: const TextStyle(fontSize: 18),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 32,
                     child: Icon(
                       Icons.arrow_drop_down,
@@ -49,8 +54,8 @@ class WeatherInfo extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '6˚',
-                    style: TextStyle(fontSize: 18),
+                    '${realTimeWeatherData!.tempMin.toString()}˚',
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ],
               )
@@ -70,33 +75,33 @@ class WeatherInfo extends StatelessWidget {
                 ),
               ),
             ),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 20),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '체감 기온 7˚',
-                    style: TextStyle(
+                    '체감 기온 ${realTimeWeatherData!.feelsLike.toString()}˚',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    '현재 습도 66%',
-                    style: TextStyle(
+                    '현재 습도 ${realTimeWeatherData!.humidity.toString()}%',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    '바람 세기 3.65km/h',
-                    style: TextStyle(
+                    '바람 세기 ${realTimeWeatherData!.windSpeed.toString()}km/h',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
                   Text(
-                    '바람 방향 북서풍',
-                    style: TextStyle(
+                    '바람 방향 ${getWindDirection(realTimeWeatherData!.windDeg)}',
+                    style: const TextStyle(
                       fontSize: 16,
                     ),
                   )
@@ -107,5 +112,27 @@ class WeatherInfo extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+String getWindDirection(double windDegree) {
+  if (windDegree >= 337.5 || windDegree < 22.5) {
+    return '북풍';
+  } else if (windDegree >= 22.5 && windDegree < 67.5) {
+    return '북동풍';
+  } else if (windDegree >= 67.5 && windDegree < 112.5) {
+    return '동풍';
+  } else if (windDegree >= 112.5 && windDegree < 157.5) {
+    return '남동풍';
+  } else if (windDegree >= 157.5 && windDegree < 202.5) {
+    return '남풍';
+  } else if (windDegree >= 202.5 && windDegree < 247.5) {
+    return '남서풍';
+  } else if (windDegree >= 247.5 && windDegree < 292.5) {
+    return '서풍';
+  } else if (windDegree >= 292.5 && windDegree < 337.5) {
+    return '북서풍';
+  } else {
+    return '방향 없음';
   }
 }

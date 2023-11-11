@@ -30,6 +30,10 @@ flutter_lints
 2.19
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.3/
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_lints-2.0.3/lib/
+intl
+2.12
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.17.0/
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.17.0/lib/
 lints
 3.0
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/lints-2.1.1/
@@ -54,6 +58,10 @@ path
 2.12
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.8.3/lib/
+simple_gesture_detector
+2.12
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/simple_gesture_detector-0.2.0/
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/simple_gesture_detector-0.2.0/lib/
 smooth_page_indicator
 2.12
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.1.0/
@@ -74,6 +82,10 @@ string_scanner
 2.18
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.2.0/
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.2.0/lib/
+table_calendar
+2.12
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/table_calendar-3.0.8/
+file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/table_calendar-3.0.8/lib/
 term_glyph
 2.12
 file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.1/

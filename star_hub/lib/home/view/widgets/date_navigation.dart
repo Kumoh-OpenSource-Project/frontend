@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DateNavigation extends StatefulWidget {
+  final DateTime currentDate;
+  final Function(DateTime) onDateSelected;
+
   const DateNavigation({
     Key? key,
+    required this.currentDate,
+    required this.onDateSelected,
   }) : super(key: key);
 
   @override
@@ -15,7 +20,7 @@ class _DateNavigationState extends State<DateNavigation> {
   @override
   void initState() {
     super.initState();
-    currentDate = DateTime.now();
+    currentDate = widget.currentDate;
   }
 
   bool get isPreviousButtonEnabled {
@@ -30,19 +35,23 @@ class _DateNavigationState extends State<DateNavigation> {
   }
 
   void goToPreviousDay() {
-    setState(() {
-      if (isPreviousButtonEnabled) {
-        currentDate = currentDate.subtract(const Duration(days: 1));
-      }
-    });
+    if (isPreviousButtonEnabled) {
+      final previousDate = currentDate.subtract(const Duration(days: 1));
+      setState(() {
+        currentDate = previousDate;
+      });
+      widget.onDateSelected(previousDate);
+    }
   }
 
   void goToNextDay() {
-    setState(() {
-      if (isNextButtonEnabled) {
-        currentDate = currentDate.add(const Duration(days: 1));
-      }
-    });
+    if (isNextButtonEnabled) {
+      final nextDate = currentDate.add(const Duration(days: 1));
+      setState(() {
+        currentDate = nextDate;
+      });
+      widget.onDateSelected(nextDate);
+    }
   }
 
   @override
@@ -90,13 +99,13 @@ class _DateNavigationState extends State<DateNavigation> {
 
   String _getFormattedWeekday(DateTime date) {
     const weekdays = [
-      'Sunday',
       'Monday',
       'Tuesday',
       'Wednesday',
       'Thursday',
       'Friday',
-      'Saturday'
+      'Saturday',
+      'Sunday',
     ];
     return weekdays[date.weekday - 1];
   }
