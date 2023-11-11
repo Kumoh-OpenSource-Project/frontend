@@ -4,17 +4,21 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Design: Add home design">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add dummy data">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/custom_box.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/date_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/date_navigation.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/sun_moon_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/sun_moon_info.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +61,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
     </key>
   </component>
@@ -89,7 +94,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699346834067</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Feat: Add dummy data">
+      <created>1699433285654</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1699433285654</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -143,6 +155,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Design: Add home design" />
-    <option name="LAST_COMMIT_MESSAGE" value="Design: Add home design" />
+    <MESSAGE value="Feat: Add dummy data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add dummy data" />
   </component>
 </project>
