@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
-import '../../../common/styles/fonts/fonts.dart';
+import '../../../common/styles/fonts/font_style.dart';
 
 class PostBox2 extends StatelessWidget {
   final String title;

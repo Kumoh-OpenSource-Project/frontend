@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/common/styles/fonts/fonts.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
@@ -84,12 +84,11 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  // 첫 번째 탭의 내용
-                  viewModel.state is SuccessState
+                  viewModel.scopeState is SuccessState
                       ? ListView.builder(
-                          itemCount: viewModel.entity.length,
+                          itemCount: viewModel.scopeEntity.length,
                           itemBuilder: (context, index) {
-                            final post = viewModel.entity[index];
+                            final post = viewModel.scopeEntity[index];
                             return PostBox2(
                               title: post.title,
                               content: post.content,
@@ -103,12 +102,11 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           },
                         )
                       : const Center(child: CircularProgressIndicator()),
-                  // 두 번째 탭의 내용
-                  viewModel.state is SuccessState
+                  viewModel.placeState is SuccessState
                       ? ListView.builder(
-                          itemCount: viewModel.entity.length,
+                          itemCount: viewModel.placeEntity.length,
                           itemBuilder: (context, index) {
-                            final post = viewModel.entity[index];
+                            final post = viewModel.placeEntity[index];
                             return PostBox2(
                               title: post.title,
                               content: post.content,
@@ -122,12 +120,11 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           },
                         )
                       : const Center(child: CircularProgressIndicator()),
-                  // 세 번째 탭의 내용
-                  viewModel.state is SuccessState
+                  viewModel.placeState is SuccessState
                       ? ListView.builder(
-                          itemCount: viewModel.entity.length,
+                          itemCount: viewModel.photoEntity.length,
                           itemBuilder: (context, index) {
-                            final post = viewModel.entity[index];
+                            final post = viewModel.photoEntity[index];
                             return PostBox(
                               title: post.title,
                               content: post.content,

@@ -1,4 +1,4 @@
-class PostEntity {
+class PlacePostEntity {
   String title;
   String content;
   String nickName;
@@ -8,7 +8,7 @@ class PostEntity {
   int clips;
   int comments;
 
-  PostEntity({
+  PlacePostEntity({
     required this.title,
     required this.content,
     required this.nickName,

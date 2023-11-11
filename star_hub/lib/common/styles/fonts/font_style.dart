@@ -19,7 +19,7 @@ const TextStyle kTextContentStyleSmall = TextStyle(
 const TextStyle kTextContentStyleXSmall = TextStyle(
   color: Colors.white,
   fontSize: kTextXSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.w500,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );

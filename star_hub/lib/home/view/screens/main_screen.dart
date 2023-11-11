@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
-import 'package:star_hub/common/styles/fonts/fonts.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/home/view/screens/home_screen.dart';
 

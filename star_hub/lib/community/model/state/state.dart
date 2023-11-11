@@ -1,4 +1,6 @@
-import 'package:star_hub/community/FullPostEntity.dart';
+import 'package:star_hub/community/model/entity/photo_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 
 abstract class NoneState {}
@@ -18,14 +20,40 @@ abstract class ErrorState {
 
 abstract class CommunityState {}
 
-class CommunityStateNone extends NoneState implements CommunityState {}
+class ScopeCommunityStateNone extends NoneState implements CommunityState {}
 
-class CommunityStateLoading extends LoadingState implements CommunityState {}
+class ScopeCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class CommunityStateSuccess extends SuccessState<List<PostEntity>> implements CommunityState {
-  CommunityStateSuccess(super.data);
+class ScopeCommunityStateSuccess extends SuccessState<List<ScopePostEntity>> implements CommunityState {
+  ScopeCommunityStateSuccess(super.data);
 }
 
-class CommunityStateError extends ErrorState implements CommunityState {
-  CommunityStateError(super.message);
+class ScopeCommunityStateError extends ErrorState implements CommunityState {
+  ScopeCommunityStateError(super.message);
+}
+
+////
+class PhotoCommunityStateNone extends NoneState implements CommunityState {}
+
+class PhotoCommunityStateLoading extends LoadingState implements CommunityState {}
+
+class PhotoCommunityStateSuccess extends SuccessState<List<PhotoPostEntity>> implements CommunityState {
+  PhotoCommunityStateSuccess(super.data);
+}
+
+class PhotoCommunityStateError extends ErrorState implements CommunityState {
+  PhotoCommunityStateError(super.message);
+}
+
+////x
+class PlaceCommunityStateNone extends NoneState implements CommunityState {}
+
+class PlaceCommunityStateLoading extends LoadingState implements CommunityState {}
+
+class PlaceCommunityStateSuccess extends SuccessState<List<PlacePostEntity>> implements CommunityState {
+  PlaceCommunityStateSuccess(super.data);
+}
+
+class PlaceCommunityStateError extends ErrorState implements CommunityState {
+  PlaceCommunityStateError(super.message);
 }
