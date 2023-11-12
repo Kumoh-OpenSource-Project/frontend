@@ -110,6 +110,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/lints-2.1.1",
       "packageUri": "lib/",
@@ -153,7 +159,7 @@
     },
     {
       "name": "provider",
-      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.0",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/provider-6.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -162,6 +168,12 @@
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/riverpod-2.4.5",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "simple_gesture_detector",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/simple_gesture_detector-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
@@ -212,6 +224,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "table_calendar",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/table_calendar-3.0.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "term_glyph",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.1",
       "packageUri": "lib/",
@@ -254,7 +272,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-11-09T20:29:44.985855Z",
+  "generated": "2023-11-11T20:02:59.353679Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

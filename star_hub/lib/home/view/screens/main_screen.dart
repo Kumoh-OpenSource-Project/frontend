@@ -4,6 +4,7 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/home/view/screens/home_screen.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -42,6 +43,53 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     );
   }
 
+  void showLunarCalendar(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            width: 300,
+            height: 400,
+            child: Center(
+              child: TableCalendar(
+                availableCalendarFormats: const {CalendarFormat.month: 'month'},
+                focusedDay: DateTime.now(),
+                firstDay: DateTime(2000),
+                lastDay: DateTime(2050),
+                headerStyle: const HeaderStyle(
+                  titleCentered: true,
+                  titleTextStyle: TextStyle(fontSize: 20),
+                ),
+                calendarStyle: const CalendarStyle(
+                  todayDecoration: BoxDecoration(
+                    color: Colors.blue,
+                    shape: BoxShape.circle,
+                  ),
+                  selectedDecoration: BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                calendarBuilders: CalendarBuilders(
+                  todayBuilder: (context, date, _) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: const Text(
+                        '🌕',
+                        style: TextStyle(fontSize: 15),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   AppBar buildAppBar() {
     String title = "STAR HUB";
     Widget? actions;
@@ -49,7 +97,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     if (_currentIndex == 0) {
       actions = IconButton(
         icon: const Icon(Icons.calendar_today_rounded),
-        onPressed: () {},
+        onPressed: () => showLunarCalendar(context),
       );
     } else if (_currentIndex == 1) {
       actions = IconButton(
