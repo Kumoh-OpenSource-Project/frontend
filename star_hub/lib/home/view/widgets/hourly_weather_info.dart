@@ -4,12 +4,14 @@ import '../../model/home_repository.dart';
 
 class HourlyWeatherInfo extends StatelessWidget {
   final TodayWeatherData? todayWeatherData;
+  final RealTimeWeatherInfo? realTimeWeatherData;
   final WeatherData? otherDayWeatherData;
 
   const HourlyWeatherInfo({
     Key? key,
     this.todayWeatherData,
     this.otherDayWeatherData,
+    this.realTimeWeatherData,
   }) : super(key: key);
 
   String formatHourlyTime(String timeString) {
@@ -41,7 +43,7 @@ class HourlyWeatherInfo extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
@@ -49,7 +51,8 @@ class HourlyWeatherInfo extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if(todayWeatherData != null) Image.asset('assets/sunny.png'),
+              if (todayWeatherData != null && realTimeWeatherData != null)
+                Image.asset('assets/${realTimeWeatherData!.icon}.png'),
               Row(
                 children: weatherDataList.map((data) {
                   return Column(

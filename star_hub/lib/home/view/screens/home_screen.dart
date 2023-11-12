@@ -55,141 +55,41 @@ class _HomePageState extends State<HomePage> {
     dummyRealTimeWeatherInfo = RealTimeWeatherInfo(
       main: 'Clear',
       description: 'Clear sky',
-      icon: '01d',
-      temp: 25.5,
-      feelsLike: 26.8,
-      tempMin: 24.0,
-      tempMax: 27.0,
-      humidity: 55.0,
-      windSpeed: 3.0,
-      windDeg: 120.0,
+      icon: 'sunny',
+      temp: 13.56,
+      feelsLike: 12.93,
+      tempMin: 13.56,
+      tempMax: 15.64,
+      humidity: 75,
+      windSpeed: 0.75,
+      windDeg: 199,
       seeing: 3,
     );
 
-    dummyWeatherData = [
-      WeatherData(
-        date: "2023-11-12",
-        weathers: [
-          WeekHourlyWeatherInfo(
+    dummyWeatherData = List.generate(
+      6,
+      (index) {
+        final nextDate = today.add(Duration(days: index + 1));
+        return WeatherData(
+          date: DateFormat('yyyy-MM-dd').format(nextDate),
+          weathers: List.generate(
+            8,
+            (hour) => WeekHourlyWeatherInfo(
               main: "Clouds",
               description: "튼구름",
               icon: "sunny",
               temp: 3.36,
-              time: "00:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "03:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "06:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "09:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "12:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "15:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "18:00"),
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "21:00"),
-        ],
-        sunrise: "오전 06:59",
-        sunset: "오후 05:22",
-        moonrise: "오전 04:35",
-        moonset: "오후 04:07",
-        seeing: 5,
-      ),
-      WeatherData(
-        date: "2023-11-13",
-        weathers: [
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "00:00"),
-        ],
-        sunrise: "오전 06:59",
-        sunset: "오후 05:22",
-        moonrise: "오전 04:35",
-        moonset: "오후 04:07",
-        seeing: 2,
-      ),
-      WeatherData(
-        date: "2023-11-14",
-        weathers: [
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "00:00"),
-        ],
-        sunrise: "오전 06:59",
-        sunset: "오후 05:22",
-        moonrise: "오전 04:35",
-        moonset: "오후 04:07",
-        seeing: 1,
-      ),
-      WeatherData(
-        date: "2023-11-15",
-        weathers: [
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "cloudy",
-              temp: 3.36,
-              time: "00:00"),
-        ],
-        sunrise: "오전 06:59",
-        sunset: "오후 05:22",
-        moonrise: "오전 04:35",
-        moonset: "오후 04:07",
-        seeing: 8,
-      ),
-      WeatherData(
-        date: "2023-11-16",
-        weathers: [
-          WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "00:00"),
-        ],
-        sunrise: "오전 06:59",
-        sunset: "오후 05:22",
-        moonrise: "오전 04:35",
-        moonset: "오후 04:07",
-        seeing: 7,
-      ),
-    ];
+              time: "${hour * 3}:00",
+            ),
+          ),
+          sunrise: "오전 06:59",
+          sunset: "오후 05:22",
+          moonrise: "오전 04:35",
+          moonset: "오후 04:07",
+          seeing: index + 1,
+        );
+      },
+    );
   }
 
   @override
@@ -235,7 +135,9 @@ class _HomePageState extends State<HomePage> {
           if (isToday)
             WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
           isToday
-              ? HourlyWeatherInfo(todayWeatherData: todayWeatherData)
+              ? HourlyWeatherInfo(
+                  todayWeatherData: todayWeatherData,
+                  realTimeWeatherData: dummyRealTimeWeatherInfo)
               : HourlyWeatherInfo(
                   otherDayWeatherData: dummyWeatherData.firstWhere(
                     (data) =>
