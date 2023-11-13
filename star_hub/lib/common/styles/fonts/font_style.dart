@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 
+const TextStyle kTextContentStyleMiddle2 = TextStyle(
+  color: Colors.white,
+  fontSize: kTextMiddleSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
 const TextStyle kTextContentStyleMiddle = TextStyle(
   color: Colors.white,
   fontSize: kTextMediumSize,

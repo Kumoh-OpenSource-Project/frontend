@@ -104,21 +104,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       : const Center(child: CircularProgressIndicator()),
                   viewModel.placeState is SuccessState
                       ? ListView.builder(
-                          itemCount: viewModel.placeEntity.length,
-                          itemBuilder: (context, index) {
-                            final post = viewModel.placeEntity[index];
-                            return PostBox2(
-                              title: post.title,
-                              content: post.content,
-                              nickName: post.nickName,
-                              writeDate: post.writeDate,
-                              level: post.level,
-                              likes: post.likes,
-                              clips: post.clips,
-                              comments: post.comments,
-                            );
-                          },
-                        )
+                    itemCount: viewModel.placeEntity.length,
+                    itemBuilder: (context, index) {
+                      final post = viewModel.placeEntity[index];
+                      return PostBox2(
+                          title: post.title,
+                          content: post.content,
+                          nickName: post.nickName,
+                          writeDate: post.writeDate,
+                          level: post.level,
+                          likes: post.likes,
+                          clips: post.clips,
+                          comments: post.comments,
+                      );
+                    },
+                  )
                       : const Center(child: CircularProgressIndicator()),
                   viewModel.placeState is SuccessState
                       ? ListView.builder(

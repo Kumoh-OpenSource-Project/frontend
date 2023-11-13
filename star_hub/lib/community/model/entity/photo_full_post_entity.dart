@@ -1,7 +1,7 @@
 
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 
-class PhotoPostEntity {
+class PhotoFullPostEntity {
   String title;
   String content;
   String photo;
@@ -12,7 +12,7 @@ class PhotoPostEntity {
   int clips;
   List<CommentEntity> comments;
 
-  PhotoPostEntity({
+  PhotoFullPostEntity({
     required this.title,
     required this.content,
     required this.photo,

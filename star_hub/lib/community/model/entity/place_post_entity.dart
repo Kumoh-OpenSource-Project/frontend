@@ -1,3 +1,5 @@
+import 'package:star_hub/community/model/entity/comment_entity.dart';
+
 class PlacePostEntity {
   String title;
   String content;
@@ -6,7 +8,7 @@ class PlacePostEntity {
   String level;
   int likes;
   int clips;
-  int comments;
+  List<CommentEntity> comments;
 
   PlacePostEntity({
     required this.title,

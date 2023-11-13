@@ -1,3 +1,5 @@
+import 'package:star_hub/community/model/entity/comment_entity.dart';
+
 class ScopePostEntity {
   String title;
   String content;
@@ -6,18 +8,19 @@ class ScopePostEntity {
   String level;
   int likes;
   int clips;
-  int comments;
+  List<CommentEntity> comments;
 
   ScopePostEntity({
-    required this.title,
-    required this.content,
-    required this.nickName,
-    required this.writeDate,
-    required this.level,
-    required this.likes,
-    required this.clips,
-    required this.comments,
+  required this.title,
+  required this.content,
+  required this.nickName,
+  required this.writeDate,
+  required this.level,
+  required this.likes,
+  required this.clips,
+  required this.comments,
   });
+
 }
 
 

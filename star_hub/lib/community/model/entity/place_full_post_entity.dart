@@ -1,10 +1,8 @@
-
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 
-class PhotoPostEntity {
+class PlaceFullPostEntity {
   String title;
   String content;
-  String photo;
   String nickName;
   String writeDate;
   String level;
@@ -12,10 +10,9 @@ class PhotoPostEntity {
   int clips;
   List<CommentEntity> comments;
 
-  PhotoPostEntity({
+  PlaceFullPostEntity({
     required this.title,
     required this.content,
-    required this.photo,
     required this.nickName,
     required this.writeDate,
     required this.level,
@@ -24,3 +21,5 @@ class PhotoPostEntity {
     required this.comments,
   });
 }
+
+

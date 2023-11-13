@@ -1,6 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/community/model/entity/comment_entity.dart';
+import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import '../../../common/styles/fonts/font_style.dart';
 
@@ -12,7 +17,7 @@ class PostBox2 extends StatelessWidget {
   final String level;
   final int likes;
   final int clips;
-  final int comments;
+  final List<CommentEntity> comments;
 
   const PostBox2(
       {super.key,
@@ -36,75 +41,102 @@ class PostBox2 extends StatelessWidget {
         likes: likes,
         clips: clips,
         comments: comments);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(color: Colors.white, thickness: 0.5),
-        Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    post.title,
-                    style: kTextContentStyleMiddle,
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.more_vert,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: Text(
-                  post.content,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: kTextContentStyleXSmall,
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(
+              top: BorderSide(
+        color: Colors.white24,
+        width: 1,
+      ))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                      post: PlacePostEntity(
+                          // view로 옮기기
+                          title: title,
+                          content: content,
+                          nickName: nickName,
+                          writeDate: writeDate,
+                          level: level,
+                          likes: likes,
+                          clips: clips,
+                          comments: comments)),
                 ),
-              ),
-              const SizedBox(
-                height: kPaddingSmallSize,
-              ),
-              Row(
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
                 children: [
-                  const IconWithNumber(
-                    icon: FontAwesomeIcons.heart,
-                    number: 5,
+                  Row(
+                    children: [
+                      Text(
+                        post.title,
+                        style: kTextContentStyleMiddle,
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.more_vert,
+                      ),
+                    ],
                   ),
-                  const IconWithNumber(
-                    icon: Icons.bookmark_border,
-                    number: 5,
+                  const SizedBox(
+                    height: kPaddingSmallSize,
                   ),
-                  const IconWithNumber(
-                    icon: Icons.messenger_outline,
-                    number: 5,
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Text(
+                      post.content,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: kTextContentStyleXSmall,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: kPaddingSmallSize,
                   ),
                   Row(
                     children: [
-                      Text("|  ${post.nickName}",
-                          style: kTextContentStyleXSmall),
-                      const Text(
-                        "  |  ",
-                        style: kTextContentStyleXSmall,
+                      IconWithNumber(
+                        icon: FontAwesomeIcons.heart,
+                        number: post.likes,
                       ),
-                      Text(
-                        post.writeDate,
-                        style: kTextContentStyleXSmall,
-                      )
+                      IconWithNumber(
+                        icon: Icons.bookmark_border,
+                        number: post.clips,
+                      ),
+                      IconWithNumber(
+                        icon: Icons.messenger_outline,
+                        number: post.comments.length,
+                      ),
+                      Row(
+                        children: [
+                          Text("|  ${post.nickName}",
+                              style: kTextContentStyleXSmall),
+                          const Text(
+                            "  |  ",
+                            style: kTextContentStyleXSmall,
+                          ),
+                          Text(
+                            post.writeDate,
+                            style: kTextContentStyleXSmall,
+                          )
+                        ],
+                      ),
                     ],
-                  ),
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -117,7 +149,7 @@ class Post {
   final String level;
   final int likes;
   final int clips;
-  final int comments;
+  final List<CommentEntity> comments;
 
   const Post(
       {required this.title,

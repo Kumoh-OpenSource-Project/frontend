@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/home/view/screens/main_screen.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: '');
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -19,10 +21,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colozrs.deepPurple),
-      //   useMaterial3: true,
-      // ),
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       home: const MainPage(),
