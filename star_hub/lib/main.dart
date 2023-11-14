@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:star_hub/home/view/screens/main_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:star_hub/auth/view/screens/sample_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  KakaoSdk.init(nativeAppKey: '66b5438f8117f85e1c31ba3c138b3667');
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -13,13 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colozrs.deepPurple),
-      //   useMaterial3: true,
-      // ),
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      home: LoginPage(),
     );
   }
 }

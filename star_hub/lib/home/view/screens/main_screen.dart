@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
 import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/home/view/screens/home_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -106,9 +107,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
 
     return AppBar(
+      elevation: 0.0,
       centerTitle: true,
       backgroundColor: Colors.black,
-      title: Text(title),
+      title: Text(title, style: kTextContentStyleSmallLogo),
       actions: actions != null ? [actions] : null,
     );
   }
