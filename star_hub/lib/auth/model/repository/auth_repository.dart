@@ -4,7 +4,7 @@ import 'package:star_hub/auth/model/login_request_dto.dart';
 
 part 'auth_repository.g.dart';
 
-@RestApi(baseUrl: 'https://302e-112-217-167-202.ngrok-free.app/')
+@RestApi(baseUrl: 'https://cc12-210-206-182-220.ngrok-free.app/')
 abstract class AuthRepository {
 
   @GET("/auth/login")

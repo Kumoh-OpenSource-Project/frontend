@@ -24,6 +24,19 @@ class TodayWeatherData {
     required this.moonset,
     required this.weathers,
   });
+
+  factory TodayWeatherData.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> weatherList = json['weathers'];
+    return TodayWeatherData(
+      sunrise: json['sunrise'],
+      sunset: json['sunset'],
+      moonrise: json['moonrise'],
+      moonset: json['moonset'],
+      weathers: List<TodayWeatherInfo>.from(
+        weatherList.map((weather) => TodayWeatherInfo.fromJson(weather)),
+      ),
+    );
+  }
 }
 
 class TodayWeatherInfo {
@@ -38,6 +51,15 @@ class TodayWeatherInfo {
     required this.temp,
     required this.humidity,
   });
+
+  factory TodayWeatherInfo.fromJson(Map<String, dynamic> json) {
+    return TodayWeatherInfo(
+      fcstTime: json['fcstTime'],
+      icon: json['icon'],
+      temp: json['temp'],
+      humidity: json['humidity'],
+    );
+  }
 }
 
 class WeatherData {
@@ -59,18 +81,20 @@ class WeatherData {
     required this.seeing,
   });
 
-// factory WeatherData.fromJson(Map<String, dynamic> json) {
-//   final List<dynamic> weatherList = json['weathers'];
-//   return WeatherData(
-//     date: json['date'],
-//     weathers: weatherList.map((weather) => WeekHourlyWeatherInfo.fromJson(weather)).toList(),
-//     sunrise: json['sunrise'],
-//     sunset: json['sunset'],
-//     moonrise: json['moonrise'],
-//     moonset: json['moonset'],
-//     seeing: json['seeing'],
-//   );
-// }
+  factory WeatherData.fromJson(Map<String, dynamic> json) {
+    final List<dynamic> weatherList = json['weathers'];
+    return WeatherData(
+      date: json['date'],
+      weathers: weatherList
+          .map((weather) => WeekHourlyWeatherInfo.fromJson(weather))
+          .toList(),
+      sunrise: json['sunrise'],
+      sunset: json['sunset'],
+      moonrise: json['moonrise'],
+      moonset: json['moonset'],
+      seeing: json['seeing'] ?? 0,
+    );
+  }
 }
 
 class WeekHourlyWeatherInfo {
@@ -88,15 +112,15 @@ class WeekHourlyWeatherInfo {
     required this.time,
   });
 
-// factory WeekHourlyWeatherInfo.fromJson(Map<String, dynamic> json) {
-//   return WeekHourlyWeatherInfo(
-//     main: json['main'],
-//     description: json['description'],
-//     icon: json['icon'],
-//     temp: json['temp'].toDouble(),
-//     time: json['time'],
-//   );
-// }
+  factory WeekHourlyWeatherInfo.fromJson(Map<String, dynamic> json) {
+    return WeekHourlyWeatherInfo(
+      main: json['main'],
+      description: json['description'],
+      icon: json['icon'],
+      temp: json['temp'].toDouble(),
+      time: json['time'],
+    );
+  }
 }
 
 class RealTimeWeatherInfo {
@@ -107,9 +131,9 @@ class RealTimeWeatherInfo {
   final double feelsLike;
   final double tempMin;
   final double tempMax;
-  final double humidity;
+  final int humidity;
   final double windSpeed;
-  final double windDeg;
+  final int windDeg;
   final int seeing;
 
   RealTimeWeatherInfo({
@@ -125,4 +149,20 @@ class RealTimeWeatherInfo {
     required this.windDeg,
     required this.seeing,
   });
+
+  factory RealTimeWeatherInfo.fromJson(Map<String, dynamic> json) {
+    return RealTimeWeatherInfo(
+      main: json['main'],
+      description: json['description'],
+      icon: json['icon'],
+      temp: json['temp'],
+      feelsLike: json['feelsLike'],
+      tempMin: json['tempMin'],
+      tempMax: json['tempMax'],
+      humidity: json['humidity'],
+      windSpeed: json['windSpeed'],
+      windDeg: json['windDeg'],
+      seeing: json['seeing'],
+    );
+  }
 }

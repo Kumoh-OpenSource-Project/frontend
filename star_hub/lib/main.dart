@@ -4,15 +4,13 @@ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/auth/view/screens/sample_screen.dart';
 
 void main() {
-  KakaoSdk.init(nativeAppKey: '66b5438f8117f85e1c31ba3c138b3667'
-      ,javaScriptAppKey: '010d6f35484d930007cb8899676863e9');
+  KakaoSdk.init(nativeAppKey: '66b5438f8117f85e1c31ba3c138b3667');
   runApp(
     const ProviderScope(
       child: MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

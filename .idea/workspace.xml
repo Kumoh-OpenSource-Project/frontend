@@ -4,10 +4,37 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add dummy data">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Chore: Modifying mock data">
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/01d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/01n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/02d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/02n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/03d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/03n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/04d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/04n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/09d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/09n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/10d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/10n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/11d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/11n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/13d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/13n.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/50d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/50n.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/cloudy.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/sunny.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/hourly_weather_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/weather_info.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +77,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
     </key>
   </component>
   <component name="RunManager">
@@ -97,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699699961390</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Chore: Modifying mock data">
+      <created>1699798745995</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699798745995</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,6 +186,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Design: Add home design" />
     <MESSAGE value="Feat: Add dummy data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add dummy data" />
+    <MESSAGE value="Chore: Modifying mock data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Chore: Modifying mock data" />
   </component>
 </project>
