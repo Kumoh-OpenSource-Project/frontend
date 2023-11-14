@@ -12,110 +12,113 @@ class WeatherInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              SizedBox(
-                height: 100,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 35),
-                  child: Text(
-                    '${realTimeWeatherData!.temp.ceil().toString()}˚',
-                    style: const TextStyle(
-                      fontSize: 100,
-                      fontWeight: FontWeight.w200,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: 100,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 35),
+                    child: Text(
+                      '${realTimeWeatherData?.temp.ceil().toString()}˚',
+                      style: const TextStyle(
+                        fontSize: 100,
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ),
                 ),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 32,
+                      child: Icon(
+                        Icons.arrow_drop_up,
+                        size: 40,
+                      ),
+                    ),
+                    Text(
+                      '${realTimeWeatherData?.tempMax.toString()}˚',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(
+                      width: 32,
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        size: 40,
+                      ),
+                    ),
+                    Text(
+                      '${realTimeWeatherData?.tempMin.toString()}˚',
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(
+              width: 30,
+            ),
+            Container(
+              width: 170,
+              height: 110,
+              decoration: const BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: Colors.white,
+                    width: 1.3,
+                  ),
+                ),
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 32,
-                    child: Icon(
-                      Icons.arrow_drop_up,
-                      size: 40,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '체감 기온 ${realTimeWeatherData?.feelsLike.toString()}˚',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${realTimeWeatherData!.tempMax.toString()}˚',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(
-                    width: 32,
-                    child: Icon(
-                      Icons.arrow_drop_down,
-                      size: 40,
+                    Text(
+                      '현재 습도 ${realTimeWeatherData?.humidity.toString()}%',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${realTimeWeatherData!.tempMin.toString()}˚',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              )
-            ],
-          ),
-          const SizedBox(
-            width: 30,
-          ),
-          Container(
-            width: 170,
-            height: 110,
-            decoration: const BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: Colors.white,
-                  width: 1.3,
+                    Text(
+                      '바람 세기 ${realTimeWeatherData?.windSpeed.toString()}km/h',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      '바람 방향 ${getWindDirection(realTimeWeatherData?.windDeg ?? 0)}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '체감 기온 ${realTimeWeatherData!.feelsLike.toString()}˚',
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '현재 습도 ${realTimeWeatherData!.humidity.toString()}%',
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '바람 세기 ${realTimeWeatherData!.windSpeed.toString()}km/h',
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    '바람 방향 ${getWindDirection(realTimeWeatherData!.windDeg)}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
 
-String getWindDirection(double windDegree) {
+String getWindDirection(int windDegree) {
   if (windDegree >= 337.5 || windDegree < 22.5) {
     return '북풍';
   } else if (windDegree >= 22.5 && windDegree < 67.5) {

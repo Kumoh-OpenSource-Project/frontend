@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/home_repository.dart';
+import '../../model/home_service.dart';
 import '../widgets/description.dart';
 import '../widgets/hourly_weather_info.dart';
 import '../widgets/image_slider.dart';
@@ -19,9 +20,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
+  final HomeService homeService = HomeService();
   late TodayWeatherData todayWeatherData;
   late List<WeatherData> dummyWeatherData;
   late RealTimeWeatherInfo dummyRealTimeWeatherInfo;
+  late RealTimeWeatherInfo dummyRealTimeWeatherInfo2;
   late DateTime currentDate;
   late DateTime today;
 
@@ -31,65 +34,109 @@ class _HomePageState extends State<HomePage> {
     today = DateTime.now();
     currentDate = today;
 
-    todayWeatherData = TodayWeatherData(
-      sunrise: '오전 06:30',
-      sunset: '오후 05:45',
-      moonrise: '오전 08:00',
-      moonset: '오후 07:30',
-      weathers: [
-        TodayWeatherInfo(
-            fcstTime: '2200', icon: 'cloudy', temp: '15', humidity: '85'),
-        TodayWeatherInfo(
-            fcstTime: '2300', icon: 'cloudy', temp: '15', humidity: '85'),
-        TodayWeatherInfo(
-            fcstTime: '0000', icon: 'cloudy', temp: '14', humidity: '85'),
-        TodayWeatherInfo(
-            fcstTime: '0100', icon: 'cloudy', temp: '14', humidity: '90'),
-        TodayWeatherInfo(
-            fcstTime: '0200', icon: 'cloudy', temp: '15', humidity: '85'),
-        TodayWeatherInfo(
-            fcstTime: '0300', icon: 'cloudy', temp: '14', humidity: '85'),
-      ],
-    );
+    fetchData();
+    fetchData2();
+    fetchData3();
+  }
 
-    dummyRealTimeWeatherInfo = RealTimeWeatherInfo(
-      main: 'Clear',
-      description: 'Clear sky',
-      icon: 'sunny',
-      temp: 13.56,
-      feelsLike: 12.93,
-      tempMin: 13.56,
-      tempMax: 15.64,
-      humidity: 75,
-      windSpeed: 0.75,
-      windDeg: 199,
-      seeing: 3,
-    );
-
-    dummyWeatherData = List.generate(
-      6,
-      (index) {
-        final nextDate = today.add(Duration(days: index + 1));
-        return WeatherData(
-          date: DateFormat('yyyy-MM-dd').format(nextDate),
-          weathers: List.generate(
-            8,
-            (hour) => WeekHourlyWeatherInfo(
-              main: "Clouds",
-              description: "튼구름",
-              icon: "sunny",
-              temp: 3.36,
-              time: "${hour * 3}:00",
-            ),
-          ),
-          sunrise: "오전 06:59",
-          sunset: "오후 05:22",
-          moonrise: "오전 04:35",
-          moonset: "오후 04:07",
-          seeing: index + 1,
+  Future<TodayWeatherData> fetchData() async {
+    try {
+      setState(() {
+        todayWeatherData = TodayWeatherData(
+          sunrise: '오전 00:00',
+          sunset: '오후 00:00',
+          moonrise: '오전 00:00',
+          moonset: '오후 00:00',
+          weathers: [
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+            TodayWeatherInfo(
+                fcstTime: '0000', icon: '01d', temp: '00', humidity: '00'),
+          ],
         );
-      },
-    );
+      });
+      todayWeatherData = await homeService.getTodayWeatherData();
+      homeService.getCurrentWeather();
+      setState(() {
+        todayWeatherData = todayWeatherData;
+      });
+    } catch (e) {
+      // 에러 처리
+    }
+    return todayWeatherData;
+  }
+
+  Future<RealTimeWeatherInfo> fetchData2() async {
+    try {
+      setState(() {
+        dummyRealTimeWeatherInfo = RealTimeWeatherInfo(
+          main: 'Clear',
+          description: 'Clear sky',
+          icon: '01d',
+          temp: 00.00,
+          feelsLike: 00.00,
+          tempMin: 00.00,
+          tempMax: 00.00,
+          humidity: 00,
+          windSpeed: 0.00,
+          windDeg: 0,
+          seeing: 9,
+        );
+      });
+      dummyRealTimeWeatherInfo = await homeService.getCurrentWeather();
+      setState(() {
+        dummyRealTimeWeatherInfo = dummyRealTimeWeatherInfo;
+      });
+    } catch (e) {
+      // Handle errors
+    }
+    return dummyRealTimeWeatherInfo;
+  }
+
+  Future<void> fetchData3() async {
+    try {
+      setState(() {
+        dummyWeatherData = List.generate(
+          5,
+          (index) {
+            final nextDate = today.add(Duration(days: index + 1));
+            return WeatherData(
+              date: DateFormat('yyyy-MM-dd').format(nextDate),
+              weathers: List.generate(
+                8,
+                (hour) => WeekHourlyWeatherInfo(
+                  main: "Clouds",
+                  description: "튼구름",
+                  icon: "01d",
+                  temp: 0.00,
+                  time: "${(hour * 3).toString().padLeft(2, '0')}:00",
+                ),
+              ),
+              sunrise: "오전 00:00",
+              sunset: "오후 00:00",
+              moonrise: "오전 00:00",
+              moonset: "오후 00:00",
+              seeing: 9,
+            );
+          },
+        );
+      });
+
+      dummyWeatherData = await homeService.getWeeklyWeather();
+      setState(() {
+        dummyWeatherData = dummyWeatherData;
+      });
+    } catch (e) {
+      // Handle errors
+    }
   }
 
   @override
