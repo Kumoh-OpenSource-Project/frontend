@@ -55,3 +55,12 @@ const TextStyle kTextContentStyleSmallLogo = TextStyle(
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
+
+const TextStyle kTextContentStyleLargeLogo = TextStyle(
+  letterSpacing: -1,
+  color: Colors.white,
+  fontSize: kTextLargeSize,
+  fontWeight: FontWeight.w700,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
