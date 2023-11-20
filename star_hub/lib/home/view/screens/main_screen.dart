@@ -4,6 +4,7 @@ import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/home/view/screens/home_screen.dart';
+import 'package:star_hub/my_page/view/screens/my_page_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class MainPage extends StatefulWidget {
@@ -127,10 +128,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       child: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _motionTabBarController,
-        children: const <Widget>[
-          Center(child: HomePage()),
-          Center(child: FullPostPage()),
-          Center(child: Text("My Page")),
+        children: <Widget>[
+          const Center(child: HomePage()),
+          const Center(child: FullPostPage()),
+          Center(child: MyPageScreen()),
         ],
       ),
     );
