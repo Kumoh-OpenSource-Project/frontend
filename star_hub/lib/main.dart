@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:star_hub/auth/view/screens/sample_screen.dart';
+import 'package:star_hub/auth/view/screens/login_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:star_hub/common/pages/loading_page.dart';
 
-void main() {
-  KakaoSdk.init(nativeAppKey: '66b5438f8117f85e1c31ba3c138b3667');
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  KakaoSdk.init(nativeAppKey: dotenv.get("NATIVE_APP_KEY"));
   runApp(
     const ProviderScope(
       child: MyApp(),
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: const SplashScreen(),
     );
   }
 }

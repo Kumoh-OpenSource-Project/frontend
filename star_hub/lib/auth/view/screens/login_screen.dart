@@ -8,6 +8,7 @@ import 'package:star_hub/auth/model/login_request_dto.dart';
 import 'package:star_hub/auth/model/repository/auth_repository.dart';
 import 'package:star_hub/auth/viewmode/main_view_model.dart';
 import 'package:star_hub/common/const.dart';
+import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
@@ -22,6 +23,18 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+
+  Future<void> saveTokensToLocalStorage(String accessToken, String? refreshToken) async {
+    try {
+      final localStorage = ref.read(localStorageProvider);
+
+      await localStorage.saveTokens(accessToken, refreshToken);
+      debugPrint('토큰이 안전하게 저장되었습니다.');
+    } catch (error) {
+      debugPrint('토큰 저장 실패: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthRepository authRepository = AuthRepository(dio);
@@ -70,8 +83,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     }
                   }
                   if (token != null) {
+                    // 여기 추가하고 싶음.
                     print('ㄱㄱㄱㄱㄱ');
-                    print(token);
+                    await saveTokensToLocalStorage(token.accessToken, token.refreshToken);
                     try {
                       LoginRequestDto loginResponse = await authRepository.login('Bearer ${token.accessToken}');
                       print("로그인 성공: ${loginResponse.toJson()}");
@@ -84,9 +98,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     } catch (error) {
                       print("로그인 실패: $error");
                     }
-                  // final response =
-                    //     await authService.login(token.accessToken);
-                    // debugPrint('서버한테 response 받음 $response');
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -97,7 +109,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 },
                 style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
                 child: Image.asset('assets/kakaotalk.png')),
-            //ElevatedButton(onPressed: () {}, child: const Text('Logout'))
           ],
         ),
       ),
