@@ -6,8 +6,14 @@ import 'package:star_hub/common/local_storage/local_storage.dart';
 class MyPageScreen extends ConsumerWidget {
   const MyPageScreen({super.key});
 
-  static String get routeName => 'logout';
+  // try {
+  // LoginRequestDto loginResponse = await authRepository.getUser('Bearer ${token.accessToken}');
+  // print("로그인 성공: ${loginResponse.toJson()}");
+  // } catch (error) {
+  // print("로그인 실패: $error");
+  // }
 
+  static String get routeName => 'myPage';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(

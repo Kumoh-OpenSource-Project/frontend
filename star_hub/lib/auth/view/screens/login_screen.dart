@@ -37,9 +37,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (error is PlatformException && error.code == 'CANCELED') {
         return;
       }
-      debugPrint(isInstalled
-          ? '카카오톡으로 로그인 실패 $error'
-          : '카카오계정으로 로그인 실패 $error');
+      if (isInstalled) {
+        try {
+          token = await UserApi.instance.loginWithKakaoAccount();
+          debugPrint('loginWithKaKaoAccount로 다시 시도 성공');
+        } catch (error) {
+          debugPrint('loginWithKaKaoAccount로 다시 시도 실패 $error');
+        }
+      }
+      else {
+        debugPrint('카카오계정으로 로그인 실패 $error');
+      }
     }
 
     if (token != null) {
