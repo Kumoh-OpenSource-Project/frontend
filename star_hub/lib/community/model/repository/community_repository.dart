@@ -216,7 +216,7 @@ class CommunityRepository {
         level: "지구",
         likes: 5,
         clips: 5,
-        comments:[
+        comments: [
           CommentEntity(
               content: 'content',
               nickName: 'nickName',
