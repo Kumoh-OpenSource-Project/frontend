@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/state/state.dart';
+import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 
@@ -104,21 +106,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       : const Center(child: CircularProgressIndicator()),
                   viewModel.placeState is SuccessState
                       ? ListView.builder(
-                    itemCount: viewModel.placeEntity.length,
-                    itemBuilder: (context, index) {
-                      final post = viewModel.placeEntity[index];
-                      return PostBox2(
-                          title: post.title,
-                          content: post.content,
-                          nickName: post.nickName,
-                          writeDate: post.writeDate,
-                          level: post.level,
-                          likes: post.likes,
-                          clips: post.clips,
-                          comments: post.comments,
-                      );
-                    },
-                  )
+                          itemCount: viewModel.placeEntity.length,
+                          itemBuilder: (context, index) {
+                            final post = viewModel.placeEntity[index];
+                            return PostBox2(
+                              title: post.title,
+                              content: post.content,
+                              nickName: post.nickName,
+                              writeDate: post.writeDate,
+                              level: post.level,
+                              likes: post.likes,
+                              clips: post.clips,
+                              comments: post.comments,
+                            );
+                          },
+                        )
                       : const Center(child: CircularProgressIndicator()),
                   viewModel.placeState is SuccessState
                       ? ListView.builder(
@@ -144,6 +146,51 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          _showWritePostPage(context);
+        },
+        child: Icon(
+          PhosphorIcons.pencilSimpleLine(
+            PhosphorIconsStyle.duotone,
+          ),
+          size: 32.0,
+        ),
+      ),
+    );
+  }
+
+  void _showWritePostPage(BuildContext context) {
+    int selectedIndex = _tabController.index;
+
+    String selectedCategory = tabs[selectedIndex].label;
+
+    Map<String, String> categoryMap = {
+      '관측도구': 'observation_tool',
+      '관측장소': 'observation_location',
+      '사진자랑': 'photo',
+    };
+
+    selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
+
+    Navigator.of(context).push(_createRoute(selectedCategory));
+  }
+
+  Route _createRoute(String selectedCategory) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          WritePostPage(selectedCategory: selectedCategory),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOutQuart;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
     );
   }
 }
