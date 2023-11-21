@@ -1,6 +1,5 @@
-import 'package:star_hub/community/model/entity/comment_entity.dart';
-
 class PlaceFullPostEntity {
+  int id;
   String title;
   String content;
   String nickName;
@@ -8,9 +7,10 @@ class PlaceFullPostEntity {
   String level;
   int likes;
   int clips;
-  List<CommentEntity> comments;
+  int comments;
 
   PlaceFullPostEntity({
+    required this.id,
     required this.title,
     required this.content,
     required this.nickName,

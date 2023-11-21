@@ -1,5 +1,8 @@
+import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/view/screens/full_post_screen.dart';
 
@@ -24,7 +27,7 @@ class ScopeCommunityStateNone extends NoneState implements CommunityState {}
 
 class ScopeCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class ScopeCommunityStateSuccess extends SuccessState<List<ScopePostEntity>> implements CommunityState {
+class ScopeCommunityStateSuccess extends SuccessState<List<ScopeFullPostEntity>> implements CommunityState {
   ScopeCommunityStateSuccess(super.data);
 }
 
@@ -37,7 +40,7 @@ class PhotoCommunityStateNone extends NoneState implements CommunityState {}
 
 class PhotoCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class PhotoCommunityStateSuccess extends SuccessState<List<PhotoPostEntity>> implements CommunityState {
+class PhotoCommunityStateSuccess extends SuccessState<List<PhotoFullPostEntity>> implements CommunityState {
   PhotoCommunityStateSuccess(super.data);
 }
 
@@ -50,7 +53,7 @@ class PlaceCommunityStateNone extends NoneState implements CommunityState {}
 
 class PlaceCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class PlaceCommunityStateSuccess extends SuccessState<List<PlacePostEntity>> implements CommunityState {
+class PlaceCommunityStateSuccess extends SuccessState<List<PlaceFullPostEntity>> implements CommunityState {
   PlaceCommunityStateSuccess(super.data);
 }
 

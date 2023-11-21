@@ -15,7 +15,7 @@ class PostBox extends StatelessWidget {
   final String level;
   final int likes;
   final int clips;
-  final List<CommentEntity> comments;
+  final int comments;
 
   const PostBox(
       {super.key,
@@ -60,7 +60,25 @@ class PostBox extends StatelessWidget {
                   level: level,
                   likes: likes,
                   clips: clips,
-                  comments: comments,
+                  comments: [
+                    CommentEntity(
+                        content: 'content',
+                        nickName: 'nickName',
+                        writeDate: 'writeDate',
+                        level: 'level'),
+                    CommentEntity(
+                        content: 'content',
+                        nickName: 'nickName',
+                        writeDate: 'writeDate',
+                        level: 'level'),
+                    CommentEntity(
+                        content: 'content',
+                        nickName: 'nickName',
+                        writeDate: 'writeDate',
+                        level: 'level'),
+                  ],
+                  articleId: 1,
+                  photo: [],
                 ),
               ),
             ),
@@ -144,7 +162,7 @@ class PostBox extends StatelessWidget {
                   ),
                   IconWithNumber(
                     icon: Icons.messenger_outline,
-                    number: post.comments.length,
+                    number: post.comments,
                   ),
                 ],
               )
@@ -164,7 +182,7 @@ class Post {
   final String level;
   final int likes;
   final int clips;
-  final List<CommentEntity> comments;
+  final int comments;
 
   const Post(
       {required this.title,

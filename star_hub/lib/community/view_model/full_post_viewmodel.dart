@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/service/community_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
@@ -20,9 +23,9 @@ class PostViewModel extends ChangeNotifier {
   // List<PlacePostEntity> placeEntity = [];
   // List<PhotoPostEntity> photoEntity = [];
 
-  List<ScopePostEntity> get scopeEntity => (scopeState as ScopeCommunityStateSuccess).data;
-  List<PlacePostEntity> get placeEntity => (placeState as PlaceCommunityStateSuccess).data;
-  List<PhotoPostEntity> get photoEntity => (photoState as PhotoCommunityStateSuccess).data;
+  List<ScopeFullPostEntity> get scopeEntity => (scopeState as ScopeCommunityStateSuccess).data;
+  List<PlaceFullPostEntity> get placeEntity => (placeState as PlaceCommunityStateSuccess).data;
+  List<PhotoFullPostEntity> get photoEntity => (photoState as PhotoCommunityStateSuccess).data;
 
   PostViewModel(this.ref){
     state = ref.read(scopePostServiceProvider);

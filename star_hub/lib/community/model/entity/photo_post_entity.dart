@@ -2,9 +2,10 @@
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 
 class PhotoPostEntity {
+  int articleId;
   String title;
   String content;
-  String photo;
+  List<String> photo;
   String nickName;
   String writeDate;
   String level;
@@ -13,6 +14,7 @@ class PhotoPostEntity {
   List<CommentEntity> comments;
 
   PhotoPostEntity({
+    required this.articleId,
     required this.title,
     required this.content,
     required this.photo,

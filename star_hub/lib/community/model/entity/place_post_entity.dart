@@ -1,8 +1,10 @@
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 
 class PlacePostEntity {
+  int articleId;
   String title;
   String content;
+  List<String> photo;
   String nickName;
   String writeDate;
   String level;
@@ -11,8 +13,10 @@ class PlacePostEntity {
   List<CommentEntity> comments;
 
   PlacePostEntity({
+    required this.articleId,
     required this.title,
     required this.content,
+    required this.photo,
     required this.nickName,
     required this.writeDate,
     required this.level,
