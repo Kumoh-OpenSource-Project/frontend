@@ -167,8 +167,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     String selectedCategory = tabs[selectedIndex].label;
 
     Map<String, String> categoryMap = {
-      '관측도구': 'observation_tool',
-      '관측장소': 'observation_location',
+      '관측도구': 'scope',
+      '관측장소': 'place',
       '사진자랑': 'photo',
     };
 

@@ -15,6 +15,8 @@ class _WritePostPageState extends State<WritePostPage> {
   String? selectedCategory;
   final ImagePicker _imagePicker = ImagePicker();
   final List<File> _pickedImages = [];
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
 
   @override
   void initState() {
@@ -33,6 +35,23 @@ class _WritePostPageState extends State<WritePostPage> {
         }
       });
     }
+  }
+
+  void _savePost() {
+    // Construct the data object
+    Map<String, dynamic> postData = {
+      "type": selectedCategory,
+      "title": titleController.text,
+      "content": contentController.text,
+    };
+
+    if (_pickedImages.isNotEmpty) {
+      postData["photo"] = _pickedImages.map((file) => file.path).toList();
+    }
+
+    print(postData);
+
+    Navigator.pop(context);
   }
 
   void _getImageFromCamera() async {
@@ -56,6 +75,9 @@ class _WritePostPageState extends State<WritePostPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isButtonEnabled =
+        titleController.text.isNotEmpty && contentController.text.isNotEmpty;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -70,9 +92,8 @@ class _WritePostPageState extends State<WritePostPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: isButtonEnabled ? _savePost : null,
+            color: isButtonEnabled ? Colors.white : Colors.grey,
           ),
         ],
       ),
@@ -84,8 +105,12 @@ class _WritePostPageState extends State<WritePostPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildCategoryDropdown(),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: titleController,
+                onChanged: (text) {
+                  setState(() {});
+                },
+                decoration: const InputDecoration(
                   hintText: '제목',
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
@@ -94,8 +119,12 @@ class _WritePostPageState extends State<WritePostPage> {
                 cursorColor: Colors.white,
               ),
               if (_pickedImages.isNotEmpty) _buildImagePreview(),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: contentController,
+                onChanged: (text) {
+                  setState(() {});
+                },
+                decoration: const InputDecoration(
                   hintText: '내용을 입력하세요',
                   border: InputBorder.none,
                 ),
@@ -125,11 +154,11 @@ class _WritePostPageState extends State<WritePostPage> {
         ),
         items: const [
           DropdownMenuItem<String>(
-            value: 'observation_tool',
+            value: 'scope',
             child: Text('관측 도구 게시판'),
           ),
           DropdownMenuItem<String>(
-            value: 'observation_location',
+            value: 'place',
             child: Text('관측 장소 게시판'),
           ),
           DropdownMenuItem<String>(
