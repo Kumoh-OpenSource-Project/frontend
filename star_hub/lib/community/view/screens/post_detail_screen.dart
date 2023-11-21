@@ -28,9 +28,9 @@ class _DetailPageState extends State<DetailPage> {
             Container(
               decoration: const BoxDecoration(
                   border: Border.symmetric(
-                    horizontal: BorderSide(
-                    color: Colors.white,
-                    width: 1,
+                horizontal: BorderSide(
+                  color: Colors.white,
+                  width: 1,
                 ),
               )),
               padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -40,9 +40,17 @@ class _DetailPageState extends State<DetailPage> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.post.title,
-                      style: kTextContentStyleMiddle,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          widget.post.title,
+                          style: kTextContentStyleMiddle,
+                        ),
+                        const Icon(
+                          Icons.more_vert,
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: kPaddingMiddleSize,
@@ -66,7 +74,8 @@ class _DetailPageState extends State<DetailPage> {
                           children: [
                             Row(
                               children: [
-                                Text(widget.post.nickName, style: kTextContentStyleSmall),
+                                Text(widget.post.nickName,
+                                    style: kTextContentStyleSmall),
                                 const Text(" • "),
                                 Text(
                                   widget.post.writeDate,
@@ -108,19 +117,23 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: kPaddingSmallSize,),
+                    const SizedBox(
+                      height: kPaddingSmallSize,
+                    ),
                   ],
                 ),
               ),
             ),
             Container(
               child: Column(
-                children: widget.post.comments.map((comment) => CommentBox(
-                  content: comment.content,
-                  nickName: comment.nickName,
-                  writeDate: comment.writeDate,
-                  level: comment.level,
-                )).toList(),
+                children: widget.post.comments
+                    .map((comment) => CommentBox(
+                          content: comment.content,
+                          nickName: comment.nickName,
+                          writeDate: comment.writeDate,
+                          level: comment.level,
+                        ))
+                    .toList(),
               ),
             ),
           ],
