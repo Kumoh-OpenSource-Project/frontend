@@ -10,33 +10,30 @@ class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), checkLoginStatus);
+    _checkLoginStatusAfterDelay();
   }
 
-  Future<void> checkLoginStatus() async {
+  Future<void> _checkLoginStatusAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 2));
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
     final accessToken = await ref.read(localStorageProvider).getAccessToken();
 
-    // Navigator를 이용하여 화면 전환
+    if (!mounted) return;
     if (accessToken != null && accessToken.isNotEmpty) {
       Navigator.of(context).pushReplacement(_createMainPageRoute());
     } else {
       Navigator.of(context).pushReplacement(_createLoginPageRoute());
     }
-  }
-
-  MaterialPageRoute<dynamic> _createMainPageRoute() {
-    return MaterialPageRoute<dynamic>(builder: (context) => MainPage());
-  }
-
-  MaterialPageRoute<dynamic> _createLoginPageRoute() {
-    return MaterialPageRoute<dynamic>(builder: (context) => LoginPage());
   }
 
   @override
@@ -59,5 +56,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         ),
       ),
     );
+  }
+
+  MaterialPageRoute<dynamic> _createMainPageRoute() {
+    return MaterialPageRoute<dynamic>(builder: (context) => const MainPage());
+  }
+
+  MaterialPageRoute<dynamic> _createLoginPageRoute() {
+    return MaterialPageRoute<dynamic>(builder: (context) => const LoginPage());
   }
 }

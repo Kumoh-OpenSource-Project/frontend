@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/auth/model/auth_state.dart';
 import 'package:star_hub/auth/model/login_request_dto.dart';
 import 'package:star_hub/auth/model/repository/auth_repository.dart';
@@ -16,7 +15,7 @@ class AuthService extends StateNotifier<AuthState> {
 
   Future login(String token) async {
     try {
-      LoginRequestDto authInfo = await repository.login('Bearer ' + token);
+      LoginRequestDto authInfo = await repository.login('Bearer $token');
       state = AuthStateSuccess(authInfo);
     } catch (e) {
       state = AuthStateError(e.toString());
