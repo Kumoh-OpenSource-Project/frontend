@@ -6,6 +6,8 @@ import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 
+import 'edit_screen.dart';
+
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key, required this.post}) : super(key: key);
   final PlacePostEntity post;
@@ -15,6 +17,74 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  void _onMoreVertTap() {
+    showMenu(
+      context: context,
+      position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
+      color: Colors.black,
+      items: [
+        const PopupMenuItem(
+          value: 'edit',
+          child: Text('수정하기'),
+        ),
+        const PopupMenuItem(
+          value: 'delete',
+          child: Text('삭제하기'),
+        ),
+      ],
+    ).then((value) async {
+      if (value == 'edit') {
+        String? result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EditPage(post: widget.post),
+          ),
+        );
+        if (result != null) {
+          setState(() {
+            widget.post.content = result;
+          });
+        }
+      } else if (value == 'delete') {
+        _showDeleteConfirmationDialog();
+      }
+    });
+  }
+
+  void _showDeleteConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: const Text('삭제 확인'),
+          content: const Text('정말로 삭제하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                '취소',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context, true);
+              },
+              child: const Text(
+                '삭제',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,8 +117,11 @@ class _DetailPageState extends State<DetailPage> {
                           widget.post.title,
                           style: kTextContentStyleMiddle,
                         ),
-                        const Icon(
-                          Icons.more_vert,
+                        InkWell(
+                          onTap: _onMoreVertTap,
+                          child: const Icon(
+                            Icons.more_vert,
+                          ),
                         ),
                       ],
                     ),
