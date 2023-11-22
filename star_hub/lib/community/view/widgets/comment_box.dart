@@ -18,35 +18,43 @@ class CommentBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          Row(
-            children: [
-              const CircleAvatar(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                  radius: 15,
-                  child: Icon(
-                    Icons.person,
-                    size: 25,
-                  )),
-              const SizedBox(
-                width: kPaddingSmallSize,
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(
+              children: [
+                const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    radius: 15,
+                    child: Icon(
+                      Icons.person,
+                      size: 25,
+                    )),
+                const SizedBox(
+                  width: kPaddingSmallSize,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(nickName, style: kTextContentStyleSmall),
+                    Text(
+                      level,
+                      style: kTextSubContentStyleXSmall,
+                    )
+                  ],
+                ),
+              ],
+            ),
+            InkWell(
+              onTap: () {},
+              child: const Icon(
+                Icons.more_vert,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(nickName, style: kTextContentStyleSmall),
-                  Text(
-                    level,
-                    style: kTextSubContentStyleXSmall,
-                  )
-                ],
-              ),
-            ],
-          ),
+            ),
+          ]),
           const SizedBox(
             height: kPaddingMiddleSize,
           ),

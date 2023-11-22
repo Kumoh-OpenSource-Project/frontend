@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
-import 'package:star_hub/home/view/screens/main_screen.dart';
+import 'package:star_hub/common/pages/main_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   static String get routeName => 'splash';

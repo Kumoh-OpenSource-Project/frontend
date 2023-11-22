@@ -7,7 +7,7 @@ import 'package:star_hub/auth/model/repository/auth_repository.dart';
 import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
-import 'package:star_hub/home/view/screens/main_screen.dart';
+import 'package:star_hub/common/pages/main_screen.dart';
 
 
 class LoginPage extends ConsumerStatefulWidget {
