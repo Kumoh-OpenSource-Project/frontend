@@ -34,14 +34,21 @@ class _DetailPageState extends State<DetailPage> {
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
       color: Colors.black,
       items: [
-        const PopupMenuItem(
-          value: 'edit',
-          child: Text('수정하기'),
-        ),
-        const PopupMenuItem(
-          value: 'delete',
-          child: Text('삭제하기'),
-        ),
+        if (true)
+          const PopupMenuItem(
+            value: 'edit',
+            child: Text('수정하기'),
+          ),
+        if (true)
+          const PopupMenuItem(
+            value: 'delete',
+            child: Text('삭제하기'),
+          ),
+        if (false)
+          const PopupMenuItem(
+            value: 'report',
+            child: Text('신고하기'),
+          ),
       ],
     ).then((value) async {
       if (value == 'edit') {
@@ -73,8 +80,8 @@ class _DetailPageState extends State<DetailPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                bool deleted =
-                await CommunityRepository().deletePost(widget.post.articleId);
+                bool deleted = await CommunityRepository()
+                    .deletePost(widget.post.articleId);
                 if (deleted) {
                   Navigator.pop(context);
                   Navigator.pop(context, true);
@@ -239,11 +246,11 @@ class _DetailPageState extends State<DetailPage> {
                     child: Column(
                       children: widget.post.comments
                           .map((comment) => CommentBox(
-                        content: comment.content,
-                        nickName: comment.nickName,
-                        writeDate: comment.writeDate,
-                        level: comment.level,
-                      ))
+                                content: comment.content,
+                                nickName: comment.nickName,
+                                writeDate: comment.writeDate,
+                                level: comment.level,
+                              ))
                           .toList(),
                     ),
                   ),
@@ -254,7 +261,7 @@ class _DetailPageState extends State<DetailPage> {
           Container(
             color: Colors.white,
             padding:
-            const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
             child: Row(
               children: [
                 Expanded(
@@ -266,7 +273,7 @@ class _DetailPageState extends State<DetailPage> {
                       });
                     },
                     style:
-                    kTextContentStyleMiddle.copyWith(color: Colors.black),
+                        kTextContentStyleMiddle.copyWith(color: Colors.black),
                     cursorColor: Colors.black,
                     decoration: InputDecoration(
                       hintText: '댓글을 입력하세요...',

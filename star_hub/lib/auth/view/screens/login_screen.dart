@@ -21,7 +21,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   AuthRepository authRepository = AuthRepository(dio);
 
   Future<void> _handleKakaoLogin() async {
-    //print(await KakaoSdk.origin);
+    // print(await KakaoSdk.origin);
     bool isInstalled = await isKakaoTalkInstalled();
     OAuthToken? token;
 
