@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:image_picker/image_picker.dart';
 
 class WritePostPage extends StatefulWidget {
@@ -37,8 +39,7 @@ class _WritePostPageState extends State<WritePostPage> {
     }
   }
 
-  void _savePost() {
-    // Construct the data object
+  void _savePost() async {
     Map<String, dynamic> postData = {
       "type": selectedCategory,
       "title": titleController.text,
@@ -46,6 +47,7 @@ class _WritePostPageState extends State<WritePostPage> {
     };
 
     if (_pickedImages.isNotEmpty) {
+      // List<String> imageUrls = await _uploadImages(_pickedImages);
       postData["photo"] = _pickedImages.map((file) => file.path).toList();
     }
 
@@ -53,6 +55,30 @@ class _WritePostPageState extends State<WritePostPage> {
 
     Navigator.pop(context);
   }
+
+  // Future<List<String>> _uploadImages(List<File> images) async {
+  //   List<String> imageUrls = [];
+  //
+  //   for (File image in images) {
+  //     var request = http.MultipartRequest(
+  //       'PUT',
+  //       Uri.parse('https://starhubimage.s3.ap-northeast-2.amazonaws.com/articleImage/{image id}'),
+  //     );
+  //
+  //     request.files.add(await http.MultipartFile.fromPath('file', image.path));
+  //
+  //     var response = await request.send();
+  //
+  //     if (response.statusCode == 200) {
+  //       String imageUrl = await response.stream.bytesToString();
+  //       imageUrls.add(imageUrl);
+  //     } else {
+  //       print('Failed to upload image: ${response.reasonPhrase}');
+  //     }
+  //   }
+  //
+  //   return imageUrls;
+  // }
 
   void _getImageFromCamera() async {
     final XFile? pickedFile =
