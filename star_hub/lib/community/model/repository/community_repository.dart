@@ -237,6 +237,21 @@ class CommunityRepository {
     )
   ];
 
+  Future<bool> deletePost(int postId) async {
+    var postToDelete = scopePostList.firstWhere(
+      (post) => post.id == postId,
+    );
+
+    if (postToDelete != null) {
+      scopePostList.remove(postToDelete);
+      print(scopePostList);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   Future<List<ScopeFullPostEntity>> getFullScopePost() async {
     return scopePostList;
   }

@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Modify Button Style">
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/edit_screen.dart" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add comment input box and search box">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +25,18 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="OPEN-32-홈-화면-작성" />
+        <entry key="$PROJECT_DIR$" value="OPEN-36-사진-없는-게시글-페이지-작성" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -52,8 +59,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -127,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700566206851</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Feat: Add comment input box and search box">
+      <created>1700658482838</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700658482838</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -186,6 +200,7 @@
     <MESSAGE value="Feat: Connected to home server" />
     <MESSAGE value="Feat: Add writing page" />
     <MESSAGE value="Style: Modify Button Style" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style: Modify Button Style" />
+    <MESSAGE value="Feat: Add comment input box and search box" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add comment input box and search box" />
   </component>
 </project>

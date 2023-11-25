@@ -7,6 +7,8 @@ import 'package:star_hub/home/view/screens/home_screen.dart';
 import 'package:star_hub/my_page/view/screens/my_page_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../community/view/screens/search_screen.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -103,7 +105,14 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     } else if (_currentIndex == 1) {
       actions = IconButton(
         icon: const Icon(Icons.search),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchScreen(),
+            ),
+          );
+        },
       );
     }
 
@@ -128,9 +137,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       child: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _motionTabBarController,
-        children: <Widget>[
-          const Center(child: HomePage()),
-          const Center(child: FullPostPage()),
+        children: const <Widget>[
+          Center(child: HomePage()),
+          Center(child: FullPostPage()),
           Center(child: MyPageScreen()),
         ],
       ),
@@ -147,15 +156,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       tabBarHeight: 55,
       textStyle: _currentIndex == 1
           ? const TextStyle(
-              fontSize: 12,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            )
+        fontSize: 12,
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+      )
           : const TextStyle(
-              fontSize: 12,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
+        fontSize: 12,
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+      ),
       tabIconColor: _currentIndex == 1 ? Colors.black : Colors.white,
       tabIconSize: 30.0,
       tabIconSelectedSize: 28.0,
@@ -171,3 +180,4 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     );
   }
 }
+
