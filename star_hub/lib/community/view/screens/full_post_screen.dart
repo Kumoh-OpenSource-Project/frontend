@@ -3,7 +3,10 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/photo_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/state/state.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
@@ -121,23 +124,45 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           },
                         )
                       : const Center(child: CircularProgressIndicator()),
-                  viewModel.placeState is SuccessState
-                      ? ListView.builder(
-                          itemCount: viewModel.photoEntity.length,
-                          itemBuilder: (context, index) {
-                            final post = viewModel.photoEntity[index];
-                            return PostBox(
-                              title: post.title,
-                              content: post.content,
-                              nickName: post.nickName,
-                              writeDate: post.writeDate,
-                              level: post.level,
-                              likes: post.likes,
-                              clips: post.clips,
-                              comments: post.comments,
-                            );
-                          },
-                        )
+                  viewModel.photoState is SuccessState
+                      ? GridView.builder(
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // 5열
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
+                    ),
+                    itemCount: viewModel.photoEntity.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final post = viewModel.photoEntity[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                post: PlacePostEntity(
+                                  title: post.title,
+                                  content: post.content,
+                                  nickName: post.nickName,
+                                  writeDate: post.writeDate,
+                                  level: post.level,
+                                  likes: post.likes,
+                                  clips: post.clips,
+                                  comments: [],
+                                  photo: post.photo, articleId: 1,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: Image.network(
+                          post.photo[0],
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                  )
                       : const Center(child: CircularProgressIndicator()),
                 ],
               ),

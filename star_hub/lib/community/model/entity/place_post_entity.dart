@@ -1,6 +1,6 @@
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 
-class PlacePostEntity {
+class PlacePostEntity{
   int articleId;
   String title;
   String content;

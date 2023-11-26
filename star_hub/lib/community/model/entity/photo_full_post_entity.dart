@@ -2,7 +2,7 @@ class PhotoFullPostEntity {
   int id;
   String title;
   String content;
-  String photo;
+  List<String> photo;
   String nickName;
   String writeDate;
   String level;
