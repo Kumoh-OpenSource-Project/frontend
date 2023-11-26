@@ -54,9 +54,6 @@ class PostViewModel extends ChangeNotifier {
       }
     });
   }
-  Future<DetailPostEntity> getPost() {
-    return
-  }
 
 
 // List<ScopePostEntity> getScopeList() {

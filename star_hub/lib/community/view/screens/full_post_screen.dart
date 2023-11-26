@@ -5,6 +5,7 @@ import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/dio.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
@@ -130,33 +131,50 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       : const Center(child: CircularProgressIndicator()),
                   viewModel.photoState is SuccessState
                       ? GridView.builder(
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // 5열
-                      crossAxisSpacing: 8.0,
-                      mainAxisSpacing: 8.0,
-                    ),
-                    itemCount: viewModel.photoEntity.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final post = viewModel.photoEntity[index];
-                      return GestureDetector(
-                        onTap: () {
-                          //todo
-                          DetailPostService(CommunityRepository(dio)).getPosts(post.id);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailPage(post: post),
-                            ),
-                          );
-                        },
-                        child: Image.network(
-                          post.photos[0],
-                          fit: BoxFit.cover,
-                        ),
-                      );
-                    },
-                  )
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // 5열
+                            crossAxisSpacing: 8.0,
+                            mainAxisSpacing: 8.0,
+                          ),
+                          itemCount: viewModel.photoEntity.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final post = viewModel.photoEntity[index];
+                            return GestureDetector(
+                              onTap: () {
+                                //todo
+                                DetailPostService(CommunityRepository(dio))
+                                    .getPosts(post.id);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                      post: DetailPostEntity(
+                                        title: post.title,
+                                        content: post.content,
+                                        nickName: post.nickName,
+                                        writeDate: post.writeDate,
+                                        level: post.level,
+                                        likes: post.likes,
+                                        clips: post.clips,
+                                        comments: [],
+                                        photos: post.photos,
+                                        id: 1,
+                                        writerId: 2,
+                                        isLike: false,
+                                        isClipped: true,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Image.network(
+                                post.photos[0],
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          },
+                        )
                       : const Center(child: CircularProgressIndicator()),
                 ],
               ),

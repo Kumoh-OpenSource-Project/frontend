@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/model/entity/comment_entity.dart';
+import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
@@ -56,7 +56,7 @@ class PostBox2 extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailPage(
-                      post: PlacePostEntity(
+                      post: DetailPostEntity(
                           // view로 옮기기
                           title: title,
                           content: content,
@@ -65,7 +65,7 @@ class PostBox2 extends StatelessWidget {
                           level: level,
                           likes: likes,
                           clips: clips,
-                          comments:  [
+                          comments: [
                             CommentEntity(
                                 content: 'content',
                                 nickName: 'nickName',
@@ -81,7 +81,12 @@ class PostBox2 extends StatelessWidget {
                                 nickName: 'nickName',
                                 writeDate: 'writeDate',
                                 level: 'level'),
-                          ], articleId: 2, photo: [])),
+                          ],
+                          id: 2,
+                          photos: [],
+                          writerId: 2,
+                          isLike: true,
+                          isClipped: false)),
                 ),
               );
             },

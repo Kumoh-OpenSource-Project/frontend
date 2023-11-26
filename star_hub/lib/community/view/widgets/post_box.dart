@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/model/entity/comment_entity.dart';
+import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
@@ -52,7 +53,7 @@ class PostBox extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => DetailPage(
-                post: PlacePostEntity(
+                post: DetailPostEntity(
                   title: title,
                   content: content,
                   nickName: nickName,
@@ -77,8 +78,7 @@ class PostBox extends StatelessWidget {
                         writeDate: 'writeDate',
                         level: 'level'),
                   ],
-                  articleId: 1,
-                  photo: [],
+                  photos: [], id: 1, writerId: 2, isLike:true, isClipped: true,
                 ),
               ),
             ),
