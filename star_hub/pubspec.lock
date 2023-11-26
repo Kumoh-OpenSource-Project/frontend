@@ -457,7 +457,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image_picker:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: image_picker
       sha256: "7d7f2768df2a8b0a3cefa5ef4f84636121987d403130e70b17ef7e2cf650ba84"
@@ -529,7 +529,7 @@ packages:
     source: hosted
     version: "4.0.0"
   intl:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: intl
       sha256: "910f85bce16fb5c6f614e117efa303e85a1731bb0081edf3604a2ae6e9a3cc91"
@@ -649,7 +649,7 @@ packages:
     source: hosted
     version: "1.0.4"
   motion_tab_bar_v2:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: motion_tab_bar_v2
       sha256: "738dbbf3f2397c16d9a58f53d1090ea7501d697030aad92e06a6dec3237f39ae"
@@ -705,7 +705,7 @@ packages:
     source: hosted
     version: "2.2.1"
   phosphor_flutter:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: phosphor_flutter
       sha256: "3b3e6e4cbda8208f8c1431b0999842f0b76db73853dd824fd4847a9f0166931a"
@@ -958,7 +958,7 @@ packages:
     source: hosted
     version: "1.2.0"
   table_calendar:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: table_calendar
       sha256: "7f1270313c0cdb245b583ed8518982c01d4a7e95869b3c30abcbae3b642c45d0"
@@ -1022,7 +1022,7 @@ packages:
     source: hosted
     version: "1.1.0"
   weather_icons:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: weather_icons
       sha256: "76bd96fda0b723fba74a35083b6d77313306aae4c0f915636cbb7299b69d3b91"
