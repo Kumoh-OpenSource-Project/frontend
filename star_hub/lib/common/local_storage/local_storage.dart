@@ -13,6 +13,15 @@ class LocalStorage {
     }
   }
 
+  Future<void> saveUserId(String userId) async {
+    await _storage.write(key: 'user_id', value: userId);
+  }
+
+  Future<String?> getUserId() async {
+    final userId = await _storage.read(key: 'user_id');
+    return userId;
+  }
+
   Future<String?> getAccessToken() async {
     final accessToken = await _storage.read(key: 'access_token');
     return accessToken;
@@ -27,5 +36,3 @@ class LocalStorage {
     await _storage.delete(key: 'refresh_token');
   }
 }
-
-

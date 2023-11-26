@@ -51,6 +51,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.black26,
           content: Container(
             width: 300,
             height: 400,
@@ -75,12 +76,45 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 ),
                 calendarBuilders: CalendarBuilders(
+                  defaultBuilder: (context, date, _) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '🌕',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                   todayBuilder: (context, date, _) {
                     return Container(
                       alignment: Alignment.center,
-                      child: const Text(
-                        '🌕',
-                        style: TextStyle(fontSize: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '🌕',
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${date.day}',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -156,15 +190,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       tabBarHeight: 55,
       textStyle: _currentIndex == 1
           ? const TextStyle(
-        fontSize: 12,
-        color: Colors.black,
-        fontWeight: FontWeight.w500,
-      )
+              fontSize: 12,
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+            )
           : const TextStyle(
-        fontSize: 12,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
       tabIconColor: _currentIndex == 1 ? Colors.black : Colors.white,
       tabIconSize: 30.0,
       tabIconSelectedSize: 28.0,
@@ -180,4 +214,3 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     );
   }
 }
-
