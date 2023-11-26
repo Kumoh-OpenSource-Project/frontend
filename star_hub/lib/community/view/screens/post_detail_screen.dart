@@ -1,26 +1,33 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
+import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 import '../../model/entity/comment_entity.dart';
 import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
-class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key, required this.post}) : super(key: key);
-  final PlacePostEntity post;
+class DetailPage extends ConsumerStatefulWidget {
+  const DetailPage({Key? key, required this.id}) : super(key: key);
+  final int id;
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  ConsumerState<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends ConsumerState<DetailPage> {
+
   late TextEditingController _commentController;
   int activeIndex = 0;
   String newComment = '';
@@ -31,7 +38,7 @@ class _DetailPageState extends State<DetailPage> {
     _commentController = TextEditingController();
   }
 
-  void _onMoreVertTap() {
+  void _onMoreVertTap(DetailPostEntity entity) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
@@ -58,21 +65,21 @@ class _DetailPageState extends State<DetailPage> {
         String? result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditPage(post: widget.post),
+            builder: (context) => EditPage(post: entity),
           ),
         );
         if (result != null) {
           setState(() {
-            widget.post.content = result;
+            entity.content = result;
           });
         }
       } else if (value == 'delete') {
-        _showDeleteConfirmationDialog();
+        _showDeleteConfirmationDialog(entity);
       }
     });
   }
 
-  void _showDeleteConfirmationDialog() {
+  void _showDeleteConfirmationDialog(DetailPostEntity entity) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -83,8 +90,9 @@ class _DetailPageState extends State<DetailPage> {
           actions: [
             TextButton(
               onPressed: () async {
-                bool deleted = await CommunityRepository()
-                    .deletePost(widget.post.articleId);
+                //todo
+                bool deleted = await CommunityRepository(dio)
+                    .deletePost(DeleteArticleEntity(articleId: entity.id));
                 if (deleted) {
                   Navigator.pop(context);
                   Navigator.pop(context, true);
@@ -113,9 +121,9 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  void _submitComment() {
+  void _submitComment(DetailPostEntity entity) {
     setState(() {
-      widget.post.comments.add(CommentEntity(
+      entity.comments.add(CommentEntity(
         content: newComment,
         nickName: 'CurrentUser',
         writeDate: 'Just Now',
@@ -128,6 +136,7 @@ class _DetailPageState extends State<DetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ref.watch(detailPostViewModelProvider);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -159,11 +168,11 @@ class _DetailPageState extends State<DetailPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                widget.post.title,
+                                viewModel.detailPostEntity.title,
                                 style: kTextContentStyleMiddle,
                               ),
                               InkWell(
-                                onTap: _onMoreVertTap,
+                                onTap: _onMoreVertTap(viewModel.detailPostEntity),
                                 child: const Icon(
                                   Icons.more_vert,
                                 ),
@@ -194,18 +203,18 @@ class _DetailPageState extends State<DetailPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        widget.post.nickName,
+                                        viewModel.detailPostEntity.nickName,
                                         style: kTextContentStyleSmall,
                                       ),
                                       const Text(" • "),
                                       Text(
-                                        widget.post.writeDate,
+                                        viewModel.detailPostEntity.writeDate,
                                         style: kTextContentStyleXSmall,
                                       ),
                                     ],
                                   ),
                                   Text(
-                                    widget.post.level,
+                                    viewModel.detailPostEntity.level,
                                     style: kTextSubContentStyleXSmall,
                                   ),
                                 ],
@@ -215,7 +224,7 @@ class _DetailPageState extends State<DetailPage> {
                           const SizedBox(
                             height: kPaddingMiddleSize,
                           ),
-                          widget.post.photo.isNotEmpty
+                          viewModel.detailPostEntity.photos.isNotEmpty
                               ? Stack(
                                   alignment: Alignment.bottomCenter,
                                   children: <Widget>[
@@ -229,20 +238,20 @@ class _DetailPageState extends State<DetailPage> {
                                             activeIndex = index;
                                           }),
                                         ),
-                                        itemCount: widget.post.photo.length,
+                                        itemCount: viewModel.detailPostEntity.photos.length,
                                         itemBuilder:
                                             (context, index, realIndex) {
-                                          final path = widget.post.photo[index];
+                                          final path = viewModel.detailPostEntity.photos[index];
                                           return imageSlider(path, index);
                                         },
                                       ),
                                       Align(
                                           alignment: Alignment.bottomCenter,
-                                          child: indicator())
+                                          child: indicator(viewModel.detailPostEntity))
                                     ])
                               : Container(),
                           Text(
-                            widget.post.content,
+                            viewModel.detailPostEntity.content,
                             style: kTextContentStyleSmall,
                           ),
                           const SizedBox(
@@ -252,15 +261,15 @@ class _DetailPageState extends State<DetailPage> {
                             children: [
                               IconWithNumber(
                                 icon: FontAwesomeIcons.heart,
-                                number: widget.post.likes,
+                                number: viewModel.detailPostEntity.likes,
                               ),
                               IconWithNumber(
                                 icon: Icons.bookmark_border,
-                                number: widget.post.clips,
+                                number: viewModel.detailPostEntity.clips,
                               ),
                               IconWithNumber(
                                 icon: Icons.messenger_outline,
-                                number: widget.post.comments.length,
+                                number: viewModel.detailPostEntity.comments.length,
                               ),
                             ],
                           ),
@@ -273,7 +282,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   Container(
                     child: Column(
-                      children: widget.post.comments
+                      children: viewModel.detailPostEntity.comments
                           .map((comment) => CommentBox(
                                 content: comment.content,
                                 nickName: comment.nickName,
@@ -319,7 +328,7 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: newComment.isNotEmpty ? _submitComment : null,
+                  onPressed: newComment.isNotEmpty ? _submitComment(viewModel.detailPostEntity) : null,
                   icon: const Icon(Icons.send, color: Colors.black),
                 ),
               ],
@@ -337,12 +346,12 @@ class _DetailPageState extends State<DetailPage> {
         child: Image.network(path, fit: BoxFit.cover),
       );
 
-  Widget indicator() => Container(
+  Widget indicator(DetailPostEntity entity) => Container(
         margin: const EdgeInsets.only(bottom: 20.0),
         alignment: Alignment.bottomCenter,
         child: AnimatedSmoothIndicator(
           activeIndex: activeIndex,
-          count: widget.post.photo.length,
+          count: entity.photos.length,
           effect: JumpingDotEffect(
             dotHeight: 6,
             dotWidth: 6,

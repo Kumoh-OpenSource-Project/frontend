@@ -1,15 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final Dio dio = Dio(options);
 final BaseOptions options = BaseOptions(
-    baseUrl: "https://cc12-210-206-182-220.ngrok-free.app/",
-    contentType: "application/json");
-
-enum LoginPlatform {
-  facebook,
-  google,
-  kakao,
-  naver,
-  apple,
-  none, // logout
-}
+  baseUrl: dotenv.get("BASE_URL"),
+  contentType: "application/json",
+);

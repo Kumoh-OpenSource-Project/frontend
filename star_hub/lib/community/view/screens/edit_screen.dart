@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 
 class EditPage extends StatefulWidget {
-  final PlacePostEntity post;
+  final DetailPostEntity post;
 
   const EditPage({Key? key, required this.post}) : super(key: key);
 
@@ -53,6 +54,7 @@ class _EditPageState extends State<EditPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
+                    //viewmodel 호출
                     String editedContent = _contentController.text;
                     Navigator.pop(context, editedContent);
                   },

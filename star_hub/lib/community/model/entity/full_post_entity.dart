@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'scope_full_post_entity.g.dart';
+part 'full_post_entity.g.dart';
 
 @JsonSerializable()
-class ScopeFullPostEntity {
+class FullPostEntity {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "title")
@@ -33,7 +33,7 @@ class ScopeFullPostEntity {
   bool isClipped;
 
 
-  ScopeFullPostEntity({
+  FullPostEntity({
     required this.id,
     required this.title,
     required this.content,
@@ -49,10 +49,10 @@ class ScopeFullPostEntity {
     required this.photos,
     required this.writerId
   });
-  Map<String, dynamic> toJson() => _$ScopeFullPostEntityToJson(this);
+  Map<String, dynamic> toJson() => _$FullPostEntityToJson(this);
 
-  factory ScopeFullPostEntity.fromJson(Map<String, dynamic> json) =>
-      _$ScopeFullPostEntityFromJson(json);
+  factory FullPostEntity.fromJson(Map<String, dynamic> json) =>
+      _$FullPostEntityFromJson(json);
 }
 
 

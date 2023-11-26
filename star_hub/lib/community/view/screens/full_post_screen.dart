@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/const.dart';
+import 'package:star_hub/common/dio.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/repository/community_repository.dart';
+import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
@@ -137,27 +141,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       final post = viewModel.photoEntity[index];
                       return GestureDetector(
                         onTap: () {
+                          //todo
+                          DetailPostService(CommunityRepository(dio)).getPosts(post.id);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPage(
-                                post: PlacePostEntity(
-                                  title: post.title,
-                                  content: post.content,
-                                  nickName: post.nickName,
-                                  writeDate: post.writeDate,
-                                  level: post.level,
-                                  likes: post.likes,
-                                  clips: post.clips,
-                                  comments: [],
-                                  photo: post.photo, articleId: 1,
-                                ),
-                              ),
+                              builder: (context) => DetailPage(id: post.id),
                             ),
                           );
                         },
                         child: Image.network(
-                          post.photo[0],
+                          post.photos[0],
                           fit: BoxFit.cover,
                         ),
                       );

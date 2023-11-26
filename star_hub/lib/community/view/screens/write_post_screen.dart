@@ -51,6 +51,7 @@ class _WritePostPageState extends State<WritePostPage> {
       postData["photo"] = _pickedImages.map((file) => file.path).toList();
     }
 
+    //viewmodel
     print(postData);
 
     Navigator.pop(context);

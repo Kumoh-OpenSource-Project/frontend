@@ -1,8 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'scope_full_post_entity.g.dart';
+import 'package:star_hub/community/model/entity/comment_entity.dart';
+part 'detail_post_entity.g.dart';
 
 @JsonSerializable()
-class ScopeFullPostEntity {
+class DetailPostEntity {
   @JsonKey(name: "id")
   int id;
   @JsonKey(name: "title")
@@ -13,8 +14,6 @@ class ScopeFullPostEntity {
   String nickName;
   @JsonKey(name: "writerId")
   int writerId;
-  @JsonKey(name: "categoryId")
-  int categoryId;
   @JsonKey(name: "date")
   String writeDate;
   @JsonKey(name: "level")
@@ -23,36 +22,34 @@ class ScopeFullPostEntity {
   int likes;
   @JsonKey(name: "clipped")
   int clips;
-  @JsonKey(name: "comments")
-  int comments;
   @JsonKey(name: "photos")
   List<String> photos;
   @JsonKey(name: "isLike")
   bool isLike;
   @JsonKey(name: "isClipped")
   bool isClipped;
+  @JsonKey(name: "comments")
+  List<CommentEntity> comments;
 
-
-  ScopeFullPostEntity({
+  DetailPostEntity({
     required this.id,
+    required this.writerId,
     required this.title,
     required this.content,
+    required this.photos,
     required this.nickName,
     required this.writeDate,
     required this.level,
     required this.likes,
     required this.clips,
     required this.comments,
-    required this.categoryId,
-    required this.isClipped,
     required this.isLike,
-    required this.photos,
-    required this.writerId
+    required this.isClipped
   });
-  Map<String, dynamic> toJson() => _$ScopeFullPostEntityToJson(this);
+  Map<String, dynamic> toJson() => _$DetailPostEntityToJson(this);
 
-  factory ScopeFullPostEntity.fromJson(Map<String, dynamic> json) =>
-      _$ScopeFullPostEntityFromJson(json);
+  factory DetailPostEntity.fromJson(Map<String, dynamic> json) =>
+      _$DetailPostEntityFromJson(json);
 }
 
 
