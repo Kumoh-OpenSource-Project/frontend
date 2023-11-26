@@ -16,8 +16,6 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-//
-
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   MotionTabBarController? _motionTabBarController;
   int _currentIndex = 0;
@@ -190,7 +188,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       icons: const [Icons.home, Icons.speaker_notes_rounded, Icons.person],
       tabSize: 50,
       tabBarHeight: 55,
-      textStyle: _currentIndex == 1
+      textStyle: _currentIndex != 0
           ? const TextStyle(
               fontSize: 12,
               color: Colors.black,
@@ -201,12 +199,12 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               color: Colors.white,
               fontWeight: FontWeight.w500,
             ),
-      tabIconColor: _currentIndex == 1 ? Colors.black : Colors.white,
+      tabIconColor: _currentIndex != 0 ? Colors.black : Colors.white,
       tabIconSize: 30.0,
       tabIconSelectedSize: 28.0,
-      tabSelectedColor: _currentIndex == 1 ? Colors.black : Colors.white,
-      tabIconSelectedColor: _currentIndex == 1 ? Colors.white : Colors.black,
-      tabBarColor: _currentIndex == 1 ? Colors.white : Colors.black,
+      tabSelectedColor: _currentIndex != 0 ? Colors.black : Colors.white,
+      tabIconSelectedColor: _currentIndex != 0 ? Colors.white : Colors.black,
+      tabBarColor: _currentIndex != 0 ? Colors.white : Colors.black,
       onTabItemSelected: (int value) {
         setState(() {
           _motionTabBarController!.index = value;
