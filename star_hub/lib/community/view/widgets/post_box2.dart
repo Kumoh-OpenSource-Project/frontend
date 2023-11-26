@@ -1,0 +1,178 @@
+
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/community/model/entity/comment_entity.dart';
+import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
+import 'package:star_hub/community/view/widgets/icon_num.dart';
+import '../../../common/styles/fonts/font_style.dart';
+
+class PostBox2 extends StatelessWidget {
+  final String title;
+  final String content;
+  final String nickName;
+  final String writeDate;
+  final String level;
+  final int likes;
+  final int clips;
+  final int comments;
+
+  const PostBox2(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.nickName,
+      required this.writeDate,
+      required this.level,
+      required this.likes,
+      required this.clips,
+      required this.comments});
+
+  @override
+  Widget build(BuildContext context) {
+    final post = Post(
+        title: title,
+        content: content,
+        nickName: nickName,
+        writeDate: writeDate,
+        level: level,
+        likes: likes,
+        clips: clips,
+        comments: comments);
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(
+              top: BorderSide(
+        color: Colors.white24,
+        width: 1,
+      ))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(
+                      post: PlacePostEntity(
+                          // view로 옮기기
+                          title: title,
+                          content: content,
+                          nickName: nickName,
+                          writeDate: writeDate,
+                          level: level,
+                          likes: likes,
+                          clips: clips,
+                          comments:  [
+                            CommentEntity(
+                                content: 'content',
+                                nickName: 'nickName',
+                                writeDate: 'writeDate',
+                                level: 'level'),
+                            CommentEntity(
+                                content: 'content',
+                                nickName: 'nickName',
+                                writeDate: 'writeDate',
+                                level: 'level'),
+                            CommentEntity(
+                                content: 'content',
+                                nickName: 'nickName',
+                                writeDate: 'writeDate',
+                                level: 'level'),
+                          ], articleId: 2, photo: [])),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        post.title,
+                        style: kTextContentStyleMiddle,
+                      ),
+                      const Spacer(),
+                      const Icon(
+                        Icons.more_vert,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: kPaddingSmallSize,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Text(
+                      post.content,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: kTextContentStyleXSmall,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: kPaddingSmallSize,
+                  ),
+                  Row(
+                    children: [
+                      IconWithNumber(
+                        icon: FontAwesomeIcons.heart,
+                        number: post.likes,
+                      ),
+                      IconWithNumber(
+                        icon: Icons.bookmark_border,
+                        number: post.clips,
+                      ),
+                      IconWithNumber(
+                        icon: Icons.messenger_outline,
+                        number: post.comments,
+                      ),
+                      Row(
+                        children: [
+                          Text("|  ${post.nickName}",
+                              style: kTextContentStyleXSmall),
+                          const Text(
+                            "  |  ",
+                            style: kTextContentStyleXSmall,
+                          ),
+                          Text(
+                            post.writeDate,
+                            style: kTextContentStyleXSmall,
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Post {
+  final String title;
+  final String content;
+  final String nickName;
+  final String writeDate;
+  final String level;
+  final int likes;
+  final int clips;
+  final int comments;
+
+  const Post(
+      {required this.title,
+      required this.content,
+      required this.nickName,
+      required this.writeDate,
+      required this.level,
+      required this.likes,
+      required this.clips,
+      required this.comments});
+}
