@@ -4,14 +4,31 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add userId in local storage">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Changes">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/openSource.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/openSource.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/ios/Runner/GeneratedPluginRegistrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/ios/Runner/GeneratedPluginRegistrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,20 +43,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="OPEN-31-상세-페이지(댓글)-작성" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -57,14 +61,7 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="show.migrate.to.gradle.popup" value="false" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
-      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
-    </key>
   </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
@@ -81,91 +78,6 @@
       <option name="presentableId" value="Default" />
       <updated>1697873441555</updated>
     </task>
-    <task id="LOCAL-00001" summary="Design: Add home design">
-      <created>1699316410704</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1699316410704</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Design: Add home design">
-      <created>1699346834067</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1699346834067</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Feat: Add dummy data">
-      <created>1699433285654</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1699433285654</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Feat: Add dummy data">
-      <created>1699699961390</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1699699961390</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Chore: Modifying mock data">
-      <created>1699798745995</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1699798745995</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Feat: Connected to home server">
-      <created>1699956618507</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1699956618507</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Feat: Add writing page">
-      <created>1700527222182</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1700527222182</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Style: Modify Button Style">
-      <created>1700566206851</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1700566206851</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Feat: Add comment input box and search box">
-      <created>1700658482838</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1700658482838</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Feat: Add post report, comment edit, delete, report">
-      <created>1700747929537</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1700747929538</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Feat: Add moon calender">
-      <created>1700914295268</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1700914295268</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Feat: Add userId in local storage">
-      <created>1700915954735</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1700915954735</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,61 +85,11 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="OPEN-31-상세-페이지(댓글)-작성" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="RECENT_FILTERS">
-      <map>
-        <entry key="Branch">
-          <value>
-            <list>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="home" />
-                </option>
-              </RecentGroup>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="origin/main" />
-                </option>
-              </RecentGroup>
-              <RecentGroup>
-                <option name="FILTER_VALUES">
-                  <option value="origin/home" />
-                </option>
-              </RecentGroup>
-            </list>
+            <State />
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Design: Add home design" />
-    <MESSAGE value="Feat: Add dummy data" />
-    <MESSAGE value="Chore: Modifying mock data" />
-    <MESSAGE value="Feat: Connected to home server" />
-    <MESSAGE value="Feat: Add writing page" />
-    <MESSAGE value="Style: Modify Button Style" />
-    <MESSAGE value="Feat: Add comment input box and search box" />
-    <MESSAGE value="Feat: Add post report, comment edit, delete, report" />
-    <MESSAGE value="Feat: Add moon calender" />
-    <MESSAGE value="Feat: Add userId in local storage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add userId in local storage" />
   </component>
 </project>
