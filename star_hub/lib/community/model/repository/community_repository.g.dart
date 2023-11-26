@@ -19,7 +19,7 @@ class _CommunityRepository implements CommunityRepository {
   String? baseUrl;
 
   @override
-  Future<dynamic> deletePost(DetailPostEntity entity) async {
+  Future<dynamic> deletePost(DeleteArticleEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};

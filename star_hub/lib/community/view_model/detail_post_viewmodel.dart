@@ -58,6 +58,7 @@ class DetailPostViewModel extends ChangeNotifier {
     });
   }
 
+
   // void deletePost(String type, int articleId)
   // {
   //   if(type == "scope" ){

@@ -146,7 +146,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPage(id: post.id),
+                              builder: (context) => DetailPage(post: post),
                             ),
                           );
                         },

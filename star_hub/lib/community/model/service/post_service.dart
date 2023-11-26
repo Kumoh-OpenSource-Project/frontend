@@ -19,10 +19,11 @@ class DetailPostService extends StateNotifier<CommunityState> {
 
   DetailPostService(this.repository) : super(DetailPostStateNone());
 
-  Future getPosts(int postId) async {
+  Future<DetailPostEntity> getPosts(int postId) async {
     state = DetailPostStateLoading();
     DetailPostEntity post = await repository.getDetailPost(postId);
     state = DetailPostStateSuccess(post);
+    return post;
   }
 
   Future deletePosts(int type, int postId) async {

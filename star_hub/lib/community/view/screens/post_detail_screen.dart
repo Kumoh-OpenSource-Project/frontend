@@ -19,15 +19,14 @@ import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage({Key? key, required this.id}) : super(key: key);
-  final int id;
+  const DetailPage({Key? key, required this.post}) : super(key: key);
+  final DetailPostEntity post;
 
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends ConsumerState<DetailPage> {
-
   late TextEditingController _commentController;
   int activeIndex = 0;
   String newComment = '';
@@ -91,14 +90,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             TextButton(
               onPressed: () async {
                 //todo
-                bool deleted = await CommunityRepository(dio)
+                await CommunityRepository(dio)
                     .deletePost(DeleteArticleEntity(articleId: entity.id));
-                if (deleted) {
-                  Navigator.pop(context);
-                  Navigator.pop(context, true);
-                } else {
-                  print('실패!');
-                }
               },
               child: const Text(
                 '취소',
@@ -172,7 +165,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 style: kTextContentStyleMiddle,
                               ),
                               InkWell(
-                                onTap: _onMoreVertTap(viewModel.detailPostEntity),
+                                onTap: () =>
+                                    _onMoreVertTap(viewModel.detailPostEntity),
                                 child: const Icon(
                                   Icons.more_vert,
                                 ),
@@ -238,16 +232,19 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                             activeIndex = index;
                                           }),
                                         ),
-                                        itemCount: viewModel.detailPostEntity.photos.length,
+                                        itemCount: viewModel
+                                            .detailPostEntity.photos.length,
                                         itemBuilder:
                                             (context, index, realIndex) {
-                                          final path = viewModel.detailPostEntity.photos[index];
+                                          final path = viewModel
+                                              .detailPostEntity.photos[index];
                                           return imageSlider(path, index);
                                         },
                                       ),
                                       Align(
                                           alignment: Alignment.bottomCenter,
-                                          child: indicator(viewModel.detailPostEntity))
+                                          child: indicator(
+                                              viewModel.detailPostEntity))
                                     ])
                               : Container(),
                           Text(
@@ -269,7 +266,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                               ),
                               IconWithNumber(
                                 icon: Icons.messenger_outline,
-                                number: viewModel.detailPostEntity.comments.length,
+                                number:
+                                    viewModel.detailPostEntity.comments.length,
                               ),
                             ],
                           ),
@@ -328,7 +326,9 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                   ),
                 ),
                 IconButton(
-                  onPressed: newComment.isNotEmpty ? _submitComment(viewModel.detailPostEntity) : null,
+                  onPressed: () => newComment.isNotEmpty
+                      ? _submitComment(viewModel.detailPostEntity)
+                      : null,
                   icon: const Icon(Icons.send, color: Colors.black),
                 ),
               ],
