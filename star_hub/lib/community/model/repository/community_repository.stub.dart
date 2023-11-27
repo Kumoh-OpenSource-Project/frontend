@@ -16,7 +16,7 @@ import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 
-class CommunityRepositoryStub implements CommunityRepository{
+class CommunityRepositoryStub implements CommunityRepository {
   List<CommentEntity> scopeCommentList = [
     CommentEntity(
         content: 'content',
@@ -1187,12 +1187,28 @@ class CommunityRepositoryStub implements CommunityRepository{
 
   @override
   Future postArticle(PostArticleEntity entity) async {
-
+    fullPostList.insert(0, FullPostEntity(id: 0,
+        title: entity.title,
+        content: entity.title,
+        nickName: "nickName",
+        writeDate: "writeDate",
+        level: "level",
+        likes: 0,
+        clips: 0,
+        comments: 0,
+        categoryId: entity.type == "scope" ? 1 : entity.type == "place" ? 2 : 3,
+        isClipped: false,
+        isLike: false,
+        photos: entity.photo,
+        writerId: 0));
   }
 
   @override
   Future updateArticle(UpdateArticleEntity entity) async {
-
+    var postToUpdate = fullPostList.firstWhere(
+          (post) => post.id == entity.articleId,
+    );
+    postToUpdate.content = entity.content;
   }
 
 }

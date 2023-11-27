@@ -6,6 +6,7 @@ import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
+import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
@@ -66,5 +67,18 @@ class PostViewModel extends ChangeNotifier {
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => DetailPage(type)));
+  }
+
+  void postArticle(String type, String content, String title, List<String> photo) {
+    if (type == "scope") {
+      ref.read(scopePostServiceProvider.notifier).postScopePost(
+          PostArticleEntity(content: content, title: title, type: type, photo: photo));
+    } else if(type == "place"){
+      ref.read(placePostServiceProvider.notifier).postPlacePost(
+          PostArticleEntity(content: content, title: title, type: type, photo: photo));
+    } else {
+      ref.read(photoPostServiceProvider.notifier).postPhotoPost(
+          PostArticleEntity(content: content, title: title, type: type, photo: photo));
+    }
   }
 }

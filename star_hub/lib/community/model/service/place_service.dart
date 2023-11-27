@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
+import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 import 'package:star_hub/community/model/state/state.dart';
@@ -36,6 +37,11 @@ class PlacePostService extends StateNotifier<CommunityState> {
 
   Future updatePlacePost(UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
+    getFullPlacePosts(0);
+  }
+
+  Future postPlacePost(PostArticleEntity entity) async {
+    await repository.postArticle(entity);
     getFullPlacePosts(0);
   }
 }

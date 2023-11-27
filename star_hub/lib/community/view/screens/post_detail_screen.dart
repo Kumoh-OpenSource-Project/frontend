@@ -38,7 +38,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   }
 
   void _onMoreVertTap(DetailPostEntity entity,
-      {required VoidCallback? deletePost, required VoidCallback? updatePost}) {
+      DetailPostViewModel viewModel, int type) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
@@ -66,7 +66,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                EditPage(post: entity, updatePost: updatePost),
+                EditPage(post: entity, viewModel: viewModel, type: type,),
           ),
         );
         if (result != null) {
@@ -76,13 +76,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         }
       } else if (value == 'delete') {
         print("t삭제");
-        _showDeleteConfirmationDialog(entity, deletePost);
+        _showDeleteConfirmationDialog(entity, viewModel, type);
       }
     });
   }
 
   void _showDeleteConfirmationDialog(
-      DetailPostEntity entity, VoidCallback? deletePost) {
+      DetailPostEntity entity, DetailPostViewModel viewModel, int type) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -108,7 +108,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 print("3");
                 Navigator.pop(context);
                 Navigator.pop(context, true);
-                deletePost!;
+                viewModel.deletePost(type, entity.id);
               },
               child: const Text(
                 '삭제',
@@ -174,13 +174,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                               InkWell(
                                 onTap: () => _onMoreVertTap(
                                     viewModel.detailPostEntity,
-                                    deletePost: () => viewModel.deletePost(
-                                        widget.type,
-                                        viewModel.detailPostEntity.id),
-                                    updatePost: () => viewModel.updatePost(
-                                        widget.type,
-                                        viewModel.detailPostEntity.id,
-                                        viewModel.detailPostEntity.content)),
+                                viewModel, widget.type
+                                ),
                                 child: const Icon(
                                   Icons.more_vert,
                                 ),

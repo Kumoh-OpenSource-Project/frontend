@@ -63,7 +63,6 @@ class DetailPostViewModel extends ChangeNotifier {
 
   // 게시물 삭제
   void deletePost(int type, int articleId) {
-    print("삭ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ");
     if (type == 1) {
       ref.read(scopePostServiceProvider.notifier).deleteScopePost(
           DeleteArticleEntity(articleId: articleId));
@@ -78,8 +77,6 @@ class DetailPostViewModel extends ChangeNotifier {
 
   // 게시물 수정
   void updatePost(int type, int articleId, String content) {
-    print("수ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ");
-
     if (type == 1) {
       ref.read(scopePostServiceProvider.notifier).updateScopePost(
           UpdateArticleEntity(content: content, articleId: articleId));
