@@ -5,8 +5,10 @@ import 'package:star_hub/community/model/entity/place_post_entity.dart';
 
 class EditPage extends StatefulWidget {
   final DetailPostEntity post;
+  final VoidCallback? updatePost;
 
-  const EditPage({Key? key, required this.post}) : super(key: key);
+  const EditPage({Key? key, required this.post, required this.updatePost})
+      : super(key: key);
 
   @override
   _EditPageState createState() => _EditPageState();
@@ -54,7 +56,7 @@ class _EditPageState extends State<EditPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    //viewmodel 호출
+                    () => widget.updatePost;
                     String editedContent = _contentController.text;
                     Navigator.pop(context, editedContent);
                   },

@@ -19,7 +19,8 @@ import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  const DetailPage(this.type, {Key? key}) : super(key: key);
+  final int type;
 
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();
@@ -36,7 +37,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     _commentController = TextEditingController();
   }
 
-  void _onMoreVertTap(DetailPostEntity entity) {
+  void _onMoreVertTap(DetailPostEntity entity,
+      {required VoidCallback? deletePost, required VoidCallback? updatePost}) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
@@ -63,7 +65,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         String? result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditPage(post: entity),
+            builder: (context) =>
+                EditPage(post: entity, updatePost: updatePost),
           ),
         );
         if (result != null) {
@@ -72,12 +75,14 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           });
         }
       } else if (value == 'delete') {
-        _showDeleteConfirmationDialog(entity);
+        print("t삭제");
+        _showDeleteConfirmationDialog(entity, deletePost);
       }
     });
   }
 
-  void _showDeleteConfirmationDialog(DetailPostEntity entity) {
+  void _showDeleteConfirmationDialog(
+      DetailPostEntity entity, VoidCallback? deletePost) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -87,10 +92,11 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           content: const Text('정말로 삭제하시겠습니까?'),
           actions: [
             TextButton(
-              onPressed: () async {
-                //todo
-                await CommunityRepository(dio)
-                    .deletePost(DeleteArticleEntity(articleId: entity.id));
+              onPressed: () {
+                print("1");
+
+                Navigator.pop(context);
+                Navigator.pop(context, true);
               },
               child: const Text(
                 '취소',
@@ -99,8 +105,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             ),
             TextButton(
               onPressed: () {
+                print("3");
                 Navigator.pop(context);
                 Navigator.pop(context, true);
+                deletePost!;
               },
               child: const Text(
                 '삭제',
@@ -164,8 +172,15 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 style: kTextContentStyleMiddle,
                               ),
                               InkWell(
-                                onTap: () =>
-                                    _onMoreVertTap(viewModel.detailPostEntity),
+                                onTap: () => _onMoreVertTap(
+                                    viewModel.detailPostEntity,
+                                    deletePost: () => viewModel.deletePost(
+                                        widget.type,
+                                        viewModel.detailPostEntity.id),
+                                    updatePost: () => viewModel.updatePost(
+                                        widget.type,
+                                        viewModel.detailPostEntity.id,
+                                        viewModel.detailPostEntity.content)),
                                 child: const Icon(
                                   Icons.more_vert,
                                 ),

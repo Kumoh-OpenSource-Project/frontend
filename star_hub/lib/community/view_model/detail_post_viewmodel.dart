@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
@@ -8,6 +9,7 @@ import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_post_entity.dart';
+import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/service/scope_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
@@ -15,7 +17,7 @@ import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 
 final detailPostViewModelProvider =
-    ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
+ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
 
 class DetailPostViewModel extends ChangeNotifier {
   Ref ref;
@@ -59,12 +61,35 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
 
-  // void deletePost(String type, int articleId)
-  // {
-  //   if(type == "scope" ){
-  //
-  //   }
-  // }
-  //
-  // void getDetail
+  // 게시물 삭제
+  void deletePost(int type, int articleId) {
+    print("삭ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ");
+    if (type == 1) {
+      ref.read(scopePostServiceProvider.notifier).deleteScopePost(
+          DeleteArticleEntity(articleId: articleId));
+    } else if(type == 2){
+      ref.read(placePostServiceProvider.notifier).deletePlacePost(
+          DeleteArticleEntity(articleId: articleId));
+    } else {
+      ref.read(photoPostServiceProvider.notifier).deletePhotoPost(
+          DeleteArticleEntity(articleId: articleId));
+    }
+  }
+
+  // 게시물 수정
+  void updatePost(int type, int articleId, String content) {
+    print("수ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ");
+
+    if (type == 1) {
+      ref.read(scopePostServiceProvider.notifier).updateScopePost(
+          UpdateArticleEntity(content: content, articleId: articleId));
+    } else if(type == 2){
+      ref.read(placePostServiceProvider.notifier).updatePlacePost(
+          UpdateArticleEntity(content: content, articleId: articleId));
+    } else {
+      ref.read(photoPostServiceProvider.notifier).updatePhotoPost(
+          UpdateArticleEntity(content: content, articleId: articleId));
+    }
+  }
+
 }

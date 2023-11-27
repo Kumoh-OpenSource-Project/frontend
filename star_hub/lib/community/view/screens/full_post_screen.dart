@@ -110,7 +110,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               clips: post.clips,
                               comments: post.comments,
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                             );
                           },
                         )
@@ -130,7 +130,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               clips: post.clips,
                               comments: post.comments,
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                             );
                           },
                         )
@@ -148,7 +148,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             final post = viewModel.photoEntity[index];
                             return GestureDetector(
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                               child: Image.network(
                                 post.photos[0],
                                 fit: BoxFit.cover,

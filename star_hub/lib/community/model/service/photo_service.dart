@@ -30,6 +30,7 @@ class PhotoPostService extends StateNotifier<CommunityState> {
   }
 
   Future deletePhotoPost(DeleteArticleEntity entity) async {
+    print("fsdefe");
     await repository.deletePost(entity);
     getFullPhotoPosts(0);
   }

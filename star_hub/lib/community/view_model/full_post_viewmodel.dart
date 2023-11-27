@@ -25,6 +25,7 @@ class PostViewModel extends ChangeNotifier {
   late CommunityState placeState;
   late CommunityState photoState;
 
+  // 조회
   List<FullPostEntity> get scopeEntity =>
       (scopeState as ScopeCommunityStateSuccess).data;
 
@@ -59,10 +60,11 @@ class PostViewModel extends ChangeNotifier {
     });
   }
 
-  void navigateToDetailPage(BuildContext context, int postId) {
+  // 상세페이지로 이동
+  void navigateToDetailPage(BuildContext context, int postId, int type) {
     ref.read(detailPostServiceProvider.notifier).getPosts(postId);
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage()));
+        context, MaterialPageRoute(builder: (context) => DetailPage(type)));
   }
 }
