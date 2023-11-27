@@ -3,19 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
-import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_post_entity.dart';
-import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 import '../../model/entity/comment_entity.dart';
-import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
@@ -122,12 +117,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   }
 
   void _submitComment(DetailPostEntity entity) {
+
     setState(() {
       entity.comments.add(CommentEntity(
         content: newComment,
         nickName: 'CurrentUser',
         writeDate: 'Just Now',
-        level: 'User Level',
+        level: 'User Level', id: 1, userId: 1,
       ));
       _commentController.clear();
       FocusScope.of(context).unfocus();

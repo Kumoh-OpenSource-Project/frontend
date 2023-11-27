@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
-import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -31,7 +30,6 @@ class PhotoPostService extends StateNotifier<CommunityState> {
   }
 
   Future deletePhotoPost(DeleteArticleEntity entity) async {
-    print("fsdefe");
     await repository.deletePost(entity);
     getFullPhotoPosts(0);
   }

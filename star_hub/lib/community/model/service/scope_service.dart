@@ -21,7 +21,6 @@ class ScopePostService extends StateNotifier<CommunityState> {
 
   Future getFullScopePosts(int offset) async {
     try {
-      print("2222222222222222222222222222222222222222222");
       state = ScopeCommunityStateLoading();
       List<FullPostEntity> fullPosts = await repository.getFullScopePost(offset);
       state = ScopeCommunityStateSuccess(fullPosts);

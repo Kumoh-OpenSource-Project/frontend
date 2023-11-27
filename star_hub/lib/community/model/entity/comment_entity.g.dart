@@ -8,16 +8,20 @@ part of 'comment_entity.dart';
 
 CommentEntity _$CommentEntityFromJson(Map<String, dynamic> json) =>
     CommentEntity(
-      content: json['content'] as String,
-      nickName: json['nickName'] as String,
-      writeDate: json['writeDate'] as String,
-      level: json['level'] as String,
+      content: json['contentText'] as String,
+      nickName: json['userNickName'] as String,
+      writeDate: json['date'] as String,
+      level: json['userLevel'] as String,
+      id: json['id'] as int,
+      userId: json['userId'] as int,
     );
 
 Map<String, dynamic> _$CommentEntityToJson(CommentEntity instance) =>
     <String, dynamic>{
-      'content': instance.content,
-      'nickName': instance.nickName,
-      'writeDate': instance.writeDate,
-      'level': instance.level,
+      'contentText': instance.content,
+      'userNickName': instance.nickName,
+      'date': instance.writeDate,
+      'userLevel': instance.level,
+      'userId': instance.userId,
+      'id': instance.id,
     };

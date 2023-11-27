@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
-import 'package:star_hub/community/model/entity/full_post_entity.dart';
-import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/photo_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/service/scope_service.dart';
@@ -89,4 +82,18 @@ class DetailPostViewModel extends ChangeNotifier {
     }
   }
 
+  // 댓글 작성
+  void writeComment(int articleId, String content) {
+
+  }
+
+  // 댓글 삭제
+  void deleteComment(int type, int articleId) {
+
+  }
+
+  // 댓글 수정
+  void updateComment(int type, int articleId, String content) {
+
+  }
 }

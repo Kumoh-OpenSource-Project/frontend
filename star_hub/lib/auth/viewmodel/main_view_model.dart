@@ -24,5 +24,9 @@ class AuthViewModel extends ChangeNotifier {
       }
     });
   }
+
+  void login(String token){
+    ref.read(authServiceProvider.notifier).login(token);
+  }
 }
 
