@@ -65,9 +65,6 @@ class PostBox2 extends StatelessWidget {
                         style: kTextContentStyleMiddle,
                       ),
                       const Spacer(),
-                      const Icon(
-                        Icons.more_vert,
-                      ),
                     ],
                   ),
                   const SizedBox(
