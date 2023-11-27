@@ -19,8 +19,7 @@ import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage({Key? key, required this.post}) : super(key: key);
-  final DetailPostEntity post;
+  const DetailPage({Key? key}) : super(key: key);
 
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();

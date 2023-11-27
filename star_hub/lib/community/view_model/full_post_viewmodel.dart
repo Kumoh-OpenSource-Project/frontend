@@ -13,9 +13,10 @@ import 'package:star_hub/community/model/service/scope_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 
 final postViewModelProvider =
-ChangeNotifierProvider((ref) => PostViewModel(ref));
+    ChangeNotifierProvider((ref) => PostViewModel(ref));
 
 class PostViewModel extends ChangeNotifier {
   Ref ref;
@@ -23,14 +24,17 @@ class PostViewModel extends ChangeNotifier {
   late CommunityState scopeState;
   late CommunityState placeState;
   late CommunityState photoState;
-  // List<PlacePostEntity> placeEntity = [];
-  // List<PhotoPostEntity> photoEntity = [];
 
-  List<FullPostEntity> get scopeEntity => (scopeState as ScopeCommunityStateSuccess).data;
-  List<FullPostEntity> get placeEntity => (placeState as PlaceCommunityStateSuccess).data;
-  List<FullPostEntity> get photoEntity => (photoState as PhotoCommunityStateSuccess).data;
+  List<FullPostEntity> get scopeEntity =>
+      (scopeState as ScopeCommunityStateSuccess).data;
 
-  PostViewModel(this.ref){
+  List<FullPostEntity> get placeEntity =>
+      (placeState as PlaceCommunityStateSuccess).data;
+
+  List<FullPostEntity> get photoEntity =>
+      (photoState as PhotoCommunityStateSuccess).data;
+
+  PostViewModel(this.ref) {
     state = ref.read(detailPostServiceProvider);
     scopeState = ref.read(scopePostServiceProvider);
     placeState = ref.read(placePostServiceProvider);
@@ -55,22 +59,10 @@ class PostViewModel extends ChangeNotifier {
     });
   }
 
-
-// List<ScopePostEntity> getScopeList() {
-//   scopeState = ref.read(scopePostServiceProvider);
-//   // scopeEntity = (scopeState as ScopeCommunityStateSuccess).data;
-//   return scopeEntity;
-// }
-//
-// List<PlacePostEntity> getPlaceList(){
-//   placeState = ref.read(placePostServiceProvider);
-//   // placeEntity = (placeState as PlaceCommunityStateSuccess).data;
-//   return placeEntity;
-// }
-//
-// List<PhotoPostEntity> getPhotoList(){
-//   photoState = ref.read(photoPostServiceProvider);
-//   // photoEntity = (photoState as PhotoCommunityStateSuccess).data;
-//   return photoEntity;
-// }
+  void navigateToDetailPage(BuildContext context, int postId) {
+    ref.read(detailPostServiceProvider.notifier).getPosts(postId);
+    FocusManager.instance.primaryFocus?.unfocus();
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => DetailPage()));
+  }
 }

@@ -17,6 +17,7 @@ class PostBox2 extends StatelessWidget {
   final int likes;
   final int clips;
   final int comments;
+  final VoidCallback? onTap;
 
   const PostBox2(
       {super.key,
@@ -27,7 +28,8 @@ class PostBox2 extends StatelessWidget {
       required this.level,
       required this.likes,
       required this.clips,
-      required this.comments});
+      required this.comments,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -51,45 +53,7 @@ class PostBox2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailPage(
-                      post: DetailPostEntity(
-                          // view로 옮기기
-                          title: title,
-                          content: content,
-                          nickName: nickName,
-                          writeDate: writeDate,
-                          level: level,
-                          likes: likes,
-                          clips: clips,
-                          comments: [
-                            CommentEntity(
-                                content: 'content',
-                                nickName: 'nickName',
-                                writeDate: 'writeDate',
-                                level: 'level'),
-                            CommentEntity(
-                                content: 'content',
-                                nickName: 'nickName',
-                                writeDate: 'writeDate',
-                                level: 'level'),
-                            CommentEntity(
-                                content: 'content',
-                                nickName: 'nickName',
-                                writeDate: 'writeDate',
-                                level: 'level'),
-                          ],
-                          id: 2,
-                          photos: [],
-                          writerId: 2,
-                          isLike: true,
-                          isClipped: false)),
-                ),
-              );
-            },
+            onTap: onTap,
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Column(

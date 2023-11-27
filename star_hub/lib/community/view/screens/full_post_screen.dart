@@ -9,6 +9,7 @@ import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
+import 'package:star_hub/community/model/repository/community_repository.stub.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
@@ -16,6 +17,7 @@ import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import '../widgets/post_box.dart';
+
 
 class FullPostPage extends ConsumerStatefulWidget {
   const FullPostPage({super.key});
@@ -107,6 +109,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               likes: post.likes,
                               clips: post.clips,
                               comments: post.comments,
+                              onTap: () => viewModel.navigateToDetailPage(
+                                  context, post.id),
                             );
                           },
                         )
@@ -125,6 +129,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               likes: post.likes,
                               clips: post.clips,
                               comments: post.comments,
+                              onTap: () => viewModel.navigateToDetailPage(
+                                  context, post.id),
                             );
                           },
                         )
@@ -141,36 +147,20 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           itemBuilder: (BuildContext context, int index) {
                             final post = viewModel.photoEntity[index];
                             return GestureDetector(
-                              onTap: () {
-                                //todo
-                                DetailPostService(CommunityRepository(dio))
-                                    .getPosts(post.id);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DetailPage(
-                                      post: DetailPostEntity(
-                                        title: post.title,
-                                        content: post.content,
-                                        nickName: post.nickName,
-                                        writeDate: post.writeDate,
-                                        level: post.level,
-                                        likes: post.likes,
-                                        clips: post.clips,
-                                        comments: [],
-                                        photos: post.photos,
-                                        id: 1,
-                                        writerId: 2,
-                                        isLike: false,
-                                        isClipped: true,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
+                              onTap: () => viewModel.navigateToDetailPage(
+                                  context, post.id),
                               child: Image.network(
                                 post.photos[0],
                                 fit: BoxFit.cover,
+                                // loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                //   if (loadingProgress == null) {
+                                //     return child; // Image is fully loaded, display it
+                                //   } else {
+                                //     return Center(
+                                //       child: CircularProgressIndicator(), // Display a loading indicator
+                                //     );
+                                //   }
+                                // },
                               ),
                             );
                           },
