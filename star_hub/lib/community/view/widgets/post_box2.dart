@@ -70,14 +70,19 @@ class PostBox2 extends StatelessWidget {
                   const SizedBox(
                     height: kPaddingSmallSize,
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Text(
-                      post.content,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: kTextContentStyleXSmall,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        child: Text(
+                          post.content,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: kTextContentStyleXSmall,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: kPaddingSmallSize,

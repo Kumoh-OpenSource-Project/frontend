@@ -6,28 +6,28 @@ part 'detail_post_entity.g.dart';
 class DetailPostEntity {
   @JsonKey(name: "id")
   int id;
-  @JsonKey(name: "title")
-  String title;
-  @JsonKey(name: "contentText")
-  String content;
-  @JsonKey(name: "writerNickName")
-  String nickName;
   @JsonKey(name: "writerId")
   int writerId;
-  @JsonKey(name: "date")
-  String writeDate;
+  @JsonKey(name: "writerNickName")
+  String nickName;
   @JsonKey(name: "writerLevel")
   String level;
+  @JsonKey(name: "title")
+  String title;
+  @JsonKey(name: "contextText")
+  String content;
+  @JsonKey(name: "date")
+  String writeDate;
   @JsonKey(name: "like")
   int likes;
   @JsonKey(name: "clipped")
   int clips;
-  @JsonKey(name: "photo")
-  List<String> photos;
   @JsonKey(name: "isLike")
   bool isLike;
   @JsonKey(name: "isClipped")
   bool isClipped;
+  @JsonKey(name: "photo")
+  List<String> photos;
   @JsonKey(name: "comments")
   List<CommentEntity> comments;
 

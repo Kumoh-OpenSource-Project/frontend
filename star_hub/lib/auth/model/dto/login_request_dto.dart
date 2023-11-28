@@ -11,7 +11,7 @@ class LoginRequestDto {
   @JsonKey(name: "nickName")
   String nickName;
   @JsonKey(name: "profilePhoto")
-  String profilePhoto;
+  String? profilePhoto;
   @JsonKey(name: "kakaoId")
   String kakaoId;
 

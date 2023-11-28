@@ -6,6 +6,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
+import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
@@ -133,7 +134,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(detailPostViewModelProvider);
-    return Scaffold(
+    return viewModel.state is SuccessState ?
+    Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -341,7 +343,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           ),
         ],
       ),
-    );
+    )
+    : CircularProgressIndicator();
   }
 
   Widget imageSlider(path, index) => Container(

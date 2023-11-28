@@ -5,10 +5,11 @@ import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'home_repository.dart';
 
 class HomeService {
-  static const String baseUrl = 'https://starhub.fly.dev';
+  static const String baseUrl = 'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000';
 
   Future<Map<String, String>> _createHeaders() async {
     String? token = await LocalStorage().getAccessToken();
+        //"kz7D-iGSZbsVGHiUUddOoXfQcO3JeXzS4LYKPXNNAAABjBZT1B3OkqTnJF629A";
 
     return {
       'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import '../widgets/post_box.dart';
+import 'package:intl/intl.dart';
 
 
 class FullPostPage extends ConsumerStatefulWidget {
@@ -36,6 +37,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _tabController = TabController(length: tabs.length, vsync: this);
   }
 
+  String formatTimeDifference(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    DateTime now = DateTime.now();
+
+    Duration difference = now.difference(date);
+
+    if (difference.inDays > 0) {
+      return DateFormat('yyyy-MM-dd').format(date);
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}시간 전';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}분 전';
+    } else {
+      return '방금 전';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(postViewModelProvider);
@@ -100,11 +117,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           itemCount: viewModel.scopeEntity.length,
                           itemBuilder: (context, index) {
                             final post = viewModel.scopeEntity[index];
+                            String formattedTime = formatTimeDifference(post.writeDate);
                             return PostBox2(
                               title: post.title,
-                              content: post.content,
+                              content: post.contentText,
                               nickName: post.nickName,
-                              writeDate: post.writeDate,
+                              writeDate: formattedTime,
                               level: post.level,
                               likes: post.likes,
                               clips: post.clips,
@@ -120,11 +138,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           itemCount: viewModel.placeEntity.length,
                           itemBuilder: (context, index) {
                             final post = viewModel.placeEntity[index];
+                            String formattedTime = formatTimeDifference(post.writeDate);
                             return PostBox2(
                               title: post.title,
-                              content: post.content,
+                              content: post.contentText,
                               nickName: post.nickName,
-                              writeDate: post.writeDate,
+                              writeDate: formattedTime,
                               level: post.level,
                               likes: post.likes,
                               clips: post.clips,

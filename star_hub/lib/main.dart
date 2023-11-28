@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
+import 'package:star_hub/common/pages/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Open Source Star Hub',
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: const MainPage(),
     );
   }
 }

@@ -3,7 +3,7 @@ part 'comment_entity.g.dart';
 
 @JsonSerializable()
 class CommentEntity {
-  @JsonKey(name: "contentText")
+  @JsonKey(name: "contextText")
   String content;
   @JsonKey(name: "userNickName")
   String nickName;

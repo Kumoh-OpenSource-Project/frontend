@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
@@ -22,7 +23,7 @@ class PlacePostService extends StateNotifier<CommunityState> {
   Future getFullPlacePosts(int offset) async {
     try {
       state = PlaceCommunityStateLoading();
-      List<FullPostEntity> fullPosts = await repository.getFullPlacePost(offset);
+      List<PlaceFullPostEntity> fullPosts = await repository.getFullPlacePost(offset);
       state = PlaceCommunityStateSuccess(fullPosts);
     } catch (e) {
       state = PlaceCommunityStateError(e.toString());
@@ -32,16 +33,16 @@ class PlacePostService extends StateNotifier<CommunityState> {
   // 포스트 삭제
   Future deletePlacePost(DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
-    getFullPlacePosts(0);
+    await getFullPlacePosts(0);
   }
 
   Future updatePlacePost(UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
-    getFullPlacePosts(0);
+    await getFullPlacePosts(0);
   }
 
   Future postPlacePost(PostArticleEntity entity) async {
     await repository.postArticle(entity);
-    getFullPlacePosts(0);
+    await getFullPlacePosts(0);
   }
 }

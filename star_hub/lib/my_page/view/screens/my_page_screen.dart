@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 
+import '../../../common/local_storage/local_storage.dart';
+
 class MyPageScreen extends StatefulWidget {
   const MyPageScreen({Key? key}) : super(key: key);
 
@@ -222,6 +224,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
   }
 
   Future<void> _logout(BuildContext context) async {
+    final localStorage = LocalStorage();
+    localStorage.deleteTokens();
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
   }

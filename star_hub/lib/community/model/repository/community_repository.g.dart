@@ -33,7 +33,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles/like',
+          'articles/like',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -57,7 +57,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles/like',
+          'articles/like',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -81,7 +81,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles/clipping',
+          'articles/clipping',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -105,7 +105,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles/clipping',
+          'articles/clipping',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -115,79 +115,82 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<List<FullPostEntity>> getFullScopePost(int offset) async {
+  Future<List<ScopeFullPostEntity>> getFullScopePost(int offset) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<FullPostEntity>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<ScopeFullPostEntity>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/articles?type=scope&offset=${offset}',
+              'articles?type=scope&offset=${offset}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => FullPostEntity.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) =>
+            ScopeFullPostEntity.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  Future<List<FullPostEntity>> getFullPlacePost(int offset) async {
+  Future<List<PlaceFullPostEntity>> getFullPlacePost(int offset) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<FullPostEntity>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<PlaceFullPostEntity>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/articles?type=scope&offset=${offset}',
+              'articles?type=place&offset=${offset}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => FullPostEntity.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) =>
+            PlaceFullPostEntity.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  Future<List<FullPostEntity>> getFullPhotoPost(int offset) async {
+  Future<List<PhotoFullPostEntity>> getFullPhotoPost(int offset) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<FullPostEntity>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<PhotoFullPostEntity>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/articles?type=scope&offset=${offset}',
+              'articles?type=photo&offset=${offset}',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => FullPostEntity.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) =>
+            PhotoFullPostEntity.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
@@ -207,7 +210,7 @@ class _CommunityRepository implements CommunityRepository {
     )
             .compose(
               _dio.options,
-              '/articles/${id}',
+              'articles/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -231,7 +234,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles',
+          'articles',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -255,7 +258,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles',
+          'articles',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -279,7 +282,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles',
+          'articles',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -303,7 +306,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/comment',
+          'articles/comment',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -327,7 +330,7 @@ class _CommunityRepository implements CommunityRepository {
     )
         .compose(
           _dio.options,
-          '/articles',
+          'articles/comment',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -354,7 +357,7 @@ class _CommunityRepository implements CommunityRepository {
     )
             .compose(
               _dio.options,
-              '/articles?search=${words}&offset=${offset}',
+              'articles?search=${words}&offset=${offset}',
               queryParameters: queryParameters,
               data: _data,
             )

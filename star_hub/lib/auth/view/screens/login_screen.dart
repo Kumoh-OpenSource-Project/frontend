@@ -50,7 +50,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     if (token != null) {
       await _saveTokensToLocalStorage(token.accessToken, token.refreshToken);
-      viewModel.login(token.toString());
+      //viewModel.login(token.toString());
+      print(token);
       //todo
       if(true||viewModel.state is SuccessState) {
         try {

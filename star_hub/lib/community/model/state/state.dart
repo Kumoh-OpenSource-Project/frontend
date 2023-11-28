@@ -29,7 +29,7 @@ class ScopeCommunityStateNone extends NoneState implements CommunityState {}
 
 class ScopeCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class ScopeCommunityStateSuccess extends SuccessState<List<FullPostEntity>> implements CommunityState {
+class ScopeCommunityStateSuccess extends SuccessState<List<ScopeFullPostEntity>> implements CommunityState {
   ScopeCommunityStateSuccess(super.data);
 }
 
@@ -42,7 +42,7 @@ class PhotoCommunityStateNone extends NoneState implements CommunityState {}
 
 class PhotoCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class PhotoCommunityStateSuccess extends SuccessState<List<FullPostEntity>> implements CommunityState {
+class PhotoCommunityStateSuccess extends SuccessState<List<PhotoFullPostEntity>> implements CommunityState {
   PhotoCommunityStateSuccess(super.data);
 }
 
@@ -55,7 +55,7 @@ class PlaceCommunityStateNone extends NoneState implements CommunityState {}
 
 class PlaceCommunityStateLoading extends LoadingState implements CommunityState {}
 
-class PlaceCommunityStateSuccess extends SuccessState<List<FullPostEntity>> implements CommunityState {
+class PlaceCommunityStateSuccess extends SuccessState<List<PlaceFullPostEntity>> implements CommunityState {
   PlaceCommunityStateSuccess(super.data);
 }
 

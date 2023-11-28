@@ -4,17 +4,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/log.dart';
 
+final options = BaseOptions(
+  baseUrl: dotenv.get("BASE_URL"),
+
+);
+
 final dioProvider = Provider((ref) {
   final dio = Dio();
   final storage = ref.watch(localStorageProvider);
   dio.interceptors.add(CustomInterceptor(storage: storage, ref: ref));
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+      options.headers['Cache-Control'] = 'no-cache';
+      return handler.next(options);
+    },
+  ));
   dio.options = options;
   return dio;
 });
 
-final options = BaseOptions(
-  baseUrl: dotenv.get("BASE_URL"),
-);
+
 
 class CustomInterceptor extends Interceptor {
   final LocalStorage storage;
@@ -50,73 +59,45 @@ class CustomInterceptor extends Interceptor {
     super.onRequest(options, handler);
   }
 
-  // 3) 에러가 났을떄
-  // @override
-  // void onError(DioException err, ErrorInterceptorHandler handler) async {
-  //   final refreshToken =
-  //   await storage.getRefreshToken();
-  //
-  //   logging("Dio - ERROR", "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
-  //
-  //   if (refreshToken == null) return handler.reject(err);
-  //
-  //   final isStatus401 = err.response?.statusCode == 401;
-  //
-  //   if (isStatus401 && !isPathRefresh) {
-  //     final dio = Dio();
-  //
-  //     try {
-  //       final refreshResponse = await dio.get(
-  //         DataUtils.pathToUrl('/auth/${authorityState.value.toString()}/refresh'),
-  //         options: Options(headers: {
-  //           'authorization': 'Bearer $refreshToken',
-  //         }),
-  //       );
-  //
-  //       await _saveToken(refreshResponse);
-  //
-  //       final token = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
-  //       final options = err.requestOptions;
-  //       options.headers.addAll({
-  //         'authorization': 'Bearer $token',
-  //       });
-  //
-  //       final response = await dio.fetch(options);
-  //       handler.resolve(response);
-  //     } on DioException catch (e) {
-  //       ref.read(authProvider.notifier).logout();
-  //       SnackBarUtil.showError("로그인 인증이 만료되었습니다. 다시 로그인 해 주세요");
-  //       return handler.reject(e);
-  //     }
-  //   }
-  //   super.onError(err, handler);
-  // }
+ // 3) 에러가 났을떄
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    final refreshToken =
+    await storage.getRefreshToken();
 
-  // Future _saveToken(Response response) async {
-  //   final accessToken = response.headers.value(dotenv.get('ACCESS_TOKEN_KEY'));
-  //   final refreshToken = response.headers.value(
-  //     dotenv.get('REFRESH_TOKEN_KEY'),
-  //   );
-  //
-  //   if (accessToken == null || refreshToken == null) {
-  //     throw DioException(
-  //       requestOptions: response.requestOptions,
-  //       type: DioExceptionType.badResponse,
-  //       message: "토큰 정보를 가져오지 못했습니다.",
-  //       response: response,
-  //     );
-  //   }
-  //
-  //   try {
-  //     Future.wait([
-  //       storage.saveTokens(accessToken, refreshToken)
-  //       storage.write(
-  //         key: dotenv.get('REFRESH_TOKEN_KEY'),
-  //         value: refreshToken.replaceFirst("Bearer ", ""),
-  //       ),
-  //     ]);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+    logging("Dio - ERROR", "[${err.requestOptions.method}]${err.requestOptions.path} [${err.response?.statusCode}] : ${err.response?.data["message"]}");
+
+    if (refreshToken == null) return handler.reject(err);
+
+    final isStatus401 = err.response?.statusCode == 401;
+
+    // if (isStatus401 && !isPathRefresh) {
+    //   final dio = Dio();
+    //
+    //   try {
+    //     final refreshResponse = await dio.get(
+    //       DataUtils.pathToUrl('/auth/${authorityState.value.toString()}/refresh'),
+    //       options: Options(headers: {
+    //         'authorization': 'Bearer $refreshToken',
+    //       }),
+    //     );
+    //
+    //     await _saveToken(refreshResponse);
+    //
+    //     final token = await storage.read(key: dotenv.get('ACCESS_TOKEN_KEY'));
+    //     final options = err.requestOptions;
+    //     options.headers.addAll({
+    //       'authorization': 'Bearer $token',
+    //     });
+    //
+    //     final response = await dio.fetch(options);
+    //     handler.resolve(response);
+    //   } on DioException catch (e) {
+    //     ref.read(authProvider.notifier).logout();
+    //     SnackBarUtil.showError("로그인 인증이 만료되었습니다. 다시 로그인 해 주세요");
+    //     return handler.reject(e);
+    //   }
+    // }
+    super.onError(err, handler);
+  }
 }

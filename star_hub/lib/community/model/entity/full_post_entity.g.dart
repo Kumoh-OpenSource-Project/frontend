@@ -10,7 +10,7 @@ FullPostEntity _$FullPostEntityFromJson(Map<String, dynamic> json) =>
     FullPostEntity(
       id: json['id'] as int,
       title: json['title'] as String,
-      content: json['contentText'] as String,
+      contentText: json['contextText'] as String,
       nickName: json['writerNickName'] as String,
       writeDate: json['date'] as String,
       level: json['writerLevel'] as String,
@@ -20,8 +20,7 @@ FullPostEntity _$FullPostEntityFromJson(Map<String, dynamic> json) =>
       categoryId: json['categoryId'] as int,
       isClipped: json['isClipped'] as bool,
       isLike: json['isLike'] as bool,
-      photos:
-          (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
+      photos: (json['photo'] as List<dynamic>).map((e) => e as String).toList(),
       writerId: json['writerId'] as int,
     );
 
@@ -29,7 +28,7 @@ Map<String, dynamic> _$FullPostEntityToJson(FullPostEntity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'contentText': instance.content,
+      'contextText': instance.contentText,
       'writerNickName': instance.nickName,
       'writerId': instance.writerId,
       'categoryId': instance.categoryId,
@@ -38,7 +37,7 @@ Map<String, dynamic> _$FullPostEntityToJson(FullPostEntity instance) =>
       'like': instance.likes,
       'clipped': instance.clips,
       'commentCount': instance.comments,
-      'photos': instance.photos,
+      'photo': instance.photos,
       'isLike': instance.isLike,
       'isClipped': instance.isClipped,
     };

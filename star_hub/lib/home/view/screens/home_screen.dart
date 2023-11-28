@@ -63,6 +63,7 @@ class _HomePageState extends State<HomePage> {
           ],
         );
       });
+
       todayWeatherData = await homeService.getTodayWeatherData();
       homeService.getCurrentWeather();
       setState(() {

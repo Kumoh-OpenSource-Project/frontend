@@ -7,13 +7,13 @@ part 'auth_repository.g.dart';
 @RestApi()
 abstract class AuthRepository {
 
-  @GET("/auth/login")
+  @GET("auth/login")
   Future<LoginRequestDto> login(@Header("Authorization") String token);
 
   factory AuthRepository(Dio dio, {String? baseUrl}) =
   _AuthRepository;
 
-  @GET("/user")
+  @GET("user")
   Future<LoginRequestDto> getUser(@Header("Authorization") String token);
 
   //todo: patch 추가

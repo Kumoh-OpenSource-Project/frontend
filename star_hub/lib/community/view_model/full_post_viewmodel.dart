@@ -27,13 +27,13 @@ class PostViewModel extends ChangeNotifier {
   late CommunityState photoState;
 
   // 조회
-  List<FullPostEntity> get scopeEntity =>
+  List<ScopeFullPostEntity> get scopeEntity =>
       (scopeState as ScopeCommunityStateSuccess).data;
 
-  List<FullPostEntity> get placeEntity =>
+  List<PlaceFullPostEntity> get placeEntity =>
       (placeState as PlaceCommunityStateSuccess).data;
 
-  List<FullPostEntity> get photoEntity =>
+  List<PhotoFullPostEntity> get photoEntity =>
       (photoState as PhotoCommunityStateSuccess).data;
 
   PostViewModel(this.ref) {
@@ -42,6 +42,8 @@ class PostViewModel extends ChangeNotifier {
     placeState = ref.read(placePostServiceProvider);
     photoState = ref.read(photoPostServiceProvider);
     ref.listen(scopePostServiceProvider, (previous, next) {
+      print('Scope State: $previous -> $next');
+
       if (previous != next) {
         scopeState = next;
         notifyListeners();
