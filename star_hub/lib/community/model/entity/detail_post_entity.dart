@@ -10,19 +10,19 @@ class DetailPostEntity {
   String title;
   @JsonKey(name: "contentText")
   String content;
-  @JsonKey(name: "nickName")
+  @JsonKey(name: "writerNickName")
   String nickName;
   @JsonKey(name: "writerId")
   int writerId;
   @JsonKey(name: "date")
   String writeDate;
-  @JsonKey(name: "level")
+  @JsonKey(name: "writerLevel")
   String level;
   @JsonKey(name: "like")
   int likes;
   @JsonKey(name: "clipped")
   int clips;
-  @JsonKey(name: "photos")
+  @JsonKey(name: "photo")
   List<String> photos;
   @JsonKey(name: "isLike")
   bool isLike;

@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
+import 'package:star_hub/community/model/entity/write_comment_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
@@ -46,5 +48,14 @@ class DetailPostService extends StateNotifier<CommunityState> {
                 UpdateArticleEntity(content: content, articleId: postId))
             : PhotoPostService(repository).updatePhotoPost(
                 UpdateArticleEntity(content: content, articleId: postId));
+  }
+
+  Future writeComment(int articleId, String content) async {
+    await repository.writeComment(WriteCommentEntity(articleId: articleId, content: content));
+    // await repository.
+  }
+
+  Future deleteComment(int id) async {
+    await repository.deleteComment(DeleteCommentEntity(id: id));
   }
 }

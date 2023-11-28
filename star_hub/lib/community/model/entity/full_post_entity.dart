@@ -9,7 +9,7 @@ class FullPostEntity {
   String title;
   @JsonKey(name: "contentText")
   String content;
-  @JsonKey(name: "nickName")
+  @JsonKey(name: "writerNickName")
   String nickName;
   @JsonKey(name: "writerId")
   int writerId;
@@ -17,13 +17,13 @@ class FullPostEntity {
   int categoryId;
   @JsonKey(name: "date")
   String writeDate;
-  @JsonKey(name: "level")
+  @JsonKey(name: "writerLevel")
   String level;
   @JsonKey(name: "like")
   int likes;
   @JsonKey(name: "clipped")
   int clips;
-  @JsonKey(name: "comments")
+  @JsonKey(name: "commentCount")
   int comments;
   @JsonKey(name: "photos")
   List<String> photos;
@@ -31,7 +31,6 @@ class FullPostEntity {
   bool isLike;
   @JsonKey(name: "isClipped")
   bool isClipped;
-
 
   FullPostEntity({
     required this.id,

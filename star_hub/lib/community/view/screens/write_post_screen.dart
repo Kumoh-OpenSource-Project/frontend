@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:image_picker/image_picker.dart';
+import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 
 class WritePostPage extends StatefulWidget {
   final String? selectedCategory;
+  final PostViewModel viewModel;
 
-  const WritePostPage({Key? key, this.selectedCategory}) : super(key: key);
+  const WritePostPage({Key? key, this.selectedCategory, required this.viewModel}) : super(key: key);
 
   @override
   _WritePostPageState createState() => _WritePostPageState();
@@ -50,11 +52,11 @@ class _WritePostPageState extends State<WritePostPage> {
       // List<String> imageUrls = await _uploadImages(_pickedImages);
       postData["photo"] = _pickedImages.map((file) => file.path).toList();
     }
-
-    //viewmodel
+        //viewmodel
     print(postData);
 
     Navigator.pop(context);
+    widget.viewModel.postArticle(widget.selectedCategory!, postData["content"], postData["title"], postData["photo"]??[]);
   }
 
   // Future<List<String>> _uploadImages(List<File> images) async {
