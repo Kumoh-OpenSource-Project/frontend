@@ -39,6 +39,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
       color: Colors.black,
       items: [
+        //todo: userID 비교
         if (true)
           const PopupMenuItem(
             value: 'edit',
@@ -70,7 +71,6 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           });
         }
       } else if (value == 'delete') {
-        print("t삭제");
         _showDeleteConfirmationDialog(entity, viewModel, type);
       }
     });
@@ -116,8 +116,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     );
   }
 
-  void _submitComment(DetailPostEntity entity) {
-
+  void _submitComment(DetailPostEntity entity, DetailPostViewModel viewModel) {
+    viewModel.writeComment(entity.id, entity.content);
     setState(() {
       entity.comments.add(CommentEntity(
         content: newComment,
@@ -332,7 +332,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 ),
                 IconButton(
                   onPressed: () => newComment.isNotEmpty
-                      ? _submitComment(viewModel.detailPostEntity)
+                      ? _submitComment(viewModel.detailPostEntity, viewModel)
                       : null,
                   icon: const Icon(Icons.send, color: Colors.black),
                 ),

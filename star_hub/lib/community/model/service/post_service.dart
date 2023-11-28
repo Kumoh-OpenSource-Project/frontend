@@ -52,10 +52,12 @@ class DetailPostService extends StateNotifier<CommunityState> {
 
   Future writeComment(int articleId, String content) async {
     await repository.writeComment(WriteCommentEntity(articleId: articleId, content: content));
+    getPosts(articleId);
     // await repository.
   }
 
-  Future deleteComment(int id) async {
+  Future deleteComment(int articleId, int id) async {
     await repository.deleteComment(DeleteCommentEntity(id: id));
+    getPosts(articleId);
   }
 }

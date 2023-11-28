@@ -10,7 +10,7 @@ import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 
 final detailPostViewModelProvider =
-ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
+    ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
 
 class DetailPostViewModel extends ChangeNotifier {
   Ref ref;
@@ -53,18 +53,20 @@ class DetailPostViewModel extends ChangeNotifier {
     });
   }
 
-
   // 게시물 삭제
   void deletePost(int type, int articleId) {
     if (type == 1) {
-      ref.read(scopePostServiceProvider.notifier).deleteScopePost(
-          DeleteArticleEntity(articleId: articleId));
-    } else if(type == 2){
-      ref.read(placePostServiceProvider.notifier).deletePlacePost(
-          DeleteArticleEntity(articleId: articleId));
+      ref
+          .read(scopePostServiceProvider.notifier)
+          .deleteScopePost(DeleteArticleEntity(articleId: articleId));
+    } else if (type == 2) {
+      ref
+          .read(placePostServiceProvider.notifier)
+          .deletePlacePost(DeleteArticleEntity(articleId: articleId));
     } else {
-      ref.read(photoPostServiceProvider.notifier).deletePhotoPost(
-          DeleteArticleEntity(articleId: articleId));
+      ref
+          .read(photoPostServiceProvider.notifier)
+          .deletePhotoPost(DeleteArticleEntity(articleId: articleId));
     }
   }
 
@@ -73,7 +75,7 @@ class DetailPostViewModel extends ChangeNotifier {
     if (type == 1) {
       ref.read(scopePostServiceProvider.notifier).updateScopePost(
           UpdateArticleEntity(content: content, articleId: articleId));
-    } else if(type == 2){
+    } else if (type == 2) {
       ref.read(placePostServiceProvider.notifier).updatePlacePost(
           UpdateArticleEntity(content: content, articleId: articleId));
     } else {
@@ -84,16 +86,18 @@ class DetailPostViewModel extends ChangeNotifier {
 
   // 댓글 작성
   void writeComment(int articleId, String content) {
-
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .writeComment(articleId, content);
   }
 
   // 댓글 삭제
-  void deleteComment(int type, int articleId) {
-
+  void deleteComment(int articleId, int commentId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .deleteComment(articleId, commentId);
   }
 
   // 댓글 수정
-  void updateComment(int type, int articleId, String content) {
-
-  }
+  void updateComment(int type, int articleId, String content) {}
 }
