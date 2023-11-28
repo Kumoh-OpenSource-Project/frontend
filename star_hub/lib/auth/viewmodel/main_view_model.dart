@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/auth/model/auth_service.dart';
-import 'package:star_hub/auth/model/auth_state.dart';
-import 'package:star_hub/auth/model/login_request_dto.dart';
+import 'package:star_hub/auth/model/service/auth_service.dart';
+import 'package:star_hub/auth/model/state/auth_state.dart';
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 
 final authViewModelProvider =
 ChangeNotifierProvider((ref) => AuthViewModel(ref));

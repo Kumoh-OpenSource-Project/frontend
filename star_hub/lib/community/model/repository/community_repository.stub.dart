@@ -1195,4 +1195,10 @@ class CommunityRepositoryStub implements CommunityRepository{
 
   }
 
+  @override
+  Future<List<FullPostEntity>> searchArticle(String words, int offset) {
+    // TODO: implement searchArticle
+    throw UnimplementedError();
+  }
+
 }

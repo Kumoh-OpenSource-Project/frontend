@@ -10,6 +10,7 @@ import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:star_hub/community/model/repository/community_repository.stub.dart';
+
 part 'community_repository.g.dart';
 
 final communityRepositoryProvider = Provider((ref) {
@@ -20,7 +21,8 @@ final communityRepositoryProvider = Provider((ref) {
 
 @RestApi()
 abstract class CommunityRepository {
-  factory CommunityRepository(Dio dio, {String? baseUrl}) = _CommunityRepository;
+  factory CommunityRepository(Dio dio, {String? baseUrl}) =
+      _CommunityRepository;
 
   @DELETE('/articles')
   @Headers({'accessToken': 'true'})
@@ -66,4 +68,8 @@ abstract class CommunityRepository {
   @Headers({'accessToken': 'true'})
   Future updateArticle(@Body() UpdateArticleEntity entity);
 
+  @GET('/articles?search={words}&offset={offset}')
+  @Headers({'accessToken': 'true'})
+  Future<List<FullPostEntity>> searchArticle(
+      @Path("words") String words, @Path("offset") int offset);
 }

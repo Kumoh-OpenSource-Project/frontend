@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/auth/model/auth_state.dart';
-import 'package:star_hub/auth/model/login_request_dto.dart';
+import 'package:star_hub/auth/model/state/auth_state.dart';
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 import 'package:star_hub/auth/model/repository/auth_repository.dart';
 import 'package:star_hub/common/const.dart';
 

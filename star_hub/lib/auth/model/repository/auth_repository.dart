@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
-import 'package:star_hub/auth/model/login_request_dto.dart';
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 
 part 'auth_repository.g.dart';
 

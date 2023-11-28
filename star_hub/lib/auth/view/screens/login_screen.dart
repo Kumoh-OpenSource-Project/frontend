@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:star_hub/auth/model/login_request_dto.dart';
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 import 'package:star_hub/auth/model/repository/auth_repository.dart';
 import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';

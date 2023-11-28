@@ -1,4 +1,4 @@
-import 'package:star_hub/auth/model/login_request_dto.dart';
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 import 'package:star_hub/community/model/state/state.dart';
 
 abstract class AuthState {}
