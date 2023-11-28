@@ -24,10 +24,6 @@ final communityRepositoryProvider = Provider((ref) {
 abstract class CommunityRepository {
   factory CommunityRepository(Dio dio, {String? baseUrl}) = _CommunityRepository;
 
-  @DELETE('/articles')
-  @Headers({'accessToken': 'true'})
-  Future deletePost(@Body() DeleteArticleEntity entity);
-
   @POST('/articles/like')
   @Headers({'accessToken': 'true'})
   Future addLike(@Body() ToggledLikeClipEntity entity);
