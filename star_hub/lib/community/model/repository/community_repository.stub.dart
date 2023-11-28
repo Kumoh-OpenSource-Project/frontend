@@ -1,38 +1,31 @@
-import 'package:dio/src/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/common/const.dart';
 import 'package:star_hub/community/model/entity/comment_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/like_clip_entity.dart';
-import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/photo_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
-import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
+import 'package:star_hub/community/model/entity/write_comment_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 
-class CommunityRepositoryStub implements CommunityRepository{
+class CommunityRepositoryStub implements CommunityRepository {
   List<CommentEntity> scopeCommentList = [
     CommentEntity(
         content: 'content',
         nickName: 'nickName',
         writeDate: 'writeDate',
-        level: 'level'),
+        level: 'level', id: 1, userId: 1),
     CommentEntity(
         content: 'content',
         nickName: 'nickName',
         writeDate: 'writeDate',
-        level: 'level'),
+        level: 'level', id: 2, userId: 2),
     CommentEntity(
         content: 'content',
         nickName: 'nickName',
         writeDate: 'writeDate',
-        level: 'level'),
+        level: 'level', id: 3, userId: 3),
   ];
   List<FullPostEntity> fullPostList = [
     FullPostEntity(
@@ -1187,12 +1180,40 @@ class CommunityRepositoryStub implements CommunityRepository{
 
   @override
   Future postArticle(PostArticleEntity entity) async {
-
+    fullPostList.insert(0, FullPostEntity(id: 0,
+        title: entity.title,
+        content: entity.title,
+        nickName: "nickName",
+        writeDate: "writeDate",
+        level: "level",
+        likes: 0,
+        clips: 0,
+        comments: 0,
+        categoryId: entity.type == "scope" ? 1 : entity.type == "place" ? 2 : 3,
+        isClipped: false,
+        isLike: false,
+        photos: entity.photo,
+        writerId: 0));
   }
 
   @override
   Future updateArticle(UpdateArticleEntity entity) async {
+    var postToUpdate = fullPostList.firstWhere(
+          (post) => post.id == entity.articleId,
+    );
+    postToUpdate.content = entity.content;
+  }
 
+  @override
+  Future deleteComment(DeleteCommentEntity entity) {
+    // TODO: implement deleteComment
+    throw UnimplementedError();
+  }
+
+  @override
+  Future writeComment(WriteCommentEntity entity) {
+    // TODO: implement writeComment
+    throw UnimplementedError();
   }
 
   @override

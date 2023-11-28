@@ -110,7 +110,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               clips: post.clips,
                               comments: post.comments,
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                             );
                           },
                         )
@@ -130,7 +130,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               clips: post.clips,
                               comments: post.comments,
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                             );
                           },
                         )
@@ -148,7 +148,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             final post = viewModel.photoEntity[index];
                             return GestureDetector(
                               onTap: () => viewModel.navigateToDetailPage(
-                                  context, post.id),
+                                  context, post.id, post.categoryId),
                               child: Image.network(
                                 post.photos[0],
                                 fit: BoxFit.cover,
@@ -175,7 +175,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          _showWritePostPage(context);
+          _showWritePostPage(context, viewModel);
         },
         child: Icon(
           PhosphorIcons.pencilSimpleLine(
@@ -187,7 +187,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     );
   }
 
-  void _showWritePostPage(BuildContext context) {
+  void _showWritePostPage(BuildContext context, PostViewModel viewModel) {
     int selectedIndex = _tabController.index;
 
     String selectedCategory = tabs[selectedIndex].label;
@@ -200,13 +200,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
-    Navigator.of(context).push(_createRoute(selectedCategory));
+    Navigator.of(context).push(_createRoute(selectedCategory, viewModel));
   }
 
-  Route _createRoute(String selectedCategory) {
+  Route _createRoute(String selectedCategory, PostViewModel viewModel) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
-          WritePostPage(selectedCategory: selectedCategory),
+          WritePostPage(selectedCategory: selectedCategory, viewModel: viewModel),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

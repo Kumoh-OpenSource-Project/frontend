@@ -3,14 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 import 'package:star_hub/common/dio.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/like_clip_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
+import 'package:star_hub/community/model/entity/write_comment_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.stub.dart';
-
 part 'community_repository.g.dart';
 
 final communityRepositoryProvider = Provider((ref) {
@@ -21,8 +22,7 @@ final communityRepositoryProvider = Provider((ref) {
 
 @RestApi()
 abstract class CommunityRepository {
-  factory CommunityRepository(Dio dio, {String? baseUrl}) =
-      _CommunityRepository;
+  factory CommunityRepository(Dio dio, {String? baseUrl}) = _CommunityRepository;
 
   @DELETE('/articles')
   @Headers({'accessToken': 'true'})
@@ -67,6 +67,24 @@ abstract class CommunityRepository {
   @PATCH('/articles')
   @Headers({'accessToken': 'true'})
   Future updateArticle(@Body() UpdateArticleEntity entity);
+
+  @DELETE('/articles')
+  @Headers({'accessToken': 'true'})
+  Future deletePost(@Body() DeleteArticleEntity entity);
+
+  @POST('/comment')
+  @Headers({'accessToken': 'true'})
+  Future writeComment(@Body() WriteCommentEntity entity);
+
+  // @PATCH('/articles')
+  // @Headers({'accessToken': 'true'})
+  // Future updateComment(@Body() Update entity);
+
+  //검색
+
+  @DELETE('/articles')
+  @Headers({'accessToken': 'true'})
+  Future deleteComment(@Body() DeleteCommentEntity entity);
 
   @GET('/articles?search={words}&offset={offset}')
   @Headers({'accessToken': 'true'})

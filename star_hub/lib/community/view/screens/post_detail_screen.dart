@@ -3,23 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
-import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_post_entity.dart';
-import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 import '../../model/entity/comment_entity.dart';
-import '../../model/repository/community_repository.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
+  const DetailPage(this.type, {Key? key}) : super(key: key);
+  final int type;
 
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();
@@ -36,7 +32,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     _commentController = TextEditingController();
   }
 
-  void _onMoreVertTap(DetailPostEntity entity) {
+  void _onMoreVertTap(DetailPostEntity entity,
+      DetailPostViewModel viewModel, int type) {
     showMenu(
       context: context,
       position: const RelativeRect.fromLTRB(1000.0, 0.0, 0.0, 0.0),
@@ -63,7 +60,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         String? result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditPage(post: entity),
+            builder: (context) =>
+                EditPage(post: entity, viewModel: viewModel, type: type,),
           ),
         );
         if (result != null) {
@@ -72,12 +70,14 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           });
         }
       } else if (value == 'delete') {
-        _showDeleteConfirmationDialog(entity);
+        print("t삭제");
+        _showDeleteConfirmationDialog(entity, viewModel, type);
       }
     });
   }
 
-  void _showDeleteConfirmationDialog(DetailPostEntity entity) {
+  void _showDeleteConfirmationDialog(
+      DetailPostEntity entity, DetailPostViewModel viewModel, int type) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -87,10 +87,11 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           content: const Text('정말로 삭제하시겠습니까?'),
           actions: [
             TextButton(
-              onPressed: () async {
-                //todo
-                await CommunityRepository(dio)
-                    .deletePost(DeleteArticleEntity(articleId: entity.id));
+              onPressed: () {
+                print("1");
+
+                Navigator.pop(context);
+                Navigator.pop(context, true);
               },
               child: const Text(
                 '취소',
@@ -99,8 +100,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             ),
             TextButton(
               onPressed: () {
+                print("3");
                 Navigator.pop(context);
                 Navigator.pop(context, true);
+                viewModel.deletePost(type, entity.id);
               },
               child: const Text(
                 '삭제',
@@ -114,12 +117,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   }
 
   void _submitComment(DetailPostEntity entity) {
+
     setState(() {
       entity.comments.add(CommentEntity(
         content: newComment,
         nickName: 'CurrentUser',
         writeDate: 'Just Now',
-        level: 'User Level',
+        level: 'User Level', id: 1, userId: 1,
       ));
       _commentController.clear();
       FocusScope.of(context).unfocus();
@@ -164,8 +168,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 style: kTextContentStyleMiddle,
                               ),
                               InkWell(
-                                onTap: () =>
-                                    _onMoreVertTap(viewModel.detailPostEntity),
+                                onTap: () => _onMoreVertTap(
+                                    viewModel.detailPostEntity,
+                                viewModel, widget.type
+                                ),
                                 child: const Icon(
                                   Icons.more_vert,
                                 ),
