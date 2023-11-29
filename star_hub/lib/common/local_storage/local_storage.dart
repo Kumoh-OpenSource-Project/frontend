@@ -24,8 +24,8 @@ class LocalStorage {
 
   Future<String?> getAccessToken() async {
     final accessToken = await _storage.read(key: 'access_token');
-    //print("현 토큰");
-    //print(accessToken);
+    // print("현 토큰");
+    // print(accessToken);
     return accessToken;
   }
 
