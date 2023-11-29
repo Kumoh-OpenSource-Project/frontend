@@ -65,6 +65,7 @@ dependencies:
   intl: ^0.17.0
   phosphor_flutter: ^2.0.1
   image_picker: ^1.0.4
+  image: ^3.0.1
 
 dev_dependencies:
   flutter_test:

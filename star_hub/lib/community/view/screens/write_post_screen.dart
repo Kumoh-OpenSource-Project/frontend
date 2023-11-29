@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as img;
 
 import 'package:image_picker/image_picker.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
@@ -9,7 +10,9 @@ class WritePostPage extends StatefulWidget {
   final String? selectedCategory;
   final PostViewModel viewModel;
 
-  const WritePostPage({Key? key, this.selectedCategory, required this.viewModel}) : super(key: key);
+  const WritePostPage(
+      {Key? key, this.selectedCategory, required this.viewModel})
+      : super(key: key);
 
   @override
   _WritePostPageState createState() => _WritePostPageState();
@@ -49,39 +52,58 @@ class _WritePostPageState extends State<WritePostPage> {
     };
 
     if (_pickedImages.isNotEmpty) {
-      // List<String> imageUrls = await _uploadImages(_pickedImages);
-      postData["photo"] = _pickedImages.map((file) => file.path).toList();
+      List<String> imageUrls = await _uploadImages(_pickedImages);
+      postData["photo"] = imageUrls;
     }
-        //viewmodel
+
     print(postData);
 
+    widget.viewModel.postArticle(
+      widget.selectedCategory!,
+      postData["content"],
+      postData["title"],
+      postData["photo"] ?? [],
+    );
+
     Navigator.pop(context);
-    widget.viewModel.postArticle(widget.selectedCategory!, postData["content"], postData["title"], postData["photo"]??[]);
   }
 
-  // Future<List<String>> _uploadImages(List<File> images) async {
-  //   List<String> imageUrls = [];
-  //
-  //   for (File image in images) {
-  //     var request = http.MultipartRequest(
-  //       'PUT',
-  //       Uri.parse('https://starhubimage.s3.ap-northeast-2.amazonaws.com/articleImage/{image id}'),
-  //     );
-  //
-  //     request.files.add(await http.MultipartFile.fromPath('file', image.path));
-  //
-  //     var response = await request.send();
-  //
-  //     if (response.statusCode == 200) {
-  //       String imageUrl = await response.stream.bytesToString();
-  //       imageUrls.add(imageUrl);
-  //     } else {
-  //       print('Failed to upload image: ${response.reasonPhrase}');
-  //     }
-  //   }
-  //
-  //   return imageUrls;
-  // }
+  Future<String> _uploadImageToS3(File imageFile) async {
+    final url =
+        'https://starhubimage.s3.ap-northeast-2.amazonaws.com/articleImage/${imageFile.hashCode}';
+
+    List<int> imageBytes = await imageFile.readAsBytes();
+
+    final request = http.Request('PUT', Uri.parse(url))
+      ..headers['Content-Type'] = 'image/jpeg'
+      ..bodyBytes = imageBytes;
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        return url;
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+        return '';
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+      return '';
+    }
+  }
+
+  Future<List<String>> _uploadImages(List<File> images) async {
+    List<String> imageUrls = [];
+
+    for (final image in images) {
+      final imageUrl = await _uploadImageToS3(image);
+      if (imageUrl.isNotEmpty) {
+        imageUrls.add(imageUrl);
+      }
+    }
+
+    return imageUrls;
+  }
 
   void _getImageFromCamera() async {
     final XFile? pickedFile =
