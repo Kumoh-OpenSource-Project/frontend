@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add of exception handling to PostBox's content">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add of exception handling to photo category">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701341746128</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Fix: Add of exception handling to photo category">
+      <created>1701343862111</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1701343862111</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -263,6 +271,7 @@
     <MESSAGE value="Feat: Add search function and searched list" />
     <MESSAGE value="Fix: Add of exception handling to SunMoonData" />
     <MESSAGE value="Fix: Add of exception handling to PostBox's content" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add of exception handling to PostBox's content" />
+    <MESSAGE value="Fix: Add of exception handling to photo category" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add of exception handling to photo category" />
   </component>
 </project>
