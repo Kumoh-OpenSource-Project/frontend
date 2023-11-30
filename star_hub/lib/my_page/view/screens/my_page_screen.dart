@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
+import 'package:star_hub/my_page/model/state.dart';
+import 'package:star_hub/my_page/view_model/my_page_viewmodel.dart';
 
 import '../../../common/local_storage/local_storage.dart';
 
-class MyPageScreen extends StatefulWidget {
+class MyPageScreen extends ConsumerStatefulWidget {
   const MyPageScreen({Key? key}) : super(key: key);
 
   @override
   _MyPageScreenState createState() => _MyPageScreenState();
 }
 
-class _MyPageScreenState extends State<MyPageScreen> {
+class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   String userName = 'Nickname';
   final TextEditingController _nicknameController = TextEditingController();
 
@@ -18,11 +21,14 @@ class _MyPageScreenState extends State<MyPageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = ref.watch(myPageViewModelProvider);
     String profileImageUrl =
         'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
     String userLevel = '수성';
 
-    return Scaffold(
+
+    return viewmodel.state is MyPageStateSuccess ?
+    Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Padding(
@@ -43,7 +49,7 @@ class _MyPageScreenState extends State<MyPageScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          userName,
+                          viewmodel.entity.nickName,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -220,7 +226,8 @@ class _MyPageScreenState extends State<MyPageScreen> {
           ),
         ),
       ),
-    );
+    )
+    : const CircularProgressIndicator();
   }
 
   Future<void> _logout(BuildContext context) async {

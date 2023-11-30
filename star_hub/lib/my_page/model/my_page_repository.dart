@@ -19,5 +19,5 @@ abstract class MyPageRepository {
 
   @GET('user')
   @Headers({'accessToken': 'true'})
-  Future getUserInfo();
+  Future<UserInfoEntity> getUserInfo();
 }

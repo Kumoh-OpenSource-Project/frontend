@@ -105,7 +105,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 Navigator.pop(context);
                 Navigator.pop(context, true);
                 viewModel.deletePost(type, entity.id);
-                viewModel.someMethod(type);
+                //viewModel.someMethod(type);
               },
               child: const Text(
                 '삭제',
@@ -129,7 +129,6 @@ class _DetailPageState extends ConsumerState<DetailPage> {
       );
     } else {
       viewModel.writeComment(entity.id, _commentController.text);
-      viewModel.someMethod(widget.type);
       setState(() {
         entity.comments.add(CommentEntity(
           content: newComment,
@@ -369,7 +368,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               ],
             ),
           )
-        : CircularProgressIndicator();
+        : const Center(child: CircularProgressIndicator());
   }
 
   Widget imageSlider(path, index) => Container(

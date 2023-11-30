@@ -14,11 +14,12 @@ class MyPageViewModel extends ChangeNotifier {
   UserInfoEntity get entity =>
       (state as MyPageStateSuccess).data;
 
+
   MyPageViewModel(this.ref) {
     state = ref.read(myPageServiceProvider);
+    ref.listen(myPageServiceProvider, (previous, next) {
+      print('Scope State: $previous -> $next');
 
-    ref.listen(myPageServiceProvider, (previous, next)
-    {
       if (previous != next) {
         state = next;
         notifyListeners();

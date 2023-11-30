@@ -73,13 +73,15 @@ class PostBox2 extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 0),
-                        child: Text(
-                          post.content,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: kTextContentStyleXSmall,
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 0),
+                          child: Text(
+                            post.content,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: kTextContentStyleXSmall,
+                          ),
                         ),
                       ),
                     ],

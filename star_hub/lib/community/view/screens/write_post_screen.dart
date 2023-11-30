@@ -126,8 +126,10 @@ class _WritePostPageState extends State<WritePostPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool isButtonEnabled =
-        titleController.text.isNotEmpty && contentController.text.isNotEmpty;
+    bool isButtonEnabled = titleController.text.isNotEmpty &&
+        contentController.text.isNotEmpty &&
+        ((selectedCategory == 'photo' && _pickedImages.isNotEmpty) ||
+            selectedCategory != 'photo');
 
     return Scaffold(
       appBar: AppBar(

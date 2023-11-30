@@ -18,8 +18,8 @@ class SunMoonInfo extends StatelessWidget {
     List<SunMoonData> data = todayWeatherData != null
         ? _getSunMoonDataFromTodayWeather(todayWeatherData!)
         : weatherData != null
-        ? _getSunMoonDataFromWeather(weatherData!)
-        : [];
+            ? _getSunMoonDataFromWeather(weatherData!)
+            : [];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
@@ -54,12 +54,16 @@ class SunMoonInfo extends StatelessWidget {
   }
 
   List<SunMoonData> _formatSunMoonData(
-      String sunriseTime,
-      String sunsetTime,
-      String moonriseTime,
-      String moonsetTime,
-      ) {
+    String sunriseTime,
+    String sunsetTime,
+    String moonriseTime,
+    String moonsetTime,
+  ) {
     String formatTime(String time) {
+      if (time == "--:--") {
+        return "--:--";
+      }
+
       List<String> parts = time.split(' ');
       String period = parts[0];
       String clockTime = parts[1];

@@ -57,14 +57,6 @@ class DetailPostViewModel extends ChangeNotifier {
     _postViewModel = ref.read(postViewModelProvider.notifier);
   }
 
-  void someMethod(int type) {
-    type == 1
-        ? _postViewModel.resetPage("scope")
-        : type == 2
-            ? _postViewModel.resetPage("place")
-            : _postViewModel.resetPage("photo");
-  }
-
   // 게시물 삭제
   void deletePost(int type, int articleId) {
     if (type == 1) {
@@ -110,6 +102,4 @@ class DetailPostViewModel extends ChangeNotifier {
         .deleteComment(articleId, commentId);
   }
 
-  // 댓글 수정
-  void updateComment(int type, int articleId, String content) {}
 }

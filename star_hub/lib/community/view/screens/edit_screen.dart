@@ -66,7 +66,6 @@ class _EditPageState extends State<EditPage> {
                     String editedContent = _contentController.text;
                     viewmodel.updatePost(
                         widget.type, widget.post.id, _contentController.text);
-                    viewmodel.someMethod(widget.type);
                     Navigator.pop(context, editedContent);
                   },
                   style: ElevatedButton.styleFrom(
