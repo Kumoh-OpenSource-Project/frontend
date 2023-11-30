@@ -4,10 +4,34 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add moon image in calendar">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add ModalBottomSheet in detail screen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/model/dto/login_request_dto.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/model/dto/login_request_dto.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/model/repository/auth_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/model/repository/auth_repository.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/delete_article_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/delete_article_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/delete_comment_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/delete_comment_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/full_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/full_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/like_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/like_clip_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/photo_full_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/photo_full_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/photo_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/photo_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_full_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_full_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/post_article_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/post_article_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/request_image_s3_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/request_image_s3_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_full_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_full_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/update_article_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/update_article_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/write_comment_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/write_comment_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_repository.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/my_page_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view_model/my_page_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view_model/my_page_viewmodel.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,7 +241,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701348421911</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Fix: Add ModalBottomSheet in detail screen">
+      <created>1701349483657</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1701349483657</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -275,6 +306,7 @@
     <MESSAGE value="Fix: Add of exception handling to PostBox's content" />
     <MESSAGE value="Fix: Add of exception handling to photo category" />
     <MESSAGE value="Feat: Add moon image in calendar" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add moon image in calendar" />
+    <MESSAGE value="Fix: Add ModalBottomSheet in detail screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add ModalBottomSheet in detail screen" />
   </component>
 </project>

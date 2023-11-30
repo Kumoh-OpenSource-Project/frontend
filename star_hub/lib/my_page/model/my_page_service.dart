@@ -4,20 +4,21 @@ import 'package:star_hub/my_page/model/my_page_repository.dart';
 import 'package:star_hub/my_page/model/state.dart';
 
 final myPageServiceProvider =
-    StateNotifierProvider<DetailPostService, MyPageState>((ref) {
+StateNotifierProvider<MyPageService, MyPageState>((ref) {
   final repository = ref.watch(myPageRepositoryProvider);
-  return DetailPostService(repository);
+  return MyPageService(repository);
 });
 
-class DetailPostService extends StateNotifier<MyPageState> {
+class MyPageService extends StateNotifier<MyPageState> {
   final MyPageRepository repository;
 
-  DetailPostService(this.repository) : super(MyPageStateNone());
+  MyPageService(this.repository) : super(MyPageStateStateLoading()){
+    getUserInfo();
+  }
 
-  Future<UserInfoEntity> getUserInfo(int postId) async {
+  Future getUserInfo() async {
     state = MyPageStateStateLoading();
     UserInfoEntity userInfo = await repository.getUserInfo();
     state = MyPageStateSuccess(userInfo);
-    return userInfo;
   }
 }
