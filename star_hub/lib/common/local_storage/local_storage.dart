@@ -20,13 +20,15 @@ class LocalStorage {
   Future<String?> getUserId() async {
     final userId = await _storage.read(key: 'user_id');
     return userId;
+
   }
 
   Future<String?> getAccessToken() async {
     final accessToken = await _storage.read(key: 'access_token');
     // print("현 토큰");
     // print(accessToken);
-    return accessToken;
+    //return accessToken;
+    return 'PkhphDH3fHTx23Ju3Gt3nUbHgnB0bo_d5QsKPXOaAAABjCAHK2CYFzyUYZmfhQ';
   }
 
   Future<String?> getRefreshToken() async {
