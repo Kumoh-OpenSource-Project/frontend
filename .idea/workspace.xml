@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add of exception handling to SunMoonData">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add of exception handling to PostBox's content">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/post_box2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/post_box2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="OPEN-50-S3로-이미지-통신" />
+        <entry key="$PROJECT_DIR$" value="OPEN-48-게시글-검색-조회" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -188,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701337340708</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fix: Add of exception handling to PostBox's content">
+      <created>1701341746128</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1701341746128</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -255,6 +262,7 @@
     <MESSAGE value="Feat: Add image upload function to s3" />
     <MESSAGE value="Feat: Add search function and searched list" />
     <MESSAGE value="Fix: Add of exception handling to SunMoonData" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add of exception handling to SunMoonData" />
+    <MESSAGE value="Fix: Add of exception handling to PostBox's content" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add of exception handling to PostBox's content" />
   </component>
 </project>
