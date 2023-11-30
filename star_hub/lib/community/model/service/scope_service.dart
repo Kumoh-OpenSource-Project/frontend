@@ -19,7 +19,8 @@ class ScopePostService extends StateNotifier<CommunityState> {
   int scopePage = 0;
 
   // 다음 페이지가 있는가.
-  bool hasNextScope = true;
+  bool hasNextScope = false;
+
 
   List<ScopeFullPostEntity> scopeList = [];
   List<ScopeFullPostEntity> scopeEntity = [];

@@ -3,7 +3,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
-import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
@@ -102,12 +101,20 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(postViewModelProvider);
+
     if (viewModel.getScopeList().isEmpty) scopeList.clear();
     if (viewModel.getPlaceList().isEmpty) placeList.clear();
     if (viewModel.getPhotoList().isEmpty) photoList.clear();
-    scopeList.addAll(viewModel.getScopeEntity("scope"));
-    placeList.addAll(viewModel.getPlaceEntity("place"));
-    photoList.addAll(viewModel.getPhotoEntity("photo"));
+    scopeList.addAll(viewModel.getScopeEntity("scope").where(
+          (newItem) => !scopeList.any((existingItem) => existingItem.id == newItem.id),
+    ));
+    placeList.addAll(viewModel.getPlaceEntity("place").where(
+          (newItem) => !placeList.any((existingItem) => existingItem.id == newItem.id),
+    ));
+    photoList.addAll(viewModel.getPhotoEntity("photo").where(
+          (newItem) => !photoList.any((existingItem) => existingItem.id == newItem.id),
+    ));
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: DefaultTabController(

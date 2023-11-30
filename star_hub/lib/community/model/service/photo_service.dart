@@ -21,6 +21,7 @@ class PhotoPostService extends StateNotifier<CommunityState> {
   // 다음 페이지가 있는가.
   bool hasNextPhoto = true;
 
+
   List<PhotoFullPostEntity> photoList = [];
   List<PhotoFullPostEntity> photoEntity = [];
   
@@ -52,7 +53,7 @@ class PhotoPostService extends StateNotifier<CommunityState> {
       _handleError(e);
     }
   }
-
+  
   // 페이지 초기화. (비동기)
   Future<void> resetPhotoPage() async {
     await getFullPhotoPosts(0);

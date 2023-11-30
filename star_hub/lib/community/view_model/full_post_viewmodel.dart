@@ -145,6 +145,7 @@ class PostViewModel extends ChangeNotifier {
     return photoList;
   }
 
+
   List<ScopeFullPostEntity> getScopeEntity(String type) {
     return ref.read(scopePostServiceProvider.notifier).scopeEntity;
   }
