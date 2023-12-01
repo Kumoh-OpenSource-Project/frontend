@@ -173,37 +173,52 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
+                          mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InkWell(
-                              child: const Text(
-                                '내가 쓴 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
+                              child: const Expanded(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      '내가 쓴 글',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               onTap: () {},
                             ),
                             const SizedBox(height: 15),
                             InkWell(
-                              child: const Text(
-                                '좋아요한 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    '좋아요한 글',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
                               ),
                               onTap: () {},
                             ),
                             const SizedBox(height: 15),
                             InkWell(
-                              child: const Text(
-                                '스크랩한 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
+                              child: const Row(
+                                children: [
+                                  Text(
+                                    '스크랩한 글',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
                               ),
                               onTap: () {},
                             )

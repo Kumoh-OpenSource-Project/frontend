@@ -2,15 +2,19 @@ import 'package:dio/src/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
 import 'package:star_hub/common/dio.dart';
+import 'package:star_hub/community/model/entity/add_clip_entity.dart';
+import 'package:star_hub/community/model/entity/cancel_clip_entity.dart';
+import 'package:star_hub/community/model/entity/cancel_like_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
-import 'package:star_hub/community/model/entity/like_clip_entity.dart';
+import 'package:star_hub/community/model/entity/add_like_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
+import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:star_hub/community/model/entity/write_comment_entity.dart';
@@ -29,19 +33,19 @@ abstract class CommunityRepository {
 
   @POST('articles/like')
   @Headers({'accessToken': 'true'})
-  Future addLike(@Body() ToggledLikeClipEntity entity);
+  Future addLike(@Body() AddLikeEntity entity);
 
   @DELETE('articles/like')
   @Headers({'accessToken': 'true'})
-  Future cancelLike(@Body() ToggledLikeClipEntity entity);
+  Future cancelLike(@Body() CancelLikeEntity entity);
 
   @POST('articles/clipping')
   @Headers({'accessToken': 'true'})
-  Future addClip(@Body() ToggledLikeClipEntity entity);
+  Future addClip(@Body() AddClipEntity entity);
 
   @DELETE('articles/clipping')
   @Headers({'accessToken': 'true'})
-  Future cancelClip(@Body() ToggledLikeClipEntity entity);
+  Future cancelClip(@Body() CancelClipEntity entity);
 
   @GET('articles?type=scope&offset={offset}')
   @Headers({'accessToken': 'true'})
@@ -81,6 +85,6 @@ abstract class CommunityRepository {
 
   @GET('articles?search={words}&offset={offset}')
   @Headers({'accessToken': 'true'})
-  Future<List<FullPostEntity>> searchArticle(
+  Future<List<SearchPostEntity>> searchArticle(
       @Path("words") String words, @Path("offset") int offset);
 }

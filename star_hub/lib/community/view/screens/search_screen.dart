@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../model/repository/community_repository.dart';
+import '../../model/service/search_service.dart';
 import '../widgets/post_box2.dart';
+
+final searchServiceProvider = Provider<SearchService>((ref) {
+  return SearchService(ref.watch(communityRepositoryProvider));
+});
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -33,15 +40,15 @@ class _SearchScreenState extends State<SearchScreen> {
             border: InputBorder.none,
             suffixIcon: _searchController.text.isNotEmpty
                 ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    color: Colors.white,
-                    onPressed: () {
-                      _searchController.clear();
-                      setState(() {
-                        searchResults.clear();
-                      });
-                    },
-                  )
+              icon: const Icon(Icons.clear),
+              color: Colors.white,
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  searchResults.clear();
+                });
+              },
+            )
                 : null,
             hintText: '검색어를 입력하세요.',
             hintStyle: const TextStyle(color: Colors.white),
@@ -76,7 +83,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Post> _getDummyData() {
     return List.generate(
       10,
-      (index) => Post(
+          (index) => Post(
         title: 'title $index',
         content: 'content $index',
         nickName: 'user $index',

@@ -102,4 +102,28 @@ class DetailPostViewModel extends ChangeNotifier {
         .deleteComment(articleId, commentId);
   }
 
+  void addLike(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .addLike(articleId);
+  }
+
+  void cancelLike(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .cancelLike(articleId);
+  }
+
+  void addClip(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .addClip(articleId);
+  }
+
+  void cancelClip(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .cancelClip(articleId);
+  }
+
 }

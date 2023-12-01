@@ -164,247 +164,279 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     final viewModel = ref.watch(detailPostViewModelProvider);
     return viewModel.state is SuccessState
         ? Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border.symmetric(
-                        horizontal: BorderSide(
-                          color: Colors.white,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                viewModel.detailPostEntity.title,
-                                style: kTextContentStyleMiddle,
-                              ),
-                              InkWell(
-                                onTap: () => _onMoreVertTap(
-                                    viewModel.detailPostEntity,
-                                    viewModel,
-                                    widget.type),
-                                child: const Icon(
-                                  Icons.more_vert,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: kPaddingMiddleSize,
-                          ),
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                radius: 15,
-                                child: Icon(
-                                  Icons.person,
-                                  size: 25,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: kPaddingSmallSize,
-                              ),
-                              Column(
-                                mainAxisAlignment:
-                                MainAxisAlignment.start,
-                                crossAxisAlignment:
-                                CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        viewModel
-                                            .detailPostEntity.nickName,
-                                        style: kTextContentStyleSmall,
-                                      ),
-                                      const Text(" • "),
-                                      Text(
-                                        viewModel
-                                            .detailPostEntity.writeDate,
-                                        style: kTextContentStyleXSmall,
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    viewModel.detailPostEntity.level,
-                                    style: kTextSubContentStyleXSmall,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: kPaddingMiddleSize,
-                          ),
-                          viewModel.detailPostEntity.photos.isNotEmpty
-                              ? Stack(
-                              alignment: Alignment.bottomCenter,
-                              children: <Widget>[
-                                CarouselSlider.builder(
-                                  options: CarouselOptions(
-                                    initialPage: 0,
-                                    viewportFraction: 1,
-                                    enlargeCenterPage: true,
-                                    onPageChanged:
-                                        (index, reason) =>
-                                        setState(() {
-                                          activeIndex = index;
-                                        }),
-                                  ),
-                                  itemCount: viewModel
-                                      .detailPostEntity
-                                      .photos
-                                      .length,
-                                  itemBuilder:
-                                      (context, index, realIndex) {
-                                    final path = viewModel
-                                        .detailPostEntity
-                                        .photos[index];
-                                    return imageSlider(path, index);
-                                  },
-                                ),
-                                Align(
-                                    alignment:
-                                    Alignment.bottomCenter,
-                                    child: indicator(
-                                        viewModel.detailPostEntity))
-                              ])
-                              : Container(),
-                          Text(
-                            viewModel.detailPostEntity.content,
-                            style: kTextContentStyleSmall,
-                          ),
-                          const SizedBox(
-                            height: kPaddingMiddleSize,
-                          ),
-                          Row(
-                            children: [
-                              IconWithNumber(
-                                icon: FontAwesomeIcons.heart,
-                                number: viewModel.detailPostEntity.likes,
-                              ),
-                              IconWithNumber(
-                                icon: Icons.bookmark_border,
-                                number: viewModel.detailPostEntity.clips,
-                              ),
-                              IconWithNumber(
-                                icon: Icons.messenger_outline,
-                                number: viewModel
-                                    .detailPostEntity.comments.length,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: kPaddingSmallSize,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Column(
-                      children: viewModel.detailPostEntity.comments
-                          .map((comment) => CommentBox(
-                        content: comment.content,
-                        nickName: comment.nickName,
-                        writeDate: comment.writeDate,
-                        level: comment.level,
-                      ))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
+            backgroundColor: Colors.black,
+            appBar: AppBar(
+              backgroundColor: Colors.black,
             ),
-          ),
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(
-                vertical: 8.0, horizontal: 16.0),
-            child: Row(
+            body: Column(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    controller: _commentController,
-                    onChanged: (value) {
-                      setState(() {
-                        newComment = value;
-                      });
-                    },
-                    style: kTextContentStyleMiddle.copyWith(
-                        color: Colors.black),
-                    cursorColor: Colors.black,
-                    decoration: InputDecoration(
-                      hintText: '댓글을 입력하세요...',
-                      hintStyle: kTextContentStyleMiddle.copyWith(
-                        color: Colors.grey,
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            border: Border.symmetric(
+                              horizontal: BorderSide(
+                                color: Colors.white,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      viewModel.detailPostEntity.title,
+                                      style: kTextContentStyleMiddle,
+                                    ),
+                                    InkWell(
+                                      onTap: () => _onMoreVertTap(
+                                          viewModel.detailPostEntity,
+                                          viewModel,
+                                          widget.type),
+                                      child: const Icon(
+                                        Icons.more_vert,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Colors.black,
+                                      radius: 15,
+                                      child: Icon(
+                                        Icons.person,
+                                        size: 25,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: kPaddingSmallSize,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              viewModel
+                                                  .detailPostEntity.nickName,
+                                              style: kTextContentStyleSmall,
+                                            ),
+                                            const Text(" • "),
+                                            Text(
+                                              viewModel
+                                                  .detailPostEntity.writeDate,
+                                              style: kTextContentStyleXSmall,
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          viewModel.detailPostEntity.level,
+                                          style: kTextSubContentStyleXSmall,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                viewModel.detailPostEntity.photos.isNotEmpty
+                                    ? Stack(
+                                        alignment: Alignment.bottomCenter,
+                                        children: <Widget>[
+                                            CarouselSlider.builder(
+                                              options: CarouselOptions(
+                                                initialPage: 0,
+                                                viewportFraction: 1,
+                                                enlargeCenterPage: true,
+                                                onPageChanged:
+                                                    (index, reason) =>
+                                                        setState(() {
+                                                  activeIndex = index;
+                                                }),
+                                              ),
+                                              itemCount: viewModel
+                                                  .detailPostEntity
+                                                  .photos
+                                                  .length,
+                                              itemBuilder:
+                                                  (context, index, realIndex) {
+                                                final path = viewModel
+                                                    .detailPostEntity
+                                                    .photos[index];
+                                                return imageSlider(path, index);
+                                              },
+                                            ),
+                                            Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: indicator(
+                                                    viewModel.detailPostEntity))
+                                          ])
+                                    : Container(),
+                                Text(
+                                  viewModel.detailPostEntity.content,
+                                  style: kTextContentStyleSmall,
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                Row(
+                                  children: [
+                                    IconWithNumber(
+                                      icon: FontAwesomeIcons.heart,
+                                      number: viewModel.detailPostEntity.likes,
+                                    ),
+                                    IconWithNumber(
+                                      icon: Icons.bookmark_border,
+                                      number: viewModel.detailPostEntity.clips,
+                                    ),
+                                    IconWithNumber(
+                                      icon: Icons.messenger_outline,
+                                      number: viewModel
+                                          .detailPostEntity.comments.length,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    !viewModel.detailPostEntity.isLike
+                                        ? InkWell(
+                                            onTap: () => viewModel.addLike(
+                                                viewModel.detailPostEntity.id),
+                                            child: const Icon(
+                                                FontAwesomeIcons.heart))
+                                        : InkWell(
+                                            onTap: () => viewModel.cancelLike(
+                                                viewModel.detailPostEntity.id),
+                                            child: const Icon(
+                                                FontAwesomeIcons.solidHeart),
+                                          ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    !viewModel.detailPostEntity.isClipped
+                                        ? InkWell(
+                                            onTap: () => viewModel.addClip(
+                                                viewModel.detailPostEntity.id),
+                                            child: const Icon(
+                                                Icons.bookmark_border))
+                                        : InkWell(
+                                            onTap: () => viewModel.cancelClip(
+                                                viewModel.detailPostEntity.id),
+                                            child: const Icon(Icons.bookmark))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingSmallSize,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            children: viewModel.detailPostEntity.comments
+                                .map((comment) => CommentBox(
+                                      content: comment.content,
+                                      nickName: comment.nickName,
+                                      writeDate: comment.writeDate,
+                                      level: comment.level,
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () => newComment.isNotEmpty
-                      ? _submitComment(widget.type,
-                      viewModel.detailPostEntity, viewModel, context)
-                      : null,
-                  icon: const Icon(Icons.send, color: Colors.black),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _commentController,
+                          onChanged: (value) {
+                            setState(() {
+                              newComment = value;
+                            });
+                          },
+                          style: kTextContentStyleMiddle.copyWith(
+                              color: Colors.black),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: '댓글을 입력하세요...',
+                            hintStyle: kTextContentStyleMiddle.copyWith(
+                              color: Colors.grey,
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => newComment.isNotEmpty
+                            ? _submitComment(widget.type,
+                                viewModel.detailPostEntity, viewModel, context)
+                            : null,
+                        icon: const Icon(Icons.send, color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    )
+          )
         : const Center(child: CircularProgressIndicator());
   }
 
   Widget imageSlider(path, index) => Container(
-    width: double.infinity,
-    height: 240,
-    color: Colors.grey,
-    child: Image.network(path, fit: BoxFit.cover),
-  );
+        width: double.infinity,
+        height: 240,
+        color: Colors.grey,
+        child: Image.network(path, fit: BoxFit.cover),
+      );
 
   Widget indicator(DetailPostEntity entity) => Container(
-    margin: const EdgeInsets.only(bottom: 20.0),
-    alignment: Alignment.bottomCenter,
-    child: AnimatedSmoothIndicator(
-      activeIndex: activeIndex,
-      count: entity.photos.length,
-      effect: JumpingDotEffect(
-        dotHeight: 6,
-        dotWidth: 6,
-        activeDotColor: Colors.white,
-        dotColor: Colors.white.withOpacity(0.6),
-      ),
-    ),
-  );
+        margin: const EdgeInsets.only(bottom: 20.0),
+        alignment: Alignment.bottomCenter,
+        child: AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: entity.photos.length,
+          effect: JumpingDotEffect(
+            dotHeight: 6,
+            dotWidth: 6,
+            activeDotColor: Colors.white,
+            dotColor: Colors.white.withOpacity(0.6),
+          ),
+        ),
+      );
 }

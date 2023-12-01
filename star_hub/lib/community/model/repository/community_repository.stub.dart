@@ -3,7 +3,7 @@
 // import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 // import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 // import 'package:star_hub/community/model/entity/full_post_entity.dart';
-// import 'package:star_hub/community/model/entity/like_clip_entity.dart';
+// import 'package:star_hub/community/model/entity/add_like_entity.dart';
 // import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 // import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 // import 'package:star_hub/community/model/entity/post_article_entity.dart';

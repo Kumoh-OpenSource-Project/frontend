@@ -1,7 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/community/model/entity/add_clip_entity.dart';
+import 'package:star_hub/community/model/entity/cancel_clip_entity.dart';
+import 'package:star_hub/community/model/entity/cancel_like_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
+import 'package:star_hub/community/model/entity/add_like_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/entity/write_comment_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
@@ -59,6 +63,22 @@ class DetailPostService extends StateNotifier<CommunityState> {
   Future deleteComment(int articleId, int id) async {
     await repository.deleteComment(DeleteCommentEntity(id: id));
     getPosts(articleId);
+  }
 
+  Future addLike(int articleId) async {
+    await repository.addLike(AddLikeEntity(articleId: articleId));
+    getPosts(articleId);
+  }
+  Future cancelLike(int articleId) async {
+    await repository.cancelLike(CancelLikeEntity(articleId: articleId));
+    getPosts(articleId);
+  }
+  Future addClip(int articleId) async {
+    await repository.addClip(AddClipEntity(articleId: articleId));
+    getPosts(articleId);
+  }
+  Future cancelClip(int articleId) async {
+    await repository.cancelClip(CancelClipEntity(articleId: articleId));
+    getPosts(articleId);
   }
 }
