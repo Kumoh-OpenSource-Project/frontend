@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
@@ -19,6 +21,8 @@ class MyPageScreen extends ConsumerStatefulWidget {
 
 class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   String userName = '';
+  String profileImageUrl =
+      'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
   final TextEditingController _nicknameController = TextEditingController();
 
   static String get routeName => 'myPage';
@@ -26,212 +30,219 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
     final viewmodel = ref.watch(myPageViewModelProvider);
-    String profileImageUrl =
-        'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
 
     return viewmodel.state is MyPageStateSuccess
         ? Scaffold(
-      backgroundColor: Colors.black,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        // viewmodel.entity.profilePhoto ??
-                          profileImageUrl),
-                      radius: 30,
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          viewmodel.entity.nickName,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          viewmodel.entity.level,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
+            backgroundColor: Colors.black,
+            body: SingleChildScrollView(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.person, color: Colors.white),
-                        SizedBox(width: 8),
-                        Text(
-                          '계정 정보 변경',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                viewmodel.entity.profilePhoto ??
+                                    profileImageUrl),
+                            radius: 30,
                           ),
-                        ),
-                      ],
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                viewmodel.entity.nickName,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Text(
+                                viewmodel.entity.level,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 16),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.5,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              child: const Text(
-                                '닉네임 변경',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.person, color: Colors.white),
+                              SizedBox(width: 8),
+                              Text(
+                                '계정 정보 변경',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
-                              onTap: () {
-                                _showNicknameDialog(context, viewmodel);
-                              },
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.5,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
                             ),
-                            const SizedBox(height: 15),
-                            InkWell(
-                              child: const Text(
-                                '프로필 이미지 변경',
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    child: const Text(
+                                      '닉네임 변경',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      _showNicknameDialog(context, viewmodel);
+                                    },
+                                  ),
+                                  const SizedBox(height: 15),
+                                  InkWell(
+                                    child: const Text(
+                                      '프로필 이미지 변경',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    onTap: () async {
+                                      final url = await _selectProfileImage();
+                                      final success = await _updateProfileImage(
+                                          url, viewmodel);
+                                      if (success) {
+                                        setState(() {
+                                          profileImageUrl = url;
+                                        });
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.my_library_books_rounded,
+                                  color: Colors.white),
+                              SizedBox(width: 8),
+                              Text(
+                                '커뮤니티 활동 조회',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
-                              onTap: () {},
-                            )
-                          ],
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.5,
+                              ),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(15),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    child: const Text(
+                                      '내가 쓴 글',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                  const SizedBox(height: 15),
+                                  InkWell(
+                                    child: const Text(
+                                      '좋아요한 글',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                  const SizedBox(height: 15),
+                                  InkWell(
+                                    child: const Text(
+                                      '스크랩한 글',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    onTap: () {},
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await _logout(context);
+                        },
+                        style:
+                            ElevatedButton.styleFrom(primary: Colors.redAccent),
+                        child: const Text(
+                          '로그아웃',
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(Icons.my_library_books_rounded,
-                            color: Colors.white),
-                        SizedBox(width: 8),
-                        Text(
-                          '커뮤니티 활동 조회',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.5,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              child: const Text(
-                                '내가 쓴 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onTap: () {},
-                            ),
-                            const SizedBox(height: 15),
-                            InkWell(
-                              child: const Text(
-                                '좋아요한 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onTap: () {},
-                            ),
-                            const SizedBox(height: 15),
-                            InkWell(
-                              child: const Text(
-                                '스크랩한 글',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              onTap: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    await _logout(context);
-                  },
-                  style:
-                  ElevatedButton.styleFrom(primary: Colors.redAccent),
-                  child: const Text(
-                    '로그아웃',
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    )
+            ),
+          )
         : const CircularProgressIndicator();
   }
 
@@ -240,6 +251,45 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
     localStorage.deleteTokens();
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
+  }
+
+  Future<String> _selectProfileImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final url = _uploadImageToS3(File(pickedFile.path));
+      print('Selected image path: ${pickedFile.hashCode}');
+      return url;
+    } else {
+      print('No image selected.');
+      return '';
+    }
+  }
+
+  Future<String> _uploadImageToS3(File imageFile) async {
+    final url =
+        'https://starhubimage.s3.ap-northeast-2.amazonaws.com/userImage/${imageFile.hashCode}';
+
+    List<int> imageBytes = await imageFile.readAsBytes();
+
+    final request = http.Request('PUT', Uri.parse(url))
+      ..headers['Content-Type'] = 'image/jpeg'
+      ..bodyBytes = imageBytes;
+
+    try {
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        print(url);
+        return url;
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+        return '';
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+      return '';
+    }
   }
 
   void _showNicknameDialog(BuildContext context, MyPageViewModel viewModel) {
@@ -285,7 +335,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final success = await _updateNickname(newNickname,viewModel );
+                    final success =
+                        await _updateNickname(newNickname, viewModel);
 
                     if (success) {
                       setState(() {
@@ -294,7 +345,6 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
 
                       print('New Nickname: $userName');
                       Navigator.of(context).pop();
-
                     } else {
                       print('Failed to update nickname');
                     }
@@ -314,7 +364,40 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
     );
   }
 
-  Future<bool> _updateNickname(String newNickname, MyPageViewModel viewModel) async {
+  Future<bool> _updateProfileImage(
+      String newProfileImage, MyPageViewModel viewModel) async {
+    try {
+      final localStorage = LocalStorage();
+      final token = await localStorage.getAccessToken();
+
+      final response = await http.patch(
+        Uri.parse(
+            'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'userImage': newProfileImage}),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          profileImageUrl = newProfileImage;
+          viewModel.getUserInfo();
+        });
+        return true;
+      } else {
+        print('Failed to update nickname. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception during nickname update: $e');
+      return false;
+    }
+  }
+
+  Future<bool> _updateNickname(
+      String newNickname, MyPageViewModel viewModel) async {
     try {
       final localStorage = LocalStorage();
       final token = await localStorage.getAccessToken();
