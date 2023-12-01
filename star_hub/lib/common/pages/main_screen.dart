@@ -93,6 +93,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 ),
                 calendarBuilders: CalendarBuilders(
+                  outsideBuilder: (context, date, _) {
+                    return Container();
+                  },
                   defaultBuilder: (context, date, _) {
                     _fetchLunarData(date.year.toString(), date.month.toString().padLeft(2, '0'));
 
