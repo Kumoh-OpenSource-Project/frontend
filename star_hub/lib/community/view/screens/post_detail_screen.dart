@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
@@ -142,7 +143,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ),
       );
     } else {
-      viewModel.writeComment(entity.id, entity.content);
+      viewModel.writeComment(entity.id, _commentController.text);
       setState(() {
         entity.comments.add(CommentEntity(
           content: newComment,
