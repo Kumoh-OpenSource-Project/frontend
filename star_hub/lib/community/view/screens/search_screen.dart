@@ -1,54 +1,126 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/community/view_model/search_post_viewmodel.dart';
 import '../../model/repository/community_repository.dart';
 import '../../model/service/search_service.dart';
 import '../widgets/post_box2.dart';
 
-final searchServiceProvider = Provider<SearchService>((ref) {
-  return SearchService(ref.watch(communityRepositoryProvider));
-});
-
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends ConsumerState<SearchScreen>
+    with TickerProviderStateMixin {
+  final searchPostViewModelProvider =
+      ChangeNotifierProvider((ref) => SearchPostViewModel(ref));
   final TextEditingController _searchController = TextEditingController();
-  List<Post> searchResults = [];
+  final ScrollController _searchScrollController = ScrollController();
+  late final FocusNode _searchFocusNode;
+  late AnimationController _animationController;
+  late final VoidCallback? onPressed;
+  bool isInit = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchScrollController.addListener(_searchScrollListener);
+    _searchFocusNode = FocusNode();
+    _searchFocusNode.requestFocus();
+    _searchFocusNode.addListener(_onSearchFocusChanged);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    if (!isInit) {
+      ref.read(searchPostViewModelProvider.notifier).onTextFieldFocused();
+    }
+    isInit = false;
+  }
+
+  @override
+  void dispose() {
+    _searchScrollController.dispose();
+    _searchFocusNode.dispose();
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _searchScrollListener() {
+    if (_searchScrollController.position.pixels ==
+        _searchScrollController.position.maxScrollExtent) {
+      print("끝도착");
+      _loadMoreData();
+    }
+  }
+
+  List<SearchPostEntity> searchList = [];
+  bool isSearching = false;
+
+  Future<void> _loadMoreData() async {
+    final viewModel = ref.read(searchPostViewModelProvider);
+    if (viewModel.getHasNext() == true &&
+        _searchController.text.isNotEmpty &&
+        !_searchFocusNode.hasFocus) {
+      viewModel.getNextPage(_searchController.text, false);
+    }
+  }
+
+  void _onSearchFocusChanged() {
+    setState(() {
+      isSearching = _searchFocusNode.hasFocus;
+    });
+
+    if (isSearching) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = ref.watch(searchPostViewModelProvider);
+
+    if (viewModel.getSearchList().isEmpty) searchList.clear();
+    print(viewModel.getSearchEntity());
+    searchList.addAll(viewModel.getSearchEntity().where(
+          (newItem) =>
+              !searchList.any((existingItem) => existingItem.id == newItem.id),
+        ));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: TextField(
           controller: _searchController,
           cursorColor: Colors.white,
-          onChanged: (text) {
+          focusNode: _searchFocusNode,
+          onSubmitted: (text) {
             setState(() {
-              searchResults = _getDummyData().where((post) {
-                return post.title.toLowerCase().contains(text.toLowerCase()) ||
-                    post.content.toLowerCase().contains(text.toLowerCase());
-              }).toList();
+              searchList.clear();
+              viewModel.getNextPage(text, true);
             });
           },
           decoration: InputDecoration(
             border: InputBorder.none,
             suffixIcon: _searchController.text.isNotEmpty
                 ? IconButton(
-              icon: const Icon(Icons.clear),
-              color: Colors.white,
-              onPressed: () {
-                _searchController.clear();
-                setState(() {
-                  searchResults.clear();
-                });
-              },
-            )
+                    icon: const Icon(Icons.clear),
+                    color: Colors.white,
+                    onPressed: () {
+                      _searchController.clear();
+                      setState(() {
+                        print("클리어");
+                        searchList.clear();
+                        _searchFocusNode.requestFocus(); // x 버튼 누를 때 커서 활성화
+                        _animationController
+                            .reverse(); // 검색창이 활성화된 상태에서 x 버튼 누를 때 애니메이션 역방향으로 실행
+                      });
+                    },
+                  )
                 : null,
             hintText: '검색어를 입력하세요.',
             hintStyle: const TextStyle(color: Colors.white),
@@ -56,42 +128,66 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       backgroundColor: Colors.black,
-      body: _buildSearchResults(),
+      body: _searchFocusNode.hasFocus
+          ? _buildAnimatedNewTextWidget()
+          : _buildSearchResults(),
+    );
+  }
+
+  Widget _buildAnimatedNewTextWidget() {
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _animationController.value,
+          child: child,
+        );
+      },
+      child: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.search),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              '검색어를 입력하세요',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildSearchResults() {
-    return ListView.builder(
-      itemCount: searchResults.length,
-      itemBuilder: (context, index) {
-        final post = searchResults[index];
-        return PostBox2(
-          title: post.title,
-          content: post.content,
-          nickName: post.nickName,
-          writeDate: post.writeDate,
-          level: post.level,
-          likes: post.likes,
-          clips: post.clips,
-          comments: post.comments,
-          onTap: () {},
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return Opacity(
+          opacity: 1.0 - _animationController.value,
+          // 검색창이 활성화된 상태일 때는 리스트뷰가 투명해지도록 설정
+          child: child,
         );
       },
-    );
-  }
-
-  List<Post> _getDummyData() {
-    return List.generate(
-      10,
-          (index) => Post(
-        title: 'title $index',
-        content: 'content $index',
-        nickName: 'user $index',
-        writeDate: '2023-11-30',
-        level: '수성',
-        likes: 5,
-        clips: 3,
-        comments: 10,
+      child: ListView.builder(
+        controller: _searchScrollController,
+        itemCount: searchList.length,
+        itemBuilder: (context, index) {
+          final post = searchList[index];
+          return PostBox2(
+            title: post.title,
+            content: post.contentText,
+            nickName: post.nickName,
+            writeDate: post.writeDate,
+            level: post.level,
+            likes: post.likes,
+            clips: post.clips,
+            comments: post.comments,
+            onTap: () {},
+          );
+        },
       ),
     );
   }

@@ -28,7 +28,7 @@ class LocalStorage {
     // print(accessToken);
     //return accessToken;
     //todo: 고쳐요
-    return "93mM75kvLZghv2uqxLB-AL9r47ZOrbq_BJIKKwzSAAABjCOEfuyYFzyUYZmfhQ";
+    return "12ld6lAQmfhMYHoMtBbgsbMm3TytJxXU3GUKKwzUAAABjCYgFXiYFzyUYZmfhQ";
   }
 
   Future<String?> getRefreshToken() async {

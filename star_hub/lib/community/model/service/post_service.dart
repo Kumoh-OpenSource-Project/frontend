@@ -54,6 +54,8 @@ class DetailPostService extends StateNotifier<CommunityState> {
                 UpdateArticleEntity(content: content, articleId: postId));
   }
 
+
+
   Future writeComment(int articleId, String content) async {
     await repository.writeComment(
         WriteCommentEntity(articleId: articleId, content: content));
