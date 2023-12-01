@@ -117,7 +117,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       ),
                                     ),
                                     onTap: () {
-                                      _showNicknameDialog(context);
+                                      _showNicknameDialog(context, viewmodel);
                                     },
                                   ),
                                   const SizedBox(height: 15),
@@ -242,7 +242,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
         .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
-  void _showNicknameDialog(BuildContext context) {
+  void _showNicknameDialog(BuildContext context, MyPageViewModel viewModel) {
     String newNickname = userName;
     final localStorage = LocalStorage();
 
@@ -285,7 +285,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final success = await _updateNickname(newNickname);
+                    final success = await _updateNickname(newNickname,viewModel );
 
                     if (success) {
                       setState(() {
@@ -314,7 +314,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
     );
   }
 
-  Future<bool> _updateNickname(String newNickname) async {
+  Future<bool> _updateNickname(String newNickname, MyPageViewModel viewModel) async {
     try {
       final localStorage = LocalStorage();
       final token = await localStorage.getAccessToken();
@@ -332,6 +332,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
       if (response.statusCode == 200) {
         setState(() {
           userName = newNickname;
+          viewModel.getUserInfo();
         });
         return true;
       } else {
