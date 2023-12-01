@@ -89,6 +89,7 @@ class _HomePageState extends State<HomePage> {
           windSpeed: 0.00,
           windDeg: 0,
           seeing: 9,
+          lunAge: 0,
         );
       });
       dummyRealTimeWeatherInfo = await homeService.getCurrentWeather();
@@ -125,6 +126,7 @@ class _HomePageState extends State<HomePage> {
               moonrise: "오전 00:00",
               moonset: "오후 00:00",
               seeing: 9,
+              lunAge: 0,
             );
           },
         );
@@ -141,13 +143,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isToday = currentDate.isAtSameMomentAs(today);
+
     final pages = [
-      _buildPage(imagePath: 'assets/moon.png'),
+      _buildPage(
+          imagePath: isToday
+              ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
+              : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
       _buildPage(title: '보름달'),
       _buildPage(title: 'D-DAY'),
     ];
-
-    bool isToday = currentDate.isAtSameMomentAs(today);
 
     return SingleChildScrollView(
       child: Column(

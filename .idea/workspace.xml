@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add update nickname funtion">
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add TODO">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701352445744</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Feat: Add TODO">
+      <created>1701433366853</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1701433366853</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -309,6 +315,7 @@
     <MESSAGE value="Feat: Add moon image in calendar" />
     <MESSAGE value="Fix: Add ModalBottomSheet in detail screen" />
     <MESSAGE value="Feat: Get user information" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Get user information" />
+    <MESSAGE value="Feat: Add TODO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add TODO" />
   </component>
 </project>
