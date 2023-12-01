@@ -10,6 +10,8 @@ class UserInfoEntity {
   String userName;
   @JsonKey(name: "nickName")
   String nickName;
+  @JsonKey(name: "level")
+  String level;
   @JsonKey(name: "profilePhoto")
   String? profilePhoto;
   @JsonKey(name: "kakaoId")
@@ -18,6 +20,7 @@ class UserInfoEntity {
   UserInfoEntity(
       {required this.id,
         required this.nickName,
+        required this.level,
         required this.kakaoId,
         required this.profilePhoto,
         required this.userName});

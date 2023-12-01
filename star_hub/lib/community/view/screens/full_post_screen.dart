@@ -18,18 +18,36 @@ class FullPostPage extends ConsumerStatefulWidget {
 class _FullPostPageState extends ConsumerState<FullPostPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scopeScrollController = ScrollController();
+  final ScrollController _placeScrollController = ScrollController();
+  final ScrollController _photoScrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_scrollListener);
+    _scopeScrollController.addListener(_scopeScrollListener);
+    _placeScrollController.addListener(_placeScrollListener);
+    _photoScrollController.addListener(_photoScrollListener);
     _tabController = TabController(length: tabs.length, vsync: this);
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+  void _scopeScrollListener() {
+    if (_scopeScrollController.position.pixels ==
+        _scopeScrollController.position.maxScrollExtent) {
+      print("끝도착");
+      _loadMoreData();
+    }
+  }
+  void _placeScrollListener() {
+    if (_placeScrollController.position.pixels ==
+        _placeScrollController.position.maxScrollExtent) {
+      print("끝도착");
+      _loadMoreData();
+    }
+  }
+  void _photoScrollListener() {
+    if (_photoScrollController.position.pixels ==
+        _photoScrollController.position.maxScrollExtent) {
       print("끝도착");
       _loadMoreData();
     }
@@ -175,7 +193,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           onRefresh: _refreshScope,
                           child: ListView(
-                            controller: _scrollController,
+                            controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
                                   index < scopeList.length;
@@ -208,7 +226,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           onRefresh: _refreshPlace,
                           child: ListView(
-                            controller: _scrollController,
+                            controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
                                   index < placeList.length;

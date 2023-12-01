@@ -4,7 +4,7 @@ import 'package:star_hub/my_page/model/my_page_repository.dart';
 import 'package:star_hub/my_page/model/state.dart';
 
 final myPageServiceProvider =
-    StateNotifierProvider<MyPageService, MyPageState>((ref) {
+StateNotifierProvider<MyPageService, MyPageState>((ref) {
   final repository = ref.watch(myPageRepositoryProvider);
   return MyPageService(repository);
 });

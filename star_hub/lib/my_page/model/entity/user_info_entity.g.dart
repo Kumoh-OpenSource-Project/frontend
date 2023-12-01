@@ -13,6 +13,7 @@ UserInfoEntity _$UserInfoEntityFromJson(Map<String, dynamic> json) =>
       kakaoId: json['kakaoId'] as String,
       profilePhoto: json['profilePhoto'] as String?,
       userName: json['name'] as String,
+      level: json['level'] as String,
     );
 
 Map<String, dynamic> _$UserInfoEntityToJson(UserInfoEntity instance) =>

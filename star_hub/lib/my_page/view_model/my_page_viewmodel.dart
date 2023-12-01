@@ -26,4 +26,10 @@ class MyPageViewModel extends ChangeNotifier {
       }
     });
   }
+
+  void getUserInfo(){
+    ref.read(myPageServiceProvider.notifier).getUserInfo();
+  }
+
+
 }

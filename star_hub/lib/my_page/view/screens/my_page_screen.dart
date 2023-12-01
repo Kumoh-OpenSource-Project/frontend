@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/my_page/model/state.dart';
@@ -14,7 +18,7 @@ class MyPageScreen extends ConsumerStatefulWidget {
 }
 
 class _MyPageScreenState extends ConsumerState<MyPageScreen> {
-  String userName = 'Nickname';
+  String userName = '';
   final TextEditingController _nicknameController = TextEditingController();
 
   static String get routeName => 'myPage';
@@ -24,11 +28,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
     final viewmodel = ref.watch(myPageViewModelProvider);
     String profileImageUrl =
         'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
-    String userLevel = '수성';
 
-
-    return viewmodel.state is MyPageStateSuccess ?
-    Scaffold(
+    return viewmodel.state is MyPageStateSuccess
+        ? Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Padding(
@@ -41,7 +43,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                 child: Row(
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(profileImageUrl),
+                      backgroundImage: NetworkImage(
+                        // viewmodel.entity.profilePhoto ??
+                          profileImageUrl),
                       radius: 30,
                     ),
                     const SizedBox(width: 16),
@@ -57,7 +61,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                           ),
                         ),
                         Text(
-                          userLevel,
+                          viewmodel.entity.level,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -113,7 +117,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                 ),
                               ),
                               onTap: () {
-                                _showNicknameDialog(context);
+                                _showNicknameDialog(context, viewmodel);
                               },
                             ),
                             const SizedBox(height: 15),
@@ -216,7 +220,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                   onPressed: () async {
                     await _logout(context);
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+                  style:
+                  ElevatedButton.styleFrom(primary: Colors.redAccent),
                   child: const Text(
                     '로그아웃',
                   ),
@@ -227,7 +232,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
         ),
       ),
     )
-    : const CircularProgressIndicator();
+        : const CircularProgressIndicator();
   }
 
   Future<void> _logout(BuildContext context) async {
@@ -237,8 +242,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
         .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
   }
 
-  void _showNicknameDialog(BuildContext context) {
+  void _showNicknameDialog(BuildContext context, MyPageViewModel viewModel) {
     String newNickname = userName;
+    final localStorage = LocalStorage();
 
     showDialog(
       context: context,
@@ -252,11 +258,13 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                 cursorColor: Colors.white,
                 controller: _nicknameController,
                 decoration: const InputDecoration(
-                    hintText: '새로운 닉네임을 입력하세요',
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  hintText: '새로운 닉네임을 입력하세요',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Colors.white,
-                    ))),
+                    ),
+                  ),
+                ),
                 onChanged: (value) {
                   setState(() {
                     newNickname = value;
@@ -276,13 +284,20 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    setState(() {
-                      userName = newNickname;
-                    });
+                  onPressed: () async {
+                    final success = await _updateNickname(newNickname,viewModel );
 
-                    print('New Nickname: $userName');
-                    Navigator.of(context).pop();
+                    if (success) {
+                      setState(() {
+                        userName = newNickname;
+                      });
+
+                      print('New Nickname: $userName');
+                      Navigator.of(context).pop();
+
+                    } else {
+                      print('Failed to update nickname');
+                    }
                   },
                   child: const Text(
                     '확인',
@@ -297,5 +312,36 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
         );
       },
     );
+  }
+
+  Future<bool> _updateNickname(String newNickname, MyPageViewModel viewModel) async {
+    try {
+      final localStorage = LocalStorage();
+      final token = await localStorage.getAccessToken();
+
+      final response = await http.patch(
+        Uri.parse(
+            'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'userNickName': newNickname}),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          userName = newNickname;
+          viewModel.getUserInfo();
+        });
+        return true;
+      } else {
+        print('Failed to update nickname. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception during nickname update: $e');
+      return false;
+    }
   }
 }

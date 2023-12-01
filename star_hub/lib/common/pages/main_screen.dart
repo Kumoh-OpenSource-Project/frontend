@@ -82,9 +82,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            '🌕',
-                            style: TextStyle(fontSize: 15),
+                          Image.asset(
+                            'assets/moon/18.png',
+                            height: 20,
+                            width: 20,
                           ),
                           const SizedBox(
                             height: 5,
@@ -103,9 +104,10 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            '🌕',
-                            style: TextStyle(fontSize: 15),
+                          Image.asset(
+                            'assets/moon/7.png',
+                            height: 20,
+                            width: 20,
                           ),
                           const SizedBox(
                             height: 5,
