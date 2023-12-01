@@ -8,6 +8,7 @@ import 'package:star_hub/community/model/service/scope_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
+import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 
 final detailPostViewModelProvider =
     ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
@@ -18,6 +19,7 @@ class DetailPostViewModel extends ChangeNotifier {
   late CommunityState scopeState;
   late CommunityState placeState;
   late CommunityState photoState;
+  late PostViewModel _postViewModel;
 
   DetailPostEntity get detailPostEntity =>
       (state as DetailPostStateSuccess).data;
@@ -51,6 +53,8 @@ class DetailPostViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+
+    _postViewModel = ref.read(postViewModelProvider.notifier);
   }
 
   // 게시물 삭제
@@ -92,12 +96,10 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   // 댓글 삭제
-  void deleteComment(int articleId, int commentId) {
+  void deleteComment(int type, int articleId, int commentId) {
     ref
         .read(detailPostServiceProvider.notifier)
         .deleteComment(articleId, commentId);
   }
 
-  // 댓글 수정
-  void updateComment(int type, int articleId, String content) {}
 }

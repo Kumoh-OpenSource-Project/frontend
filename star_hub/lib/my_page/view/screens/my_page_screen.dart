@@ -31,207 +31,207 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
 
     return viewmodel.state is MyPageStateSuccess
         ? Scaffold(
-            backgroundColor: Colors.black,
-            body: SingleChildScrollView(
-              child: Padding(
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        // viewmodel.entity.profilePhoto ??
+                          profileImageUrl),
+                      radius: 30,
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          viewmodel.entity.nickName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          viewmodel.entity.level,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                // viewmodel.entity.profilePhoto ??
-                                profileImageUrl),
-                            radius: 30,
+                    const Row(
+                      children: [
+                        Icon(Icons.person, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          '계정 정보 변경',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
-                          const SizedBox(width: 16),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                viewmodel.entity.nickName,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              Text(
-                                viewmodel.entity.level,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(Icons.person, color: Colors.white),
-                              SizedBox(width: 8),
-                              Text(
-                                '계정 정보 변경',
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 1.5,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              child: const Text(
+                                '닉네임 변경',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
+                              onTap: () {
+                                _showNicknameDialog(context, viewmodel);
+                              },
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    child: const Text(
-                                      '닉네임 변경',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      _showNicknameDialog(context, viewmodel);
-                                    },
-                                  ),
-                                  const SizedBox(height: 15),
-                                  InkWell(
-                                    child: const Text(
-                                      '프로필 이미지 변경',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    onTap: () {},
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(Icons.my_library_books_rounded,
-                                  color: Colors.white),
-                              SizedBox(width: 8),
-                              Text(
-                                '커뮤니티 활동 조회',
+                            const SizedBox(height: 15),
+                            InkWell(
+                              child: const Text(
+                                '프로필 이미지 변경',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
-                              ),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(15),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  InkWell(
-                                    child: const Text(
-                                      '내가 쓴 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                  const SizedBox(height: 15),
-                                  InkWell(
-                                    child: const Text(
-                                      '좋아요한 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                  const SizedBox(height: 15),
-                                  InkWell(
-                                    child: const Text(
-                                      '스크랩한 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    onTap: () {},
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await _logout(context);
-                        },
-                        style:
-                            ElevatedButton.styleFrom(primary: Colors.redAccent),
-                        child: const Text(
-                          '로그아웃',
+                              onTap: () {},
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-            ),
-          )
+              const SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.my_library_books_rounded,
+                            color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          '커뮤니티 활동 조회',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 1.5,
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              child: const Text(
+                                '내가 쓴 글',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onTap: () {},
+                            ),
+                            const SizedBox(height: 15),
+                            InkWell(
+                              child: const Text(
+                                '좋아요한 글',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onTap: () {},
+                            ),
+                            const SizedBox(height: 15),
+                            InkWell(
+                              child: const Text(
+                                '스크랩한 글',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              onTap: () {},
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    await _logout(context);
+                  },
+                  style:
+                  ElevatedButton.styleFrom(primary: Colors.redAccent),
+                  child: const Text(
+                    '로그아웃',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    )
         : const CircularProgressIndicator();
   }
 

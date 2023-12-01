@@ -83,15 +83,6 @@ class _CommentBoxState extends State<CommentBox> {
                             children: <Widget>[
                               if (true)
                                 ListTile(
-                                  leading: const Icon(Icons.edit),
-                                  title: const Text('수정하기'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    _editComment();
-                                  },
-                                ),
-                              if (true)
-                                ListTile(
                                   leading: const Icon(Icons.delete),
                                   title: const Text('삭제하기'),
                                   onTap: () {
