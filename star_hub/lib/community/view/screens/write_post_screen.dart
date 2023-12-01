@@ -158,6 +158,7 @@ class _WritePostPageState extends State<WritePostPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildCategoryDropdown(),
+              // TODO: 제목 글자 제한 두기
               TextField(
                 controller: titleController,
                 onChanged: (text) {
