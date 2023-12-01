@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/my_page/model/state.dart';
@@ -39,7 +43,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                       child: Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(viewmodel.entity.profilePhoto ?? profileImageUrl),
+                            backgroundImage: NetworkImage(
+                                // viewmodel.entity.profilePhoto ??
+                                profileImageUrl),
                             radius: 30,
                           ),
                           const SizedBox(width: 16),
@@ -238,6 +244,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
 
   void _showNicknameDialog(BuildContext context) {
     String newNickname = userName;
+    final localStorage = LocalStorage();
 
     showDialog(
       context: context,
@@ -251,11 +258,13 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                 cursorColor: Colors.white,
                 controller: _nicknameController,
                 decoration: const InputDecoration(
-                    hintText: '새로운 닉네임을 입력하세요',
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
+                  hintText: '새로운 닉네임을 입력하세요',
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
                       color: Colors.white,
-                    ))),
+                    ),
+                  ),
+                ),
                 onChanged: (value) {
                   setState(() {
                     newNickname = value;
@@ -275,13 +284,20 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    setState(() {
-                      userName = newNickname;
-                    });
+                  onPressed: () async {
+                    final success = await _updateNickname(newNickname);
 
-                    print('New Nickname: $userName');
-                    Navigator.of(context).pop();
+                    if (success) {
+                      setState(() {
+                        userName = newNickname;
+                      });
+
+                      print('New Nickname: $userName');
+                      Navigator.of(context).pop();
+
+                    } else {
+                      print('Failed to update nickname');
+                    }
                   },
                   child: const Text(
                     '확인',
@@ -296,5 +312,35 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
         );
       },
     );
+  }
+
+  Future<bool> _updateNickname(String newNickname) async {
+    try {
+      final localStorage = LocalStorage();
+      final token = await localStorage.getAccessToken();
+
+      final response = await http.patch(
+        Uri.parse(
+            'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'userNickName': newNickname}),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          userName = newNickname;
+        });
+        return true;
+      } else {
+        print('Failed to update nickname. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception during nickname update: $e');
+      return false;
+    }
   }
 }
