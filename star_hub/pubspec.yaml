@@ -95,6 +95,11 @@ flutter:
     - assets/
     - assets/moon/
     - .env
+
+  fonts:
+    - family: JustAnotherHand-Regular
+      fonts:
+        - asset: assets/fonts/JustAnotherHand-Regular.ttf
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -42,7 +42,6 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       setState(() {
         _lunarDataList = lunarDataList;
       });
-
     } catch (e) {
       print("Error loading lunar data: $e");
     }
@@ -97,14 +96,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     return Container();
                   },
                   defaultBuilder: (context, date, _) {
-                    _fetchLunarData(date.year.toString(), date.month.toString().padLeft(2, '0'));
+                    _fetchLunarData(date.year.toString(),
+                        date.month.toString().padLeft(2, '0'));
 
                     if (_lunarDataList.isEmpty) {
                       return Container();
                     }
 
                     final matchingLunarData = _lunarDataList.firstWhere(
-                          (lunarData) => lunarData.solDay == date.day.toString(),
+                      (lunarData) => lunarData.solDay == date.day.toString(),
                       orElse: () => _lunarDataList.first,
                     );
 
@@ -130,14 +130,15 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     );
                   },
                   todayBuilder: (context, date, _) {
-                    _fetchLunarData(date.year.toString(), date.month.toString().padLeft(2, '0'));
+                    _fetchLunarData(date.year.toString(),
+                        date.month.toString().padLeft(2, '0'));
 
                     if (_lunarDataList.isEmpty) {
                       return Container();
                     }
 
                     final matchingLunarData = _lunarDataList.firstWhere(
-                          (lunarData) => lunarData.solDay == date.day.toString(),
+                      (lunarData) => lunarData.solDay == date.day.toString(),
                       orElse: () => _lunarDataList.first,
                     );
                     return Container(
@@ -197,7 +198,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       elevation: 0.0,
       centerTitle: true,
       backgroundColor: Colors.black,
-      title: Text(title, style: kTextContentStyleSmallLogo),
+      title: Text(title,
+          style: const TextStyle(
+            fontFamily: "JustAnotherHand-Regular",
+            fontSize: 30
+          )),
       actions: actions != null ? [actions] : null,
     );
   }

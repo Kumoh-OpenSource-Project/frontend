@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add lunar data">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add outside builder">
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/fonts/JustAnotherHand-Regular.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +64,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets\fonts" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
     </key>
@@ -247,7 +252,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701445361563</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fix: Add outside builder">
+      <created>1701445659051</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1701445659051</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -321,6 +333,7 @@
     <MESSAGE value="Feat: Get user information" />
     <MESSAGE value="Feat: Add TODO" />
     <MESSAGE value="Feat: Add lunar data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add lunar data" />
+    <MESSAGE value="Fix: Add outside builder" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add outside builder" />
   </component>
 </project>
