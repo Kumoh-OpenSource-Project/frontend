@@ -8,9 +8,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/my_page/model/state.dart';
+import 'package:star_hub/my_page/view/screens/my_likes_screen.dart';
+import 'package:star_hub/my_page/view/screens/my_scraps_screen.dart';
 import 'package:star_hub/my_page/view_model/my_page_viewmodel.dart';
 
 import '../../../common/local_storage/local_storage.dart';
+import 'my_posts_screen.dart';
 
 class MyPageScreen extends ConsumerStatefulWidget {
   const MyPageScreen({Key? key}) : super(key: key);
@@ -194,7 +197,22 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => const MyPostsPage(),
+                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                            const begin = Offset(1.0, 0.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.easeInOut;
+                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                            var offsetAnimation = animation.drive(tween);
+                                            return SlideTransition(position: offsetAnimation, child: child);
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                   const SizedBox(height: 15),
                                   InkWell(
@@ -205,7 +223,22 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => const MyLikesPage(),
+                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                            const begin = Offset(1.0, 0.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.easeInOut;
+                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                            var offsetAnimation = animation.drive(tween);
+                                            return SlideTransition(position: offsetAnimation, child: child);
+                                          },
+                                        ),
+                                      );
+                                    },
                                   ),
                                   const SizedBox(height: 15),
                                   InkWell(
@@ -216,7 +249,22 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => const MyScrapsPage(),
+                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                            const begin = Offset(1.0, 0.0);
+                                            const end = Offset.zero;
+                                            const curve = Curves.easeInOut;
+                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                                            var offsetAnimation = animation.drive(tween);
+                                            return SlideTransition(position: offsetAnimation, child: child);
+                                          },
+                                        ),
+                                      );
+                                    },
                                   )
                                 ],
                               ),

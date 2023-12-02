@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add logo font">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add profile image function">
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_likes_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_posts_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_scraps_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
     </list>
@@ -262,7 +265,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701447503945</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Feat: Add profile image function">
+      <created>1701457001698</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1701457001698</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -339,6 +349,7 @@
     <MESSAGE value="Fix: Add outside builder" />
     <MESSAGE value="Feat: Add font" />
     <MESSAGE value="Feat: Add logo font" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add logo font" />
+    <MESSAGE value="Feat: Add profile image function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add profile image function" />
   </component>
 </project>
