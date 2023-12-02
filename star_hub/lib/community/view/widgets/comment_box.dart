@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 class CommentBox extends StatefulWidget {
   const CommentBox({
@@ -9,12 +10,16 @@ class CommentBox extends StatefulWidget {
     required this.nickName,
     required this.writeDate,
     required this.level,
+    required this.viewModel,
+    required this.articleId,
   });
 
   final String content;
   final String nickName;
   final String writeDate;
   final String level;
+  final int articleId;
+  final DetailPostViewModel viewModel;
 
   @override
   _CommentBoxState createState() => _CommentBoxState();
@@ -86,6 +91,9 @@ class _CommentBoxState extends State<CommentBox> {
                                   leading: const Icon(Icons.delete),
                                   title: const Text('삭제하기'),
                                   onTap: () {
+                                    // TODO: 코멘트 아이디 추가하기!!
+                                    // widget.viewModel.deleteComment(
+                                    //     widget.articleId, commentId)
                                     Navigator.pop(context);
                                   },
                                 ),
@@ -113,19 +121,19 @@ class _CommentBoxState extends State<CommentBox> {
           ),
           _isEditing
               ? TextField(
-                  controller: _editingController,
-                  style: kTextContentStyleSmall,
-                  decoration: const InputDecoration(
-                    hintText: '댓글을 수정하세요...',
-                  ),
-                  onEditingComplete: () {
-                    _saveComment();
-                  },
-                )
+            controller: _editingController,
+            style: kTextContentStyleSmall,
+            decoration: const InputDecoration(
+              hintText: '댓글을 수정하세요...',
+            ),
+            onEditingComplete: () {
+              _saveComment();
+            },
+          )
               : Text(
-                  _editedContent.isNotEmpty ? _editedContent : widget.content,
-                  style: kTextContentStyleSmall,
-                ),
+            _editedContent.isNotEmpty ? _editedContent : widget.content,
+            style: kTextContentStyleSmall,
+          ),
         ],
       ),
     );

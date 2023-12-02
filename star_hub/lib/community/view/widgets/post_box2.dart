@@ -12,6 +12,7 @@ class PostBox2 extends StatelessWidget {
   final String title;
   final String content;
   final String nickName;
+  final int writerId;
   final String writeDate;
   final String level;
   final int likes;
@@ -19,17 +20,19 @@ class PostBox2 extends StatelessWidget {
   final int comments;
   final VoidCallback? onTap;
 
-  const PostBox2(
-      {super.key,
-      required this.title,
-      required this.content,
-      required this.nickName,
-      required this.writeDate,
-      required this.level,
-      required this.likes,
-      required this.clips,
-      required this.comments,
-      required this.onTap});
+  const PostBox2({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.nickName,
+    required this.writerId,
+    required this.writeDate,
+    required this.level,
+    required this.likes,
+    required this.clips,
+    required this.comments,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class PostBox2 extends StatelessWidget {
         title: title,
         content: content,
         nickName: nickName,
+        writerId: writerId,
         writeDate: writeDate,
         level: level,
         likes: likes,
@@ -135,6 +139,7 @@ class Post {
   final String nickName;
   final String writeDate;
   final String level;
+  final int writerId;
   final int likes;
   final int clips;
   final int comments;
@@ -147,5 +152,6 @@ class Post {
       required this.level,
       required this.likes,
       required this.clips,
-      required this.comments});
+      required this.comments,
+      required this.writerId});
 }

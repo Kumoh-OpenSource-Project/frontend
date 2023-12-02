@@ -16,8 +16,9 @@ import '../../model/entity/comment_entity.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage(this.type, {Key? key}) : super(key: key);
+  const DetailPage(this.type, this.writerId, {Key? key}) : super(key: key);
   final int type;
+  final int writerId;
 
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();
@@ -48,7 +49,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             color: Colors.white12,
             child: Wrap(
               children: <Widget>[
-                if (true)
+                // TODO: local에서 userId랑 비교 후 보여주기
+                if (widget.writerId == 24)
                   ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('수정하기'),
@@ -359,10 +361,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                           child: Column(
                             children: viewModel.detailPostEntity.comments
                                 .map((comment) => CommentBox(
+                                      articleId: viewModel.detailPostEntity.id,
                                       content: comment.content,
                                       nickName: comment.nickName,
                                       writeDate: comment.writeDate,
                                       level: comment.level,
+                                      viewModel: viewModel,
                                     ))
                                 .toList(),
                           ),

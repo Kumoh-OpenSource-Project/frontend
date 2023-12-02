@@ -93,7 +93,7 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   // 댓글 삭제
-  void deleteComment(int type, int articleId, int commentId) {
+  void deleteComment(int articleId, int commentId) {
     ref
         .read(detailPostServiceProvider.notifier)
         .deleteComment(articleId, commentId);

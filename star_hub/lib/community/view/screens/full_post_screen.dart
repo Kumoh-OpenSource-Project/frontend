@@ -209,6 +209,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   title: scopeList[index].title,
                                   content: scopeList[index].contentText,
                                   nickName: scopeList[index].nickName,
+                                  writerId: scopeList[index].writerId,
                                   writeDate: formatTimeDifference(
                                       scopeList[index].writeDate),
                                   level: scopeList[index].level,
@@ -219,6 +220,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     context,
                                     scopeList[index].id,
                                     scopeList[index].categoryId,
+                                    scopeList[index].writerId,
                                   ),
                                 ),
                               if (viewModel.getHasNext("scope"))
@@ -250,6 +252,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   title: placeList[index].title,
                                   content: placeList[index].contentText,
                                   nickName: placeList[index].nickName,
+                                  writerId: placeList[index].writerId,
                                   writeDate: formatTimeDifference(
                                       placeList[index].writeDate),
                                   level: placeList[index].level,
@@ -260,6 +263,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     context,
                                     placeList[index].id,
                                     placeList[index].categoryId,
+                                    placeList[index].writerId,
                                   ),
                                 ),
                               if (viewModel.getHasNext("place"))
@@ -293,7 +297,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               final post = photoList[index];
                               return GestureDetector(
                                 onTap: () => viewModel.navigateToDetailPage(
-                                    context, post.id, post.categoryId),
+                                    context,
+                                    post.id,
+                                    post.categoryId,
+                                    post.writerId),
                                 child: Image.network(
                                   post.photos[0],
                                   fit: BoxFit.cover,
@@ -304,7 +311,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                       return child;
                                     } else {
                                       return Container(
-                                        color: Colors.grey[300]?.withOpacity(0.1),
+                                        color:
+                                            Colors.grey[300]?.withOpacity(0.1),
                                         width: double.infinity,
                                         height: double.infinity,
                                       );

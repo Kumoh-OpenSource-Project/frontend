@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add dev's files">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add init lunar data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/search_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/search_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/post_box2.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/post_box2.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view_model/detail_post_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view_model/detail_post_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view_model/full_post_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view_model/full_post_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view_model/search_post_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view_model/search_post_viewmodel.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,7 +318,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701528692486</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Fix: Add init lunar data">
+      <created>1701530299391</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1701530299391</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -369,7 +383,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Feat: Add post report, comment edit, delete, report" />
     <MESSAGE value="Feat: Add moon calender" />
     <MESSAGE value="Feat: Add userId in local storage" />
     <MESSAGE value="Feat: Add my page UI" />
@@ -394,6 +407,7 @@
     <MESSAGE value="Fix: Delete scroll grow" />
     <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Feat: Add dev's files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add dev's files" />
+    <MESSAGE value="Fix: Add init lunar data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add init lunar data" />
   </component>
 </project>

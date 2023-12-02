@@ -109,11 +109,11 @@ class PostViewModel extends ChangeNotifier {
 
   //todo: 혹시 디테일에서 새로고침된 상태를 가져올 수 있을까?
   // 상세 페이지로 이동
-  void navigateToDetailPage(BuildContext context, int postId, int type) {
+  void navigateToDetailPage(BuildContext context, int postId, int type, int writerId) {
     ref.read(detailPostServiceProvider.notifier).getPosts(postId);
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage(type)));
+        context, MaterialPageRoute(builder: (context) => DetailPage(type, writerId)));
   }
 
   void postArticle(
