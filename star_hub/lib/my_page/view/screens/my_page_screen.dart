@@ -201,14 +201,25 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => const MyPostsPage(),
-                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              const MyPostsPage(),
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
                                             const begin = Offset(1.0, 0.0);
                                             const end = Offset.zero;
                                             const curve = Curves.easeInOut;
-                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                            var offsetAnimation = animation.drive(tween);
-                                            return SlideTransition(position: offsetAnimation, child: child);
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
+                                            var offsetAnimation =
+                                                animation.drive(tween);
+                                            return SlideTransition(
+                                                position: offsetAnimation,
+                                                child: child);
                                           },
                                         ),
                                       );
@@ -227,14 +238,25 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => const MyLikesPage(),
-                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              const MyLikesPage(),
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
                                             const begin = Offset(1.0, 0.0);
                                             const end = Offset.zero;
                                             const curve = Curves.easeInOut;
-                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                            var offsetAnimation = animation.drive(tween);
-                                            return SlideTransition(position: offsetAnimation, child: child);
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
+                                            var offsetAnimation =
+                                                animation.drive(tween);
+                                            return SlideTransition(
+                                                position: offsetAnimation,
+                                                child: child);
                                           },
                                         ),
                                       );
@@ -253,14 +275,25 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       Navigator.push(
                                         context,
                                         PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => const MyScrapsPage(),
-                                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              const MyScrapsPage(),
+                                          transitionsBuilder: (context,
+                                              animation,
+                                              secondaryAnimation,
+                                              child) {
                                             const begin = Offset(1.0, 0.0);
                                             const end = Offset.zero;
                                             const curve = Curves.easeInOut;
-                                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-                                            var offsetAnimation = animation.drive(tween);
-                                            return SlideTransition(position: offsetAnimation, child: child);
+                                            var tween = Tween(
+                                                    begin: begin, end: end)
+                                                .chain(
+                                                    CurveTween(curve: curve));
+                                            var offsetAnimation =
+                                                animation.drive(tween);
+                                            return SlideTransition(
+                                                position: offsetAnimation,
+                                                child: child);
                                           },
                                         ),
                                       );
@@ -291,7 +324,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
               ),
             ),
           )
-        : const CircularProgressIndicator();
+        : const CircularProgressIndicator(
+            color: Colors.white,
+          );
   }
 
   Future<void> _logout(BuildContext context) async {

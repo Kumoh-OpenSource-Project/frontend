@@ -38,6 +38,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       _loadMoreData();
     }
   }
+
   void _placeScrollListener() {
     if (_placeScrollController.position.pixels ==
         _placeScrollController.position.maxScrollExtent) {
@@ -45,6 +46,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       _loadMoreData();
     }
   }
+
   void _photoScrollListener() {
     if (_photoScrollController.position.pixels ==
         _photoScrollController.position.maxScrollExtent) {
@@ -108,7 +110,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
   Future<void> _refreshPhoto() async {
     final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("scope");
+    viewModel.refreshData("photo");
     return Future.value();
   }
 
@@ -124,14 +126,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.getPlaceList().isEmpty) placeList.clear();
     if (viewModel.getPhotoList().isEmpty) photoList.clear();
     scopeList.addAll(viewModel.getScopeEntity("scope").where(
-          (newItem) => !scopeList.any((existingItem) => existingItem.id == newItem.id),
-    ));
+          (newItem) =>
+              !scopeList.any((existingItem) => existingItem.id == newItem.id),
+        ));
     placeList.addAll(viewModel.getPlaceEntity("place").where(
-          (newItem) => !placeList.any((existingItem) => existingItem.id == newItem.id),
-    ));
+          (newItem) =>
+              !placeList.any((existingItem) => existingItem.id == newItem.id),
+        ));
     photoList.addAll(viewModel.getPhotoEntity("photo").where(
-          (newItem) => !photoList.any((existingItem) => existingItem.id == newItem.id),
-    ));
+          (newItem) =>
+              !photoList.any((existingItem) => existingItem.id == newItem.id),
+        ));
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -191,6 +196,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                 children: [
                   scopeList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshScope,
                           child: ListView(
                             controller: _scopeScrollController,
@@ -215,15 +221,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   ),
                                 ),
                               if (viewModel.getHasNext("scope"))
-                                const Center(child: CircularProgressIndicator())
+                                const Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ))
                               else
                                 Container(),
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                   placeList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshPlace,
                           child: ListView(
                             controller: _scopeScrollController,
@@ -248,15 +261,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   ),
                                 ),
                               if (viewModel.getHasNext("place"))
-                                const Center(child: CircularProgressIndicator())
+                                const Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ))
                               else
                                 Container(),
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                   photoList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshPhoto,
                           child: GridView.builder(
                             gridDelegate:
@@ -281,7 +301,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                       return child;
                                     } else {
                                       return Container(
-                                        color: Colors.grey[300],
+                                        color: Colors.grey[300]?.withOpacity(0.1),
                                         width: double.infinity,
                                         height: double.infinity,
                                       );
@@ -292,7 +312,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             },
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                 ],
               ),
             ),
