@@ -26,9 +26,7 @@ class LocalStorage {
     final accessToken = await _storage.read(key: 'access_token');
     // print("현 토큰");
     // print(accessToken);
-    //return accessToken;
-    //todo: 고쳐요
-    return "12ld6lAQmfhMYHoMtBbgsbMm3TytJxXU3GUKKwzUAAABjCYgFXiYFzyUYZmfhQ";
+    return accessToken;
   }
 
   Future<String?> getRefreshToken() async {

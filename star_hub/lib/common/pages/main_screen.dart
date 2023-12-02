@@ -8,6 +8,8 @@ import 'package:star_hub/my_page/view/screens/my_page_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../community/view/screens/search_screen.dart';
+import '../../home/model/home_repository.dart';
+import '../../home/model/home_service.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -17,8 +19,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
+  final HomeService homeService = HomeService();
   MotionTabBarController? _motionTabBarController;
   int _currentIndex = 0;
+  List<LunarData> _lunarDataList = [];
 
   @override
   void initState() {
@@ -29,6 +33,18 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       length: 3,
       vsync: this,
     );
+  }
+
+  Future<void> _fetchLunarData(String year, String month) async {
+    try {
+      final lunarDataList = await homeService.getLunarData(year, month);
+
+      setState(() {
+        _lunarDataList = lunarDataList;
+      });
+    } catch (e) {
+      print("Error loading lunar data: $e");
+    }
   }
 
   @override
@@ -76,14 +92,29 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                   ),
                 ),
                 calendarBuilders: CalendarBuilders(
+                  outsideBuilder: (context, date, _) {
+                    return Container();
+                  },
                   defaultBuilder: (context, date, _) {
+                    _fetchLunarData(date.year.toString(),
+                        date.month.toString().padLeft(2, '0'));
+
+                    if (_lunarDataList.isEmpty) {
+                      return Container();
+                    }
+
+                    final matchingLunarData = _lunarDataList.firstWhere(
+                      (lunarData) => lunarData.solDay == date.day.toString(),
+                      orElse: () => _lunarDataList.first,
+                    );
+
                     return Container(
                       alignment: Alignment.center,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/moon/18.png',
+                            'assets/moon/${matchingLunarData.lunAge + 1}.png',
                             height: 20,
                             width: 20,
                           ),
@@ -99,13 +130,24 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                     );
                   },
                   todayBuilder: (context, date, _) {
+                    _fetchLunarData(date.year.toString(),
+                        date.month.toString().padLeft(2, '0'));
+
+                    if (_lunarDataList.isEmpty) {
+                      return Container();
+                    }
+
+                    final matchingLunarData = _lunarDataList.firstWhere(
+                      (lunarData) => lunarData.solDay == date.day.toString(),
+                      orElse: () => _lunarDataList.first,
+                    );
                     return Container(
                       alignment: Alignment.center,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(
-                            'assets/moon/7.png',
+                            'assets/moon/${matchingLunarData.lunAge + 1}.png',
                             height: 20,
                             width: 20,
                           ),
@@ -156,7 +198,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       elevation: 0.0,
       centerTitle: true,
       backgroundColor: Colors.black,
-      title: Text(title, style: kTextContentStyleSmallLogo),
+      title: Text(title,
+          style: const TextStyle(
+            fontFamily: "JustAnotherHand-Regular",
+            fontSize: 30
+          )),
       actions: actions != null ? [actions] : null,
     );
   }

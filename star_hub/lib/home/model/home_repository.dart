@@ -10,6 +10,23 @@ class SunMoonData {
   });
 }
 
+class LunarData {
+  final int lunAge;
+  final String solDay;
+
+  LunarData({
+    required this.lunAge,
+    required this.solDay,
+  });
+
+  factory LunarData.fromJson(Map<String, dynamic> json) {
+    return LunarData(
+      lunAge: json['lunAge'],
+      solDay: json['solDay'],
+    );
+  }
+}
+
 class TodayWeatherData {
   final String sunrise;
   final String sunset;
@@ -70,6 +87,7 @@ class WeatherData {
   final String moonrise;
   final String moonset;
   final int seeing;
+  final int lunAge;
 
   WeatherData({
     required this.date,
@@ -79,6 +97,7 @@ class WeatherData {
     required this.moonrise,
     required this.moonset,
     required this.seeing,
+    required this.lunAge,
   });
 
   factory WeatherData.fromJson(Map<String, dynamic> json) {
@@ -93,6 +112,7 @@ class WeatherData {
       moonrise: json['moonrise'],
       moonset: json['moonset'],
       seeing: json['seeing'] ?? 0,
+      lunAge: json['lunAge'],
     );
   }
 }
@@ -135,6 +155,7 @@ class RealTimeWeatherInfo {
   final double windSpeed;
   final int windDeg;
   final int seeing;
+  final int lunAge;
 
   RealTimeWeatherInfo({
     required this.main,
@@ -148,6 +169,7 @@ class RealTimeWeatherInfo {
     required this.windSpeed,
     required this.windDeg,
     required this.seeing,
+    required this.lunAge,
   });
 
   factory RealTimeWeatherInfo.fromJson(Map<String, dynamic> json) {
@@ -163,6 +185,7 @@ class RealTimeWeatherInfo {
       windSpeed: json['windSpeed'],
       windDeg: json['windDeg'],
       seeing: json['seeing'],
+      lunAge: json['lunAge'],
     );
   }
 }

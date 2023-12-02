@@ -5,17 +5,40 @@ import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'home_repository.dart';
 
 class HomeService {
-  static const String baseUrl = 'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000';
+  static const String baseUrl =
+      'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000';
 
   Future<Map<String, String>> _createHeaders() async {
     String? token = await LocalStorage().getAccessToken();
-        //"kz7D-iGSZbsVGHiUUddOoXfQcO3JeXzS4LYKPXNNAAABjBZT1B3OkqTnJF629A";
+    //"kz7D-iGSZbsVGHiUUddOoXfQcO3JeXzS4LYKPXNNAAABjBZT1B3OkqTnJF629A";
 
     return {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     };
   }
+
+  Future<List<LunarData>> getLunarData(String year, String month) async {
+    final url = "$baseUrl/home/moon?year=$year&month=$month";
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: await _createHeaders(),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonDataList = json.decode(response.body);
+
+      final List<LunarData> lunarDataList = jsonDataList
+          .map((jsonData) => LunarData.fromJson(jsonData))
+          .toList();
+
+      return lunarDataList;
+    } else {
+      throw Exception('Failed to load lunar data. Status code: ${response.statusCode}');
+    }
+  }
+
 
   Future<TodayWeatherData> getTodayWeatherData() async {
     const url = '$baseUrl/home?type=today&lat=36.14578&lon=128.39394';

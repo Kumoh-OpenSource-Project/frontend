@@ -415,7 +415,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               ],
             ),
           )
-        : const Center(child: CircularProgressIndicator());
+        : const Center(
+            child: CircularProgressIndicator(
+            color: Colors.white,
+          ));
   }
 
   Widget imageSlider(path, index) => Container(

@@ -172,6 +172,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         );
       },
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         controller: _searchScrollController,
         itemCount: searchList.length,
         itemBuilder: (context, index) {
