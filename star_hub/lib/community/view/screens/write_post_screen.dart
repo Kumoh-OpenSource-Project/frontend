@@ -59,7 +59,7 @@ class _WritePostPageState extends State<WritePostPage> {
     print(postData);
 
     widget.viewModel.postArticle(
-      widget.selectedCategory!,
+      selectedCategory!,
       postData["content"],
       postData["title"],
       postData["photo"] ?? [],
@@ -225,6 +225,7 @@ class _WritePostPageState extends State<WritePostPage> {
         onChanged: (value) {
           setState(() {
             selectedCategory = value;
+            print(selectedCategory);
           });
         },
       ),

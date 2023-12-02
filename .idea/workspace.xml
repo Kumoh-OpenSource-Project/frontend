@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Change loading bar color">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Change dropdown button color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" afterDir="false" />
     </list>
@@ -283,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701524883608</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Style: Change dropdown button color">
+      <created>1701525560006</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1701525560006</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -336,7 +343,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Chore: Modifying mock data" />
     <MESSAGE value="Feat: Connected to home server" />
     <MESSAGE value="Feat: Add writing page" />
     <MESSAGE value="Style: Modify Button Style" />
@@ -361,6 +367,7 @@
     <MESSAGE value="Feat: Add profile image function" />
     <MESSAGE value="Feat: Add my posts, likes and scraps page" />
     <MESSAGE value="Style: Change loading bar color" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style: Change loading bar color" />
+    <MESSAGE value="Style: Change dropdown button color" />
+    <option name="LAST_COMMIT_MESSAGE" value="Style: Change dropdown button color" />
   </component>
 </project>
