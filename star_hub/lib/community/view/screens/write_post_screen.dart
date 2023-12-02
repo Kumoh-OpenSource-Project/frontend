@@ -196,6 +196,7 @@ class _WritePostPageState extends State<WritePostPage> {
   Widget _buildCategoryDropdown() {
     return Container(
       decoration: const BoxDecoration(
+
         border: Border(top: BorderSide(color: Colors.white)),
       ),
       child: DropdownButtonFormField<String>(
@@ -206,6 +207,7 @@ class _WritePostPageState extends State<WritePostPage> {
             borderSide: BorderSide(color: Colors.white),
           ),
         ),
+        dropdownColor: Colors.black,
         items: const [
           DropdownMenuItem<String>(
             value: 'scope',
