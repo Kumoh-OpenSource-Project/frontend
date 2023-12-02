@@ -33,6 +33,11 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       length: 3,
       vsync: this,
     );
+
+    _fetchLunarData(
+      DateTime.now().year.toString(),
+      DateTime.now().month.toString().padLeft(2, '0'),
+    );
   }
 
   Future<void> _fetchLunarData(String year, String month) async {

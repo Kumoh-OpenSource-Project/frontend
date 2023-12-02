@@ -4,35 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove scroll grow">
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/search_service.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/view_model/search_post_viewmodel.dart" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add dev's files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/like_clip_entity.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/like_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.stub.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.stub.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/service/post_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/post_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/state/state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/state/state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/search_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/search_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view_model/detail_post_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view_model/detail_post_viewmodel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="OPEN-49-월령-달력-구현" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -330,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701527420684</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Feat: Add dev's files">
+      <created>1701528692486</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1701528692486</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -344,7 +325,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="OPEN-48-게시글-검색-조회" />
+                        <option value="origin/OPEN-49-월령-달력-구현" />
                       </list>
                     </value>
                   </entry>
@@ -360,6 +341,11 @@
         <entry key="Branch">
           <value>
             <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/OPEN-49-월령-달력-구현" />
+                </option>
+              </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="home" />
@@ -383,7 +369,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Feat: Add comment input box and search box" />
     <MESSAGE value="Feat: Add post report, comment edit, delete, report" />
     <MESSAGE value="Feat: Add moon calender" />
     <MESSAGE value="Feat: Add userId in local storage" />
@@ -408,6 +393,7 @@
     <MESSAGE value="Fix: Solve category select error" />
     <MESSAGE value="Fix: Delete scroll grow" />
     <MESSAGE value="Fix: Remove scroll grow" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove scroll grow" />
+    <MESSAGE value="Feat: Add dev's files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add dev's files" />
   </component>
 </project>
