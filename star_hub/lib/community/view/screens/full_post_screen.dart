@@ -199,6 +199,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           color: Colors.white,
                           onRefresh: _refreshScope,
                           child: ListView(
+                            physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
@@ -239,6 +240,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           color: Colors.white,
                           onRefresh: _refreshPlace,
                           child: ListView(
+                            physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
@@ -279,6 +281,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           color: Colors.white,
                           onRefresh: _refreshPhoto,
                           child: GridView.builder(
+                            physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // 5열

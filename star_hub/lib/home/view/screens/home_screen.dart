@@ -155,6 +155,7 @@ class _HomePageState extends State<HomePage> {
     ];
 
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           DateNavigation(

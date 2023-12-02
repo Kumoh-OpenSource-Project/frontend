@@ -152,6 +152,7 @@ class _WritePostPageState extends State<WritePostPage> {
       ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
