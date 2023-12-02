@@ -19,7 +19,6 @@ class DetailPostViewModel extends ChangeNotifier {
   late CommunityState scopeState;
   late CommunityState placeState;
   late CommunityState photoState;
-  late PostViewModel _postViewModel;
 
   DetailPostEntity get detailPostEntity =>
       (state as DetailPostStateSuccess).data;
@@ -53,8 +52,6 @@ class DetailPostViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
-
-    _postViewModel = ref.read(postViewModelProvider.notifier);
   }
 
   // 게시물 삭제
@@ -100,6 +97,30 @@ class DetailPostViewModel extends ChangeNotifier {
     ref
         .read(detailPostServiceProvider.notifier)
         .deleteComment(articleId, commentId);
+  }
+
+  void addLike(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .addLike(articleId);
+  }
+
+  void cancelLike(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .cancelLike(articleId);
+  }
+
+  void addClip(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .addClip(articleId);
+  }
+
+  void cancelClip(int articleId) {
+    ref
+        .read(detailPostServiceProvider.notifier)
+        .cancelClip(articleId);
   }
 
 }

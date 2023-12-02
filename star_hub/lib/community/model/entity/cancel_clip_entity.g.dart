@@ -1,19 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'like_clip_entity.dart';
+part of 'cancel_clip_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ToggledLikeClipEntity _$ToggledLikeClipEntityFromJson(
-        Map<String, dynamic> json) =>
-    ToggledLikeClipEntity(
+CancelClipEntity _$CancelClipEntityFromJson(Map<String, dynamic> json) =>
+    CancelClipEntity(
       articleId: json['articleId'] as int,
     );
 
-Map<String, dynamic> _$ToggledLikeClipEntityToJson(
-        ToggledLikeClipEntity instance) =>
+Map<String, dynamic> _$CancelClipEntityToJson(CancelClipEntity instance) =>
     <String, dynamic>{
       'articleId': instance.articleId,
     };

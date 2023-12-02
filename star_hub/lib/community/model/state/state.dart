@@ -1,12 +1,9 @@
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
-import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/photo_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/place_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_post_entity.dart';
-import 'package:star_hub/community/view/screens/full_post_screen.dart';
+import 'package:star_hub/community/model/entity/search_post_entity.dart';
+
 
 abstract class NoneState {}
 
@@ -72,4 +69,15 @@ class DetailPostStateSuccess extends SuccessState<DetailPostEntity> implements C
 }
 class DetailPostStateError extends ErrorState implements CommunityState {
   DetailPostStateError(super.message);
+}
+
+class SearchStateNone extends NoneState implements CommunityState {}
+
+class SearchStateLoading extends LoadingState implements CommunityState {}
+
+class SearchStateSuccess extends SuccessState<List<SearchPostEntity>> implements CommunityState {
+  SearchStateSuccess(super.data);
+}
+class SearchStateError extends ErrorState implements CommunityState {
+  SearchStateError(super.message);
 }

@@ -19,7 +19,7 @@ class _CommunityRepository implements CommunityRepository {
   String? baseUrl;
 
   @override
-  Future<dynamic> addLike(ToggledLikeClipEntity entity) async {
+  Future<dynamic> addLike(AddLikeEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -43,7 +43,7 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<dynamic> cancelLike(ToggledLikeClipEntity entity) async {
+  Future<dynamic> cancelLike(CancelLikeEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -67,7 +67,7 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<dynamic> addClip(ToggledLikeClipEntity entity) async {
+  Future<dynamic> addClip(AddClipEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -91,7 +91,7 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<dynamic> cancelClip(ToggledLikeClipEntity entity) async {
+  Future<dynamic> cancelClip(CancelClipEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -340,7 +340,7 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<List<FullPostEntity>> searchArticle(
+  Future<List<SearchPostEntity>> searchArticle(
     String words,
     int offset,
   ) async {
@@ -350,7 +350,7 @@ class _CommunityRepository implements CommunityRepository {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<FullPostEntity>>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<SearchPostEntity>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -363,7 +363,8 @@ class _CommunityRepository implements CommunityRepository {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     var value = _result.data!
-        .map((dynamic i) => FullPostEntity.fromJson(i as Map<String, dynamic>))
+        .map(
+            (dynamic i) => SearchPostEntity.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
