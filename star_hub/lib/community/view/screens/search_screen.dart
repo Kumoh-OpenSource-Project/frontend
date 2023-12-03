@@ -177,6 +177,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         );
       },
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         controller: _searchScrollController,
         itemCount: searchList.length,
         itemBuilder: (context, index) {
@@ -185,6 +186,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             title: post.title,
             content: post.contentText,
             nickName: post.nickName,
+            writerId: post.writerId,
             writeDate: post.writeDate,
             level: post.level,
             likes: post.likes,

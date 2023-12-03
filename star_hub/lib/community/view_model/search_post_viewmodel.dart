@@ -36,11 +36,11 @@ class SearchPostViewModel extends ChangeNotifier {
     searchService.reset();
   }
 
-  void navigateToDetailPage(BuildContext context, int postId, int? type) {
+  void navigateToDetailPage(BuildContext context, int postId, int? type, int writerId) {
     detailPostState.withResponse(detailPostService.getPosts(postId));
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage(type, postId)));
+        context, MaterialPageRoute(builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   List<SearchPostEntity> getSearchList() {

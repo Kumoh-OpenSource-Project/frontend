@@ -4,13 +4,61 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add update nickname funtion">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add init lunar data">
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/report_entity.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/report_entity.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/report_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/write_post_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/model/entity/user_info_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/11.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/11.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/12.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/13.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/14.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/14.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/15.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/16.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/16.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/17.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/17.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/18.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/18.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/19.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/19.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/20.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/20.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/21.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/21.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/22.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/22.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/23.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/23.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/24.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/24.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/25.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/25.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/26.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/26.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/27.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/27.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/28.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/28.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/29.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/29.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/model/service/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/model/service/auth_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/viewmodel/main_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/viewmodel/main_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +75,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="OPEN-48-게시글-검색-조회" />
+        <entry key="$PROJECT_DIR$" value="OPEN-49-월령-달력-구현" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,6 +100,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
@@ -64,6 +113,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets\fonts" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
     </key>
@@ -237,7 +287,91 @@
       <option name="project" value="LOCAL" />
       <updated>1701352445744</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Feat: Add TODO">
+      <created>1701433366853</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1701433366853</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Feat: Add lunar data">
+      <created>1701445361562</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1701445361563</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Fix: Add outside builder">
+      <created>1701445659051</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1701445659051</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Feat: Add logo font">
+      <created>1701447503944</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1701447503945</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Feat: Add profile image function">
+      <created>1701457001698</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1701457001698</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Feat: Add my posts, likes and scraps page">
+      <created>1701524256626</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1701524256626</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Style: Change loading bar color">
+      <created>1701524883608</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1701524883608</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Style: Change dropdown button color">
+      <created>1701525560006</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1701525560006</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Fix: Solve category select error">
+      <created>1701525936362</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1701525936362</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Fix: Remove scroll grow">
+      <created>1701527420684</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1701527420684</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Feat: Add dev's files">
+      <created>1701528692486</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1701528692486</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Fix: Add init lunar data">
+      <created>1701530299391</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1701530299391</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,7 +385,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="OPEN-48-게시글-검색-조회" />
+                        <option value="origin/OPEN-49-월령-달력-구현" />
                       </list>
                     </value>
                   </entry>
@@ -267,6 +401,11 @@
         <entry key="Branch">
           <value>
             <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/OPEN-49-월령-달력-구현" />
+                </option>
+              </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
                   <option value="home" />
@@ -290,14 +429,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Design: Add home design" />
-    <MESSAGE value="Feat: Add dummy data" />
-    <MESSAGE value="Chore: Modifying mock data" />
-    <MESSAGE value="Feat: Connected to home server" />
-    <MESSAGE value="Feat: Add writing page" />
-    <MESSAGE value="Style: Modify Button Style" />
-    <MESSAGE value="Feat: Add comment input box and search box" />
-    <MESSAGE value="Feat: Add post report, comment edit, delete, report" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Feat: Add moon calender" />
     <MESSAGE value="Feat: Add userId in local storage" />
     <MESSAGE value="Feat: Add my page UI" />
@@ -309,6 +441,20 @@
     <MESSAGE value="Feat: Add moon image in calendar" />
     <MESSAGE value="Fix: Add ModalBottomSheet in detail screen" />
     <MESSAGE value="Feat: Get user information" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Get user information" />
+    <MESSAGE value="Feat: Add TODO" />
+    <MESSAGE value="Feat: Add lunar data" />
+    <MESSAGE value="Fix: Add outside builder" />
+    <MESSAGE value="Feat: Add font" />
+    <MESSAGE value="Feat: Add logo font" />
+    <MESSAGE value="Feat: Add profile image function" />
+    <MESSAGE value="Feat: Add my posts, likes and scraps page" />
+    <MESSAGE value="Style: Change loading bar color" />
+    <MESSAGE value="Style: Change dropdown button color" />
+    <MESSAGE value="Fix: Solve category select error" />
+    <MESSAGE value="Fix: Delete scroll grow" />
+    <MESSAGE value="Fix: Remove scroll grow" />
+    <MESSAGE value="Feat: Add dev's files" />
+    <MESSAGE value="Fix: Add init lunar data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add init lunar data" />
   </component>
 </project>

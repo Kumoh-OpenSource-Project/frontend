@@ -35,6 +35,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.initState();
     today = DateTime.now();
     currentDate = today;
+
     fetchData();
     fetchData2();
     fetchData3();
@@ -78,6 +79,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       windSpeed: 0.00,
       windDeg: 0,
       seeing: 9,
+      lunAge: 0,
     );
 
     return dummyRealTimeWeatherInfo;
@@ -105,6 +107,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           moonrise: "오전 00:00",
           moonset: "오후 00:00",
           seeing: 9,
+          lunAge: 0,
         );
       },
     );
@@ -113,9 +116,22 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeViewModelProvider);
+    bool isToday = currentDate.isAtSameMomentAs(today);
+
     final pages = [
-      _buildPage(imagePath: 'assets/moon.png'),
-      _buildPage(title: '보름달'),
+      _buildPage(
+          imagePath: isToday
+              ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
+              : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
+      _buildPage(
+          lunAge: isToday
+              ? dummyRealTimeWeatherInfo.lunAge + 1
+              : dummyWeatherData
+                      .firstWhere((data) =>
+                          data.date ==
+                          DateFormat('yyyy-MM-dd').format(currentDate))
+                      .lunAge +
+                  1),
       _buildPage(title: 'D-DAY'),
     ];
 
@@ -123,6 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     bool successState = viewModel is HomeStateSuccess;
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 DateNavigation(
@@ -170,6 +187,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           )
         : SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
           DateNavigation(
@@ -242,17 +260,49 @@ class _HomePageState extends ConsumerState<HomePage> {
     );
   }
 
-  Widget _buildPage({String? imagePath, String? title}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: imagePath != null
-          ? Center(child: Image.asset(imagePath))
-          : Center(
-              child: Text(
-                title ?? '',
-                style: const TextStyle(fontSize: 28),
-              ),
-            ),
-    );
+  Widget _buildPage({String? imagePath, String? title, int? lunAge}) {
+    if (imagePath != null) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(child: Image.asset(imagePath)),
+      );
+    } else if (lunAge != null) {
+      String moonPhase;
+      if (lunAge == 16 || lunAge == 17) {
+        moonPhase = '보름달';
+      } else if (lunAge == 1 || lunAge == 2 || lunAge == 30) {
+        moonPhase = '삭';
+      } else if (lunAge > 17 && lunAge < 23) {
+        moonPhase = '하현달';
+      } else if (lunAge > 2 && lunAge < 8) {
+        moonPhase = '초승달';
+      } else if (lunAge > 8 && lunAge < 15) {
+        moonPhase = '상현달';
+      } else if (lunAge > 22 && lunAge < 30) {
+        moonPhase = '그믐달';
+      } else {
+        moonPhase = '';
+      }
+
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(
+          child: Text(
+            moonPhase,
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(
+          child: Text(
+            title ?? '',
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+      );
+    }
   }
 }

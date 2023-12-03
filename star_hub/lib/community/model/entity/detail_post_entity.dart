@@ -12,6 +12,8 @@ class DetailPostEntity {
   String nickName;
   @JsonKey(name: "writerLevel")
   String level;
+  @JsonKey(name: "writerImage")
+  String writerImage;
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "contextText")
@@ -40,6 +42,7 @@ class DetailPostEntity {
     required this.nickName,
     required this.writeDate,
     required this.level,
+    required this.writerImage,
     required this.likes,
     required this.clips,
     required this.comments,

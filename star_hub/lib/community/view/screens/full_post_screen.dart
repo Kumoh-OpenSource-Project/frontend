@@ -238,8 +238,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                 children: [
                   scopeList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshScope,
                           child: ListView(
+                            physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
@@ -249,6 +251,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   title: scopeList[index].title,
                                   content: scopeList[index].contentText,
                                   nickName: scopeList[index].nickName,
+                                  writerId: scopeList[index].writerId,
                                   writeDate: formatTimeDifference(
                                       scopeList[index].writeDate),
                                   level: scopeList[index].level,
@@ -259,26 +262,36 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     context,
                                     scopeList[index].id,
                                     scopeList[index].categoryId,
+                                    scopeList[index].writerId,
                                   ),
                                 ),
                               if (viewModel.getHasNext("scope"))
-                                const Center(child: CircularProgressIndicator())
+                                const Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ))
                               else
                                 Container(),
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                   placeList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshPlace,
                           child: ListView(
-                            controller: _placeScrollController,
+                            physics: const BouncingScrollPhysics(),
+                            controller: _scopeScrollController,
                             children: [
                               for (int index = 0;
                                   index < viewModel.placeList.length;
                                   index++)
                                 PostBox2(
+                                  writerId: viewModel.placeList[index].title.writerId,
                                   title: viewModel.placeList[index].title,
                                   content:
                                       viewModel.placeList[index].contentText,
@@ -293,21 +306,30 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     context,
                                     viewModel.placeList[index].id,
                                     viewModel.placeList[index].categoryId,
+                                    viewModel.placeList[index].writerId,
                                   ),
                                 ),
                               if (viewModel.getHasNext("place"))
-                                const Center(child: CircularProgressIndicator())
+                                const Center(
+                                    child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ))
                               else
                                 Container(),
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                   photoList.isNotEmpty
                       ? RefreshIndicator(
+                          color: Colors.white,
                           onRefresh: _refreshPhoto,
                           child: GridView.builder(
                             controller: _photoScrollController,
+                            physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // 5열
@@ -319,7 +341,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               final post = viewModel.photoList[index];
                               return GestureDetector(
                                 onTap: () => viewModel.navigateToDetailPage(
-                                    context, post.id, post.categoryId),
+                                    context,
+                                    post.id,
+                                    post.categoryId,
+                                    post.writerId),
                                 child: Image.network(
                                   post.photos[0],
                                   fit: BoxFit.cover,
@@ -330,7 +355,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                       return child;
                                     } else {
                                       return Container(
-                                        color: Colors.grey[300],
+                                        color:
+                                            Colors.grey[300]?.withOpacity(0.1),
                                         width: double.infinity,
                                         height: double.infinity,
                                       );
@@ -341,7 +367,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             },
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
+                      : const Center(
+                          child: CircularProgressIndicator(
+                          color: Colors.white,
+                        )),
                 ],
               ),
             ),

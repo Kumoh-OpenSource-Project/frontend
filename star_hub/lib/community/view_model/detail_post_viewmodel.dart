@@ -75,7 +75,7 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   // 댓글 삭제
-  void deleteComment(int type, int articleId, int commentId) {
+  void deleteComment(int articleId, int commentId) {
     state.withResponse(detailPostService.deleteComment(articleId, commentId));
   }
 
@@ -94,4 +94,5 @@ class DetailPostViewModel extends ChangeNotifier {
   void cancelClip(int articleId) {
     state.withResponse(detailPostService.cancelClip(articleId));
   }
+
 }

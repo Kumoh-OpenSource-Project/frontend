@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:star_hub/common/value_state_util.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
@@ -58,41 +57,6 @@ class PostViewModel extends ChangeNotifier {
     detailPostService = ref.read(detailPostServiceProvider);
   }
 
-  // bool getReset(String type) {
-  //   switch (type) {
-  //     case "scope":
-  //       scopePostService.resetScopePage();
-  //       scopeOffset = 0;
-  //       if (isScopeReset) {
-  //         isScopeReset = false;
-  //         return !isScopeReset;
-  //       } else {
-  //         return isScopeReset;
-  //       }
-  //     case "place":
-  //       placePostService.resetPlacePage();
-  //       placeOffset = 0;
-  //
-  //       if (isPlaceReset) {
-  //         isPlaceReset = false;
-  //         return !isPlaceReset;
-  //       } else {
-  //         return isPlaceReset;
-  //       }
-  //     case "photo":
-  //       photoPostService.resetPhotoPage();
-  //       photoOffset = 0;
-  //       if (isPhotoReset) {
-  //         isPhotoReset = false;
-  //         return !isPhotoReset;
-  //       } else {
-  //         return isPhotoReset;
-  //       }
-  //     default:
-  //       return false;
-  //   }
-  // }
-
   void refreshDataInt(int type) {
     switch (type) {
       case 0:
@@ -145,11 +109,11 @@ class PostViewModel extends ChangeNotifier {
 
   // TODO: 혹시 디테일에서 새로고침된 상태를 가져올 수 있을까?
   // 상세 페이지로 이동
-  void navigateToDetailPage(BuildContext context, int postId, int type) {
+  void navigateToDetailPage(BuildContext context, int postId, int type, int writerId) {
     //detailPostService.getPosts(postId);
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => DetailPage(type, postId)));
+        MaterialPageRoute(builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   void postArticle(

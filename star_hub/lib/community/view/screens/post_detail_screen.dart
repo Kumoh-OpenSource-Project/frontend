@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
-import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
@@ -14,11 +14,14 @@ import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 import '../../model/entity/comment_entity.dart';
+import '../../model/entity/report_entity.dart';
+import '../../model/service/report_service.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage(this.type, this.postId, {Key? key}) : super(key: key);
-  final int? type;
+  const DetailPage(this.type, this.postId, this.writerId, {Key? key}) : super(key: key);
+  final int type;
+  final int writerId;
   final int postId;
 
   @override
@@ -30,17 +33,24 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   int activeIndex = 0;
   String newComment = '';
   late final DetailPostViewModel viewModel;
+  late String userId;
 
   @override
   void initState() {
     super.initState();
     _commentController = TextEditingController();
+    _getUserId();
+  }
+
+  Future<void> _onMoreVertTap(
+      DetailPostEntity entity, DetailPostViewModel viewModel, int type) async {
+    _showModalBottomSheet(userId, entity, viewModel, type);
 
     viewModel = ref.read(detailPostViewModelProvider)..getInfo(widget.postId);
   }
 
-  void _onMoreVertTap(
-      DetailPostEntity entity, DetailPostViewModel viewModel, int? type) {
+  void _showModalBottomSheet(String? userId, DetailPostEntity entity,
+      DetailPostViewModel viewModel, int? type) {
     showModalBottomSheet(
       backgroundColor: Colors.black,
       context: context,
@@ -53,7 +63,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             color: Colors.white12,
             child: Wrap(
               children: <Widget>[
-                if (true)
+                if (widget.writerId.toString() == userId)
                   ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('수정하기'),
@@ -62,7 +72,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       _editPost(entity, viewModel, type);
                     },
                   ),
-                if (true)
+                if (widget.writerId.toString() == userId)
                   ListTile(
                     leading: const Icon(Icons.delete),
                     title: const Text('삭제하기'),
@@ -71,12 +81,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       _showDeleteConfirmationDialog(entity, viewModel, type);
                     },
                   ),
-                if (false)
+                if (widget.writerId.toString() != userId)
                   ListTile(
                     leading: const Icon(Icons.announcement_sharp),
                     title: const Text('신고하기'),
                     onTap: () {
                       Navigator.pop(context);
+                      _showReportDialog(entity, viewModel);
                     },
                   ),
               ],
@@ -85,6 +96,106 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         );
       },
     );
+  }
+
+  void _showReportDialog(
+      DetailPostEntity entity, DetailPostViewModel viewModel) {
+    String reportContent = ''; // Variable to store report content
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: const Text('신고하기'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                onChanged: (value) {
+                  reportContent = value;
+                },
+                style: kTextContentStyleMiddle.copyWith(color: Colors.white),
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: '신고 내용을 입력하세요...',
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  hintStyle: kTextContentStyleMiddle.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        const Text('취소', style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _submitReport(entity, viewModel, reportContent);
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                    ),
+                    child:
+                        const Text('신고', style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _submitReport(DetailPostEntity entity, DetailPostViewModel viewModel,
+      String reportContent) async {
+    try {
+      final reportEntity = ReportEntity(
+        type: 'article',
+        id: entity.id,
+        reportContent: reportContent,
+      );
+
+      await ReportService().report(reportEntity);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.black,
+          content: Text(
+            '신고가 성공적으로 제출되었습니다.',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (error) {
+      print('Failed to submit report: $error');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('신고 제출 중 오류가 발생했습니다.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getUserId() async {
+    final localStorage = ref.read(localStorageProvider);
+    userId = (await localStorage.getUserId())!; // Initialize the userId here
   }
 
   void _editPost(
@@ -164,113 +275,149 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     }
   }
 
+  String _formatWriteDate(String writeDate) {
+    DateTime currentDate = DateTime.now();
+
+    DateTime postDate = DateTime.parse(writeDate);
+
+    String formattedDate;
+
+    if (currentDate.year == postDate.year &&
+        currentDate.month == postDate.month &&
+        currentDate.day == postDate.day) {
+      formattedDate = DateFormat('hh:mm a').format(postDate);
+    } else {
+      formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(postDate);
+    }
+
+    return formattedDate;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-            onTap: () {
-              FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
-            },
-            child: Scaffold(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
+        },
+        child: Scaffold(
+            backgroundColor: Colors.black,
+            appBar: AppBar(
               backgroundColor: Colors.black,
-              appBar: AppBar(
-                backgroundColor: Colors.black,
-              ),
-              body: ValueStateListener(
-                state: viewModel.state,
-                successBuilder: (_, state) => Column(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                border: Border.symmetric(
-                                  horizontal: BorderSide(
-                                    color: Colors.white,
-                                    width: 1,
-                                  ),
-                                ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: InkWell(
+                    onTap: () => _onMoreVertTap(
+                        viewModel.detailPostEntity, viewModel, widget.type),
+                    child: const Icon(
+                      Icons.more_vert,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            body: ValueStateListener(
+              state: viewModel.state,
+              successBuilder: (_, state) => Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            border: Border.symmetric(
+                              horizontal: BorderSide(
+                                color: Colors.white,
+                                width: 1,
                               ),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                            ),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10.0,
+                              left: 16.0,
+                              right: 16.0,
+                              bottom: 0.0,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          state.value!.title,
-                                          style: kTextContentStyleMiddle,
+                                    if ( state.value!.writerImage
+                                        .isNotEmpty)
+                                      CircleAvatar(
+                                        radius: 15,
+                                        backgroundImage: NetworkImage(
+                                          viewModel
+                                              .detailPostEntity.writerImage,
                                         ),
-                                        InkWell(
-                                          onTap: () => _onMoreVertTap(
-                                              state.value!,
-                                              viewModel,
-                                              widget.type),
-                                          child: const Icon(
-                                            Icons.more_vert,
-                                          ),
+                                      )
+                                    else
+                                      const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        radius: 15,
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 25,
                                         ),
-                                      ],
-                                    ),
+                                      ),
                                     const SizedBox(
-                                      height: kPaddingMiddleSize,
+                                      width: kPaddingSmallSize,
                                     ),
-                                    Row(
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        const CircleAvatar(
-                                          backgroundColor: Colors.white,
-                                          foregroundColor: Colors.black,
-                                          radius: 15,
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 25,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: kPaddingSmallSize,
-                                        ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        Row(
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  state.value!.nickName,
-                                                  style: kTextContentStyleSmall,
-                                                ),
-                                                const Text(" • "),
-                                                Text(
-                                                  state.value!.writeDate,
-                                                  style:
-                                                      kTextContentStyleXSmall,
-                                                ),
-                                              ],
-                                            ),
                                             Text(
-                                              state.value!.level,
-                                              style: kTextSubContentStyleXSmall,
+                                              state.value!.nickName,
+                                              style: kTextContentStyleSmall,
+                                            ),
+                                            const Text(" • "),
+                                            Text(
+                                              _formatWriteDate( state.value!.writeDate),
+                                              style: kTextContentStyleXSmall,
                                             ),
                                           ],
                                         ),
+                                        Text(
+                                          state.value!.level,
+                                          style: kTextSubContentStyleXSmall,
+                                        ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: kPaddingMiddleSize,
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      state.value!.title,
+                                      style: kTextContentStyleMiddle,
                                     ),
-                                    state.value!.photos.isNotEmpty
-                                        ? Stack(
-                                            alignment: Alignment.bottomCenter,
-                                            children: <Widget>[
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                state.value!.photos.isNotEmpty
+                                    ? Column(
+                                        children: [
+                                          Stack(
+                                              alignment: Alignment.bottomCenter,
+                                              children: <Widget>[
                                                 CarouselSlider.builder(
                                                   options: CarouselOptions(
                                                     initialPage: 0,
@@ -282,12 +429,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                       activeIndex = index;
                                                     }),
                                                   ),
-                                                  itemCount: state
-                                                      .value!.photos.length,
+                                                  itemCount:  state.value!
+                                                      .photos
+                                                      .length,
                                                   itemBuilder: (context, index,
                                                       realIndex) {
-                                                    final path = state
-                                                        .value!.photos[index];
+                                                    final path =  state.value!
+                                                        .photos[index];
                                                     return imageSlider(
                                                         path, index);
                                                   },
@@ -295,139 +443,164 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                 Align(
                                                     alignment:
                                                         Alignment.bottomCenter,
-                                                    child:
-                                                        indicator(state.value!))
-                                              ])
-                                        : Container(),
-                                    Text(
-                                      state.value!.content,
-                                      style: kTextContentStyleSmall,
+                                                    child: indicator( state.value!)),
+                                              ]),
+                                          const SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      )
+                                    : Container(),
+                                Text(
+                                  state.value!.content,
+                                  style: kTextContentStyleSmall,
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
+                                Row(
+                                  children: [
+                                    IconWithNumber(
+                                      icon: FontAwesomeIcons.heart,
+                                      number:  state.value!.likes,
                                     ),
-                                    const SizedBox(
-                                      height: kPaddingMiddleSize,
+                                    IconWithNumber(
+                                      icon: Icons.bookmark_border,
+                                      number:  state.value!.clips,
                                     ),
-                                    Row(
-                                      children: [
-                                        IconWithNumber(
-                                          icon: FontAwesomeIcons.heart,
-                                          number: state.value!.likes,
-                                        ),
-                                        IconWithNumber(
-                                          icon: Icons.bookmark_border,
-                                          number: state.value!.clips,
-                                        ),
-                                        IconWithNumber(
-                                          icon: Icons.messenger_outline,
-                                          number: state.value!.comments.length,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        !state.value!.isLike
-                                            ? InkWell(
-                                                onTap: () => viewModel
-                                                    .addLike(state.value!.id),
-                                                child: const Icon(
-                                                    FontAwesomeIcons.heart))
-                                            : InkWell(
-                                                onTap: () =>
-                                                    viewModel.cancelLike(
-                                                        state.value!.id),
-                                                child: const Icon(
-                                                    FontAwesomeIcons
-                                                        .solidHeart),
-                                              ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        !state.value!.isClipped
-                                            ? InkWell(
-                                                onTap: () => viewModel
-                                                    .addClip(state.value!.id),
-                                                child: const Icon(
-                                                    Icons.bookmark_border))
-                                            : InkWell(
-                                                onTap: () =>
-                                                    viewModel.cancelClip(
-                                                        state.value!.id),
-                                                child:
-                                                    const Icon(Icons.bookmark))
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: kPaddingSmallSize,
+                                    IconWithNumber(
+                                      icon: Icons.messenger_outline,
+                                      number:  state.value!.comments.length,
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    ! state.value!.isLike
+                                        ? InkWell(
+                                            onTap: () => viewModel.addLike(
+                                                state.value!.id),
+                                            child: const Icon(
+                                                FontAwesomeIcons.heart))
+                                        : InkWell(
+                                            onTap: () => viewModel.cancelLike(
+                                                state.value!.id),
+                                            child: const Icon(
+                                                FontAwesomeIcons.solidHeart),
+                                          ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text('좋아요'),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    ! state.value!.isClipped
+                                        ? InkWell(
+                                            onTap: () => viewModel.addClip(
+                                                state.value!.id),
+                                            child: const Icon(
+                                                Icons.bookmark_border))
+                                        : InkWell(
+                                            onTap: () => viewModel.cancelClip(
+                                                state.value!.id),
+                                            child: const Icon(Icons.bookmark)),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    const Text('스크랩'),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingSmallSize,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        if ( state.value!.comments.isEmpty)
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text(
+                              '댓글이 없습니다.',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
                               ),
                             ),
-                            Container(
-                              child: Column(
-                                children: state.value!.comments
-                                    .map((comment) => CommentBox(
-                                          content: comment.content,
-                                          nickName: comment.nickName,
-                                          writeDate: comment.writeDate,
-                                          level: comment.level,
-                                        ))
-                                    .toList(),
-                              ),
+                          )
+                        else
+                          Container(
+                            child: Column(
+                              children:  state.value!.comments
+                                  .map((comment) => CommentBox(
+                                        articleId:
+                                        state.value!.id,
+                                        content: comment.content,
+                                        nickName: comment.nickName,
+                                        writeDate: comment.writeDate,
+                                        userId: comment.userId,
+                                        level: comment.level,
+                                        commentId: comment.id,
+                                        viewModel: viewModel,
+                                        currentUserId: userId,
+                                        userImage: comment.userImage,
+                                      ))
+                                  .toList(),
                             ),
-                          ],
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _commentController,
+                          onChanged: (value) {
+                            setState(() {
+                              newComment = value;
+                            });
+                          },
+                          style: kTextContentStyleMiddle.copyWith(
+                              color: Colors.black),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: '댓글을 입력하세요...',
+                            hintStyle: kTextContentStyleMiddle.copyWith(
+                              color: Colors.grey,
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 16.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _commentController,
-                              onChanged: (value) {
-                                setState(() {
-                                  newComment = value;
-                                });
-                              },
-                              style: kTextContentStyleMiddle.copyWith(
-                                  color: Colors.black),
-                              cursorColor: Colors.black,
-                              decoration: InputDecoration(
-                                hintText: '댓글을 입력하세요...',
-                                hintStyle: kTextContentStyleMiddle.copyWith(
-                                  color: Colors.grey,
-                                ),
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () => newComment.isNotEmpty
-                                ? _submitComment(widget.type, state.value!,
-                                    viewModel, context)
-                                : null,
-                            icon: const Icon(Icons.send, color: Colors.black),
-                          ),
-                        ],
+                      IconButton(
+                        onPressed: () => newComment.isNotEmpty
+                            ? _submitComment(widget.type,
+                            state.value!, viewModel, context)
+                            : null,
+                        icon: const Icon(Icons.send, color: Colors.black),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          );
-        //: const Center(child: CircularProgressIndicator());
+          )
+        : const Center(child: CircularProgressIndicator());
   }
 
   Widget imageSlider(path, index) => Container(

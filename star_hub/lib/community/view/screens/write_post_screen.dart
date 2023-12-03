@@ -59,7 +59,7 @@ class _WritePostPageState extends State<WritePostPage> {
     print(postData);
 
     widget.viewModel.postArticle(
-      widget.selectedCategory!,
+      selectedCategory!,
       postData["content"],
       postData["title"],
       postData["photo"] ?? [],
@@ -152,6 +152,7 @@ class _WritePostPageState extends State<WritePostPage> {
       ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
@@ -196,6 +197,7 @@ class _WritePostPageState extends State<WritePostPage> {
   Widget _buildCategoryDropdown() {
     return Container(
       decoration: const BoxDecoration(
+
         border: Border(top: BorderSide(color: Colors.white)),
       ),
       child: DropdownButtonFormField<String>(
@@ -206,6 +208,7 @@ class _WritePostPageState extends State<WritePostPage> {
             borderSide: BorderSide(color: Colors.white),
           ),
         ),
+        dropdownColor: Colors.black,
         items: const [
           DropdownMenuItem<String>(
             value: 'scope',
@@ -223,6 +226,7 @@ class _WritePostPageState extends State<WritePostPage> {
         onChanged: (value) {
           setState(() {
             selectedCategory = value;
+            print(selectedCategory);
           });
         },
       ),
