@@ -69,7 +69,7 @@
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner-2.4.6",
+      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/build_runner-2.4.7",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -159,7 +159,7 @@
     },
     {
       "name": "dio",
-      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.3.4",
+      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/dio-5.4.0",
       "packageUri": "lib/",
       "languageVersion": "2.15"
     },
@@ -813,7 +813,7 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.1.0",
+      "rootUri": "file:///C:/Users/LG/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
@@ -842,7 +842,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-01T16:02:01.646269Z",
+  "generated": "2023-12-03T06:44:07.475879Z",
   "generator": "pub",
   "generatorVersion": "3.1.5"
 }

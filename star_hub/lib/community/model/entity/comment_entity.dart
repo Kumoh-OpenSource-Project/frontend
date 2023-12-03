@@ -11,12 +11,12 @@ class CommentEntity {
   String writeDate;
   @JsonKey(name: "userLevel")
   String level;
+  @JsonKey(name: "userImage")
+  String userImage;
   @JsonKey(name: "userId")
   int userId;
   @JsonKey(name: "id")
   int id;
-
-
 
   CommentEntity({
     required this.content,
@@ -24,7 +24,8 @@ class CommentEntity {
     required this.writeDate,
     required this.level,
     required this.id,
-    required this.userId
+    required this.userId,
+    required this.userImage,
   });
 
   Map<String, dynamic> toJson() => _$CommentEntityToJson(this);

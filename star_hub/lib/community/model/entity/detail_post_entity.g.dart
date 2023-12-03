@@ -16,6 +16,7 @@ DetailPostEntity _$DetailPostEntityFromJson(Map<String, dynamic> json) =>
       nickName: json['writerNickName'] as String,
       writeDate: json['date'] as String,
       level: json['writerLevel'] as String,
+      writerImage: json['writerImage'] as String,
       likes: json['like'] as int,
       clips: json['clipped'] as int,
       comments: (json['comments'] as List<dynamic>)
@@ -31,6 +32,7 @@ Map<String, dynamic> _$DetailPostEntityToJson(DetailPostEntity instance) =>
       'writerId': instance.writerId,
       'writerNickName': instance.nickName,
       'writerLevel': instance.level,
+      'writerImage': instance.writerImage,
       'title': instance.title,
       'contextText': instance.content,
       'date': instance.writeDate,

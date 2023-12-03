@@ -150,7 +150,15 @@ class _HomePageState extends State<HomePage> {
           imagePath: isToday
               ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
               : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
-      _buildPage(title: '보름달'),
+      _buildPage(
+          lunAge: isToday
+              ? dummyRealTimeWeatherInfo.lunAge + 1
+              : dummyWeatherData
+                      .firstWhere((data) =>
+                          data.date ==
+                          DateFormat('yyyy-MM-dd').format(currentDate))
+                      .lunAge +
+                  1),
       _buildPage(title: 'D-DAY'),
     ];
 
@@ -203,17 +211,49 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildPage({String? imagePath, String? title}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      child: imagePath != null
-          ? Center(child: Image.asset(imagePath))
-          : Center(
-              child: Text(
-                title ?? '',
-                style: const TextStyle(fontSize: 28),
-              ),
-            ),
-    );
+  Widget _buildPage({String? imagePath, String? title, int? lunAge}) {
+    if (imagePath != null) {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(child: Image.asset(imagePath)),
+      );
+    } else if (lunAge != null) {
+      String moonPhase;
+      if (lunAge == 16 || lunAge == 17) {
+        moonPhase = '보름달';
+      } else if (lunAge == 1 || lunAge == 2 || lunAge == 30) {
+        moonPhase = '삭';
+      } else if (lunAge > 17 && lunAge < 23) {
+        moonPhase = '하현달';
+      } else if (lunAge > 2 && lunAge < 8) {
+        moonPhase = '초승달';
+      } else if (lunAge > 8 && lunAge < 15) {
+        moonPhase = '상현달';
+      } else if (lunAge > 22 && lunAge < 30) {
+        moonPhase = '그믐달';
+      } else {
+        moonPhase = '';
+      }
+
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(
+          child: Text(
+            moonPhase,
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        child: Center(
+          child: Text(
+            title ?? '',
+            style: const TextStyle(fontSize: 28),
+          ),
+        ),
+      );
+    }
   }
 }

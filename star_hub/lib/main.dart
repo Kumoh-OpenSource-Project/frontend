@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
 import 'package:star_hub/common/pages/main_screen.dart';
 

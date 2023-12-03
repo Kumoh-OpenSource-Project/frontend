@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 import 'package:star_hub/auth/model/repository/auth_repository.dart';
+import 'package:star_hub/auth/model/service/auth_service.dart';
 import 'package:star_hub/auth/viewmodel/main_view_model.dart';
 import 'package:star_hub/common/const.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
@@ -19,9 +20,9 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  AuthRepository authRepository = AuthRepository(dio);
+  late final authService;
 
-  Future<void> _handleKakaoLogin(AuthViewModel viewModel) async {
+  Future<void> _handleKakaoLogin() async {
     // print(await KakaoSdk.origin);
     bool isInstalled = await isKakaoTalkInstalled();
     OAuthToken? token;
@@ -49,18 +50,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     if (token != null) {
+      authService = AuthService(token.accessToken);
       await _saveTokensToLocalStorage(token.accessToken, token.refreshToken);
-      //viewModel.login(token.toString());
+
       print(token);
-      //todo
-      if(true||viewModel.state is SuccessState) {
-        try {
-          LoginRequestDto loginResponse =
-          await authRepository.login('Bearer ${token.accessToken}');
-          debugPrint("로그인 성공: ${loginResponse.toJson()}");
-        } catch (error) {
-          debugPrint("로그인 실패: $error");
-        }
+      try {
+        await authService.login(token.accessToken);
+        debugPrint("로그인 성공");
+      } catch (error) {
+        debugPrint("로그인 실패: $error");
 
         if (!mounted) return;
         Navigator.push(
@@ -86,7 +84,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(authViewModelProvider);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -105,7 +102,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                _handleKakaoLogin(viewModel);
+                _handleKakaoLogin();
               },
               style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
               child: Image.asset('assets/kakaotalk.png'),

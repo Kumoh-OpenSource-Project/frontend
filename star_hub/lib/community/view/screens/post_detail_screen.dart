@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
@@ -13,6 +14,8 @@ import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 
 import '../../model/entity/comment_entity.dart';
+import '../../model/entity/report_entity.dart';
+import '../../model/service/report_service.dart';
 import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
@@ -28,15 +31,22 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   late TextEditingController _commentController;
   int activeIndex = 0;
   String newComment = '';
+  late String userId;
 
   @override
   void initState() {
     super.initState();
     _commentController = TextEditingController();
+    _getUserId();
   }
 
-  void _onMoreVertTap(
-      DetailPostEntity entity, DetailPostViewModel viewModel, int type) {
+  Future<void> _onMoreVertTap(
+      DetailPostEntity entity, DetailPostViewModel viewModel, int type) async {
+    _showModalBottomSheet(userId, entity, viewModel, type);
+  }
+
+  void _showModalBottomSheet(String? userId, DetailPostEntity entity,
+      DetailPostViewModel viewModel, int type) {
     showModalBottomSheet(
       backgroundColor: Colors.black,
       context: context,
@@ -49,8 +59,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             color: Colors.white12,
             child: Wrap(
               children: <Widget>[
-                // TODO: local에서 userId랑 비교 후 보여주기
-                if (widget.writerId == 24)
+                if (widget.writerId.toString() == userId)
                   ListTile(
                     leading: const Icon(Icons.edit),
                     title: const Text('수정하기'),
@@ -59,7 +68,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       _editPost(entity, viewModel, type);
                     },
                   ),
-                if (true)
+                if (widget.writerId.toString() == userId)
                   ListTile(
                     leading: const Icon(Icons.delete),
                     title: const Text('삭제하기'),
@@ -68,12 +77,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       _showDeleteConfirmationDialog(entity, viewModel, type);
                     },
                   ),
-                if (false)
+                if (widget.writerId.toString() != userId)
                   ListTile(
                     leading: const Icon(Icons.announcement_sharp),
                     title: const Text('신고하기'),
                     onTap: () {
                       Navigator.pop(context);
+                      _showReportDialog(entity, viewModel);
                     },
                   ),
               ],
@@ -82,6 +92,106 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         );
       },
     );
+  }
+
+  void _showReportDialog(
+      DetailPostEntity entity, DetailPostViewModel viewModel) {
+    String reportContent = ''; // Variable to store report content
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: const Text('신고하기'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                onChanged: (value) {
+                  reportContent = value;
+                },
+                style: kTextContentStyleMiddle.copyWith(color: Colors.white),
+                cursorColor: Colors.white,
+                decoration: InputDecoration(
+                  hintText: '신고 내용을 입력하세요...',
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  hintStyle: kTextContentStyleMiddle.copyWith(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        const Text('취소', style: TextStyle(color: Colors.white)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _submitReport(entity, viewModel, reportContent);
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                    ),
+                    child:
+                        const Text('신고', style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _submitReport(DetailPostEntity entity, DetailPostViewModel viewModel,
+      String reportContent) async {
+    try {
+      final reportEntity = ReportEntity(
+        type: 'article',
+        id: entity.id,
+        reportContent: reportContent,
+      );
+
+      await ReportService().report(reportEntity);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.black,
+          content: Text(
+            '신고가 성공적으로 제출되었습니다.',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (error) {
+      print('Failed to submit report: $error');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('신고 제출 중 오류가 발생했습니다.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getUserId() async {
+    final localStorage = ref.read(localStorageProvider);
+    userId = (await localStorage.getUserId())!; // Initialize the userId here
   }
 
   void _editPost(
@@ -147,18 +257,28 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     } else {
       viewModel.writeComment(entity.id, _commentController.text);
       setState(() {
-        entity.comments.add(CommentEntity(
-          content: newComment,
-          nickName: 'CurrentUser',
-          writeDate: 'Just Now',
-          level: 'User Level',
-          id: 1,
-          userId: 1,
-        ));
         _commentController.clear();
         FocusScope.of(context).unfocus();
       });
     }
+  }
+
+  String _formatWriteDate(String writeDate) {
+    DateTime currentDate = DateTime.now();
+
+    DateTime postDate = DateTime.parse(writeDate);
+
+    String formattedDate;
+
+    if (currentDate.year == postDate.year &&
+        currentDate.month == postDate.month &&
+        currentDate.day == postDate.day) {
+      formattedDate = DateFormat('hh:mm a').format(postDate);
+    } else {
+      formattedDate = DateFormat('yyyy-MM-dd hh:mm a').format(postDate);
+    }
+
+    return formattedDate;
   }
 
   @override
@@ -169,6 +289,18 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             backgroundColor: Colors.black,
             appBar: AppBar(
               backgroundColor: Colors.black,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: InkWell(
+                    onTap: () => _onMoreVertTap(
+                        viewModel.detailPostEntity, viewModel, widget.type),
+                    child: const Icon(
+                      Icons.more_vert,
+                    ),
+                  ),
+                ),
+              ],
             ),
             body: Column(
               children: [
@@ -187,44 +319,37 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.only(
+                              top: 10.0,
+                              left: 16.0,
+                              right: 16.0,
+                              bottom: 0.0,
+                            ),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      viewModel.detailPostEntity.title,
-                                      style: kTextContentStyleMiddle,
-                                    ),
-                                    InkWell(
-                                      onTap: () => _onMoreVertTap(
-                                          viewModel.detailPostEntity,
-                                          viewModel,
-                                          widget.type),
-                                      child: const Icon(
-                                        Icons.more_vert,
+                                    if (viewModel.detailPostEntity.writerImage
+                                        .isNotEmpty)
+                                      CircleAvatar(
+                                        radius: 15,
+                                        backgroundImage: NetworkImage(
+                                          viewModel
+                                              .detailPostEntity.writerImage,
+                                        ),
+                                      )
+                                    else
+                                      const CircleAvatar(
+                                        backgroundColor: Colors.white,
+                                        foregroundColor: Colors.black,
+                                        radius: 15,
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 25,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: kPaddingMiddleSize,
-                                ),
-                                Row(
-                                  children: [
-                                    const CircleAvatar(
-                                      backgroundColor: Colors.white,
-                                      foregroundColor: Colors.black,
-                                      radius: 15,
-                                      child: Icon(
-                                        Icons.person,
-                                        size: 25,
-                                      ),
-                                    ),
                                     const SizedBox(
                                       width: kPaddingSmallSize,
                                     ),
@@ -243,8 +368,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                             ),
                                             const Text(" • "),
                                             Text(
-                                              viewModel
-                                                  .detailPostEntity.writeDate,
+                                              _formatWriteDate(viewModel
+                                                  .detailPostEntity.writeDate),
                                               style: kTextContentStyleXSmall,
                                             ),
                                           ],
@@ -260,39 +385,60 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 const SizedBox(
                                   height: kPaddingMiddleSize,
                                 ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      viewModel.detailPostEntity.title,
+                                      style: kTextContentStyleMiddle,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: kPaddingMiddleSize,
+                                ),
                                 viewModel.detailPostEntity.photos.isNotEmpty
-                                    ? Stack(
-                                        alignment: Alignment.bottomCenter,
-                                        children: <Widget>[
-                                            CarouselSlider.builder(
-                                              options: CarouselOptions(
-                                                initialPage: 0,
-                                                viewportFraction: 1,
-                                                enlargeCenterPage: true,
-                                                onPageChanged:
-                                                    (index, reason) =>
-                                                        setState(() {
-                                                  activeIndex = index;
-                                                }),
-                                              ),
-                                              itemCount: viewModel
-                                                  .detailPostEntity
-                                                  .photos
-                                                  .length,
-                                              itemBuilder:
-                                                  (context, index, realIndex) {
-                                                final path = viewModel
-                                                    .detailPostEntity
-                                                    .photos[index];
-                                                return imageSlider(path, index);
-                                              },
-                                            ),
-                                            Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: indicator(
-                                                    viewModel.detailPostEntity))
-                                          ])
+                                    ? Column(
+                                        children: [
+                                          Stack(
+                                              alignment: Alignment.bottomCenter,
+                                              children: <Widget>[
+                                                CarouselSlider.builder(
+                                                  options: CarouselOptions(
+                                                    initialPage: 0,
+                                                    viewportFraction: 1,
+                                                    enlargeCenterPage: true,
+                                                    onPageChanged:
+                                                        (index, reason) =>
+                                                            setState(() {
+                                                      activeIndex = index;
+                                                    }),
+                                                  ),
+                                                  itemCount: viewModel
+                                                      .detailPostEntity
+                                                      .photos
+                                                      .length,
+                                                  itemBuilder: (context, index,
+                                                      realIndex) {
+                                                    final path = viewModel
+                                                        .detailPostEntity
+                                                        .photos[index];
+                                                    return imageSlider(
+                                                        path, index);
+                                                  },
+                                                ),
+                                                Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: indicator(viewModel
+                                                        .detailPostEntity)),
+                                              ]),
+                                          const SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      )
                                     : Container(),
                                 Text(
                                   viewModel.detailPostEntity.content,
@@ -336,6 +482,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                 FontAwesomeIcons.solidHeart),
                                           ),
                                     const SizedBox(
+                                      width: 7,
+                                    ),
+                                    const Text('좋아요'),
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     !viewModel.detailPostEntity.isClipped
@@ -347,7 +497,11 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                         : InkWell(
                                             onTap: () => viewModel.cancelClip(
                                                 viewModel.detailPostEntity.id),
-                                            child: const Icon(Icons.bookmark))
+                                            child: const Icon(Icons.bookmark)),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    const Text('스크랩'),
                                   ],
                                 ),
                                 const SizedBox(
@@ -357,20 +511,37 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          child: Column(
-                            children: viewModel.detailPostEntity.comments
-                                .map((comment) => CommentBox(
-                                      articleId: viewModel.detailPostEntity.id,
-                                      content: comment.content,
-                                      nickName: comment.nickName,
-                                      writeDate: comment.writeDate,
-                                      level: comment.level,
-                                      viewModel: viewModel,
-                                    ))
-                                .toList(),
+                        if (viewModel.detailPostEntity.comments.isEmpty)
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text(
+                              '댓글이 없습니다.',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          )
+                        else
+                          Container(
+                            child: Column(
+                              children: viewModel.detailPostEntity.comments
+                                  .map((comment) => CommentBox(
+                                        articleId:
+                                            viewModel.detailPostEntity.id,
+                                        content: comment.content,
+                                        nickName: comment.nickName,
+                                        writeDate: comment.writeDate,
+                                        userId: comment.userId,
+                                        level: comment.level,
+                                        commentId: comment.id,
+                                        viewModel: viewModel,
+                                        currentUserId: userId,
+                                        userImage: comment.userImage,
+                                      ))
+                                  .toList(),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
