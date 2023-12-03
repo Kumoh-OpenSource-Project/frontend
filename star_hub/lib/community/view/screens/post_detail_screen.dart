@@ -7,6 +7,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
+import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
@@ -20,7 +21,7 @@ import 'edit_screen.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
   const DetailPage(this.type, this.postId, this.writerId, {Key? key}) : super(key: key);
-  final int type;
+  final int? type;
   final int writerId;
   final int postId;
 
@@ -40,10 +41,11 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     super.initState();
     _commentController = TextEditingController();
     _getUserId();
+    viewModel = ref.read(detailPostViewModelProvider)..getInfo(widget.postId);
   }
 
   Future<void> _onMoreVertTap(
-      DetailPostEntity entity, DetailPostViewModel viewModel, int type) async {
+      DetailPostEntity entity, DetailPostViewModel viewModel, int? type) async {
     _showModalBottomSheet(userId, entity, viewModel, type);
 
     viewModel = ref.read(detailPostViewModelProvider)..getInfo(widget.postId);
@@ -261,14 +263,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     } else {
       viewModel.writeComment(entity.id, _commentController.text);
       setState(() {
-        entity.comments.add(CommentEntity(
-          content: newComment,
-          nickName: 'CurrentUser',
-          writeDate: 'Just Now',
-          level: 'User Level',
-          id: 1,
-          userId: 1,
-        ));
+
         _commentController.clear();
         FocusScope.of(context).unfocus();
       });
@@ -308,7 +303,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: InkWell(
                     onTap: () => _onMoreVertTap(
-                        viewModel.detailPostEntity, viewModel, widget.type),
+                        viewModel.state.value!, viewModel, widget.type),
                     child: const Icon(
                       Icons.more_vert,
                     ),
@@ -352,8 +347,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                       CircleAvatar(
                                         radius: 15,
                                         backgroundImage: NetworkImage(
-                                          viewModel
-                                              .detailPostEntity.writerImage,
+                                          state.value!.writerImage,
                                         ),
                                       )
                                     else
@@ -600,7 +594,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
               ],
             ),
           )
-        : const Center(child: CircularProgressIndicator());
+    )
+    );
   }
 
   Widget imageSlider(path, index) => Container(

@@ -135,7 +135,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       _buildPage(title: 'D-DAY'),
     ];
 
-    bool isToday = currentDate.isAtSameMomentAs(today);
+    isToday = currentDate.isAtSameMomentAs(today);
     bool successState = viewModel is HomeStateSuccess;
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(

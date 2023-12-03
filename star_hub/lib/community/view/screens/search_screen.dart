@@ -193,7 +193,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             clips: post.clips,
             comments: post.comments,
             onTap: () => viewModel.navigateToDetailPage(
-                context, searchList[index].id, null),
+                context, searchList[index].id, null, searchList[index].writerId)
           );
         },
       ),

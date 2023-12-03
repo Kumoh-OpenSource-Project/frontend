@@ -26,4 +26,8 @@ abstract class HomeRepository {
   @GET('home?type=week&lat=36.14578&lon=128.39394')
   @Headers({'accessToken': 'true'})
   Future<List<WeatherData>> getWeekData();
+
+  @GET('home/moon?year={year}&month={month}')
+  @Headers({'accessToken': 'true'})
+  Future<List<LunarData>> getLunarData(@Path("year") String year, @Path("month") String month);
 }

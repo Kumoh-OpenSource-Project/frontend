@@ -8,11 +8,13 @@ abstract class SuccessState<T, D, Y> {
   T data;
   D data1;
   Y data2;
+
   SuccessState(this.data, this.data1, this.data2);
 }
 
 abstract class ErrorState {
   String message;
+
   ErrorState(this.message);
 }
 
@@ -22,8 +24,10 @@ class HomeStateNone extends NoneState implements HomeState {}
 
 class HomeStateLoading extends LoadingState implements HomeState {}
 
-class HomeStateSuccess extends SuccessState<TodayWeatherData, RealTimeWeatherInfo, List<WeatherData>> implements HomeState {
-  HomeStateSuccess(TodayWeatherData data, RealTimeWeatherInfo data1, List<WeatherData> data2)
+class HomeStateSuccess extends SuccessState<TodayWeatherData,
+    RealTimeWeatherInfo, List<WeatherData>> implements HomeState {
+  HomeStateSuccess(
+      TodayWeatherData data, RealTimeWeatherInfo data1, List<WeatherData> data2)
       : super(data, data1, data2);
 }
 

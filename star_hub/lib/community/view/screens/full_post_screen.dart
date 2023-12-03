@@ -291,7 +291,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   index < viewModel.placeList.length;
                                   index++)
                                 PostBox2(
-                                  writerId: viewModel.placeList[index].title.writerId,
+                                  writerId: viewModel.placeList[index].writerId,
                                   title: viewModel.placeList[index].title,
                                   content:
                                       viewModel.placeList[index].contentText,
