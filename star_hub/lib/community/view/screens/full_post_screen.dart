@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
+import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
@@ -21,6 +22,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   final ScrollController _scopeScrollController = ScrollController();
   final ScrollController _placeScrollController = ScrollController();
   final ScrollController _photoScrollController = ScrollController();
+  late PostViewModel viewModel;
+  int scopePage = 0;
+  int placePage = 0;
+  int photoPage = 0;
 
   @override
   void initState() {
@@ -29,6 +34,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
     _tabController = TabController(length: tabs.length, vsync: this);
+    viewModel = ref.read(postViewModelProvider)
+      ..getNextPage("scope", scopePage++)
+      ..getNextPage("place", placePage++)
+      ..getNextPage("photo", photoPage++);
+    viewModel.scopeState.addListener(_setState);
+    viewModel.placeState.addListener(_setState);
+    viewModel.photoState.addListener(_setState);
+  }
+
+  @override
+  void dispose() {
+    viewModel.scopeState.removeListener(_setState);
+    viewModel.placeState.removeListener(_setState);
+    viewModel.photoState.removeListener(_setState);
+    super.dispose();
   }
 
   void _scopeScrollListener() {
@@ -38,6 +58,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       _loadMoreData();
     }
   }
+
   void _placeScrollListener() {
     if (_placeScrollController.position.pixels ==
         _placeScrollController.position.maxScrollExtent) {
@@ -45,6 +66,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       _loadMoreData();
     }
   }
+
   void _photoScrollListener() {
     if (_photoScrollController.position.pixels ==
         _photoScrollController.position.maxScrollExtent) {
@@ -76,17 +98,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     switch (selectedCategory) {
       case "관측도구":
         if (viewModel.getHasNext("scope") == true) {
-          viewModel.getNextPage("scope");
+          viewModel.getNextPage("scope", scopePage++);
         }
         break;
       case "관측장소":
         if (viewModel.getHasNext("place") == true) {
-          viewModel.getNextPage("place");
+          viewModel.getNextPage("place", placePage++);
         }
         break;
       case "사진자랑":
         if (viewModel.getHasNext("photo") == true) {
-          viewModel.getNextPage("photo");
+          viewModel.getNextPage("photo", photoPage++);
         }
         break;
       default:
@@ -95,22 +117,24 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshScope() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("scope");
+    scopePage = 0;
+    viewModel.refreshData("scope", scopePage++);
     return Future.value();
   }
 
   Future<void> _refreshPlace() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("place");
+    placePage = 0;
+    viewModel.refreshData("place", placePage++);
     return Future.value();
   }
 
   Future<void> _refreshPhoto() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("scope");
+    photoPage = 0;
+    viewModel.refreshData("photo", photoPage++);
     return Future.value();
   }
+
+  void _setState() => setState(() {});
 
   final scopeList = [];
   final placeList = [];
@@ -118,20 +142,43 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(postViewModelProvider);
-
-    if (viewModel.getScopeList().isEmpty) scopeList.clear();
-    if (viewModel.getPlaceList().isEmpty) placeList.clear();
-    if (viewModel.getPhotoList().isEmpty) photoList.clear();
-    scopeList.addAll(viewModel.getScopeEntity("scope").where(
-          (newItem) => !scopeList.any((existingItem) => existingItem.id == newItem.id),
-    ));
-    placeList.addAll(viewModel.getPlaceEntity("place").where(
-          (newItem) => !placeList.any((existingItem) => existingItem.id == newItem.id),
-    ));
-    photoList.addAll(viewModel.getPhotoEntity("photo").where(
-          (newItem) => !photoList.any((existingItem) => existingItem.id == newItem.id),
-    ));
+    if (viewModel.scopeList.isEmpty) scopeList.clear();
+    if (viewModel.placeList.isEmpty) placeList.clear();
+    if (viewModel.photoList.isEmpty) photoList.clear();
+    if (viewModel.isScopeReset) {
+      print("!");
+      scopeList.clear();
+      scopePage = 1;
+      scopeList.addAll(viewModel.scopeList);
+      _scopeScrollController.jumpTo(0.0);
+    } else {
+      scopeList.addAll(viewModel.scopeList.where(
+        (newItem) =>
+            !scopeList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
+    if (viewModel.isPlaceReset) {
+      placeList.clear();
+      placePage = 1;
+      placeList.addAll(viewModel.scopeList);
+      _placeScrollController.jumpTo(0.0);
+    } else {
+      placeList.addAll(viewModel.placeEntity.where(
+        (newItem) =>
+            !placeList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
+    if (viewModel.isPhotoReset) {
+      photoList.clear();
+      photoPage = 1;
+      photoList.addAll(viewModel.scopeList);
+      _photoScrollController.jumpTo(0.0);
+    } else {
+      photoList.addAll(viewModel.photoEntity.where(
+        (newItem) =>
+            !photoList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -221,30 +268,31 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
                   placeList.isNotEmpty
                       ? RefreshIndicator(
                           onRefresh: _refreshPlace,
                           child: ListView(
-                            controller: _scopeScrollController,
+                            controller: _placeScrollController,
                             children: [
                               for (int index = 0;
-                                  index < placeList.length;
+                                  index < viewModel.placeList.length;
                                   index++)
                                 PostBox2(
-                                  title: placeList[index].title,
-                                  content: placeList[index].contentText,
-                                  nickName: placeList[index].nickName,
+                                  title: viewModel.placeList[index].title,
+                                  content:
+                                      viewModel.placeList[index].contentText,
+                                  nickName: viewModel.placeList[index].nickName,
                                   writeDate: formatTimeDifference(
-                                      placeList[index].writeDate),
-                                  level: placeList[index].level,
-                                  likes: placeList[index].likes,
-                                  clips: placeList[index].clips,
-                                  comments: placeList[index].comments,
+                                      viewModel.placeList[index].writeDate),
+                                  level: viewModel.placeList[index].level,
+                                  likes: viewModel.placeList[index].likes,
+                                  clips: viewModel.placeList[index].clips,
+                                  comments: viewModel.placeList[index].comments,
                                   onTap: () => viewModel.navigateToDetailPage(
                                     context,
-                                    placeList[index].id,
-                                    placeList[index].categoryId,
+                                    viewModel.placeList[index].id,
+                                    viewModel.placeList[index].categoryId,
                                   ),
                                 ),
                               if (viewModel.getHasNext("place"))
@@ -254,20 +302,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             ],
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
                   photoList.isNotEmpty
                       ? RefreshIndicator(
                           onRefresh: _refreshPhoto,
                           child: GridView.builder(
+                            controller: _photoScrollController,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // 5열
                               crossAxisSpacing: 8.0,
                               mainAxisSpacing: 8.0,
                             ),
-                            itemCount: photoList.length,
+                            itemCount: viewModel.photoList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final post = photoList[index];
+                              final post = viewModel.photoList[index];
                               return GestureDetector(
                                 onTap: () => viewModel.navigateToDetailPage(
                                     context, post.id, post.categoryId),
@@ -292,7 +341,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             },
                           ),
                         )
-                      : const Center(child: CircularProgressIndicator()),
+                      : const Center(child: CircularProgressIndicator(color: Colors.white,)),
                 ],
               ),
             ),
@@ -327,7 +376,19 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
-    Navigator.of(context).push(_createRoute(selectedCategory, viewModel));
+    Navigator.of(context)
+        .push(_createRoute(selectedCategory, viewModel))
+        .then((value) {
+      // if (selectedCategory == "scope") {
+      //   scopePage = 0;
+      //   scopeList.clear();
+      //   viewModel.getNextPage("scope", scopePage++);
+      // } else if (selectedCategory == "place") {
+      //   placePage = 1;
+      // } else {
+      //   photoPage = 1;
+      // }
+    });
   }
 
   Route _createRoute(String selectedCategory, PostViewModel viewModel) {

@@ -1,168 +1,29 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:star_hub/common/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
+import 'package:star_hub/home/model/home_entity.dart';
 
-class SunMoonData {
-  final IconData icon;
-  final String text;
+part 'home_repository.g.dart';
 
-  SunMoonData({
-    required this.icon,
-    required this.text,
-  });
-}
+final homeRepositoryProvider = Provider((ref) {
+  final dio = ref.watch(dioProvider);
+  return HomeRepository(dio);
+});
 
-class TodayWeatherData {
-  final String sunrise;
-  final String sunset;
-  final String moonrise;
-  final String moonset;
-  final List<TodayWeatherInfo> weathers;
+@RestApi()
+abstract class HomeRepository {
+  factory HomeRepository(Dio dio, {String? baseUrl}) = _HomeRepository;
 
-  TodayWeatherData({
-    required this.sunrise,
-    required this.sunset,
-    required this.moonrise,
-    required this.moonset,
-    required this.weathers,
-  });
+  @GET('home?type=today&lat=36.14578&lon=128.39394')
+  @Headers({'accessToken': 'true'})
+  Future<TodayWeatherData> getTodayData();
 
-  factory TodayWeatherData.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> weatherList = json['weathers'];
-    return TodayWeatherData(
-      sunrise: json['sunrise'],
-      sunset: json['sunset'],
-      moonrise: json['moonrise'],
-      moonset: json['moonset'],
-      weathers: List<TodayWeatherInfo>.from(
-        weatherList.map((weather) => TodayWeatherInfo.fromJson(weather)),
-      ),
-    );
-  }
-}
+  @GET('home?type=current&lat=36.14578&lon=128.39394')
+  @Headers({'accessToken': 'true'})
+  Future<RealTimeWeatherInfo> getRealTimeData();
 
-class TodayWeatherInfo {
-  final String fcstTime;
-  final String icon;
-  final String temp;
-  final String humidity;
-
-  TodayWeatherInfo({
-    required this.fcstTime,
-    required this.icon,
-    required this.temp,
-    required this.humidity,
-  });
-
-  factory TodayWeatherInfo.fromJson(Map<String, dynamic> json) {
-    return TodayWeatherInfo(
-      fcstTime: json['fcstTime'],
-      icon: json['icon'],
-      temp: json['temp'],
-      humidity: json['humidity'],
-    );
-  }
-}
-
-class WeatherData {
-  final String date;
-  final List<WeekHourlyWeatherInfo> weathers;
-  final String sunrise;
-  final String sunset;
-  final String moonrise;
-  final String moonset;
-  final int seeing;
-
-  WeatherData({
-    required this.date,
-    required this.weathers,
-    required this.sunrise,
-    required this.sunset,
-    required this.moonrise,
-    required this.moonset,
-    required this.seeing,
-  });
-
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
-    final List<dynamic> weatherList = json['weathers'];
-    return WeatherData(
-      date: json['date'],
-      weathers: weatherList
-          .map((weather) => WeekHourlyWeatherInfo.fromJson(weather))
-          .toList(),
-      sunrise: json['sunrise'],
-      sunset: json['sunset'],
-      moonrise: json['moonrise'],
-      moonset: json['moonset'],
-      seeing: json['seeing'] ?? 0,
-    );
-  }
-}
-
-class WeekHourlyWeatherInfo {
-  final String main;
-  final String description;
-  final String icon;
-  final double temp;
-  final String time;
-
-  WeekHourlyWeatherInfo({
-    required this.main,
-    required this.description,
-    required this.icon,
-    required this.temp,
-    required this.time,
-  });
-
-  factory WeekHourlyWeatherInfo.fromJson(Map<String, dynamic> json) {
-    return WeekHourlyWeatherInfo(
-      main: json['main'],
-      description: json['description'],
-      icon: json['icon'],
-      temp: json['temp'].toDouble(),
-      time: json['time'],
-    );
-  }
-}
-
-class RealTimeWeatherInfo {
-  final String main;
-  final String description;
-  final String icon;
-  final double temp;
-  final double feelsLike;
-  final double tempMin;
-  final double tempMax;
-  final int humidity;
-  final double windSpeed;
-  final int windDeg;
-  final int seeing;
-
-  RealTimeWeatherInfo({
-    required this.main,
-    required this.description,
-    required this.icon,
-    required this.temp,
-    required this.feelsLike,
-    required this.tempMin,
-    required this.tempMax,
-    required this.humidity,
-    required this.windSpeed,
-    required this.windDeg,
-    required this.seeing,
-  });
-
-  factory RealTimeWeatherInfo.fromJson(Map<String, dynamic> json) {
-    return RealTimeWeatherInfo(
-      main: json['main'],
-      description: json['description'],
-      icon: json['icon'],
-      temp: json['temp'],
-      feelsLike: json['feelsLike'],
-      tempMin: json['tempMin'],
-      tempMax: json['tempMax'],
-      humidity: json['humidity'],
-      windSpeed: json['windSpeed'],
-      windDeg: json['windDeg'],
-      seeing: json['seeing'],
-    );
-  }
+  @GET('home?type=week&lat=36.14578&lon=128.39394')
+  @Headers({'accessToken': 'true'})
+  Future<List<WeatherData>> getWeekData();
 }

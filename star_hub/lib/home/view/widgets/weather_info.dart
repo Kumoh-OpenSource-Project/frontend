@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/home_repository.dart';
+import '../../model/home_entity.dart';
 
 class WeatherInfo extends StatelessWidget {
   final RealTimeWeatherInfo? realTimeWeatherData;

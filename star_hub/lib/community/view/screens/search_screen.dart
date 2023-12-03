@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:star_hub/community/view_model/search_post_viewmodel.dart';
 import '../../model/repository/community_repository.dart';
 import '../../model/service/search_service.dart';
@@ -23,6 +24,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   late AnimationController _animationController;
   late final VoidCallback? onPressed;
   bool isInit = true;
+  late SearchPostViewModel viewModel;
+  int page = 0;
 
   @override
   void initState() {
@@ -31,21 +34,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     _searchFocusNode = FocusNode();
     _searchFocusNode.requestFocus();
     _searchFocusNode.addListener(_onSearchFocusChanged);
+    viewModel = ref.read(searchPostViewModelProvider);
+    viewModel.searchState.addListener(_setState);
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    if (!isInit) {
-      ref.read(searchPostViewModelProvider.notifier).onTextFieldFocused();
-    }
-    isInit = false;
+    // if (!isInit) {
+    //   ref.read(searchPostViewModelProvider.notifier).onTextFieldFocused();
+    // }
+    // isInit = false;
   }
+
+  void _setState() => setState(() {});
 
   @override
   void dispose() {
     _searchScrollController.dispose();
     _searchFocusNode.dispose();
     _animationController.dispose();
+    viewModel.searchState.removeListener(_setState);
     super.dispose();
   }
 
@@ -61,11 +69,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   bool isSearching = false;
 
   Future<void> _loadMoreData() async {
-    final viewModel = ref.read(searchPostViewModelProvider);
     if (viewModel.getHasNext() == true &&
         _searchController.text.isNotEmpty &&
         !_searchFocusNode.hasFocus) {
-      viewModel.getNextPage(_searchController.text, false);
+      viewModel.getNextPage(_searchController.text, false, page++);
     }
   }
 
@@ -83,14 +90,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(searchPostViewModelProvider);
-
-    if (viewModel.getSearchList().isEmpty) searchList.clear();
-    print(viewModel.getSearchEntity());
-    searchList.addAll(viewModel.getSearchEntity().where(
-          (newItem) =>
-              !searchList.any((existingItem) => existingItem.id == newItem.id),
-        ));
+    if (viewModel.searchList.isEmpty) searchList.clear();
+    searchList.addAll(viewModel.searchList.where(
+      (newItem) =>
+          !searchList.any((existingItem) => existingItem.id == newItem.id),
+    ));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -100,8 +104,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           focusNode: _searchFocusNode,
           onSubmitted: (text) {
             setState(() {
+              page = 0;
               searchList.clear();
-              viewModel.getNextPage(text, true);
+              viewModel.getNextPage(text, true, page++);
             });
           },
           decoration: InputDecoration(
@@ -185,7 +190,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
             likes: post.likes,
             clips: post.clips,
             comments: post.comments,
-            onTap: () {},
+            onTap: () => viewModel.navigateToDetailPage(
+                context, searchList[index].id, null),
           );
         },
       ),

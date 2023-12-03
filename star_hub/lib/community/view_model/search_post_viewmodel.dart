@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/value_state_util.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/service/search_service.dart';
@@ -11,35 +12,35 @@ final searchPostViewModelProvider =
 
 class SearchPostViewModel extends ChangeNotifier {
   Ref ref;
-  late CommunityState state;
+  late final SearchService searchService;
+  late final DetailPostService detailPostService;
+  SearchState searchState = SearchState();
+  DetailPostState detailPostState = DetailPostState();
   int searchPage = 0;
   bool hasNextSearch = false;
-  List<SearchPostEntity> searchList = [];
+  //List<SearchPostEntity> searchList = [];
   String previousWord = "";
 
-  List<SearchPostEntity> get entity => (state as SearchStateSuccess).data;
+  List<SearchPostEntity> get searchList => searchService.searchList;
 
   SearchPostViewModel(this.ref) {
-    searchList = ref.read(searchPostServiceProvider.notifier).searchList;
-    state = ref.read(searchPostServiceProvider);
-    ref.listen(searchPostServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
+    searchService = ref.read(searchPostServiceProvider);
+    detailPostService = ref.read(detailPostServiceProvider);
   }
+
+  void getInfo(String word, int offset) =>
+      searchState.withResponse(searchService.getSearchArticles(word, offset));
 
   void onTextFieldFocused() {
     print("reset");
-    ref.read(searchPostServiceProvider.notifier).reset();
+    searchService.reset();
   }
 
-  void navigateToDetailPage(BuildContext context, int postId, int type) {
-    ref.read(detailPostServiceProvider.notifier).getPosts(postId);
+  void navigateToDetailPage(BuildContext context, int postId, int? type) {
+    detailPostState.withResponse(detailPostService.getPosts(postId));
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage(type)));
+        context, MaterialPageRoute(builder: (context) => DetailPage(type, postId)));
   }
 
   List<SearchPostEntity> getSearchList() {
@@ -47,27 +48,22 @@ class SearchPostViewModel extends ChangeNotifier {
   }
 
   List<SearchPostEntity> getSearchEntity() {
-    return ref.read(searchPostServiceProvider.notifier).searchEntity;
+    return searchService.searchEntity;
   }
 
   bool getHasNext() {
     bool hasNext;
-    hasNext = ref.read(searchPostServiceProvider.notifier).hasNextSearch;
+    hasNext = searchService.hasNextSearch;
     return hasNext;
   }
 
-  bool getNextPage(String words, bool isNew) {
-    searchPage = ref.read(searchPostServiceProvider.notifier).searchPage;
-    hasNextSearch =
-        ref.read(searchPostServiceProvider.notifier).returnSearchPage() ||
-            (previousWord != words || (isNew == true && previousWord == words ));
+  bool getNextPage(String words, bool isNew, int page) {
+    hasNextSearch = searchService.returnSearchPage() ||
+        (previousWord != words || (isNew == true && previousWord == words));
     print(isNew);
-    if (previousWord != words || (isNew == true && previousWord == words )) searchPage = 0;
-    previousWord = words;
     if (hasNextSearch) {
-      ref
-          .read(searchPostServiceProvider.notifier)
-          .searchArticles(words, searchPage);
+      searchState
+          .withResponse(searchService.getSearchArticles(words, page));
     }
     return false;
   }

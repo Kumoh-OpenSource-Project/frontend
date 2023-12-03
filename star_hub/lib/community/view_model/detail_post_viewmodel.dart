@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/value_state_util.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -15,112 +16,82 @@ final detailPostViewModelProvider =
 
 class DetailPostViewModel extends ChangeNotifier {
   Ref ref;
-  late CommunityState state;
-  late CommunityState scopeState;
-  late CommunityState placeState;
-  late CommunityState photoState;
+  late final DetailPostService detailPostService;
+  late final ScopePostService scopePostService;
 
-  DetailPostEntity get detailPostEntity =>
-      (state as DetailPostStateSuccess).data;
+  late final PlacePostService placePostService;
+  late final PhotoPostService photoPostService;
+
+  ScopeCommunityState scopeState = ScopeCommunityState();
+  DetailPostState state = DetailPostState();
+  PlaceCommunityState placeState = PlaceCommunityState();
+  PhotoCommunityState photoState = PhotoCommunityState();
 
   DetailPostViewModel(this.ref) {
-    state = ref.read(detailPostServiceProvider);
-    scopeState = ref.read(scopePostServiceProvider);
-    placeState = ref.read(placePostServiceProvider);
-    photoState = ref.read(photoPostServiceProvider);
-    ref.listen(detailPostServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
-    ref.listen(scopePostServiceProvider, (previous, next) {
-      if (previous != next) {
-        scopeState = next;
-        notifyListeners();
-      }
-    });
-    ref.listen(placePostServiceProvider, (previous, next) {
-      if (previous != next) {
-        placeState = next;
-        notifyListeners();
-      }
-    });
-    ref.listen(photoPostServiceProvider, (previous, next) {
-      if (previous != next) {
-        photoState = next;
-        notifyListeners();
-      }
-    });
+    detailPostService = ref.read(detailPostServiceProvider);
+    scopePostService = ref.read(scopePostServiceProvider);
+    photoPostService = ref.read(photoPostServiceProvider);
+    placePostService = ref.read(placePostServiceProvider);
   }
 
+  void getInfo(int postId) =>
+      state.withResponse(detailPostService.getPosts(postId));
+
   // 게시물 삭제
-  void deletePost(int type, int articleId) {
+  void deletePost(int? type, int articleId) {
     if (type == 1) {
-      ref
-          .read(scopePostServiceProvider.notifier)
-          .deleteScopePost(DeleteArticleEntity(articleId: articleId));
+      scopeState.withResponse(scopePostService
+          .deleteScopePost(DeleteArticleEntity(articleId: articleId)));
     } else if (type == 2) {
-      ref
-          .read(placePostServiceProvider.notifier)
-          .deletePlacePost(DeleteArticleEntity(articleId: articleId));
+      placeState.withResponse(placePostService
+          .deletePlacePost(DeleteArticleEntity(articleId: articleId)));
+    } else if (type == 3) {
+      photoState.withResponse(photoPostService
+          .deletePhotoPost(DeleteArticleEntity(articleId: articleId)));
     } else {
-      ref
-          .read(photoPostServiceProvider.notifier)
-          .deletePhotoPost(DeleteArticleEntity(articleId: articleId));
+      print("리셋 필요 x");
     }
   }
 
   // 게시물 수정
-  void updatePost(int type, int articleId, String content) {
+  void updatePost(int? type, int articleId, String content) {
     if (type == 1) {
-      ref.read(scopePostServiceProvider.notifier).updateScopePost(
-          UpdateArticleEntity(content: content, articleId: articleId));
+      scopeState.withResponse(scopePostService.updateScopePost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
     } else if (type == 2) {
-      ref.read(placePostServiceProvider.notifier).updatePlacePost(
-          UpdateArticleEntity(content: content, articleId: articleId));
+      placeState.withResponse(placePostService.updatePlacePost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
+    } else if (type == 3) {
+      photoState.withResponse(photoPostService.updatePhotoPost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
     } else {
-      ref.read(photoPostServiceProvider.notifier).updatePhotoPost(
-          UpdateArticleEntity(content: content, articleId: articleId));
+      print('리셋 필요 x');
     }
   }
 
   // 댓글 작성
   void writeComment(int articleId, String content) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .writeComment(articleId, content);
+    state.withResponse(detailPostService.writeComment(articleId, content));
   }
 
   // 댓글 삭제
   void deleteComment(int type, int articleId, int commentId) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .deleteComment(articleId, commentId);
+    state.withResponse(detailPostService.deleteComment(articleId, commentId));
   }
 
   void addLike(int articleId) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .addLike(articleId);
+    state.withResponse(detailPostService.addLike(articleId));
   }
 
   void cancelLike(int articleId) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .cancelLike(articleId);
+    state.withResponse(detailPostService.addLike(articleId));
   }
 
   void addClip(int articleId) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .addClip(articleId);
+    state.withResponse(detailPostService.addClip(articleId));
   }
 
   void cancelClip(int articleId) {
-    ref
-        .read(detailPostServiceProvider.notifier)
-        .cancelClip(articleId);
+    state.withResponse(detailPostService.cancelClip(articleId));
   }
-
 }
