@@ -19,6 +19,10 @@ import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:star_hub/community/model/entity/write_comment_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.stub.dart';
+import 'package:star_hub/my_page/model/entity/my_clip_entity.dart';
+import 'package:star_hub/my_page/model/entity/my_likes_entity.dart';
+import 'package:star_hub/my_page/model/entity/my_post_entity.dart';
+import 'package:star_hub/my_page/model/entity/user_info_entity.dart';
 part 'community_repository.g.dart';
 
 final communityRepositoryProvider = Provider((ref) {
@@ -87,4 +91,20 @@ abstract class CommunityRepository {
   @Headers({'accessToken': 'true'})
   Future<List<SearchPostEntity>> searchArticle(
       @Path("words") String words, @Path("offset") int offset);
+
+  @GET('user')
+  @Headers({'accessToken': 'true'})
+  Future<UserInfoEntity> getUserInfo();
+
+  @GET('mypage?type=articles')
+  @Headers({'accessToken': 'true'})
+  Future<List<MyPostEntity>> getMyPost();
+
+  @GET('mypage?type=likes')
+  @Headers({'accessToken': 'true'})
+  Future<List<MyLikesEntity>> getLikePost();
+
+  @GET('mypage?type=clipping')
+  @Headers({'accessToken': 'true'})
+  Future<List<MyClipEntity>> getClipPost();
 }

@@ -30,27 +30,19 @@ class PostViewModel extends ChangeNotifier {
   PlaceCommunityState placeState = PlaceCommunityState();
   PhotoCommunityState photoState = PhotoCommunityState();
 
-  int get scopePage => scopePostService.scopePage;
-
   List<ScopeFullPostEntity> get scopeEntity => scopePostService.scopeEntity;
 
   List<PlaceFullPostEntity> get placeEntity => placePostService.placeEntity;
 
   List<PhotoFullPostEntity> get photoEntity => photoPostService.photoEntity;
 
-  List<ScopeFullPostEntity> get scopeList => scopePostService.scopeList;
-
-  List<PlaceFullPostEntity> get placeList => placePostService.placeList;
-
-  List<PhotoFullPostEntity> get photoList => photoPostService.photoList;
+  List<ScopeFullPostEntity> scopeList = [];
+  List<PlaceFullPostEntity> placeList = [];
+  List<PhotoFullPostEntity> photoList = [];
 
   bool hasNextScope = true;
   bool hasNextPlace = true;
   bool hasNextPhoto = true;
-
-  // List<ScopeFullPostEntity> scopeList = [];
-  // List<PlaceFullPostEntity> placeList = [];
-  // List<PhotoFullPostEntity> photoList = [];
 
   PostViewModel(this.ref) {
     scopePostService = ref.read(scopePostServiceProvider);
@@ -59,26 +51,57 @@ class PostViewModel extends ChangeNotifier {
     detailPostService = ref.read(detailPostServiceProvider);
   }
 
+  void getScopeReset() {
+    isScopeReset = true;
+    scopeList = [];
+    scopeState.withResponse(scopePostService.getFullScopePosts(0));
+    scopeList = scopePostService.scopeList;
+  }
+
+  void getPhotoReset() {
+    isPhotoReset = true;
+    photoList = [];
+    photoState.withResponse(photoPostService.getFullPhotoPosts(0));
+    photoList = photoPostService.photoList;
+  }
+
+  void getPlaceReset() {
+    isPlaceReset = true;
+    placeList = [];
+    placeState.withResponse(placePostService.getFullPlacePosts(0));
+    placeList = placePostService.placeList;
+  }
+
+  void makeNotRecentScope() {
+    isScopeReset = false;
+  }
+
+  void makeNotRecentPlace() {
+    isPlaceReset = false;
+  }
+
+  void makeNotRecentPhoto() {
+    isPhotoReset = false;
+  }
+
   void refreshDataInt(int type) {
     switch (type) {
       case 0:
         isScopeReset = true;
-        print("df");
-        scopePostService.resetScopePage();
+        getScopeReset();
         break;
       case 1:
         isPlaceReset = true;
-        placePostService.resetPlacePage();
-
+        getPlaceReset();
         break;
       case 2:
-        photoPostService.resetPhotoPage();
         isPhotoReset = true;
+        getPhotoReset();
         break;
       default:
-        scopePostService.resetScopePage();
-        placePostService.resetPlacePage();
-        photoPostService.resetPhotoPage();
+        getScopeReset();
+        getPlaceReset();
+        getPhotoReset();
         isScopeReset = true;
         isPlaceReset = true;
         isPhotoReset = true;
@@ -90,38 +113,26 @@ class PostViewModel extends ChangeNotifier {
   void refreshData(String? type, int page) {
     switch (type) {
       case "scope":
-        scopePostService.resetScopePage();
+        getScopeReset();
         isScopeReset = true;
         break;
       case "place":
-        placePostService.resetPlacePage();
+        getPlaceReset();
         isPlaceReset = true;
         break;
       case "photo":
-        photoPostService.resetPhotoPage();
+        getPhotoReset();
         isPhotoReset = true;
         break;
       default:
-        scopePostService.resetScopePage();
-        placePostService.resetPlacePage();
-        photoPostService.resetPhotoPage();
+        getScopeReset();
+        getPlaceReset();
+        getPhotoReset();
         isScopeReset = true;
         isPlaceReset = true;
         isPhotoReset = true;
         break;
     }
-  }
-
-  // TODO: 혹시 디테일에서 새로고침된 상태를 가져올 수 있을까?
-  // 상세 페이지로 이동
-  void navigateToDetailPage(
-      BuildContext context, int postId, int type, int writerId) {
-    //detailPostService.getPosts(postId);
-    FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   void postArticle(
@@ -129,30 +140,16 @@ class PostViewModel extends ChangeNotifier {
     if (type == "scope") {
       scopeState.withResponse(scopePostService.postScopePost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-      isScopeReset = true;
+      getScopeReset();
     } else if (type == "place") {
       placeState.withResponse(placePostService.postPlacePost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-
-      isPlaceReset = true;
+      getPlaceReset();
     } else {
       photoState.withResponse(photoPostService.postPhotoPost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-
-      isPhotoReset = true;
+      getPhotoReset();
     }
-  }
-
-  List<ScopeFullPostEntity> getScopeEntity(String type) {
-    return scopePostService.scopeEntity;
-  }
-
-  List<PlaceFullPostEntity> getPlaceEntity(String type) {
-    return placePostService.placeEntity;
-  }
-
-  List<PhotoFullPostEntity> getPhotoEntity(String type) {
-    return photoPostService.photoEntity;
   }
 
   bool getHasNext(String type) {
@@ -166,31 +163,40 @@ class PostViewModel extends ChangeNotifier {
   }
 
   bool getNextPage(String type, int page) {
-    isScopeReset = false;
-    isPlaceReset = false;
-    isPhotoReset = false;
     if (type == "scope") {
+      isScopeReset = false;
       hasNextScope = scopePostService.returnScopePage();
       if (page == 0) hasNextScope = true;
       if (page == 0) {
-        scopeState.withResponse(scopePostService.getFullScopePosts(page, true));
+        scopeState.withResponse(scopePostService.getFullScopePosts(page));
+        scopeList = scopePostService.scopeList;
       } else if (hasNextScope) {
-        scopeState
-            .withResponse(scopePostService.getFullScopePosts(page, false));
+        scopeState.withResponse(scopePostService.getFullScopePosts(page));
+        scopeList = scopePostService.scopeList;
       }
       return false;
     } else if (type == "place") {
+      isPlaceReset = false;
       hasNextPlace = placePostService.returnPlacePage();
       if (page == 0) hasNextPlace = true;
-      if (hasNextPlace) {
+      if (page == 0) {
         placeState.withResponse(placePostService.getFullPlacePosts(page));
+        placeList = placePostService.placeList;
+      } else if (hasNextPlace) {
+        placeState.withResponse(placePostService.getFullPlacePosts(page));
+        placeList = placePostService.placeList;
       }
       return false;
     } else {
+      isPhotoReset = false;
       hasNextPhoto = photoPostService.returnPhotoPage();
       if (page == 0) hasNextPhoto = true;
-      if (hasNextPhoto) {
+      if (page == 0) {
         photoState.withResponse(photoPostService.getFullPhotoPosts(page));
+        photoList = photoPostService.photoList;
+      } else if (hasNextPhoto) {
+        photoState.withResponse(photoPostService.getFullPhotoPosts(page));
+        photoList = photoPostService.photoList;
       }
       return false;
     }

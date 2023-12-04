@@ -4,6 +4,7 @@ import 'package:star_hub/common/value_state_util.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
+import 'package:star_hub/my_page/model/entity/my_likes_entity.dart';
 import 'package:star_hub/my_page/model/service/my_post_service.dart';
 
 final myLikeViewModelProvider =
@@ -20,6 +21,7 @@ class MyLikeViewModel extends ChangeNotifier {
     myPostService = ref.read(myPostPostServiceProvider);
     detailPostService = ref.read(detailPostServiceProvider);
   }
+  List<MyLikesEntity> get entity => myPostService.likeEntity;
 
   void getInfo() =>
       state.withResponse(myPostService.getLikePost());

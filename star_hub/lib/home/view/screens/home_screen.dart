@@ -120,18 +120,31 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     final pages = [
       _buildPage(
-          imagePath: isToday
-              ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
-              : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
+          imagePath: viewModel.homeState is HomeStateSuccess
+              ? isToday
+                  ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
+                  : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'
+              : isToday
+                  ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
+                  : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
       _buildPage(
-          lunAge: isToday
-              ? viewModel.realTimeData.lunAge + 1
-              : viewModel.weekData
-                      .firstWhere((data) =>
-                          data.date ==
-                          DateFormat('yyyy-MM-dd').format(currentDate))
-                      .lunAge +
-                  1),
+          lunAge: viewModel.homeState is HomeStateSuccess
+              ? isToday
+                  ? viewModel.realTimeData.lunAge + 1
+                  : viewModel.weekData
+                          .firstWhere((data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate))
+                          .lunAge +
+                      1
+              : isToday
+                  ? dummyRealTimeWeatherInfo.lunAge + 1
+                  : dummyWeatherData
+                          .firstWhere((data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate))
+                          .lunAge +
+                      1),
       _buildPage(title: 'D-DAY'),
     ];
 
@@ -200,42 +213,31 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ImageSlider(controller: controller, pages: pages),
                 PageIndicator(controller: controller, pages: pages),
                 isToday
-                    ? Description(
-                        realTimeWeatherInfo: dummyRealTimeWeatherInfo)
+                    ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
                     : Description(
-                        otherDayWeatherData: dummyWeatherData
-                            .firstWhere(
+                        otherDayWeatherData: dummyWeatherData.firstWhere(
                           (data) =>
                               data.date ==
                               DateFormat('yyyy-MM-dd').format(currentDate),
                         ),
                       ),
-                if (isToday)
+                if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
+                if (!isToday && (dummyWeatherData).isNotEmpty)
                   SunMoonInfo(
-                      todayWeatherData: todayWeatherData),
-                if (!isToday &&
-                    (dummyWeatherData)
-                        .isNotEmpty)
-                  SunMoonInfo(
-                    weatherData:
-                        (dummyWeatherData)
-                            .firstWhere(
+                    weatherData: (dummyWeatherData).firstWhere(
                       (data) =>
                           data.date ==
                           DateFormat('yyyy-MM-dd').format(currentDate),
                     ),
                   ),
                 if (isToday)
-                  WeatherInfo(
-                      realTimeWeatherData:
-                          dummyRealTimeWeatherInfo),
+                  WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
                 isToday
                     ? HourlyWeatherInfo(
                         todayWeatherData: todayWeatherData,
-                        realTimeWeatherData:  dummyRealTimeWeatherInfo)
+                        realTimeWeatherData: dummyRealTimeWeatherInfo)
                     : HourlyWeatherInfo(
-                        otherDayWeatherData:dummyWeatherData
-                            .firstWhere(
+                        otherDayWeatherData: (dummyWeatherData).firstWhere(
                           (data) =>
                               data.date ==
                               DateFormat('yyyy-MM-dd').format(currentDate),

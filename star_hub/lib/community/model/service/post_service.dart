@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/add_clip_entity.dart';
@@ -25,8 +26,20 @@ class DetailPostService {
   DetailPostService(this.repository);
 
   Future<ResponseEntity<DetailPostEntity>> getPosts(int postId) async {
-    DetailPostEntity post = await repository.getDetailPost(postId);
-    return ResponseEntity.success(entity: post);
+    try {
+      DetailPostEntity post = await repository.getDetailPost(postId);
+      return ResponseEntity.success(entity: post);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 200) {
+        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      if (e.response?.statusCode == 404) {
+        return ResponseEntity.error(message: "삭제된 게시물입니다.");
+      }
+      return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
+    } catch (e) {
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다. $e");
+    }
   }
 
   Future deletePosts(int? type, int postId) async {
@@ -42,7 +55,12 @@ class DetailPostService {
                 : print("type x");
   }
 
-  Future<ResponseEntity<DetailPostEntity>> updatePosts(int? type, int postId, String content) async {
+  Future deletePost(int postId) async {
+    await repository.deletePost(DeleteArticleEntity(articleId: postId));
+  }
+
+  Future<ResponseEntity<DetailPostEntity>> updatePosts(
+      int? type, int postId, String content) async {
     type == 1
         ? await ScopePostService(repository).updateScopePost(
             UpdateArticleEntity(content: content, articleId: postId))

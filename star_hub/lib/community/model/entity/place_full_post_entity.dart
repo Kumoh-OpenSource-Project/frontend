@@ -53,6 +53,40 @@ class PlaceFullPostEntity {
 
   factory PlaceFullPostEntity.fromJson(Map<String, dynamic> json) =>
       _$PlaceFullPostEntityFromJson(json);
+
+  PlaceFullPostEntity copyWith({
+    int? clips,
+    int? comments,
+    String? contentText,
+    int? likes,
+    String? title,
+    int? id,
+    String? nickName,
+    String? writeDate,
+    String? level,
+    int? categoryId,
+    bool? isClipped,
+    bool? isLike,
+    List<String>? photos,
+    int? writerId,
+  }) {
+    return PlaceFullPostEntity(
+      clips: clips ?? this.clips,
+      comments: comments ?? this.comments,
+      contentText: contentText ?? this.contentText,
+      likes: likes ?? this.likes,
+      title: title ?? this.title,
+      id: id?? this.id,
+      nickName: nickName?? this.nickName,
+      writeDate: writeDate?? this.writeDate,
+      level: level?? this.level,
+      categoryId: categoryId?? this.categoryId,
+      isClipped: isClipped?? this.isClipped,
+      isLike: isLike?? this.isLike,
+      photos: photos?? this.photos,
+      writerId: writerId?? this.writerId,
+    );
+  }
 }
 
 

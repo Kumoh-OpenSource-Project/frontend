@@ -23,6 +23,9 @@ class PlacePostService {
 
   PlacePostService(this.repository);
 
+  bool isPlaceReset = false;
+  int placePage = 0;
+
   // 전체 PlacePost 가져와서 변수에 저장한다.
   Future<ResponseEntity<List<PlaceFullPostEntity>>> getFullPlacePosts(
       int offset) async {
@@ -41,20 +44,20 @@ class PlacePostService {
         placeEntity.addAll(fullPosts);
         placeList.addAll(fullPosts);
       }
+      placePage = offset;
+
       return ResponseEntity.success(entity: fullPosts);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
       }
+      if (e.response?.statusCode == 404) {
+        return ResponseEntity.error(message: "404");
+      }
       return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
-  }
-
-  // 페이지 초기화. (비동기)
-  Future<ResponseEntity<List<PlaceFullPostEntity>>> resetPlacePage() async {
-    return getFullPlacePosts(0);
   }
 
   // vm에 NextPage 있는지 전달한다.(동기)
@@ -68,20 +71,26 @@ class PlacePostService {
   }
 
   // DELETE placePost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
-  Future<ResponseEntity<List<PlaceFullPostEntity>>> deletePlacePost(DeleteArticleEntity entity) async {
+  Future<ResponseEntity<List<PlaceFullPostEntity>>> deletePlacePost(
+      DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
+    isPlaceReset = true;
     return getFullPlacePosts(0);
   }
 
   // PATCH placePost : 글을 수정한다. 페이지 초기화 진행 (비동기)
-  Future<ResponseEntity<List<PlaceFullPostEntity>>> updatePlacePost(UpdateArticleEntity entity) async {
+  Future<ResponseEntity<List<PlaceFullPostEntity>>> updatePlacePost(
+      UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
+    isPlaceReset = true;
     return getFullPlacePosts(0);
   }
 
   // POST placePost : 글을 올린다. 페이지 초기화 진행 (비동기)
-  Future<ResponseEntity<List<PlaceFullPostEntity>>> postPlacePost(PostArticleEntity entity) async {
+  Future<ResponseEntity<List<PlaceFullPostEntity>>> postPlacePost(
+      PostArticleEntity entity) async {
     await repository.postArticle(entity);
+    isPlaceReset = true;
     return getFullPlacePosts(0);
   }
 }

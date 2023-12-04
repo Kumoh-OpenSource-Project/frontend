@@ -23,6 +23,9 @@ class PhotoPostService {
 
   PhotoPostService(this.repository);
 
+  bool isPhotoReset = false;
+  int photoPage = 0;
+  
   Future<ResponseEntity<List<PhotoFullPostEntity>>> getFullPhotoPosts(
       int offset) async {
     try {
@@ -40,24 +43,21 @@ class PhotoPostService {
         photoEntity.addAll(fullPosts);
         photoList.addAll(fullPosts);
       }
-      photoEntity.addAll(fullPosts);
-
+      photoPage = offset;
       return ResponseEntity.success(entity: fullPosts);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      if (e.response?.statusCode == 404) {
+        return ResponseEntity.error(message: "404");
       }
       return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
-
-  // 페이지 초기화. (비동기)
-  Future<ResponseEntity<List<PhotoFullPostEntity>>> resetPhotoPage() async {
-    return getFullPhotoPosts(0);
-  }
-
+  
   // vm에 NextPage 있는지 전달한다.(동기)
   bool returnPhotoPage() {
     return hasNextPhoto;
@@ -72,6 +72,7 @@ class PhotoPostService {
   Future<ResponseEntity<List<PhotoFullPostEntity>>> deletePhotoPost(
       DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
+    isPhotoReset = true;
     return getFullPhotoPosts(0);
   }
 
@@ -79,6 +80,7 @@ class PhotoPostService {
   Future<ResponseEntity<List<PhotoFullPostEntity>>> updatePhotoPost(
       UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
+    isPhotoReset = true;
     return getFullPhotoPosts(0);
   }
 
@@ -86,6 +88,7 @@ class PhotoPostService {
   Future<ResponseEntity<List<PhotoFullPostEntity>>> postPhotoPost(
       PostArticleEntity entity) async {
     await repository.postArticle(entity);
+    isPhotoReset = true;
     return getFullPhotoPosts(0);
   }
 }

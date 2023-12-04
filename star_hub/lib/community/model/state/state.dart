@@ -4,7 +4,9 @@ import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/my_page/model/entity/my_clip_entity.dart';
 import 'package:star_hub/my_page/model/entity/my_likes_entity.dart';
+import 'package:star_hub/my_page/model/entity/my_post_entity.dart';
 
 
 abstract class NoneState {}
@@ -73,6 +75,8 @@ class PhotoCommunityState extends ValueStateNotifier<List<PhotoFullPostEntity>> 
 class SearchState extends ValueStateNotifier<List<SearchPostEntity>> {}
 
 class MyPostLikeState extends ValueStateNotifier<List<MyLikesEntity>> {}
+class MyPostClipState extends ValueStateNotifier<List<MyClipEntity>> {}
+class MyPostState extends ValueStateNotifier<List<MyPostEntity>> {}
 
 class SearchStateNone extends NoneState implements CommunityState {}
 

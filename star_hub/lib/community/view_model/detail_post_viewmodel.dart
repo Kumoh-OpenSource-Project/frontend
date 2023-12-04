@@ -8,8 +8,10 @@ import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/service/scope_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
+import 'package:star_hub/community/model/service/search_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
+import 'package:star_hub/my_page/model/service/my_post_service.dart';
 
 final detailPostViewModelProvider =
     ChangeNotifierProvider((ref) => DetailPostViewModel(ref));
@@ -18,9 +20,10 @@ class DetailPostViewModel extends ChangeNotifier {
   Ref ref;
   late final DetailPostService detailPostService;
   late final ScopePostService scopePostService;
-
+  late final SearchService searchService;
   late final PlacePostService placePostService;
   late final PhotoPostService photoPostService;
+  late final MyPostService myPostService;
 
   ScopeCommunityState scopeState = ScopeCommunityState();
   DetailPostState state = DetailPostState();
@@ -32,13 +35,15 @@ class DetailPostViewModel extends ChangeNotifier {
     scopePostService = ref.read(scopePostServiceProvider);
     photoPostService = ref.read(photoPostServiceProvider);
     placePostService = ref.read(placePostServiceProvider);
+    searchService = ref.read(searchPostServiceProvider);
+    myPostService = ref.read(myPostPostServiceProvider);
   }
 
   void getInfo(int postId) =>
       state.withResponse(detailPostService.getPosts(postId));
 
   // 게시물 삭제
-  void deletePost(int? type, int articleId) {
+  void deletePost(int? type, int articleId, {String? word, SearchState? searchState, MyPostState? myPostState, MyPostLikeState? myPostLikeState, MyPostClipState? myPostClipState}) {
     if (type == 1) {
       scopeState.withResponse(scopePostService
           .deleteScopePost(DeleteArticleEntity(articleId: articleId)));
@@ -48,13 +53,23 @@ class DetailPostViewModel extends ChangeNotifier {
     } else if (type == 3) {
       photoState.withResponse(photoPostService
           .deletePhotoPost(DeleteArticleEntity(articleId: articleId)));
-    } else {
-      print("리셋 필요 x");
+    } else if (type == 4) {
+      searchState!.withResponse(searchService.deleteSearchPost(
+          DeleteArticleEntity(articleId: articleId), word!));
+    } else if (type == 5) {
+      myPostState!.withResponse(myPostService
+          .deleteMyPost(DeleteArticleEntity(articleId: articleId)));
+    } else if (type == 6) {
+      myPostLikeState!.withResponse(myPostService
+          .deleteLikePost(DeleteArticleEntity(articleId: articleId)));
+    } else if (type == 7) {
+      myPostClipState!.withResponse(myPostService
+          .deleteClipPost(DeleteArticleEntity(articleId: articleId)));
     }
   }
 
   // 게시물 수정
-  void updatePost(int? type, int articleId, String content) {
+  void updatePost(int? type, int articleId, String content, {String? word, SearchState? searchState, MyPostState? myPostState, MyPostLikeState? myPostLikeState, MyPostClipState? myPostClipState}) {
     if (type == 1) {
       scopeState.withResponse(scopePostService.updateScopePost(
           UpdateArticleEntity(content: content, articleId: articleId)));
@@ -64,8 +79,18 @@ class DetailPostViewModel extends ChangeNotifier {
     } else if (type == 3) {
       photoState.withResponse(photoPostService.updatePhotoPost(
           UpdateArticleEntity(content: content, articleId: articleId)));
-    } else {
-      print('리셋 필요 x');
+    } else if (type == 4) {
+      searchState!.withResponse(searchService.updateSearchPost(
+          UpdateArticleEntity(content: content, articleId: articleId), word!));
+    } else if (type == 5) {
+      myPostState!.withResponse(myPostService.updateMyPost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
+    } else if (type == 6) {
+      myPostLikeState!.withResponse(myPostService.updateLikePost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
+    } else if (type == 7) {
+      myPostClipState!.withResponse(myPostService.updateClipPost(
+          UpdateArticleEntity(content: content, articleId: articleId)));
     }
   }
 
@@ -84,7 +109,7 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   void cancelLike(int articleId) {
-    state.withResponse(detailPostService.addLike(articleId));
+    state.withResponse(detailPostService.cancelLike(articleId));
   }
 
   void addClip(int articleId) {
@@ -94,5 +119,4 @@ class DetailPostViewModel extends ChangeNotifier {
   void cancelClip(int articleId) {
     state.withResponse(detailPostService.cancelClip(articleId));
   }
-
 }

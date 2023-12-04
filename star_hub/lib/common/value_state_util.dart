@@ -12,7 +12,7 @@ extension ValueStateWithResponse<T> on ValueStateNotifier<T> {
         } else if (value.isSuccess) {
           success(value: value.entity, message: value.message);
         } else {
-          error(value: value.entity, message: value.message);
+          error(message: value.message);
         }
       });
     });

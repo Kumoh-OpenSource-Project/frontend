@@ -19,27 +19,39 @@ class SearchPostViewModel extends ChangeNotifier {
   int searchPage = 0;
   bool hasNextSearch = false;
   String previousWord = "";
+  List<SearchPostEntity> searchList = [];
 
-  List<SearchPostEntity> get searchList => searchService.searchList;
+  //List<SearchPostEntity> get  => searchService.searchList;
+  void getScopeReset(String string) {
+    searchList = [];
+    searchState.withResponse(searchService.getSearchArticles(string, 0));
+    searchList = searchService.searchList;
+  }
 
   SearchPostViewModel(this.ref) {
     searchService = ref.read(searchPostServiceProvider);
     detailPostService = ref.read(detailPostServiceProvider);
   }
 
-  void getInfo(String word, int offset) =>
-      searchState.withResponse(searchService.getSearchArticles(word, offset));
+  void getInfo(String word, int offset) {
+    searchState.withResponse(searchService.getSearchArticles(word, offset));
+    searchList = searchService.searchList;
+  }
 
   void onTextFieldFocused() {
     print("reset");
+    searchList = [];
     searchService.reset();
   }
 
-  void navigateToDetailPage(BuildContext context, int postId, int? type, int writerId) {
+  void navigateToDetailPage(
+      BuildContext context, int postId, int? type, int writerId) {
     detailPostState.withResponse(detailPostService.getPosts(postId));
     FocusManager.instance.primaryFocus?.unfocus();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage(type, postId, writerId)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   List<SearchPostEntity> getSearchList() {
@@ -61,8 +73,8 @@ class SearchPostViewModel extends ChangeNotifier {
         (previousWord != words || (isNew == true && previousWord == words));
     print(isNew);
     if (hasNextSearch) {
-      searchState
-          .withResponse(searchService.getSearchArticles(words, page));
+      searchState.withResponse(searchService.getSearchArticles(words, page));
+      searchList = searchService.searchList;
     }
     return false;
   }

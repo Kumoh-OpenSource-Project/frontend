@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 
 import '../../../common/entity/response_entity.dart';
@@ -67,5 +69,19 @@ class SearchService {
   Future reset() async {
     searchList = [];
     searchEntity = [];
+  }
+
+  // DELETE photoPost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
+  Future<ResponseEntity<List<SearchPostEntity>>> deleteSearchPost(
+      DeleteArticleEntity entity, String word) async {
+    await repository.deletePost(entity);
+    return getSearchArticles(word, 0);
+  }
+
+  // PATCH photoPost : 글을 수정한다. 페이지 초기화 진행 (비동기)
+  Future<ResponseEntity<List<SearchPostEntity>>> updateSearchPost(
+      UpdateArticleEntity entity, String word) async {
+    await repository.updateArticle(entity);
+    return getSearchArticles(word, 0);
   }
 }

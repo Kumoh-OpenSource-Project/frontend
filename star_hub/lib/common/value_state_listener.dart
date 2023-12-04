@@ -9,6 +9,7 @@ import 'package:star_hub/common/value_state_notifier_widget.dart';
 typedef ValueStateListenerBuilder<T> = Widget Function(
     BuildContext context,
     ValueStateNotifier<T> state,
+
     );
 
 class ValueStateListener<T> extends StatefulWidget
@@ -37,6 +38,7 @@ class ValueStateListener<T> extends StatefulWidget
 }
 
 class _ValueStateListenerState<T> extends State<ValueStateListener<T>> {
+
   @override
   Widget build(BuildContext context) {
     if (widget.state.isSuccess) {

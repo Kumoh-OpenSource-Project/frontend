@@ -12,7 +12,7 @@ class ResponseEntity<T> {
   factory ResponseEntity.success({T? entity, String? message}) =>
       ResponseEntity._(entity, message, ResponseType.success);
 
-  factory ResponseEntity.error({T? entity, String? message}) =>
+  factory ResponseEntity.error({T? entity, String? message, String? state}) =>
       ResponseEntity._(entity, message, ResponseType.error);
 }
 

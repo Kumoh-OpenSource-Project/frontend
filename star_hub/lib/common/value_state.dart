@@ -42,6 +42,7 @@ class ValueStateNotifier<T> extends ChangeNotifier {
 
   void error({T? value, String? message}) {
     _state = _State.error;
+    print('isNone$isNone $isSuccess $isError $isLoading');
     _message = message;
     this.value = value;
     notifyListeners();
@@ -49,8 +50,8 @@ class ValueStateNotifier<T> extends ChangeNotifier {
 
   @override
   void notifyListeners() {
-    if (isError) SnackBarUtil.showError(message);
-    if (isSuccess && message != null) SnackBarUtil.showSuccess(message);
+    //if (isError) SnackBarUtil.showError(message);
+    //if (isSuccess && message != null) SnackBarUtil.showSuccess(message);
     super.notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:star_hub/community/view_model/search_post_viewmodel.dart';
 import '../../model/repository/community_repository.dart';
@@ -46,7 +47,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     // isInit = false;
   }
 
-  void _setState() => setState(() {});
+  void _setState() => setState(() {
+  });
 
   @override
   void dispose() {
@@ -90,7 +92,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.searchList.isEmpty) searchList.clear();
     searchList.addAll(viewModel.searchList.where(
       (newItem) =>
           !searchList.any((existingItem) => existingItem.id == newItem.id),
@@ -176,27 +177,52 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           child: child,
         );
       },
-      child: searchList.isNotEmpty ? ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        controller: _searchScrollController,
-        itemCount: searchList.length,
-        itemBuilder: (context, index) {
-          final post = searchList[index];
-          return PostBox2(
-            title: post.title,
-            content: post.contentText,
-            nickName: post.nickName,
-            writerId: post.writerId,
-            writeDate: post.writeDate,
-            level: post.level,
-            likes: post.likes,
-            clips: post.clips,
-            comments: post.comments,
-            onTap: () => viewModel.navigateToDetailPage(
-                context, searchList[index].id, null, searchList[index].writerId)
-          );
-        },
-      ): Center(child:Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
+      child: searchList.isNotEmpty
+          ? ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              controller: _searchScrollController,
+              itemCount: searchList.length,
+              itemBuilder: (context, index) {
+                final post = searchList[index];
+                return PostBox2(
+                    title: post.title,
+                    content: post.contentText,
+                    nickName: post.nickName,
+                    writerId: post.writerId,
+                    writeDate: post.writeDate,
+                    level: post.level,
+                    likes: post.likes,
+                    clips: post.clips,
+                    comments: post.comments,
+                    onTap: () {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailPage(4, post.id, post.writerId, word: _searchController.text,searchState: viewModel.searchState)))
+                          .then((value) {
+                        if (value != null) {
+                          setState(() {
+                            if (value is bool) {
+                              viewModel.getInfo(_searchController.text, 0);
+                            } else {
+                              searchList[index] = post.copyWith(
+                                title: value.title,
+                                contentText: value.content,
+                                likes: value.likes,
+                                clips: value.clips,
+                                comments: value.comments.length,
+                              );
+                            }
+                          });
+                        }
+                      });
+                    });
+              },
+            )
+          : Center(
+              child: Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
     );
   }
 }

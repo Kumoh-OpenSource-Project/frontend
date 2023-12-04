@@ -28,7 +28,13 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
       'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
   final TextEditingController _nicknameController = TextEditingController();
 
+
   static String get routeName => 'myPage';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -203,7 +209,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                         PageRouteBuilder(
                                           pageBuilder: (context, animation,
                                                   secondaryAnimation) =>
-                                              const MyPostsPage(),
+                                              MyPostsPage(
+                                                  viewmodel.entity.nickName),
                                           transitionsBuilder: (context,
                                               animation,
                                               secondaryAnimation,

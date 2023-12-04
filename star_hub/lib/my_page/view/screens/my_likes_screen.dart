@@ -1,34 +1,94 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/value_state_listener.dart';
-import 'package:star_hub/community/view/widgets/post_box2.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
+import 'package:star_hub/my_page/view/widgets/post_box_widget.dart';
 import 'package:star_hub/my_page/view_model/my_likes_viewmodel.dart';
 
-class MyLikesPage extends ConsumerWidget {
+class MyLikesPage extends ConsumerStatefulWidget {
   const MyLikesPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final viewModel = ref.read(myLikeViewModelProvider);
-    viewModel.getInfo();
-    return ValueStateListener(
-      successBuilder: (_, state) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: const Text('내가 좋아요한 글'),
-        ),
-        backgroundColor: Colors.black,
-        body: ListView.builder(itemBuilder:(BuildContext context, int index) {
-            final post = state.value![index];
-            return GestureDetector(
-              onTap: (){},
-              child: Text("c"),
-              //PostBox2(title: '', content: '', nickName: '', writeDate: '',
-              //),
-            );
-          },),
-        ), state: viewModel.state,
-      );
+  ConsumerState<MyLikesPage> createState() => _MyLikePageState();
+}
 
+class _MyLikePageState extends ConsumerState<MyLikesPage> {
+  late MyLikeViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = ref.read(myLikeViewModelProvider)
+      ..getInfo();
+    viewModel.state.addListener(_setState);
+  }
+
+  @override
+  void dispose() {
+    viewModel.state.removeListener(_setState);
+    super.dispose();
+  }
+  void _setState() => setState(() {});
+  @override
+  Widget build(BuildContext context) {
+    return ValueStateListener(
+      successBuilder: (_, state) {
+        if (state.value!.isEmpty) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              title: const Text('내가 좋아요한 글'),
+            ),
+            backgroundColor: Colors.black,
+            body: Center(
+              child: Text(
+                '좋아요한 글이 없습니다.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.black,
+              title: const Text('내가 좋아요한 글'),
+            ),
+            backgroundColor: Colors.black,
+            body: ListView.builder(
+              itemCount: viewModel.entity.length,
+              itemBuilder: (BuildContext context, int index) {
+                final post = viewModel.entity[index];
+                return GestureDetector(
+                  onTap: () {},
+                  child: PostBox(
+                      title: post.title,
+                      content: post.content,
+                      nickName: post.nickName,
+                      writeDate: post.writeDate,
+                      likes: null,
+                      clips: null,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    DetailPage(6, post.articleId, null, myPostLikeState: viewModel.state,))).then(
+                                (value) {
+                                  setState(() {
+                                    viewModel.getInfo();
+
+                                  });
+                            }
+                        );
+                      }),
+                );
+              },
+            ),
+          );
+        }
+      },
+      state: viewModel.state,
+    );
   }
 }
