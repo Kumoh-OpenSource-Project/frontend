@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
@@ -148,7 +149,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.photoList.isEmpty) photoList.clear();
     print(prevList == viewModel.scopeList.length);
     print(scopeList != viewModel.scopeList);
-    if (viewModel.isScopeReset || prevList != viewModel.scopeList.length || prevList == viewModel.scopeList.length && scopeList != viewModel.scopeList) {
+    if (viewModel.isScopeReset) {
       prevList = viewModel.scopeList.length;
       print("!");
       scopeList.clear();

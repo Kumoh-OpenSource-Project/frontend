@@ -136,7 +136,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     ];
 
     isToday = currentDate.isAtSameMomentAs(today);
-    bool successState = viewModel is HomeStateSuccess;
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -202,13 +201,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 PageIndicator(controller: controller, pages: pages),
                 isToday
                     ? Description(
-                        realTimeWeatherInfo: successState
-                            ? viewModel.realTimeData
-                            : dummyRealTimeWeatherInfo)
+                        realTimeWeatherInfo: dummyRealTimeWeatherInfo)
                     : Description(
-                        otherDayWeatherData: (successState
-                                ? viewModel.weekData
-                                : dummyWeatherData)
+                        otherDayWeatherData: dummyWeatherData
                             .firstWhere(
                           (data) =>
                               data.date ==
@@ -217,15 +212,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                 if (isToday)
                   SunMoonInfo(
-                      todayWeatherData: successState
-                          ? viewModel.todayData
-                          : todayWeatherData),
+                      todayWeatherData: todayWeatherData),
                 if (!isToday &&
-                    ((successState ? viewModel.weekData : dummyWeatherData)
-                        .isNotEmpty))
+                    (dummyWeatherData)
+                        .isNotEmpty)
                   SunMoonInfo(
                     weatherData:
-                        (successState ? viewModel.weekData : dummyWeatherData)
+                        (dummyWeatherData)
                             .firstWhere(
                       (data) =>
                           data.date ==
@@ -234,21 +227,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 if (isToday)
                   WeatherInfo(
-                      realTimeWeatherData: successState
-                          ? viewModel.realTimeData
-                          : dummyRealTimeWeatherInfo),
+                      realTimeWeatherData:
+                          dummyRealTimeWeatherInfo),
                 isToday
                     ? HourlyWeatherInfo(
-                        todayWeatherData: successState
-                            ? viewModel.todayData
-                            : todayWeatherData,
-                        realTimeWeatherData: successState
-                            ? viewModel.realTimeData
-                            : dummyRealTimeWeatherInfo)
+                        todayWeatherData: todayWeatherData,
+                        realTimeWeatherData:  dummyRealTimeWeatherInfo)
                     : HourlyWeatherInfo(
-                        otherDayWeatherData: (successState
-                                ? viewModel.weekData
-                                : dummyWeatherData)
+                        otherDayWeatherData:dummyWeatherData
                             .firstWhere(
                           (data) =>
                               data.date ==

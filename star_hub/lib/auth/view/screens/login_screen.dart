@@ -57,9 +57,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       try {
         await authService.login(token.accessToken);
         debugPrint("로그인 성공");
-      } catch (error) {
-        debugPrint("로그인 실패: $error");
-
         if (!mounted) return;
         Navigator.push(
           context,
@@ -67,6 +64,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             builder: (context) => const MainPage(),
           ),
         );
+      } catch (error) {
+        debugPrint("로그인 실패: $error");
+
+
       }
     }
   }

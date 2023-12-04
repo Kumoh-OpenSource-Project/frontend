@@ -143,21 +143,6 @@ class PostViewModel extends ChangeNotifier {
     }
   }
 
-  // List<ScopeFullPostEntity> getScopeList() {
-  //   scopeList = scopePostService.scopeList;
-  //   return scopeList;
-  // }
-  //
-  // List<PlaceFullPostEntity> getPlaceList() {
-  //   placeList = placePostService.placeList;
-  //   return placeList;
-  // }
-  //
-  // List<PhotoFullPostEntity> getPhotoList() {
-  //   photoList = photoPostService.photoList;
-  //   return photoList;
-  // }
-
   List<ScopeFullPostEntity> getScopeEntity(String type) {
     return scopePostService.scopeEntity;
   }

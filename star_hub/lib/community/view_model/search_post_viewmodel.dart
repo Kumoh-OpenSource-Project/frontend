@@ -18,7 +18,6 @@ class SearchPostViewModel extends ChangeNotifier {
   DetailPostState detailPostState = DetailPostState();
   int searchPage = 0;
   bool hasNextSearch = false;
-  //List<SearchPostEntity> searchList = [];
   String previousWord = "";
 
   List<SearchPostEntity> get searchList => searchService.searchList;

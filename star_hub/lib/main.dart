@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Open Source Star Hub',
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
-      home: const MainPage(),
+      home: const LoginPage(),
     );
   }
 }
