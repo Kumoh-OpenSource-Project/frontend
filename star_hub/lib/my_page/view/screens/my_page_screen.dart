@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -49,8 +50,10 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
-                                viewmodel.entity.profilePhoto ??
-                                    profileImageUrl),
+                              viewmodel.entity.profilePhoto?.startsWith('https') == true
+                                  ? viewmodel.entity.profilePhoto.toString()
+                                  : profileImageUrl,
+                            ),
                             radius: 30,
                           ),
                           const SizedBox(width: 16),
@@ -403,6 +406,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                     newNickname = value;
                   });
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                ],
               ),
               actions: <Widget>[
                 TextButton(

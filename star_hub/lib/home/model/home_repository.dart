@@ -15,17 +15,18 @@ final homeRepositoryProvider = Provider((ref) {
 abstract class HomeRepository {
   factory HomeRepository(Dio dio, {String? baseUrl}) = _HomeRepository;
 
-  @GET('home?type=today&lat=36.14578&lon=128.39394')
+  @GET('home?type=today&lat={lat}&lon={lon}')
   @Headers({'accessToken': 'true'})
-  Future<TodayWeatherData> getTodayData();
+  Future<TodayWeatherData> getTodayData(@Path('lat') double lat, @Path('lon') double lon);
 
-  @GET('home?type=current&lat=36.14578&lon=128.39394')
+  @GET('home?type=current&lat={lat}&lon={lon}')
   @Headers({'accessToken': 'true'})
-  Future<RealTimeWeatherInfo> getRealTimeData();
+  Future<RealTimeWeatherInfo> getRealTimeData(@Path('lat') double lat, @Path('lon') double lon);
 
-  @GET('home?type=week&lat=36.14578&lon=128.39394')
+  @GET('home?type=week&lat={lat}&lon={lon}')
   @Headers({'accessToken': 'true'})
-  Future<List<WeatherData>> getWeekData();
+  Future<List<WeatherData>> getWeekData(@Path('lat') double lat, @Path('lon') double lon);
+
 
   @GET('home/moon?year={year}&month={month}')
   @Headers({'accessToken': 'true'})

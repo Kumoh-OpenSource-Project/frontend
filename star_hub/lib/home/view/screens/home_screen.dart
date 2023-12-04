@@ -88,13 +88,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   void fetchData3() {
     dummyWeatherData = List.generate(
       5,
-      (index) {
+          (index) {
         final nextDate = today.add(Duration(days: index + 1));
         return WeatherData(
           date: DateFormat('yyyy-MM-dd').format(nextDate),
           weathers: List.generate(
             8,
-            (hour) => WeekHourlyWeatherInfo(
+                (hour) => WeekHourlyWeatherInfo(
               main: "Clouds",
               description: "튼구름",
               icon: "01d",
@@ -120,120 +120,132 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     final pages = [
       _buildPage(
-          imagePath: isToday
+          imagePath: viewModel.homeState is HomeStateSuccess
+              ? isToday
               ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
-              : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
+              : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'
+              : isToday
+              ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
+              : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
       _buildPage(
-          lunAge: isToday
+          lunAge: viewModel.homeState is HomeStateSuccess
+              ? isToday
               ? viewModel.realTimeData.lunAge + 1
               : viewModel.weekData
-                      .firstWhere((data) =>
-                          data.date ==
-                          DateFormat('yyyy-MM-dd').format(currentDate))
-                      .lunAge +
-                  1),
+              .firstWhere((data) =>
+          data.date ==
+              DateFormat('yyyy-MM-dd').format(currentDate))
+              .lunAge +
+              1
+              : isToday
+              ? dummyRealTimeWeatherInfo.lunAge + 1
+              : dummyWeatherData
+              .firstWhere((data) =>
+          data.date ==
+              DateFormat('yyyy-MM-dd').format(currentDate))
+              .lunAge +
+              1),
       _buildPage(title: 'D-DAY'),
     ];
 
     isToday = currentDate.isAtSameMomentAs(today);
-    bool successState = viewModel is HomeStateSuccess;
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                DateNavigation(
-                  currentDate: currentDate,
-                  onDateSelected: (selectedDate) {
-                    setState(() {
-                      currentDate = selectedDate;
-                    });
-                  },
-                ),
-                ImageSlider(controller: controller, pages: pages),
-                PageIndicator(controller: controller, pages: pages),
-                isToday
-                    ? Description(realTimeWeatherInfo: viewModel.realTimeData)
-                    : Description(
-                        otherDayWeatherData: viewModel.weekData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
-                if (isToday) SunMoonInfo(todayWeatherData: viewModel.todayData),
-                if (!isToday && viewModel.weekData.isNotEmpty)
-                  SunMoonInfo(
-                    weatherData: viewModel.weekData.firstWhere(
-                      (data) =>
-                          data.date ==
-                          DateFormat('yyyy-MM-dd').format(currentDate),
-                    ),
-                  ),
-                if (isToday)
-                  WeatherInfo(realTimeWeatherData: viewModel.realTimeData),
-                isToday
-                    ? HourlyWeatherInfo(
-                        todayWeatherData: viewModel.todayData,
-                        realTimeWeatherData: viewModel.realTimeData)
-                    : HourlyWeatherInfo(
-                        otherDayWeatherData: viewModel.weekData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
-              ],
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          DateNavigation(
+            currentDate: currentDate,
+            onDateSelected: (selectedDate) {
+              setState(() {
+                currentDate = selectedDate;
+              });
+            },
+          ),
+          ImageSlider(controller: controller, pages: pages),
+          PageIndicator(controller: controller, pages: pages),
+          isToday
+              ? Description(realTimeWeatherInfo: viewModel.realTimeData)
+              : Description(
+            otherDayWeatherData: viewModel.weekData.firstWhere(
+                  (data) =>
+              data.date ==
+                  DateFormat('yyyy-MM-dd').format(currentDate),
             ),
-          )
+          ),
+          if (isToday) SunMoonInfo(todayWeatherData: viewModel.todayData),
+          if (!isToday && viewModel.weekData.isNotEmpty)
+            SunMoonInfo(
+              weatherData: viewModel.weekData.firstWhere(
+                    (data) =>
+                data.date ==
+                    DateFormat('yyyy-MM-dd').format(currentDate),
+              ),
+            ),
+          if (isToday)
+            WeatherInfo(realTimeWeatherData: viewModel.realTimeData),
+          isToday
+              ? HourlyWeatherInfo(
+              todayWeatherData: viewModel.todayData,
+              realTimeWeatherData: viewModel.realTimeData)
+              : HourlyWeatherInfo(
+            otherDayWeatherData: viewModel.weekData.firstWhere(
+                  (data) =>
+              data.date ==
+                  DateFormat('yyyy-MM-dd').format(currentDate),
+            ),
+          ),
+        ],
+      ),
+    )
         : SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                DateNavigation(
-                  currentDate: currentDate,
-                  onDateSelected: (selectedDate) {
-                    setState(() {
-                      currentDate = selectedDate;
-                    });
-                  },
-                ),
-                ImageSlider(controller: controller, pages: pages),
-                PageIndicator(controller: controller, pages: pages),
-                isToday
-                    ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
-                    : Description(
-                        otherDayWeatherData: dummyWeatherData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
-                if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
-                if (!isToday && (dummyWeatherData).isNotEmpty)
-                  SunMoonInfo(
-                    weatherData: (dummyWeatherData).firstWhere(
-                      (data) =>
-                          data.date ==
-                          DateFormat('yyyy-MM-dd').format(currentDate),
-                    ),
-                  ),
-                if (isToday)
-                  WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
-                isToday
-                    ? HourlyWeatherInfo(
-                        todayWeatherData: todayWeatherData,
-                        realTimeWeatherData: dummyRealTimeWeatherInfo)
-                    : HourlyWeatherInfo(
-                        otherDayWeatherData: dummyWeatherData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
-              ],
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          DateNavigation(
+            currentDate: currentDate,
+            onDateSelected: (selectedDate) {
+              setState(() {
+                currentDate = selectedDate;
+              });
+            },
+          ),
+          ImageSlider(controller: controller, pages: pages),
+          PageIndicator(controller: controller, pages: pages),
+          isToday
+              ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
+              : Description(
+            otherDayWeatherData: dummyWeatherData.firstWhere(
+                  (data) =>
+              data.date ==
+                  DateFormat('yyyy-MM-dd').format(currentDate),
             ),
-          );
+          ),
+          if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
+          if (!isToday && (dummyWeatherData).isNotEmpty)
+            SunMoonInfo(
+              weatherData: (dummyWeatherData).firstWhere(
+                    (data) =>
+                data.date ==
+                    DateFormat('yyyy-MM-dd').format(currentDate),
+              ),
+            ),
+          if (isToday)
+            WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
+          isToday
+              ? HourlyWeatherInfo(
+              todayWeatherData: todayWeatherData,
+              realTimeWeatherData: dummyRealTimeWeatherInfo)
+              : HourlyWeatherInfo(
+            otherDayWeatherData: (dummyWeatherData).firstWhere(
+                  (data) =>
+              data.date ==
+                  DateFormat('yyyy-MM-dd').format(currentDate),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildPage({String? imagePath, String? title, int? lunAge}) {

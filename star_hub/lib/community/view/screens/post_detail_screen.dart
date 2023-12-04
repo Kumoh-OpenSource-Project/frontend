@@ -196,7 +196,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
 
   Future<void> _getUserId() async {
     final localStorage = ref.read(localStorageProvider);
-    userId = (await localStorage.getUserId())!; // Initialize the userId here
+    userId = (await localStorage.getUserId())!;
   }
 
   void _editPost(
@@ -291,7 +291,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
             backgroundColor: Colors.black,
@@ -342,7 +342,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 Row(
                                   children: [
                                     if ( state.value!.writerImage
-                                        .isNotEmpty)
+                                        .startsWith('https') ==
+                                          true)
                                       CircleAvatar(
                                         radius: 15,
                                         backgroundImage: NetworkImage(

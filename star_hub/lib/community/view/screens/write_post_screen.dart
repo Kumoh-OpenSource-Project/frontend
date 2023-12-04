@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart' as img;
 
@@ -9,9 +10,13 @@ import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 class WritePostPage extends StatefulWidget {
   final String? selectedCategory;
   final PostViewModel viewModel;
+  final String? userLevel;
 
   const WritePostPage(
-      {Key? key, this.selectedCategory, required this.viewModel})
+      {Key? key,
+      this.selectedCategory,
+      required this.viewModel,
+      this.userLevel})
       : super(key: key);
 
   @override
@@ -126,6 +131,8 @@ class _WritePostPageState extends State<WritePostPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.userLevel);
+
     bool isButtonEnabled = titleController.text.isNotEmpty &&
         contentController.text.isNotEmpty &&
         ((selectedCategory == 'photo' && _pickedImages.isNotEmpty) ||
@@ -159,12 +166,14 @@ class _WritePostPageState extends State<WritePostPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildCategoryDropdown(),
-              // TODO: 제목 글자 제한 두기
               TextField(
                 controller: titleController,
                 onChanged: (text) {
                   setState(() {});
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(20),
+                ],
                 decoration: const InputDecoration(
                   hintText: '제목',
                   focusedBorder: UnderlineInputBorder(
@@ -179,6 +188,9 @@ class _WritePostPageState extends State<WritePostPage> {
                 onChanged: (text) {
                   setState(() {});
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(300),
+                ],
                 decoration: const InputDecoration(
                   hintText: '내용을 입력하세요',
                   border: InputBorder.none,
@@ -197,7 +209,6 @@ class _WritePostPageState extends State<WritePostPage> {
   Widget _buildCategoryDropdown() {
     return Container(
       decoration: const BoxDecoration(
-
         border: Border(top: BorderSide(color: Colors.white)),
       ),
       child: DropdownButtonFormField<String>(
@@ -209,16 +220,17 @@ class _WritePostPageState extends State<WritePostPage> {
           ),
         ),
         dropdownColor: Colors.black,
-        items: const [
-          DropdownMenuItem<String>(
+        items: [
+          const DropdownMenuItem<String>(
             value: 'scope',
             child: Text('관측 도구 게시판'),
           ),
-          DropdownMenuItem<String>(
-            value: 'place',
-            child: Text('관측 장소 게시판'),
-          ),
-          DropdownMenuItem<String>(
+          if (widget.userLevel != "수성")
+            const DropdownMenuItem<String>(
+              value: 'place',
+              child: Text('관측 장소 게시판'),
+            ),
+          const DropdownMenuItem<String>(
             value: 'photo',
             child: Text('사진 자랑 게시판'),
           ),
