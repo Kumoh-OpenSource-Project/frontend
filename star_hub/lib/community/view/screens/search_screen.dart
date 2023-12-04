@@ -176,7 +176,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           child: child,
         );
       },
-      child: ListView.builder(
+      child: searchList.isNotEmpty ? ListView.builder(
         physics: const BouncingScrollPhysics(),
         controller: _searchScrollController,
         itemCount: searchList.length,
@@ -196,7 +196,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 context, searchList[index].id, null, searchList[index].writerId)
           );
         },
-      ),
+      ): Center(child:Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
     );
   }
 }

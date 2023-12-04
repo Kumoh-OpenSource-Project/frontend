@@ -26,6 +26,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
+  int prevList = 10;
 
   @override
   void initState() {
@@ -145,13 +146,15 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.scopeList.isEmpty) scopeList.clear();
     if (viewModel.placeList.isEmpty) placeList.clear();
     if (viewModel.photoList.isEmpty) photoList.clear();
-    if (viewModel.isScopeReset) {
+    if (viewModel.isScopeReset || prevList != viewModel.scopeList.length) {
+      prevList = viewModel.scopeList.length;
       print("!");
       scopeList.clear();
       scopePage = 1;
       scopeList.addAll(viewModel.scopeList);
-      _scopeScrollController.jumpTo(0.0);
+      //_scopeScrollController.jumpTo(0.0);
     } else {
+      prevList = scopeList.length;
       scopeList.addAll(viewModel.scopeList.where(
         (newItem) =>
             !scopeList.any((existingItem) => existingItem.id == newItem.id),
@@ -160,10 +163,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.isPlaceReset) {
       placeList.clear();
       placePage = 1;
-      placeList.addAll(viewModel.scopeList);
-      _placeScrollController.jumpTo(0.0);
+      placeList.addAll(viewModel.placeList);
+      //_placeScrollController.jumpTo(0.0);
     } else {
-      placeList.addAll(viewModel.placeEntity.where(
+      placeList.addAll(viewModel.placeList.where(
         (newItem) =>
             !placeList.any((existingItem) => existingItem.id == newItem.id),
       ));
@@ -171,10 +174,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.isPhotoReset) {
       photoList.clear();
       photoPage = 1;
-      photoList.addAll(viewModel.scopeList);
-      _photoScrollController.jumpTo(0.0);
+      photoList.addAll(viewModel.photoList);
+      //
     } else {
-      photoList.addAll(viewModel.photoEntity.where(
+      photoList.addAll(viewModel.photoList.where(
         (newItem) =>
             !photoList.any((existingItem) => existingItem.id == newItem.id),
       ));
@@ -271,7 +274,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   color: Colors.white,
                                 ))
                               else
-                                Container(),
+                                Container(height: 30,),
                             ],
                           ),
                         )
@@ -285,7 +288,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onRefresh: _refreshPlace,
                           child: ListView(
                             physics: const BouncingScrollPhysics(),
-                            controller: _scopeScrollController,
+                            controller: _placeScrollController,
                             children: [
                               for (int index = 0;
                                   index < viewModel.placeList.length;
@@ -315,7 +318,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   color: Colors.white,
                                 ))
                               else
-                                Container(),
+                                Container(height: 30,),
                             ],
                           ),
                         )
@@ -408,15 +411,14 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     Navigator.of(context)
         .push(_createRoute(selectedCategory, viewModel))
         .then((value) {
-      // if (selectedCategory == "scope") {
-      //   scopePage = 0;
-      //   scopeList.clear();
-      //   viewModel.getNextPage("scope", scopePage++);
-      // } else if (selectedCategory == "place") {
-      //   placePage = 1;
-      // } else {
-      //   photoPage = 1;
-      // }
+      if (selectedCategory == "scope") {
+        _scopeScrollController.jumpTo(0.0);
+      } else if (selectedCategory == "place") {
+        print("1");
+        _placeScrollController.jumpTo(0.0);
+      } else {
+        _photoScrollController.jumpTo(0.0);
+      }
     });
   }
 

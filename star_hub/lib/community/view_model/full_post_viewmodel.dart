@@ -30,6 +30,10 @@ class PostViewModel extends ChangeNotifier {
   PlaceCommunityState placeState = PlaceCommunityState();
   PhotoCommunityState photoState = PhotoCommunityState();
 
+  int get scopePage => scopePostService.scopePage;
+
+  //bool get isScopeReset => scopePostService.isScopeReset;
+
   List<ScopeFullPostEntity> get scopeEntity => scopePostService.scopeEntity;
 
   List<PlaceFullPostEntity> get placeEntity => placePostService.placeEntity;
@@ -46,7 +50,6 @@ class PostViewModel extends ChangeNotifier {
   bool hasNextPlace = true;
   bool hasNextPhoto = true;
 
-
   // List<ScopeFullPostEntity> scopeList = [];
   // List<PlaceFullPostEntity> placeList = [];
   // List<PhotoFullPostEntity> photoList = [];
@@ -61,19 +64,26 @@ class PostViewModel extends ChangeNotifier {
   void refreshDataInt(int type) {
     switch (type) {
       case 0:
+        isScopeReset = true;
+        print("df");
         scopePostService.resetScopePage();
         break;
       case 1:
+        isPlaceReset = true;
         placePostService.resetPlacePage();
+
         break;
       case 2:
         photoPostService.resetPhotoPage();
+        isPhotoReset = true;
         break;
       default:
         scopePostService.resetScopePage();
         placePostService.resetPlacePage();
         photoPostService.resetPhotoPage();
-
+        isScopeReset = true;
+        isPlaceReset = true;
+        isPhotoReset = true;
         break;
     }
   }
@@ -83,24 +93,20 @@ class PostViewModel extends ChangeNotifier {
     switch (type) {
       case "scope":
         scopePostService.resetScopePage();
-
         isScopeReset = true;
         break;
       case "place":
         placePostService.resetPlacePage();
-
         isPlaceReset = true;
         break;
       case "photo":
         photoPostService.resetPhotoPage();
-
         isPhotoReset = true;
         break;
       default:
         scopePostService.resetScopePage();
         placePostService.resetPlacePage();
         photoPostService.resetPhotoPage();
-
         isScopeReset = true;
         isPlaceReset = true;
         isPhotoReset = true;
@@ -110,11 +116,14 @@ class PostViewModel extends ChangeNotifier {
 
   // TODO: 혹시 디테일에서 새로고침된 상태를 가져올 수 있을까?
   // 상세 페이지로 이동
-  void navigateToDetailPage(BuildContext context, int postId, int type, int writerId) {
+  void navigateToDetailPage(
+      BuildContext context, int postId, int type, int writerId) {
     //detailPostService.getPosts(postId);
     FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => DetailPage(type, postId, writerId)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   void postArticle(
@@ -178,16 +187,16 @@ class PostViewModel extends ChangeNotifier {
     isPlaceReset = false;
     isPhotoReset = false;
     if (type == "scope") {
-
       hasNextScope = scopePostService.returnScopePage();
       if (page == 0) hasNextScope = true;
-      if (hasNextScope) {
-        scopeState.withResponse(scopePostService.getFullScopePosts(page));
-        print(scopePostService.scopeList);
+      if (page == 0) {
+        scopeState.withResponse(scopePostService.getFullScopePosts(page, true));
+      } else if (hasNextScope) {
+        scopeState
+            .withResponse(scopePostService.getFullScopePosts(page, false));
       }
       return false;
     } else if (type == "place") {
-
       hasNextPlace = placePostService.returnPlacePage();
       if (page == 0) hasNextPlace = true;
       if (hasNextPlace) {

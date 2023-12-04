@@ -139,7 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     bool successState = viewModel is HomeStateSuccess;
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 DateNavigation(
@@ -187,77 +187,77 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           )
         : SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          DateNavigation(
-            currentDate: currentDate,
-            onDateSelected: (selectedDate) {
-              setState(() {
-                currentDate = selectedDate;
-              });
-            },
-          ),
-          ImageSlider(controller: controller, pages: pages),
-          PageIndicator(controller: controller, pages: pages),
-          isToday
-              ? Description(
-              realTimeWeatherInfo: successState
-                  ? viewModel.realTimeData
-                  : dummyRealTimeWeatherInfo)
-              : Description(
-            otherDayWeatherData: (successState
-                ? viewModel.weekData
-                : dummyWeatherData)
-                .firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                DateNavigation(
+                  currentDate: currentDate,
+                  onDateSelected: (selectedDate) {
+                    setState(() {
+                      currentDate = selectedDate;
+                    });
+                  },
+                ),
+                ImageSlider(controller: controller, pages: pages),
+                PageIndicator(controller: controller, pages: pages),
+                isToday
+                    ? Description(
+                        realTimeWeatherInfo: successState
+                            ? viewModel.realTimeData
+                            : dummyRealTimeWeatherInfo)
+                    : Description(
+                        otherDayWeatherData: (successState
+                                ? viewModel.weekData
+                                : dummyWeatherData)
+                            .firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+                if (isToday)
+                  SunMoonInfo(
+                      todayWeatherData: successState
+                          ? viewModel.todayData
+                          : todayWeatherData),
+                if (!isToday &&
+                    ((successState ? viewModel.weekData : dummyWeatherData)
+                        .isNotEmpty))
+                  SunMoonInfo(
+                    weatherData:
+                        (successState ? viewModel.weekData : dummyWeatherData)
+                            .firstWhere(
+                      (data) =>
+                          data.date ==
+                          DateFormat('yyyy-MM-dd').format(currentDate),
+                    ),
+                  ),
+                if (isToday)
+                  WeatherInfo(
+                      realTimeWeatherData: successState
+                          ? viewModel.realTimeData
+                          : dummyRealTimeWeatherInfo),
+                isToday
+                    ? HourlyWeatherInfo(
+                        todayWeatherData: successState
+                            ? viewModel.todayData
+                            : todayWeatherData,
+                        realTimeWeatherData: successState
+                            ? viewModel.realTimeData
+                            : dummyRealTimeWeatherInfo)
+                    : HourlyWeatherInfo(
+                        otherDayWeatherData: (successState
+                                ? viewModel.weekData
+                                : dummyWeatherData)
+                            .firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+              ],
             ),
-          ),
-          if (isToday)
-            SunMoonInfo(
-                todayWeatherData: successState
-                    ? viewModel.todayData
-                    : todayWeatherData),
-          if (!isToday &&
-              ((successState ? viewModel.weekData : dummyWeatherData)
-                  .isNotEmpty))
-            SunMoonInfo(
-              weatherData:
-              (successState ? viewModel.weekData : dummyWeatherData)
-                  .firstWhere(
-                    (data) =>
-                data.date ==
-                    DateFormat('yyyy-MM-dd').format(currentDate),
-              ),
-            ),
-          if (isToday)
-            WeatherInfo(
-                realTimeWeatherData: successState
-                    ? viewModel.realTimeData
-                    : dummyRealTimeWeatherInfo),
-          isToday
-              ? HourlyWeatherInfo(
-              todayWeatherData: successState
-                  ? viewModel.todayData
-                  : todayWeatherData,
-              realTimeWeatherData: successState
-                  ? viewModel.realTimeData
-                  : dummyRealTimeWeatherInfo)
-              : HourlyWeatherInfo(
-            otherDayWeatherData: (successState
-                ? viewModel.weekData
-                : dummyWeatherData)
-                .firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
-            ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 
   Widget _buildPage({String? imagePath, String? title, int? lunAge}) {

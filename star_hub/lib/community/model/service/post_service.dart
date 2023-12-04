@@ -42,17 +42,18 @@ class DetailPostService {
                 : print("type x");
   }
 
-  Future updatePosts(int? type, int postId, String content) async {
+  Future<ResponseEntity<DetailPostEntity>> updatePosts(int? type, int postId, String content) async {
     type == 1
-        ? ScopePostService(repository).updateScopePost(
+        ? await ScopePostService(repository).updateScopePost(
             UpdateArticleEntity(content: content, articleId: postId))
         : type == 2
-            ? PlacePostService(repository).updatePlacePost(
+            ? await PlacePostService(repository).updatePlacePost(
                 UpdateArticleEntity(content: content, articleId: postId))
             : type == 3
-                ? PhotoPostService(repository).updatePhotoPost(
+                ? await PhotoPostService(repository).updatePhotoPost(
                     UpdateArticleEntity(content: content, articleId: postId))
                 : print("type x");
+    return getPosts(postId);
   }
 
   Future<ResponseEntity<DetailPostEntity>> writeComment(

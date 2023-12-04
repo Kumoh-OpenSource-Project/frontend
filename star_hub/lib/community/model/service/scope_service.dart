@@ -23,14 +23,22 @@ class ScopePostService {
 
   ScopePostService(this.repository);
 
+  bool isScopeReset = false;
+  int scopePage = 0;
+
   // 전체 ScopePost 가져와서 변수에 저장한다.
   Future<ResponseEntity<List<ScopeFullPostEntity>>> getFullScopePosts(
-      int offset) async {
+      int offset, bool reset) async {
     try {
       scopeEntity.clear();
       if (offset == 0) {
         scopeList.clear();
         hasNextScope = true;
+      }
+      if (reset) {
+        isScopeReset = true;
+      } else {
+        isScopeReset = false;
       }
 
       final List<ScopeFullPostEntity> fullPosts =
@@ -42,6 +50,7 @@ class ScopePostService {
         scopeEntity.addAll(fullPosts);
         scopeList.addAll(fullPosts);
       }
+      scopePage = offset;
       return ResponseEntity.success(entity: fullPosts);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
@@ -55,7 +64,8 @@ class ScopePostService {
 
   // 페이지 초기화. (비동기)
   Future<ResponseEntity<List<ScopeFullPostEntity>>> resetScopePage() async {
-    return getFullScopePosts(0);
+    print("초기화 좀...");
+    return getFullScopePosts(0, true);
   }
 
   // vm에 NextPage 있는지 전달한다.(동기)
@@ -72,20 +82,23 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> deleteScopePost(
       DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
-    return getFullScopePosts(0);
+    isScopeReset = true;
+    return getFullScopePosts(0, true);
   }
 
   // PATCH scopePost : 글을 수정한다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<ScopeFullPostEntity>>> updateScopePost(
       UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
-    return getFullScopePosts(0);
+    isScopeReset = true;
+    return getFullScopePosts(0, true);
   }
 
   // POST scopePost : 글을 올린다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<ScopeFullPostEntity>>> postScopePost(
       PostArticleEntity entity) async {
     await repository.postArticle(entity);
-    return getFullScopePosts(0);
+    isScopeReset = true;
+    return getFullScopePosts(0, true);
   }
 }
