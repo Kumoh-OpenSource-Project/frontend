@@ -146,7 +146,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (viewModel.scopeList.isEmpty) scopeList.clear();
     if (viewModel.placeList.isEmpty) placeList.clear();
     if (viewModel.photoList.isEmpty) photoList.clear();
-    if (viewModel.isScopeReset || prevList != viewModel.scopeList.length) {
+    print(prevList == viewModel.scopeList.length);
+    print(scopeList != viewModel.scopeList);
+    if (viewModel.isScopeReset || prevList != viewModel.scopeList.length || prevList == viewModel.scopeList.length && scopeList != viewModel.scopeList) {
       prevList = viewModel.scopeList.length;
       print("!");
       scopeList.clear();

@@ -103,7 +103,6 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   void _showReportDialog(
       DetailPostEntity entity, DetailPostViewModel viewModel) {
     String reportContent = ''; // Variable to store report content
-
     showDialog(
       context: context,
       builder: (BuildContext context) {

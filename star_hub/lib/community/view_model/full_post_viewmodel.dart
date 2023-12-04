@@ -32,8 +32,6 @@ class PostViewModel extends ChangeNotifier {
 
   int get scopePage => scopePostService.scopePage;
 
-  //bool get isScopeReset => scopePostService.isScopeReset;
-
   List<ScopeFullPostEntity> get scopeEntity => scopePostService.scopeEntity;
 
   List<PlaceFullPostEntity> get placeEntity => placePostService.placeEntity;

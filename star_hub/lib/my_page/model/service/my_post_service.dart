@@ -6,15 +6,15 @@ import 'package:star_hub/my_page/model/entity/my_likes_entity.dart';
 import 'package:star_hub/my_page/model/entity/my_post_entity.dart';
 import 'package:star_hub/my_page/model/repository/my_page_repository.dart';
 
-final searchPostServiceProvider = Provider((ref) {
+final myPostPostServiceProvider = Provider((ref) {
   final repository = ref.watch(myPageRepositoryProvider);
-  return SearchService(repository);
+  return MyPostService(repository);
 });
 
-class SearchService {
+class MyPostService {
   final MyPageRepository repository;
 
-  SearchService(this.repository);
+  MyPostService(this.repository);
 
   Future<ResponseEntity<List<MyClipEntity>>> getClipPost() async {
     try {
