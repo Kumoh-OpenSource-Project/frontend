@@ -27,6 +27,9 @@ abstract class HomeRepository {
   @Headers({'accessToken': 'true'})
   Future<List<WeatherData>> getWeekData(@Path('lat') double lat, @Path('lon') double lon);
 
+  @GET('home?type=event')
+  @Headers({'accessToken': 'true'})
+  Future<EventData> getEventData();
 
   @GET('home/moon?year={year}&month={month}')
   @Headers({'accessToken': 'true'})

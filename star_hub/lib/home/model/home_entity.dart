@@ -10,6 +10,26 @@ class SunMoonData {
   });
 }
 
+class EventData {
+  final String title;
+  final String date;
+  final int dDay;
+
+  EventData({
+    required this.title,
+    required this.date,
+    required this.dDay,
+  });
+
+  factory EventData.fromJson(Map<String, dynamic> json) {
+    return EventData(
+      title: json['title'],
+      date: json['date'],
+      dDay: json['dDay'],
+    );
+  }
+}
+
 class LunarData {
   final int lunAge;
   final String solDay;

@@ -15,6 +15,7 @@ class ImageSlider extends StatelessWidget {
     return SizedBox(
       height: 200,
       child: PageView.builder(
+        physics: const BouncingScrollPhysics(),
         controller: controller,
         itemCount: pages.length,
         itemBuilder: (_, index) {

@@ -26,10 +26,11 @@ class HomeService extends StateNotifier<HomeState> {
       TodayWeatherData? todayWeatherData = await getTodayWeatherData();
       RealTimeWeatherInfo? currentWeather = await getCurrentWeather();
       List<WeatherData> weeklyWeather = await getWeeklyWeather();
+      EventData? eventData = await getEventData();
 
       if (todayWeatherData != null && currentWeather != null) {
         state =
-            HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather);
+            HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData!);
       } else {
         state = HomeStateError('에러: 데이터를 불러올 수 없습니다.');
       }
@@ -56,6 +57,18 @@ class HomeService extends StateNotifier<HomeState> {
       return response;
     } on DioException catch (e) {
       print('Failed to load lunar data DioError: ${e.message}');
+    } catch (e) {
+      print('Unexpected Error: $e');
+    }
+    return null;
+  }
+
+  Future<EventData?> getEventData() async {
+    try {
+      final response = await repository.getEventData();
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load event data DioError: ${e.message}');
     } catch (e) {
       print('Unexpected Error: $e');
     }

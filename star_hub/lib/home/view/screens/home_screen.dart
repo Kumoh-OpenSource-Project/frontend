@@ -88,13 +88,13 @@ class _HomePageState extends ConsumerState<HomePage> {
   void fetchData3() {
     dummyWeatherData = List.generate(
       5,
-          (index) {
+      (index) {
         final nextDate = today.add(Duration(days: index + 1));
         return WeatherData(
           date: DateFormat('yyyy-MM-dd').format(nextDate),
           weathers: List.generate(
             8,
-                (hour) => WeekHourlyWeatherInfo(
+            (hour) => WeekHourlyWeatherInfo(
               main: "Clouds",
               description: "튼구름",
               icon: "01d",
@@ -122,133 +122,150 @@ class _HomePageState extends ConsumerState<HomePage> {
       _buildPage(
           imagePath: viewModel.homeState is HomeStateSuccess
               ? isToday
-              ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
-              : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'
+                  ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
+                  : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'
               : isToday
-              ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
-              : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
+                  ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
+                  : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
       _buildPage(
           lunAge: viewModel.homeState is HomeStateSuccess
               ? isToday
-              ? viewModel.realTimeData.lunAge + 1
-              : viewModel.weekData
-              .firstWhere((data) =>
-          data.date ==
-              DateFormat('yyyy-MM-dd').format(currentDate))
-              .lunAge +
-              1
+                  ? viewModel.realTimeData.lunAge + 1
+                  : viewModel.weekData
+                          .firstWhere((data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate))
+                          .lunAge +
+                      1
               : isToday
-              ? dummyRealTimeWeatherInfo.lunAge + 1
-              : dummyWeatherData
-              .firstWhere((data) =>
-          data.date ==
-              DateFormat('yyyy-MM-dd').format(currentDate))
-              .lunAge +
-              1),
-      _buildPage(title: 'D-DAY'),
+                  ? dummyRealTimeWeatherInfo.lunAge + 1
+                  : dummyWeatherData
+                          .firstWhere((data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate))
+                          .lunAge +
+                      1),
     ];
+
+    if (isToday && viewModel.homeState is HomeStateSuccess) {
+      pages.add(
+        _buildPage(
+          title: 'D-DAY',
+          widget: EventDdayWidget(
+            title: viewModel.eventData.title,
+            date: viewModel.eventData.date,
+            dDay: viewModel.eventData.dDay,
+          ),
+        ),
+      );
+    }
 
     isToday = currentDate.isAtSameMomentAs(today);
     return viewModel.homeState is HomeStateSuccess
         ? SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          DateNavigation(
-            currentDate: currentDate,
-            onDateSelected: (selectedDate) {
-              setState(() {
-                currentDate = selectedDate;
-              });
-            },
-          ),
-          ImageSlider(controller: controller, pages: pages),
-          PageIndicator(controller: controller, pages: pages),
-          isToday
-              ? Description(realTimeWeatherInfo: viewModel.realTimeData)
-              : Description(
-            otherDayWeatherData: viewModel.weekData.firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                DateNavigation(
+                  currentDate: currentDate,
+                  onDateSelected: (selectedDate) {
+                    setState(() {
+                      currentDate = selectedDate;
+                    });
+                  },
+                ),
+                ImageSlider(controller: controller, pages: pages),
+                PageIndicator(controller: controller, pages: pages),
+                isToday
+                    ? Description(realTimeWeatherInfo: viewModel.realTimeData)
+                    : Description(
+                        otherDayWeatherData: viewModel.weekData.firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+                if (isToday) SunMoonInfo(todayWeatherData: viewModel.todayData),
+                if (!isToday && viewModel.weekData.isNotEmpty)
+                  SunMoonInfo(
+                    weatherData: viewModel.weekData.firstWhere(
+                      (data) =>
+                          data.date ==
+                          DateFormat('yyyy-MM-dd').format(currentDate),
+                    ),
+                  ),
+                if (isToday)
+                  WeatherInfo(realTimeWeatherData: viewModel.realTimeData),
+                isToday
+                    ? HourlyWeatherInfo(
+                        todayWeatherData: viewModel.todayData,
+                        realTimeWeatherData: viewModel.realTimeData)
+                    : HourlyWeatherInfo(
+                        otherDayWeatherData: viewModel.weekData.firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+              ],
             ),
-          ),
-          if (isToday) SunMoonInfo(todayWeatherData: viewModel.todayData),
-          if (!isToday && viewModel.weekData.isNotEmpty)
-            SunMoonInfo(
-              weatherData: viewModel.weekData.firstWhere(
-                    (data) =>
-                data.date ==
-                    DateFormat('yyyy-MM-dd').format(currentDate),
-              ),
-            ),
-          if (isToday)
-            WeatherInfo(realTimeWeatherData: viewModel.realTimeData),
-          isToday
-              ? HourlyWeatherInfo(
-              todayWeatherData: viewModel.todayData,
-              realTimeWeatherData: viewModel.realTimeData)
-              : HourlyWeatherInfo(
-            otherDayWeatherData: viewModel.weekData.firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
-            ),
-          ),
-        ],
-      ),
-    )
+          )
         : SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          DateNavigation(
-            currentDate: currentDate,
-            onDateSelected: (selectedDate) {
-              setState(() {
-                currentDate = selectedDate;
-              });
-            },
-          ),
-          ImageSlider(controller: controller, pages: pages),
-          PageIndicator(controller: controller, pages: pages),
-          isToday
-              ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
-              : Description(
-            otherDayWeatherData: dummyWeatherData.firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                DateNavigation(
+                  currentDate: currentDate,
+                  onDateSelected: (selectedDate) {
+                    setState(() {
+                      currentDate = selectedDate;
+                    });
+                  },
+                ),
+                ImageSlider(controller: controller, pages: pages),
+                PageIndicator(controller: controller, pages: pages),
+                isToday
+                    ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
+                    : Description(
+                        otherDayWeatherData: dummyWeatherData.firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+                if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
+                if (!isToday && (dummyWeatherData).isNotEmpty)
+                  SunMoonInfo(
+                    weatherData: (dummyWeatherData).firstWhere(
+                      (data) =>
+                          data.date ==
+                          DateFormat('yyyy-MM-dd').format(currentDate),
+                    ),
+                  ),
+                if (isToday)
+                  WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
+                isToday
+                    ? HourlyWeatherInfo(
+                        todayWeatherData: todayWeatherData,
+                        realTimeWeatherData: dummyRealTimeWeatherInfo)
+                    : HourlyWeatherInfo(
+                        otherDayWeatherData: (dummyWeatherData).firstWhere(
+                          (data) =>
+                              data.date ==
+                              DateFormat('yyyy-MM-dd').format(currentDate),
+                        ),
+                      ),
+              ],
             ),
-          ),
-          if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
-          if (!isToday && (dummyWeatherData).isNotEmpty)
-            SunMoonInfo(
-              weatherData: (dummyWeatherData).firstWhere(
-                    (data) =>
-                data.date ==
-                    DateFormat('yyyy-MM-dd').format(currentDate),
-              ),
-            ),
-          if (isToday)
-            WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
-          isToday
-              ? HourlyWeatherInfo(
-              todayWeatherData: todayWeatherData,
-              realTimeWeatherData: dummyRealTimeWeatherInfo)
-              : HourlyWeatherInfo(
-            otherDayWeatherData: (dummyWeatherData).firstWhere(
-                  (data) =>
-              data.date ==
-                  DateFormat('yyyy-MM-dd').format(currentDate),
-            ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 
-  Widget _buildPage({String? imagePath, String? title, int? lunAge}) {
+  Widget _buildPage(
+      {String? imagePath, String? title, int? lunAge, Widget? widget}) {
+    if (widget != null) {
+      return widget;
+    }
+
     if (imagePath != null) {
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -292,5 +309,48 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
     }
+  }
+}
+
+class EventDdayWidget extends StatelessWidget {
+  final String title;
+  final String date;
+  final int dDay;
+
+  EventDdayWidget({
+    required this.title,
+    required this.date,
+    required this.dDay,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final formattedDate =
+        DateFormat('yyyy년 MM월 dd일').format(DateTime.parse(date));
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'D-$dDay',
+            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '$title 가능',
+            style: const TextStyle(
+              fontSize: 20,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            formattedDate,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
   }
 }
