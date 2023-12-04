@@ -45,6 +45,7 @@ class HourlyWeatherInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 30, right: 20),
