@@ -4,61 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add init lunar data">
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/report_entity.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/report_entity.g.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/report_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add report function and moon's name">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/10.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/10.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/11.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/12.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/12.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/13.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/13.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/14.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/14.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/15.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/15.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/16.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/16.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/17.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/17.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/18.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/18.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/19.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/19.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/20.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/20.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/21.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/21.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/22.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/22.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/23.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/23.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/24.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/24.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/25.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/25.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/26.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/26.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/27.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/27.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/28.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/28.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/29.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/29.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/3.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/4.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/5.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/6.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/7.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/8.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/8.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/assets/moon/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/moon/9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/model/service/auth_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/model/service/auth_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/viewmodel/main_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/viewmodel/main_view_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_clip_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/add_like_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_clip_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/cancel_like_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/comment_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/search_post_entity.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="OPEN-49-월령-달력-구현" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -371,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701530299391</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Feat: Add report function and moon's name">
+      <created>1701619758169</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1701619758169</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -430,7 +390,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Feat: Add moon calender" />
     <MESSAGE value="Feat: Add userId in local storage" />
     <MESSAGE value="Feat: Add my page UI" />
     <MESSAGE value="Feat: Add image upload function to s3" />
@@ -455,6 +414,7 @@
     <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Feat: Add dev's files" />
     <MESSAGE value="Fix: Add init lunar data" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add init lunar data" />
+    <MESSAGE value="Feat: Add report function and moon's name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add report function and moon's name" />
   </component>
 </project>

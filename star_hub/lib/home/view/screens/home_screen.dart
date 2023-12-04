@@ -121,12 +121,12 @@ class _HomePageState extends ConsumerState<HomePage> {
     final pages = [
       _buildPage(
           imagePath: isToday
-              ? 'assets/moon/${dummyRealTimeWeatherInfo.lunAge + 1}.png'
-              : 'assets/moon/${dummyWeatherData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
+              ? 'assets/moon/${viewModel.realTimeData.lunAge + 1}.png'
+              : 'assets/moon/${viewModel.weekData.firstWhere((data) => data.date == DateFormat('yyyy-MM-dd').format(currentDate)).lunAge + 1}.png'),
       _buildPage(
           lunAge: isToday
-              ? dummyRealTimeWeatherInfo.lunAge + 1
-              : dummyWeatherData
+              ? viewModel.realTimeData.lunAge + 1
+              : viewModel.weekData
                       .firstWhere((data) =>
                           data.date ==
                           DateFormat('yyyy-MM-dd').format(currentDate))
