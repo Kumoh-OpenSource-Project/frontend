@@ -12,6 +12,8 @@ import 'package:intl/intl.dart';
 import '../../../my_page/model/state.dart';
 import '../../../my_page/view_model/my_page_viewmodel.dart';
 
+const limit = "수성";
+
 class FullPostPage extends ConsumerStatefulWidget {
   const FullPostPage({super.key});
 
@@ -224,7 +226,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onTap: () {
                             if (e.label == "관측장소" &&
                                 userViewmodel.state is MyPageStateSuccess &&
-                                userViewmodel.entity.level == "수성") {
+                                userViewmodel.entity.level == limit) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -250,7 +252,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 color: e.label == "관측장소" &&
                                         userViewmodel.state
                                             is MyPageStateSuccess &&
-                                        userViewmodel.entity.level == "수성"
+                                        userViewmodel.entity.level == limit
                                     ? Colors.grey
                                     : Colors.white,
                                 width: 2.0,
@@ -263,13 +265,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == "수성"
+                                          userViewmodel.entity.level == limit
                                       ? Icons.lock
                                       : e.icon,
                                   color: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == "수성"
+                                          userViewmodel.entity.level == limit
                                       ? Colors.grey
                                       : null,
                                 ),
@@ -279,7 +281,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   style: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == "수성"
+                                          userViewmodel.entity.level == limit
                                       ? kTextContentStyleSmall.copyWith(
                                           color: Colors.grey)
                                       : kTextContentStyleSmall,

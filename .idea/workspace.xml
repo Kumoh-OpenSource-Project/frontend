@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add real location and level, number of characters limit">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add event D-Day">
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_image_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_entity.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_repository.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/home_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/model/state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/model/state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/screens/home_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/image_slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/image_slider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view_model/home_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view_model/home_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701704964762</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Feat: Add event D-Day">
+      <created>1701709460708</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1701709460708</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -414,7 +416,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Feat: Add image upload function to s3" />
     <MESSAGE value="Feat: Add search function and searched list" />
     <MESSAGE value="Fix: Add of exception handling to SunMoonData" />
     <MESSAGE value="Fix: Add of exception handling to PostBox's content" />
@@ -439,6 +440,7 @@
     <MESSAGE value="Fix: Solve buildPage's problem" />
     <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Feat: Add real location and level, number of characters limit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add real location and level, number of characters limit" />
+    <MESSAGE value="Feat: Add event D-Day" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add event D-Day" />
   </component>
 </project>
