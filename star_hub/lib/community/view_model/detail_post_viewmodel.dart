@@ -25,10 +25,7 @@ class DetailPostViewModel extends ChangeNotifier {
   late final PhotoPostService photoPostService;
   late final MyPostService myPostService;
 
-  ScopeCommunityState scopeState = ScopeCommunityState();
   DetailPostState state = DetailPostState();
-  PlaceCommunityState placeState = PlaceCommunityState();
-  PhotoCommunityState photoState = PhotoCommunityState();
 
   DetailPostViewModel(this.ref) {
     detailPostService = ref.read(detailPostServiceProvider);
@@ -43,15 +40,26 @@ class DetailPostViewModel extends ChangeNotifier {
       state.withResponse(detailPostService.getPosts(postId));
 
   // 게시물 삭제
-  void deletePost(int? type, int articleId, {String? word, SearchState? searchState, MyPostState? myPostState, MyPostLikeState? myPostLikeState, MyPostClipState? myPostClipState}) {
+  void deletePost(
+    int? type,
+    int articleId, {
+    String? word,
+    SearchState? searchState,
+    MyPostState? myPostState,
+    MyPostLikeState? myPostLikeState,
+    MyPostClipState? myPostClipState,
+    ScopeCommunityState? scopeCommunityState,
+    PlaceCommunityState? placeCommunityState,
+    PhotoCommunityState? photoCommunityState,
+  }) {
     if (type == 1) {
-      scopeState.withResponse(scopePostService
+      scopeCommunityState!.withResponse(scopePostService
           .deleteScopePost(DeleteArticleEntity(articleId: articleId)));
     } else if (type == 2) {
-      placeState.withResponse(placePostService
+      placeCommunityState!.withResponse(placePostService
           .deletePlacePost(DeleteArticleEntity(articleId: articleId)));
     } else if (type == 3) {
-      photoState.withResponse(photoPostService
+      photoCommunityState!.withResponse(photoPostService
           .deletePhotoPost(DeleteArticleEntity(articleId: articleId)));
     } else if (type == 4) {
       searchState!.withResponse(searchService.deleteSearchPost(
@@ -69,15 +77,23 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   // 게시물 수정
-  void updatePost(int? type, int articleId, String content, {String? word, SearchState? searchState, MyPostState? myPostState, MyPostLikeState? myPostLikeState, MyPostClipState? myPostClipState}) {
+  void updatePost(int? type, int articleId, String content,
+      {String? word,
+      SearchState? searchState,
+      MyPostState? myPostState,
+      MyPostLikeState? myPostLikeState,
+      MyPostClipState? myPostClipState,
+        ScopeCommunityState? scopeCommunityState,
+        PlaceCommunityState? placeCommunityState,
+        PhotoCommunityState? photoCommunityState,}) {
     if (type == 1) {
-      scopeState.withResponse(scopePostService.updateScopePost(
+      scopeCommunityState!.withResponse(scopePostService.updateScopePost(
           UpdateArticleEntity(content: content, articleId: articleId)));
     } else if (type == 2) {
-      placeState.withResponse(placePostService.updatePlacePost(
+      placeCommunityState!.withResponse(placePostService.updatePlacePost(
           UpdateArticleEntity(content: content, articleId: articleId)));
     } else if (type == 3) {
-      photoState.withResponse(photoPostService.updatePhotoPost(
+      photoCommunityState!.withResponse(photoPostService.updatePhotoPost(
           UpdateArticleEntity(content: content, articleId: articleId)));
     } else if (type == 4) {
       searchState!.withResponse(searchService.updateSearchPost(
