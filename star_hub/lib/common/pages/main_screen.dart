@@ -191,11 +191,15 @@ class _MainPageState extends ConsumerState<MainPage>
 
     if (_currentIndex == 0) {
       actions = IconButton(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         icon: const Icon(Icons.calendar_today_rounded),
         onPressed: () => showLunarCalendar(context, viewModel),
       );
     } else if (_currentIndex == 1) {
       actions = IconButton(
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
         icon: const Icon(Icons.search),
         onPressed: () {
           Navigator.push(

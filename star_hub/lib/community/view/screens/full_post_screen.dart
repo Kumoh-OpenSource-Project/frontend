@@ -206,6 +206,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         child: Column(
           children: [
             TabBar(
+              overlayColor: const MaterialStatePropertyAll(Colors.transparent),
               padding: const EdgeInsets.only(bottom: 15.0),
               controller: _tabController,
               isScrollable: true,
@@ -232,6 +233,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   content: Text(
                                     "금성 레벨 이상이어야 관측장소를 열람할 수 있습니다.",
                                   ),
+                                  duration: Duration(seconds: 1),
                                   behavior: SnackBarBehavior.floating,
                                   margin: EdgeInsets.only(bottom: 520),
                                 ),
@@ -297,6 +299,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
             ),
             Expanded(
               child: TabBarView(
+                physics: const BouncingScrollPhysics(),
                 controller: _tabController,
                 children: [
                   scopeList.isNotEmpty

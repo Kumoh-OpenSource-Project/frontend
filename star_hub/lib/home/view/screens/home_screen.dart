@@ -335,13 +335,13 @@ class EventDdayWidget extends StatelessWidget {
         children: [
           Text(
             'D-$dDay',
-            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Text(
             '$title 가능',
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
             ),
           ),
           const SizedBox(height: 8),
