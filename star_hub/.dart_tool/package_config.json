@@ -326,6 +326,36 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "geolocator",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/geolocator-7.7.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "geolocator_android",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/geolocator_android-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "geolocator_apple",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/geolocator_apple-1.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "geolocator_platform_interface",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/geolocator_platform_interface-2.3.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "geolocator_web",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/geolocator_web-2.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "glob",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/glob-2.1.2",
       "packageUri": "lib/",
@@ -842,7 +872,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-05T07:52:24.713415Z",
+  "generated": "2023-12-05T15:12:21.027224Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

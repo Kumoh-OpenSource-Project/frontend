@@ -62,7 +62,7 @@ class _CommentBoxState extends State<CommentBox> {
             children: [
               Row(
                 children: [
-                  if (widget.userImage.isNotEmpty)
+                  if (widget.userImage.startsWith('https') == true)
                     CircleAvatar(
                       radius: 15,
                       backgroundImage: NetworkImage(widget.userImage),

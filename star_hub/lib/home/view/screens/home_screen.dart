@@ -145,8 +145,20 @@ class _HomePageState extends ConsumerState<HomePage> {
                               DateFormat('yyyy-MM-dd').format(currentDate))
                           .lunAge +
                       1),
-      _buildPage(title: 'D-DAY'),
     ];
+
+    if (isToday && viewModel.homeState is HomeStateSuccess) {
+      pages.add(
+        _buildPage(
+          title: 'D-DAY',
+          widget: EventDdayWidget(
+            title: viewModel.eventData.title,
+            date: viewModel.eventData.date,
+            dDay: viewModel.eventData.dDay,
+          ),
+        ),
+      );
+    }
 
     isToday = currentDate.isAtSameMomentAs(today);
     return viewModel.homeState is HomeStateSuccess
@@ -237,7 +249,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         todayWeatherData: todayWeatherData,
                         realTimeWeatherData: dummyRealTimeWeatherInfo)
                     : HourlyWeatherInfo(
-                        otherDayWeatherData: (dummyWeatherData).firstWhere(
+                        otherDayWeatherData: dummyWeatherData.firstWhere(
                           (data) =>
                               data.date ==
                               DateFormat('yyyy-MM-dd').format(currentDate),
@@ -248,7 +260,12 @@ class _HomePageState extends ConsumerState<HomePage> {
           );
   }
 
-  Widget _buildPage({String? imagePath, String? title, int? lunAge}) {
+  Widget _buildPage(
+      {String? imagePath, String? title, int? lunAge, Widget? widget}) {
+    if (widget != null) {
+      return widget;
+    }
+
     if (imagePath != null) {
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 4),
@@ -292,5 +309,48 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
     }
+  }
+}
+
+class EventDdayWidget extends StatelessWidget {
+  final String title;
+  final String date;
+  final int dDay;
+
+  EventDdayWidget({
+    required this.title,
+    required this.date,
+    required this.dDay,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final formattedDate =
+        DateFormat('yyyy년 MM월 dd일').format(DateTime.parse(date));
+
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'D-$dDay',
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '$title 가능',
+            style: const TextStyle(
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            formattedDate,
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
   }
 }

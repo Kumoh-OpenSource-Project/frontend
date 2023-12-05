@@ -10,6 +10,26 @@ class SunMoonData {
   });
 }
 
+class EventData {
+  final String title;
+  final String date;
+  final int dDay;
+
+  EventData({
+    required this.title,
+    required this.date,
+    required this.dDay,
+  });
+
+  factory EventData.fromJson(Map<String, dynamic> json) {
+    return EventData(
+      title: json['title'],
+      date: json['date'],
+      dDay: json['dDay'],
+    );
+  }
+}
+
 class LunarData {
   final int lunAge;
   final String solDay;
@@ -177,12 +197,12 @@ class RealTimeWeatherInfo {
       main: json['main'],
       description: json['description'],
       icon: json['icon'],
-      temp: json['temp'],
-      feelsLike: json['feelsLike'],
-      tempMin: json['tempMin'],
-      tempMax: json['tempMax'],
+      temp: json['temp'].toDouble(),
+      feelsLike: json['feelsLike'].toDouble(),
+      tempMin: json['tempMin'].toDouble(),
+      tempMax: json['tempMax'].toDouble(),
       humidity: json['humidity'],
-      windSpeed: json['windSpeed'],
+      windSpeed: json['windSpeed'].toDouble(),
       windDeg: json['windDeg'],
       seeing: json['seeing'],
       lunAge: json['lunAge'],

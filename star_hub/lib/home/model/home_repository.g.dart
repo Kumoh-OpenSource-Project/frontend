@@ -19,7 +19,10 @@ class _HomeRepository implements HomeRepository {
   String? baseUrl;
 
   @override
-  Future<TodayWeatherData> getTodayData() async {
+  Future<TodayWeatherData> getTodayData(
+    double lat,
+    double lon,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -33,7 +36,7 @@ class _HomeRepository implements HomeRepository {
     )
             .compose(
               _dio.options,
-              'home?type=today&lat=36.14578&lon=128.39394',
+              'home?type=today&lat=${lat}&lon=${lon}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -43,7 +46,10 @@ class _HomeRepository implements HomeRepository {
   }
 
   @override
-  Future<RealTimeWeatherInfo> getRealTimeData() async {
+  Future<RealTimeWeatherInfo> getRealTimeData(
+    double lat,
+    double lon,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -57,7 +63,7 @@ class _HomeRepository implements HomeRepository {
     )
             .compose(
               _dio.options,
-              'home?type=current&lat=36.14578&lon=128.39394',
+              'home?type=current&lat=${lat}&lon=${lon}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -67,7 +73,10 @@ class _HomeRepository implements HomeRepository {
   }
 
   @override
-  Future<List<WeatherData>> getWeekData() async {
+  Future<List<WeatherData>> getWeekData(
+    double lat,
+    double lon,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -81,7 +90,7 @@ class _HomeRepository implements HomeRepository {
     )
             .compose(
               _dio.options,
-              'home?type=week&lat=36.14578&lon=128.39394',
+              'home?type=week&lat=${lat}&lon=${lon}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -89,6 +98,30 @@ class _HomeRepository implements HomeRepository {
     var value = _result.data!
         .map((dynamic i) => WeatherData.fromJson(i as Map<String, dynamic>))
         .toList();
+    return value;
+  }
+
+  @override
+  Future<EventData> getEventData() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<EventData>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'home?type=event',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = EventData.fromJson(_result.data!);
     return value;
   }
 

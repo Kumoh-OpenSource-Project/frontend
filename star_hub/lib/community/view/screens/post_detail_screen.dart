@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
-import 'package:star_hub/common/snackBarUtil.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/common/value_state_listener.dart';
@@ -19,6 +18,7 @@ import '../../model/entity/comment_entity.dart';
 import '../../model/entity/report_entity.dart';
 import '../../model/service/report_service.dart';
 import 'edit_screen.dart';
+import 'full_image_page.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
   const DetailPage(
@@ -293,6 +293,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     } else {
       viewModel.writeComment(entity.id, _commentController.text);
       setState(() {
+
         _commentController.clear();
         FocusScope.of(context).unfocus();
       });
@@ -422,11 +423,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                           Row(
                                             children: [
                                               if (state.value!.writerImage
-                                                  .isNotEmpty)
+                                                  ?.startsWith('https') ==
+                                                  true)
                                                 CircleAvatar(
                                                   radius: 15,
                                                   backgroundImage: NetworkImage(
-                                                    state.value!.writerImage,
+                                                    state.value!.writerImage!,
                                                   ),
                                                 )
                                               else
@@ -500,6 +502,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                               .builder(
                                                             options:
                                                                 CarouselOptions(
+                                                                  enableInfiniteScroll: false,
                                                               initialPage: 0,
                                                               viewportFraction:
                                                                   1,

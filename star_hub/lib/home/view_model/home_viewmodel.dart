@@ -20,6 +20,8 @@ class HomeViewModel extends ChangeNotifier {
   List<WeatherData> get weekData =>
       (homeState as HomeStateSuccess).data2;
 
+  EventData get eventData => (homeState as HomeStateSuccess).eventData;
+
   HomeViewModel(this.ref) {
     homeState = ref.read(homeServiceProvider);
 

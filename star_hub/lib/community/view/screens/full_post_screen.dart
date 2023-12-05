@@ -13,6 +13,11 @@ import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:intl/intl.dart';
 
+import '../../../my_page/model/state.dart';
+import '../../../my_page/view_model/my_page_viewmodel.dart';
+
+const limit = "수성";
+
 class FullPostPage extends ConsumerStatefulWidget {
   const FullPostPage({super.key});
 
@@ -149,11 +154,20 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
   @override
   Widget build(BuildContext context) {
-    // if (viewModel.scopeList.isEmpty) scopeList.clear();
-    // if (viewModel.placeList.isEmpty) placeList.clear();
-    // if (viewModel.photoList.isEmpty) photoList.clear();
+    final userViewmodel = ref.watch(myPageViewModelProvider);
 
+    if (userViewmodel.state is MyPageStateSuccess) {
+      print(userViewmodel.entity.level);
+    }
+
+    if (viewModel.scopeList.isEmpty) scopeList.clear();
+    if (viewModel.placeList.isEmpty) placeList.clear();
+    if (viewModel.photoList.isEmpty) photoList.clear();
+    print(prevList == viewModel.scopeList.length);
+    print(scopeList != viewModel.scopeList);
     if (viewModel.scopeReset) {
+      prevList = viewModel.scopeList.length;
+      print("!");
       scopeList.clear();
       scopePage = 1;
       print(viewModel.scopeList);
@@ -200,6 +214,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         child: Column(
           children: [
             TabBar(
+              overlayColor: const MaterialStatePropertyAll(Colors.transparent),
               padding: const EdgeInsets.only(bottom: 15.0),
               controller: _tabController,
               isScrollable: true,
@@ -218,6 +233,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
+                            if (e.label == "관측장소" &&
+                                userViewmodel.state is MyPageStateSuccess &&
+                                userViewmodel.entity.level == limit) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "금성 레벨 이상이어야 관측장소를 열람할 수 있습니다.",
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.only(bottom: 520),
+                                ),
+                              );
+                              return;
+                            }
+
                             _tabController.animateTo(tabs.indexOf(e));
                           },
                           child: Container(
@@ -227,15 +258,44 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              border:
-                                  Border.all(color: Colors.white, width: 2.0),
+                              border: Border.all(
+                                color: e.label == "관측장소" &&
+                                        userViewmodel.state
+                                            is MyPageStateSuccess &&
+                                        userViewmodel.entity.level == limit
+                                    ? Colors.grey
+                                    : Colors.white,
+                                width: 2.0,
+                              ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(e.icon),
+                                Icon(
+                                  e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? Icons.lock
+                                      : e.icon,
+                                  color: e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? Colors.grey
+                                      : null,
+                                ),
                                 const SizedBox(width: 10),
-                                Text(e.label, style: kTextContentStyleSmall),
+                                Text(
+                                  e.label,
+                                  style: e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? kTextContentStyleSmall.copyWith(
+                                          color: Colors.grey)
+                                      : kTextContentStyleSmall,
+                                ),
                               ],
                             ),
                           ),
@@ -247,6 +307,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
             ),
             Expanded(
               child: TabBarView(
+                physics: const BouncingScrollPhysics(),
                 controller: _tabController,
                 children: [
                   scopeList.isNotEmpty
@@ -257,6 +318,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
                                   index < scopeList.length;
                                   index++)
@@ -330,6 +393,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _placeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
                                   index < viewModel.placeList.length;
                                   index++)
@@ -527,7 +592,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   Route _createRoute(String selectedCategory, PostViewModel viewModel) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => WritePostPage(
-          selectedCategory: selectedCategory, viewModel: viewModel),
+        selectedCategory: selectedCategory,
+        viewModel: viewModel,
+        userLevel:
+            (ref.watch(myPageViewModelProvider).state is MyPageStateSuccess)
+                ? ref.watch(myPageViewModelProvider).entity.level
+                : null,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;
