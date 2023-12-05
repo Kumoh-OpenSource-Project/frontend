@@ -14,13 +14,9 @@ final searchPostServiceProvider = Provider((ref) {
 
 class SearchService {
   final CommunityRepository repository;
-
-  // offset 변수랑 값을 맞춰야 함.
-  int searchPage = 0;
-
-  // 다음 페이지가 있는가.
   bool hasNextSearch = true;
-
+  bool isSearchReset = false;
+  int searchPage = 0;
   List<SearchPostEntity> searchList = [];
   List<SearchPostEntity> searchEntity = [];
 
@@ -33,7 +29,6 @@ class SearchService {
       if (offset == 0) {
         searchList.clear();
         hasNextSearch = true;
-        searchPage = 0;
       }
       final List<SearchPostEntity> post =
           await repository.searchArticle(words, offset);
@@ -43,9 +38,16 @@ class SearchService {
         hasNextSearch = true;
 
         searchList.addAll(post);
-        searchPage++;
       }
-      return ResponseEntity.success(entity: post);
+      searchPage = offset;
+      if (offset == 0) {
+        isSearchReset = true;
+        print(searchList);
+        print("서비스에서 리셋함");
+      } else {
+        isSearchReset = false;
+      }
+      return ResponseEntity.success(entity: searchList);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
@@ -71,6 +73,11 @@ class SearchService {
     searchEntity = [];
   }
 
+
+
+  void makeNonReset() {
+    isSearchReset = false;
+  }
   // DELETE photoPost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<SearchPostEntity>>> deleteSearchPost(
       DeleteArticleEntity entity, String word) async {

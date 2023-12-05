@@ -16,16 +16,19 @@ class SearchPostViewModel extends ChangeNotifier {
   late final DetailPostService detailPostService;
   SearchState searchState = SearchState();
   DetailPostState detailPostState = DetailPostState();
-  int searchPage = 0;
   bool hasNextSearch = false;
   String previousWord = "";
-  List<SearchPostEntity> searchList = [];
+
+  List<SearchPostEntity> get searchList => searchService.searchList;
+
+  bool get scopeReset => searchService.isSearchReset;
+
+  bool isSearchReset = false;
 
   //List<SearchPostEntity> get  => searchService.searchList;
   void getScopeReset(String string) {
-    searchList = [];
+    isSearchReset = true;
     searchState.withResponse(searchService.getSearchArticles(string, 0));
-    searchList = searchService.searchList;
   }
 
   SearchPostViewModel(this.ref) {
@@ -35,23 +38,10 @@ class SearchPostViewModel extends ChangeNotifier {
 
   void getInfo(String word, int offset) {
     searchState.withResponse(searchService.getSearchArticles(word, offset));
-    searchList = searchService.searchList;
   }
 
   void onTextFieldFocused() {
-    print("reset");
-    searchList = [];
     searchService.reset();
-  }
-
-  void navigateToDetailPage(
-      BuildContext context, int postId, int? type, int writerId) {
-    detailPostState.withResponse(detailPostService.getPosts(postId));
-    FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => DetailPage(type, postId, writerId)));
   }
 
   List<SearchPostEntity> getSearchList() {
@@ -67,14 +57,19 @@ class SearchPostViewModel extends ChangeNotifier {
     hasNext = searchService.hasNextSearch;
     return hasNext;
   }
+  void makeNotRecent() {
+    searchService.makeNonReset();
+  }
 
   bool getNextPage(String words, bool isNew, int page) {
+    isSearchReset = false;
     hasNextSearch = searchService.returnSearchPage() ||
         (previousWord != words || (isNew == true && previousWord == words));
-    print(isNew);
-    if (hasNextSearch) {
+    if (page == 0) hasNextSearch = true;
+    if (page == 0) {
       searchState.withResponse(searchService.getSearchArticles(words, page));
-      searchList = searchService.searchList;
+    } else if (hasNextSearch) {
+      searchState.withResponse(searchService.getSearchArticles(words, page));
     }
     return false;
   }

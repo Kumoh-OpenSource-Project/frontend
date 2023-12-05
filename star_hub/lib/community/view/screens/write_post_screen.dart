@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as img;
-
 import 'package:image_picker/image_picker.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
+
 
 class WritePostPage extends StatefulWidget {
   final String? selectedCategory;

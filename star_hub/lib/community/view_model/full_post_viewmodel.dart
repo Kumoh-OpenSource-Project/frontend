@@ -10,7 +10,6 @@ import 'package:star_hub/community/model/service/scope_service.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
-import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 
 final postViewModelProvider =
     ChangeNotifierProvider((ref) => PostViewModel(ref));
@@ -30,13 +29,14 @@ class PostViewModel extends ChangeNotifier {
   PlaceCommunityState placeState = PlaceCommunityState();
   PhotoCommunityState photoState = PhotoCommunityState();
 
-  List<ScopeFullPostEntity> get scopeEntity => scopePostService.scopeEntity;
+  bool get scopeReset => scopePostService.isScopeReset;
+  List<ScopeFullPostEntity> get scopeList => scopePostService.scopeList;
 
   List<PlaceFullPostEntity> get placeEntity => placePostService.placeEntity;
 
   List<PhotoFullPostEntity> get photoEntity => photoPostService.photoEntity;
 
-  List<ScopeFullPostEntity> scopeList = [];
+ // List<ScopeFullPostEntity> scopeList = [];
   List<PlaceFullPostEntity> placeList = [];
   List<PhotoFullPostEntity> photoList = [];
 
@@ -52,10 +52,11 @@ class PostViewModel extends ChangeNotifier {
   }
 
   void getScopeReset() {
+    //scopeList = [];
     isScopeReset = true;
-    scopeList = [];
     scopeState.withResponse(scopePostService.getFullScopePosts(0));
-    scopeList = scopePostService.scopeList;
+    //scopeList = scopePostService.scopeList;
+
   }
 
   void getPhotoReset() {
@@ -73,7 +74,7 @@ class PostViewModel extends ChangeNotifier {
   }
 
   void makeNotRecentScope() {
-    isScopeReset = false;
+    scopePostService.makeScopeNonReset();
   }
 
   void makeNotRecentPlace() {
@@ -114,41 +115,35 @@ class PostViewModel extends ChangeNotifier {
     switch (type) {
       case "scope":
         getScopeReset();
-        isScopeReset = true;
         break;
       case "place":
         getPlaceReset();
-        isPlaceReset = true;
         break;
       case "photo":
         getPhotoReset();
-        isPhotoReset = true;
         break;
       default:
         getScopeReset();
         getPlaceReset();
         getPhotoReset();
-        isScopeReset = true;
-        isPlaceReset = true;
-        isPhotoReset = true;
         break;
     }
   }
 
   void postArticle(
-      String type, String content, String title, List<String> photo) {
+      String type, String content, String title, List<String> photo,
+      {ScopeCommunityState? scopeCommunityState,
+      PlaceCommunityState? placeCommunityState,
+      PhotoCommunityState? photoCommunityState}) {
     if (type == "scope") {
       scopeState.withResponse(scopePostService.postScopePost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-      getScopeReset();
     } else if (type == "place") {
       placeState.withResponse(placePostService.postPlacePost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-      getPlaceReset();
     } else {
       photoState.withResponse(photoPostService.postPhotoPost(PostArticleEntity(
           content: content, title: title, type: type, photo: photo)));
-      getPhotoReset();
     }
   }
 
@@ -169,10 +164,10 @@ class PostViewModel extends ChangeNotifier {
       if (page == 0) hasNextScope = true;
       if (page == 0) {
         scopeState.withResponse(scopePostService.getFullScopePosts(page));
-        scopeList = scopePostService.scopeList;
+   //     scopeList = scopePostService.scopeList;
       } else if (hasNextScope) {
         scopeState.withResponse(scopePostService.getFullScopePosts(page));
-        scopeList = scopePostService.scopeList;
+     //   scopeList = scopePostService.scopeList;
       }
       return false;
     } else if (type == "place") {

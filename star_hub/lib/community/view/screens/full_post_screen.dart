@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
+import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
@@ -141,7 +143,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
   void _setState() => setState(() {});
 
-  final scopeList = [];
+  List<ScopeFullPostEntity> scopeList = [];
   final placeList = [];
   final photoList = [];
 
@@ -151,12 +153,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     // if (viewModel.placeList.isEmpty) placeList.clear();
     // if (viewModel.photoList.isEmpty) photoList.clear();
 
-    if (viewModel.isScopeReset) {
-      print("!스코프 리셋 빌드");
-      viewModel.makeNotRecentScope();
+    if (viewModel.scopeReset) {
       scopeList.clear();
       scopePage = 1;
+      print(viewModel.scopeList);
       scopeList.addAll(viewModel.scopeList);
+      viewModel.makeNotRecentScope();
+
       //_scopeScrollController.jumpTo(0.0);
     } else {
       prevList = scopeList.length;
@@ -166,8 +169,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       ));
     }
     if (viewModel.isPlaceReset) {
-      print("!place 리셋 빌드");
-      viewModel.makeNotRecentPlace();
       placeList.clear();
       placePage = 1;
       placeList.addAll(viewModel.placeList);
@@ -277,17 +278,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => DetailPage(
-                                                  scopeList[index].categoryId,
-                                                  scopeList[index].id,
-                                                  scopeList[index]
-                                                      .writerId))).then(
-                                          (value) {
+                                                    scopeList[index].categoryId,
+                                                    scopeList[index].id,
+                                                    scopeList[index].writerId,
+                                                    scopeCommunityState:
+                                                        viewModel.scopeState,
+                                                  ))).then((value) {
                                         if (value != null) {
-                                          setState(() {
-                                            if (value is bool) {
-                                              viewModel.getScopeReset();
-                                            } else {
-                                              viewModel.makeNotRecentScope();
+                                          if (value is bool) {
+                                            _scopeScrollController.jumpTo(0.0);
+                                          } else {
+                                            setState(() {
                                               scopeList[index] =
                                                   scopeList[index].copyWith(
                                                       title: value.title,
@@ -300,8 +301,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                                       isClipped:
                                                           value.isClipped,
                                                       isLike: value.isLike);
-                                            }
-                                          });
+                                            });
+                                          }
                                         }
                                       });
                                     }),
@@ -354,11 +355,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => DetailPage(
-                                                  placeList[index].categoryId,
-                                                  placeList[index].id,
-                                                  placeList[index]
-                                                      .writerId))).then(
-                                          (value) {
+                                                    placeList[index].categoryId,
+                                                    placeList[index].id,
+                                                    placeList[index].writerId,
+                                                    placeCommunityState:
+                                                        viewModel.placeState,
+                                                  ))).then((value) {
                                         if (value != null) {
                                           setState(() {
                                             if (value is bool) {
@@ -418,13 +420,15 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 onTap: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                  photoList[index].categoryId,
-                                                  photoList[index].id,
-                                                  photoList[index].writerId)))
-                                      .then((value) {
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                                photoList[index].categoryId,
+                                                photoList[index].id,
+                                                photoList[index].writerId,
+                                                photoCommunityState:
+                                                    viewModel.photoState,
+                                              ))).then((value) {
                                     if (value != null) {
                                       setState(() {
                                         if (value is bool) {
@@ -507,11 +511,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
     Navigator.of(context)
-        .push(_createRoute(selectedCategory, viewModel))
-        .then((value) {
+        .push(_createRoute(selectedCategory, viewModel)).then((value) {
+          print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       if (selectedCategory == "scope") {
         _scopeScrollController.jumpTo(0.0);
       } else if (selectedCategory == "place") {
+        print("1");
         _placeScrollController.jumpTo(0.0);
       } else {
         _photoScrollController.jumpTo(0.0);
@@ -530,6 +535,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var offsetAnimation = animation.drive(tween);
+
         return SlideTransition(position: offsetAnimation, child: child);
       },
     );

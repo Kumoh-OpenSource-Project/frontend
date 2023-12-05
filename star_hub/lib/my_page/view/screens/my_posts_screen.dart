@@ -74,7 +74,7 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
                     nickName: widget.nickName,
                     writeDate: post.writeDate,
                     likes: post.likes,
-                    clips: null,
+                    clips: post.clips,
                     onTap: () {
                       FocusManager.instance.primaryFocus?.unfocus();
                       Navigator.push(

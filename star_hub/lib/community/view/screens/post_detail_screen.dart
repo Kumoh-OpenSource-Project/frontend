@@ -264,7 +264,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     searchState: widget.searchState,
                     myPostClipState: widget.myPostClipState,
                     myPostLikeState: widget.myPostLikeState,
-                    myPostState: widget.myPostState);
+                    myPostState: widget.myPostState,
+                    scopeCommunityState: widget.scopeCommunityState,
+                    placeCommunityState: widget.placeCommunityState,
+                    photoCommunityState: widget.photoCommunityState);
                 //viewModel.someMethod(type);
               },
               child: const Text(

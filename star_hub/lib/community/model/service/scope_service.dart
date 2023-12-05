@@ -12,17 +12,13 @@ final scopePostServiceProvider = Provider((ref) {
   return ScopePostService(repository);
 });
 
+
 class ScopePostService {
   final CommunityRepository repository;
-
-  // 다음 페이지가 있는가.
   bool hasNextScope = true;
-
   List<ScopeFullPostEntity> scopeList = [];
   List<ScopeFullPostEntity> scopeEntity = [];
-
   ScopePostService(this.repository);
-
   bool isScopeReset = false;
   int scopePage = 0;
 
@@ -31,7 +27,6 @@ class ScopePostService {
       int offset) async {
     try {
       scopeEntity.clear();
-
       if (offset == 0) {
         scopeList.clear();
         hasNextScope = true;
@@ -42,11 +37,17 @@ class ScopePostService {
         hasNextScope = false;
       } else {
         hasNextScope = true;
-        scopeEntity.addAll(fullPosts);
         scopeList.addAll(fullPosts);
       }
       scopePage = offset;
-      return ResponseEntity.success(entity: fullPosts);
+      if (offset == 0) {
+        isScopeReset = true;
+        print(scopeList);
+        print("서비스에서 리셋함");
+      } else {
+        isScopeReset = false;
+      }
+      return ResponseEntity.success(entity: scopeList);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
@@ -74,7 +75,6 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> deleteScopePost(
       DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
-    isScopeReset = true;
     return getFullScopePosts(0);
   }
 
@@ -82,7 +82,7 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> updateScopePost(
       UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
-    isScopeReset = true;
+    //isScopeReset = true;
     return getFullScopePosts(0);
   }
 
@@ -90,7 +90,10 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> postScopePost(
       PostArticleEntity entity) async {
     await repository.postArticle(entity);
-    isScopeReset = true;
     return getFullScopePosts(0);
+  }
+
+  void makeScopeNonReset() {
+    isScopeReset = false;
   }
 }

@@ -34,6 +34,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       final authService = AuthService(accessToken);
       try {
         await authService.login(accessToken);
+        print("로그인 시도");
         Navigator.of(context).pushReplacement(_createMainPageRoute());
         print("로그인 성공");
       } catch (error) {

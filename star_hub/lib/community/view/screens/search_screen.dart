@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
-import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:star_hub/community/view_model/search_post_viewmodel.dart';
-import '../../model/repository/community_repository.dart';
-import '../../model/service/search_service.dart';
 import '../widgets/post_box2.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -47,8 +45,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     // isInit = false;
   }
 
-  void _setState() => setState(() {
-  });
+  void _setState() => setState(() {});
 
   @override
   void dispose() {
@@ -67,6 +64,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     }
   }
 
+
+  String formatTimeDifference(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    DateTime now = DateTime.now();
+
+    Duration difference = now.difference(date);
+
+    if (difference.inDays > 0) {
+      return DateFormat('yyyy-MM-dd').format(date);
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}시간 전';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}분 전';
+    } else {
+      return '방금 전';
+    }
+  }
+
   List<SearchPostEntity> searchList = [];
   bool isSearching = false;
 
@@ -82,7 +97,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     setState(() {
       isSearching = _searchFocusNode.hasFocus;
     });
-
     if (isSearching) {
       _animationController.forward();
     } else {
@@ -92,10 +106,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    searchList.addAll(viewModel.searchList.where(
-      (newItem) =>
-          !searchList.any((existingItem) => existingItem.id == newItem.id),
-    ));
+    if (viewModel.scopeReset) {
+      searchList.clear();
+      page = 1;
+      print(viewModel.searchList);
+      searchList.addAll(viewModel.searchList);
+      viewModel.makeNotRecent();
+
+      //_scopeScrollController.jumpTo(0.0);
+    } else {
+      searchList.addAll(viewModel.searchList.where(
+            (newItem) =>
+        !searchList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
+    // searchList.addAll(viewModel.searchList.where(
+    //   (newItem) =>
+    //       !searchList.any((existingItem) => existingItem.id == newItem.id),
+    // ));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -105,6 +133,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           focusNode: _searchFocusNode,
           onSubmitted: (text) {
             setState(() {
+
               page = 0;
               searchList.clear();
               viewModel.getNextPage(text, true, page++);
@@ -199,8 +228,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailPage(4, post.id, post.writerId, word: _searchController.text,searchState: viewModel.searchState)))
+                                  builder: (context) => DetailPage(
+                                      4, post.id, post.writerId,
+                                      word: _searchController.text,
+                                      searchState: viewModel.searchState)))
                           .then((value) {
                         if (value != null) {
                           setState(() {
