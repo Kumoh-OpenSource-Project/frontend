@@ -343,12 +343,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                   Row(
                                     children: [
                                       if (state.value!.writerImage
-                                              .startsWith('https') ==
+                                              ?.startsWith('https') ==
                                           true)
                                         CircleAvatar(
                                           radius: 15,
                                           backgroundImage: NetworkImage(
-                                            state.value!.writerImage,
+                                            state.value!.writerImage!,
                                           ),
                                         )
                                       else
@@ -417,6 +417,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                 children: <Widget>[
                                                   CarouselSlider.builder(
                                                     options: CarouselOptions(
+                                                      enableInfiniteScroll: false,
                                                       initialPage: 0,
                                                       viewportFraction: 1,
                                                       enlargeCenterPage: true,

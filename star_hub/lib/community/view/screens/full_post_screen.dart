@@ -310,6 +310,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
                                   index < scopeList.length;
                                   index++)
@@ -355,6 +357,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _placeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
                                   index < viewModel.placeList.length;
                                   index++)

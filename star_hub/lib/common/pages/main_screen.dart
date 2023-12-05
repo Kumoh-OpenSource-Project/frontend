@@ -67,7 +67,7 @@ class _MainPageState extends ConsumerState<MainPage>
   Widget build(BuildContext context) {
     final viewModel = ref.watch(mainViewModelProvider);
 
-    _lunarDataList = viewModel.state is MainStateSuccess  ? viewModel.data : [];
+    _lunarDataList = viewModel.state is MainStateSuccess ? viewModel.data : [];
 
     return Scaffold(
       appBar: buildAppBar(viewModel),
@@ -118,7 +118,9 @@ class _MainPageState extends ConsumerState<MainPage>
                     }
 
                     final matchingLunarData = _lunarDataList.firstWhere(
-                      (lunarData) => lunarData.solDay == date.day.toString(),
+                      (lunarData) =>
+                          lunarData.solDay ==
+                          date.day.toString().padLeft(2, '0'),
                       orElse: () => _lunarDataList.first,
                     );
 
@@ -152,9 +154,12 @@ class _MainPageState extends ConsumerState<MainPage>
                     }
 
                     final matchingLunarData = _lunarDataList.firstWhere(
-                      (lunarData) => lunarData.solDay == date.day.toString(),
+                      (lunarData) =>
+                          lunarData.solDay ==
+                          date.day.toString().padLeft(2, '0'),
                       orElse: () => _lunarDataList.first,
                     );
+
                     return Container(
                       alignment: Alignment.center,
                       child: Column(

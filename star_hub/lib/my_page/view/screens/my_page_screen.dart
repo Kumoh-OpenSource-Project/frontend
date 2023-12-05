@@ -106,8 +106,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
+                                color: Colors.white.withOpacity(0.5),
+                                width: 1.0,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(15),
@@ -205,8 +205,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
+                                color: Colors.white.withOpacity(0.5),
+                                width: 1.0,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(15),
