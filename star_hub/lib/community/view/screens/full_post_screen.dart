@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
-import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_post_entity.dart';
-import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
@@ -64,7 +61,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _scopeScrollListener() {
     if (_scopeScrollController.position.pixels ==
         _scopeScrollController.position.maxScrollExtent) {
-      print("끝도착");
       _loadMoreData();
     }
   }
@@ -72,7 +68,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _placeScrollListener() {
     if (_placeScrollController.position.pixels ==
         _placeScrollController.position.maxScrollExtent) {
-      print("끝도착");
       _loadMoreData();
     }
   }
@@ -80,7 +75,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _photoScrollListener() {
     if (_photoScrollController.position.pixels ==
         _photoScrollController.position.maxScrollExtent) {
-      print("끝도착");
       _loadMoreData();
     }
   }
@@ -88,11 +82,42 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   String formatTimeDifference(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
 
-    Duration difference = now.difference(date);
+    Duration difference = nowDate.difference(date);
 
-    if (difference.inDays > 0) {
-      return DateFormat('yyyy-MM-dd').format(date);
+
+    if (difference.inDays > 365) {
+      int years = (difference.inDays / 365).floor();
+      return '$years년 전';
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}시간 전';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}분 전';
+    } else {
+      return '방금 전';
+    }
+  }
+
+  String formatTimeDifference1(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
+    Duration difference = nowDate.difference(date);
+
+    print('받은 시간 : $date');
+    print('현재 시간 : $now');
+    print('시간 차이 : $difference');
+
+    if (difference.inDays > 365) {
+      int years = (difference.inDays / 365).floor();
+      return '$years년 전';
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
     } else if (difference.inHours > 0) {
       return '${difference.inHours}시간 전';
     } else if (difference.inMinutes > 0) {
@@ -159,12 +184,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (userViewmodel.state is MyPageStateSuccess) {
       print(userViewmodel.entity.level);
     }
-
-    if (viewModel.scopeList.isEmpty) scopeList.clear();
-    if (viewModel.placeList.isEmpty) placeList.clear();
-    if (viewModel.photoList.isEmpty) photoList.clear();
-    print(prevList == viewModel.scopeList.length);
-    print(scopeList != viewModel.scopeList);
     if (viewModel.scopeReset) {
       prevList = viewModel.scopeList.length;
       print("!");
@@ -314,73 +333,72 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshScope,
-                          child: ListView(
+                          child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
-                            children: [
-                              // TODO: 여기 인기 게시물 추가
-                              Text('data'),
-                              for (int index = 0;
-                                  index < scopeList.length;
-                                  index++)
-                                PostBox2(
-                                    title: scopeList[index].title,
-                                    content: scopeList[index].contentText,
-                                    nickName: scopeList[index].nickName,
-                                    writerId: scopeList[index].writerId,
-                                    writeDate: formatTimeDifference(
-                                        scopeList[index].writeDate),
-                                    level: scopeList[index].level,
-                                    likes: scopeList[index].likes,
-                                    clips: scopeList[index].clips,
-                                    comments: scopeList[index].comments,
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                    scopeList[index].categoryId,
-                                                    scopeList[index].id,
-                                                    scopeList[index].writerId,
-                                                    scopeCommunityState:
-                                                        viewModel.scopeState,
-                                                  ))).then((value) {
-                                        if (value != null) {
-                                          if (value is bool) {
-                                            _scopeScrollController.jumpTo(0.0);
-                                          } else {
-                                            setState(() {
-                                              scopeList[index] =
-                                                  scopeList[index].copyWith(
-                                                      title: value.title,
-                                                      contentText:
-                                                          value.content,
-                                                      likes: value.likes,
-                                                      clips: value.clips,
-                                                      comments:
-                                                          value.comments.length,
-                                                      isClipped:
-                                                          value.isClipped,
-                                                      isLike: value.isLike);
-                                            });
-                                          }
+                            itemCount: scopeList.length + 2,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return Text('data');
+                              } else if (index == scopeList.length+1) {
+                                // 마지막 아이템일 경우: CircularProgressIndicator를 표시하거나 빈 컨테이너를 반환
+                                return viewModel.getHasNext("scope")
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.white))
+                                    : Container(height: 30);
+                              } else {
+                                int scopeIndex = index - 1;
+                                return PostBox2(
+                                  title: scopeList[scopeIndex].title,
+                                  content: scopeList[scopeIndex].contentText,
+                                  nickName: scopeList[scopeIndex].nickName,
+                                  writerId: scopeList[scopeIndex].writerId,
+                                  writeDate: formatTimeDifference1(
+                                      scopeList[scopeIndex].writeDate),
+                                  level: scopeList[scopeIndex].level,
+                                  likes: scopeList[scopeIndex].likes,
+                                  clips: scopeList[scopeIndex].clips,
+                                  comments: scopeList[scopeIndex].comments,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          scopeList[scopeIndex].categoryId,
+                                          scopeList[scopeIndex].id,
+                                          scopeList[scopeIndex].writerId,
+                                          scopeCommunityState:
+                                              viewModel.scopeState,
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        if (value is bool) {
+                                          _scopeScrollController.jumpTo(0.0);
+                                        } else {
+                                          setState(() {
+                                            scopeList[scopeIndex] =
+                                                scopeList[scopeIndex].copyWith(
+                                              title: value.title,
+                                              contentText: value.content,
+                                              likes: value.likes,
+                                              clips: value.clips,
+                                              comments: value.comments.length,
+                                              isClipped: value.isClipped,
+                                              isLike: value.isLike,
+                                            );
+                                          });
                                         }
-                                      });
-                                    }),
-                              if (viewModel.getHasNext("scope"))
-                                const Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                              else
-                                Container(
-                                  height: 30,
-                                ),
-                            ],
-                          ),
-                        )
+                                      }
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          ))
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
@@ -576,8 +594,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
     Navigator.of(context)
-        .push(_createRoute(selectedCategory, viewModel)).then((value) {
-          print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        .push(_createRoute(selectedCategory, viewModel))
+        .then((value) {
+      print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       if (selectedCategory == "scope") {
         _scopeScrollController.jumpTo(0.0);
       } else if (selectedCategory == "place") {

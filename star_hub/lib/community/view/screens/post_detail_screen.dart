@@ -723,7 +723,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     )));
           } else {
             // Future가 완료되지 않았으므로 로딩 스피너 또는 다른 로딩 상태를 표시할 수 있습니다.
-            return const CircularProgressIndicator();
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
           }
         });
   }
