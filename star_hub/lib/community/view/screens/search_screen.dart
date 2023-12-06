@@ -68,17 +68,20 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
   String formatTimeDifference(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
+    Duration difference = nowDate.difference(date);
 
-    Duration difference = now.difference(date);
-
-    if (difference.inDays > 0) {
-      return DateFormat('yyyy-MM-dd').format(date);
+    if (difference.inDays > 365) {
+      return DateFormat('YYYY-MM-dd').format(date);
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
     } else if (difference.inHours > 0) {
-      return '${difference.inHours}시간 전';
+      return DateFormat('HH:mm').format(date);
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}분 전';
+      return DateFormat('HH:mm').format(date);
     } else {
-      return '방금 전';
+      return DateFormat('HH:mm').format(date);
     }
   }
 
@@ -218,7 +221,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     content: post.contentText,
                     nickName: post.nickName,
                     writerId: post.writerId,
-                    writeDate: post.writeDate,
+                    writeDate: formatTimeDifference(post.writeDate),
                     level: post.level,
                     likes: post.likes,
                     clips: post.clips,
@@ -256,4 +259,5 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
               child: Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
     );
   }
+
 }
