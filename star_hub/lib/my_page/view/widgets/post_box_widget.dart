@@ -12,17 +12,25 @@ class PostBox extends StatelessWidget {
   final int? likes;
   final int? clips;
   final VoidCallback? onTap;
+  final int categoryId;
 
-  const PostBox({
-    super.key,
-    required this.title,
-    required this.content,
-    required this.nickName,
-    required this.writeDate,
-    required this.likes,
-    required this.clips,
-    required this.onTap,
-  });
+  const PostBox(
+      {super.key,
+      required this.title,
+      required this.content,
+      required this.nickName,
+      required this.writeDate,
+      required this.likes,
+      required this.clips,
+      required this.onTap,
+      required this.categoryId});
+
+  static const List<String> category = [
+    " ",
+    "관측도구 게시판",
+    "관측장소 게시판",
+    "사진자랑 게시판"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +41,17 @@ class PostBox extends StatelessWidget {
       writeDate: writeDate,
       likes: likes,
       clips: clips,
+      categoryId: categoryId,
     );
     return Container(
       decoration: const BoxDecoration(
-          border: Border(
-              top: BorderSide(
-        color: Colors.white24,
-        width: 1,
-      ))),
+        border: Border(
+          top: BorderSide(
+            color: Colors.white24,
+            width: 1,
+          ),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +60,16 @@ class PostBox extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(10),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      category[post.categoryId],
+                      style: kTextContentStyleSmall2.copyWith(
+                          color: Colors.blueGrey),
+                    ),
+                  ),
                   Row(
                     children: [
                       Text(
@@ -126,13 +146,14 @@ class Post {
   final String writeDate;
   final int? likes;
   final int? clips;
+  final int categoryId;
 
-  const Post({
-    required this.title,
-    required this.content,
-    required this.nickName,
-    required this.writeDate,
-    required this.likes,
-    required this.clips,
-  });
+  const Post(
+      {required this.title,
+      required this.content,
+      required this.nickName,
+      required this.writeDate,
+      required this.likes,
+      required this.clips,
+      required this.categoryId});
 }

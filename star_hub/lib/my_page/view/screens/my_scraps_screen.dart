@@ -40,7 +40,9 @@ class _MyScrapsPageState extends ConsumerState<MyScrapsPage> {
         backgroundColor: Colors.black,
         body: ValueStateListener(
             state: viewModel.state,
-            loadingBuilder: (_, __) => const CircularProgressIndicator(color: Colors.white,),
+            loadingBuilder: (_, __) => const CircularProgressIndicator(
+                  color: Colors.white,
+                ),
             successBuilder: (_, state) => state.value!.isEmpty
                 ? const Center(
                     child: Text(
@@ -49,12 +51,29 @@ class _MyScrapsPageState extends ConsumerState<MyScrapsPage> {
                     ),
                   )
                 : ListView.builder(
-                    itemCount: viewModel.entity.length,
+                    itemCount: viewModel.entity.length + 1,
                     itemBuilder: (BuildContext context, int index) {
+                      if (index == viewModel.entity.length) {
+                        // return const Divider(
+                        //   color: Colors.white24,
+                        //   thickness: 1,
+                        // );
+                        return Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.white24,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                        );
+                      }
                       final post = viewModel.entity[index];
                       return GestureDetector(
                         onTap: () {},
                         child: PostBox(
+                            categoryId: post.categoryId,
                             title: post.title,
                             content: post.content,
                             nickName: post.nickName,

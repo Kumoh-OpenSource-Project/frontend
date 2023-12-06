@@ -42,8 +42,8 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
         backgroundColor: Colors.black,
         body: ValueStateListener(
           state: viewModel.state,
-          errorBuilder: (_,state) => Text(state.message),
-          noneBuilder: (_,__) => Text("뭐야!"),
+          errorBuilder: (_, state) => Text(state.message),
+          noneBuilder: (_, __) => Text("뭐야!"),
           loadingBuilder: (_, __) => const CircularProgressIndicator(
             color: Colors.white,
           ),
@@ -55,8 +55,24 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
                   ),
                 )
               : ListView.builder(
-                  itemCount: viewModel.entity.length,
+                  itemCount: viewModel.entity.length + 1,
                   itemBuilder: (BuildContext context, int index) {
+                    if (index == viewModel.entity.length) {
+                      // return const Divider(
+                      //   color: Colors.white24,
+                      //   thickness: 1,
+                      // );
+                      return Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.white24,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      );
+                    }
                     final post = viewModel.entity[index];
                     return GestureDetector(
                       onTap: () {},
@@ -67,6 +83,7 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
                         writeDate: post.writeDate,
                         likes: post.likes,
                         clips: post.clips,
+                        categoryId: post.categoryId,
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
                           Navigator.push(

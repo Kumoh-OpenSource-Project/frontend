@@ -306,7 +306,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     ? const Center(
                                         child: CircularProgressIndicator(
                                             color: Colors.white))
-                                    : Container(height: 30);
+                                    : Container(
+                                        height: 30,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            top: BorderSide(
+                                              color: Colors.white24,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      );
                               } else {
                                 int scopeIndex = index - 1;
                                 return PostBox2(
@@ -379,7 +389,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                     ? const Center(
                                         child: CircularProgressIndicator(
                                             color: Colors.white))
-                                    : Container(height: 30);
+                                    : Container(
+                                        height: 30,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            top: BorderSide(
+                                              color: Colors.white24,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      );
                               } else {
                                 int placeIndex = index - 1;
                                 return PostBox2(
