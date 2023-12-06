@@ -469,6 +469,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               crossAxisSpacing: 8.0,
                               mainAxisSpacing: 8.0,
                             ),
+                            padding: const EdgeInsets.all(8.0),
                             itemCount: viewModel.photoList.length,
                             itemBuilder: (BuildContext context, int index) {
                               final post = viewModel.photoList[index];

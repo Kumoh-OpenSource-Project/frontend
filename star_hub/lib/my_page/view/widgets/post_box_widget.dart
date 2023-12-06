@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import '../../../common/styles/fonts/font_style.dart';
@@ -32,13 +33,33 @@ class PostBox extends StatelessWidget {
     "사진자랑 게시판"
   ];
 
+  String formatTimeDifference(String dateStr) {
+    DateTime date = DateTime.parse(dateStr);
+    DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
+    Duration difference = nowDate.difference(date);
+
+    if (difference.inDays > 365) {
+      return DateFormat('YYYY-MM-dd').format(date);
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
+    } else if (difference.inHours > 0) {
+      return DateFormat('HH:mm').format(date);
+    } else if (difference.inMinutes > 0) {
+      return DateFormat('HH:mm').format(date);
+    } else {
+      return DateFormat('HH:mm').format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final post = Post(
       title: title,
       content: content,
       nickName: nickName,
-      writeDate: writeDate,
+      writeDate: formatTimeDifference(writeDate),
       likes: likes,
       clips: clips,
       categoryId: categoryId,
