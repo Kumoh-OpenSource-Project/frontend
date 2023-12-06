@@ -7,7 +7,7 @@ import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
 class EditPage extends StatefulWidget {
   final DetailPostEntity post;
   final DetailPostViewModel viewModel;
-  final int type;
+  final int? type;
 
   const EditPage(
       {Key? key,

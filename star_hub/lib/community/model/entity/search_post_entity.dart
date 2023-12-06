@@ -51,4 +51,36 @@ class SearchPostEntity {
 
   factory SearchPostEntity.fromJson(Map<String, dynamic> json) =>
       _$SearchPostEntityFromJson(json);
+
+  SearchPostEntity copyWith({
+    int? id,
+    int? writerId,
+    String? nickName,
+    String? level,
+    String? title,
+    String? contentText,
+    String? writeDate,
+    int? comments,
+    int? likes,
+    int? clips,
+    bool? isClipped,
+    bool? isLike,
+    List<String>? photos,
+  }) {
+    return SearchPostEntity(
+      id: id ?? this.id,
+      writerId: writerId ?? this.writerId,
+      nickName: nickName ?? this.nickName,
+      level: level ?? this.level,
+      title: title ?? this.title,
+      contentText: contentText ?? this.contentText,
+      writeDate: writeDate ?? this.writeDate,
+      comments: comments ?? this.comments,
+      likes: likes ?? this.likes,
+      clips: clips ?? this.clips,
+      isClipped: isClipped ?? this.isClipped,
+      isLike: isLike ?? this.isLike,
+      photos: photos ?? this.photos,
+    );
+  }
 }

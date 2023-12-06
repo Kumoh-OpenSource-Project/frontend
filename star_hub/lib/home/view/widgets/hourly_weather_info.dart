@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/home_repository.dart';
+import '../../model/home_entity.dart';
 
 class HourlyWeatherInfo extends StatelessWidget {
   final TodayWeatherData? todayWeatherData;
@@ -45,6 +45,7 @@ class HourlyWeatherInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 30, right: 20),

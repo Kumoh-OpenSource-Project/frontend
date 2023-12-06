@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/auth/model/service/auth_service.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/local_storage/local_storage.dart';
 import 'package:star_hub/common/pages/main_screen.dart';
@@ -30,8 +31,18 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
 
     if (!mounted) return;
     if (accessToken != null && accessToken.isNotEmpty) {
-      Navigator.of(context).pushReplacement(_createMainPageRoute());
+      final authService = AuthService(accessToken);
+      try {
+        await authService.login(accessToken);
+        print("로그인 시도");
+        Navigator.of(context).pushReplacement(_createMainPageRoute());
+        print("로그인 성공");
+      } catch (error) {
+        print("액세스 토큰 만료, 다시 로그인");
+        Navigator.of(context).pushReplacement(_createLoginPageRoute());
+      }
     } else {
+      print("처음 로그인");
       Navigator.of(context).pushReplacement(_createLoginPageRoute());
     }
   }

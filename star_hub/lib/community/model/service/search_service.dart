@@ -1,56 +1,60 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
+import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
-import 'package:star_hub/community/model/state/state.dart';
 
-final searchPostServiceProvider =
-    StateNotifierProvider<SearchService, CommunityState>((ref) {
+import '../../../common/entity/response_entity.dart';
+
+final searchPostServiceProvider = Provider((ref) {
   final repository = ref.watch(communityRepositoryProvider);
   return SearchService(repository);
 });
 
-class SearchService extends StateNotifier<CommunityState> {
+class SearchService {
   final CommunityRepository repository;
-
-  // offset 변수랑 값을 맞춰야 함.
-  int searchPage = 0;
-
-  //String previousWord = "";
-
-  // 다음 페이지가 있는가.
   bool hasNextSearch = true;
-
+  bool isSearchReset = false;
+  int searchPage = 0;
   List<SearchPostEntity> searchList = [];
   List<SearchPostEntity> searchEntity = [];
 
-  SearchService(this.repository)
-      : searchList = [],
-        searchEntity = [],
-        super(SearchStateNone());
+  SearchService(this.repository);
 
-  Future searchArticles(String words, int offset) async {
+  Future<ResponseEntity<List<SearchPostEntity>>> getSearchArticles(
+      String words, int offset) async {
     try {
       searchEntity.clear();
-      state = SearchStateLoading();
       if (offset == 0) {
         searchList.clear();
         hasNextSearch = true;
-        searchPage = 0;
       }
       final List<SearchPostEntity> post =
           await repository.searchArticle(words, offset);
-
       if (post.isEmpty) {
         hasNextSearch = false;
       } else {
         hasNextSearch = true;
+
         searchList.addAll(post);
-        searchPage++;
       }
-      state = SearchStateSuccess(post);
-      searchEntity.addAll(post);
+      searchPage = offset;
+      if (offset == 0) {
+        isSearchReset = true;
+        print(searchList);
+        print("서비스에서 리셋함");
+      } else {
+        isSearchReset = false;
+      }
+      return ResponseEntity.success(entity: searchList);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 200) {
+        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+      }
+      return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
     } catch (e) {
-      _handleError(e);
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }
 
@@ -64,14 +68,27 @@ class SearchService extends StateNotifier<CommunityState> {
     return searchEntity;
   }
 
-  Future<void> _handleError(dynamic error) async {
-    //todo : print 나중에 지워주세요!
-    print('Error in SearchPostService: $error');
-    state = SearchStateError(error.toString());
-  }
-
   Future reset() async {
     searchList = [];
     searchEntity = [];
+  }
+
+
+
+  void makeNonReset() {
+    isSearchReset = false;
+  }
+  // DELETE photoPost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
+  Future<ResponseEntity<List<SearchPostEntity>>> deleteSearchPost(
+      DeleteArticleEntity entity, String word) async {
+    await repository.deletePost(entity);
+    return getSearchArticles(word, 0);
+  }
+
+  // PATCH photoPost : 글을 수정한다. 페이지 초기화 진행 (비동기)
+  Future<ResponseEntity<List<SearchPostEntity>>> updateSearchPost(
+      UpdateArticleEntity entity, String word) async {
+    await repository.updateArticle(entity);
+    return getSearchArticles(word, 0);
   }
 }

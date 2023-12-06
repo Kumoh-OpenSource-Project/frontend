@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/value_state_util.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/model/service/post_service.dart';
 import 'package:star_hub/community/model/service/search_service.dart';
@@ -11,35 +12,36 @@ final searchPostViewModelProvider =
 
 class SearchPostViewModel extends ChangeNotifier {
   Ref ref;
-  late CommunityState state;
-  int searchPage = 0;
+  late final SearchService searchService;
+  late final DetailPostService detailPostService;
+  SearchState searchState = SearchState();
+  DetailPostState detailPostState = DetailPostState();
   bool hasNextSearch = false;
-  List<SearchPostEntity> searchList = [];
   String previousWord = "";
 
-  List<SearchPostEntity> get entity => (state as SearchStateSuccess).data;
+  List<SearchPostEntity> get searchList => searchService.searchList;
+
+  bool get scopeReset => searchService.isSearchReset;
+
+  bool isSearchReset = false;
+
+  //List<SearchPostEntity> get  => searchService.searchList;
+  void getScopeReset(String string) {
+    isSearchReset = true;
+    searchState.withResponse(searchService.getSearchArticles(string, 0));
+  }
 
   SearchPostViewModel(this.ref) {
-    searchList = ref.read(searchPostServiceProvider.notifier).searchList;
-    state = ref.read(searchPostServiceProvider);
-    ref.listen(searchPostServiceProvider, (previous, next) {
-      if (previous != next) {
-        state = next;
-        notifyListeners();
-      }
-    });
+    searchService = ref.read(searchPostServiceProvider);
+    detailPostService = ref.read(detailPostServiceProvider);
+  }
+
+  void getInfo(String word, int offset) {
+    searchState.withResponse(searchService.getSearchArticles(word, offset));
   }
 
   void onTextFieldFocused() {
-    print("reset");
-    ref.read(searchPostServiceProvider.notifier).reset();
-  }
-
-  void navigateToDetailPage(BuildContext context, int postId, int type, int writerId) {
-    ref.read(detailPostServiceProvider.notifier).getPosts(postId);
-    FocusManager.instance.primaryFocus?.unfocus();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailPage(type, writerId)));
+    searchService.reset();
   }
 
   List<SearchPostEntity> getSearchList() {
@@ -47,27 +49,27 @@ class SearchPostViewModel extends ChangeNotifier {
   }
 
   List<SearchPostEntity> getSearchEntity() {
-    return ref.read(searchPostServiceProvider.notifier).searchEntity;
+    return searchService.searchEntity;
   }
 
   bool getHasNext() {
     bool hasNext;
-    hasNext = ref.read(searchPostServiceProvider.notifier).hasNextSearch;
+    hasNext = searchService.hasNextSearch;
     return hasNext;
   }
+  void makeNotRecent() {
+    searchService.makeNonReset();
+  }
 
-  bool getNextPage(String words, bool isNew) {
-    searchPage = ref.read(searchPostServiceProvider.notifier).searchPage;
-    hasNextSearch =
-        ref.read(searchPostServiceProvider.notifier).returnSearchPage() ||
-            (previousWord != words || (isNew == true && previousWord == words ));
-    print(isNew);
-    if (previousWord != words || (isNew == true && previousWord == words )) searchPage = 0;
-    previousWord = words;
-    if (hasNextSearch) {
-      ref
-          .read(searchPostServiceProvider.notifier)
-          .searchArticles(words, searchPage);
+  bool getNextPage(String words, bool isNew, int page) {
+    isSearchReset = false;
+    hasNextSearch = searchService.returnSearchPage() ||
+        (previousWord != words || (isNew == true && previousWord == words));
+    if (page == 0) hasNextSearch = true;
+    if (page == 0) {
+      searchState.withResponse(searchService.getSearchArticles(words, page));
+    } else if (hasNextSearch) {
+      searchState.withResponse(searchService.getSearchArticles(words, page));
     }
     return false;
   }

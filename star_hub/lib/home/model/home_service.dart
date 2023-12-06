@@ -1,99 +1,113 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:star_hub/common/local_storage/local_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/home/model/home_repository.dart';
+import 'package:star_hub/home/model/state.dart';
+import 'package:dio/dio.dart';
+import 'home_entity.dart';
+import 'package:geolocator/geolocator.dart';
 
-import 'home_repository.dart';
+final homeServiceProvider =
+StateNotifierProvider<HomeService, HomeState>((ref) {
+  final repository = ref.watch(homeRepositoryProvider);
+  return HomeService(repository);
+});
 
-class HomeService {
-  static const String baseUrl =
-      'http://ec2-3-39-84-165.ap-northeast-2.compute.amazonaws.com:3000';
+class HomeService extends StateNotifier<HomeState> {
+  final HomeRepository repository;
+  late final Position position;
 
-  Future<Map<String, String>> _createHeaders() async {
-    String? token = await LocalStorage().getAccessToken();
-    //"kz7D-iGSZbsVGHiUUddOoXfQcO3JeXzS4LYKPXNNAAABjBZT1B3OkqTnJF629A";
-
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
+  HomeService(this.repository) : super(HomeStateNone()) {
+    _initialize();
   }
 
-  Future<List<LunarData>> getLunarData(String year, String month) async {
-    final url = "$baseUrl/home/moon?year=$year&month=$month";
-
-    final response = await http.get(
-      Uri.parse(url),
-      headers: await _createHeaders(),
-    );
-
-    if (response.statusCode == 200) {
-      final List<dynamic> jsonDataList = json.decode(response.body);
-
-      final List<LunarData> lunarDataList = jsonDataList
-          .map((jsonData) => LunarData.fromJson(jsonData))
-          .toList();
-
-      return lunarDataList;
-    } else {
-      throw Exception('Failed to load lunar data. Status code: ${response.statusCode}');
-    }
-  }
-
-
-  Future<TodayWeatherData> getTodayWeatherData() async {
-    const url = '$baseUrl/home?type=today&lat=36.14578&lon=128.39394';
-
-    final response = await http.get(
-      Uri.parse(url),
-      headers: await _createHeaders(),
-    );
-
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      final todayWeatherData = TodayWeatherData.fromJson(jsonData);
-      return todayWeatherData;
-    } else {
-      throw Exception('Failed to load current weather data');
-    }
-  }
-
-  Future<RealTimeWeatherInfo> getCurrentWeather() async {
-    const url = '$baseUrl/home?type=current&lat=36.14578&lon=128.39394';
-
+  Future<void> _initialize() async {
     try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: await _createHeaders(),
-      );
+      state = HomeStateLoading();
+      position = await getCurrentLocation();
+      TodayWeatherData? todayWeatherData = await getTodayWeatherData();
+      RealTimeWeatherInfo? currentWeather = await getCurrentWeather();
+      List<WeatherData> weeklyWeather = await getWeeklyWeather();
+      EventData? eventData = await getEventData();
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        return RealTimeWeatherInfo.fromJson(data);
+      if (todayWeatherData != null && currentWeather != null) {
+        state =
+            HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData!);
       } else {
-        throw Exception('Failed to load current weather data');
+        state = HomeStateError('에러: 데이터를 불러올 수 없습니다.');
       }
     } catch (e) {
-      throw Exception('Error: $e');
+      state = HomeStateError('에러: $e');
     }
+  }
+
+  Future<TodayWeatherData?> getTodayWeatherData() async {
+    try {
+      final response = await repository.getTodayData(position.latitude, position.longitude);
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load today weather data DioError: ${e.message}');
+    } catch (e) {
+      print('Unexpected Error: $e');
+    }
+    return null;
+  }
+
+  Future<List<LunarData>?> getLunarData(String year, String month) async {
+    try {
+      final response = await repository.getLunarData(year, month);
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load lunar data DioError: ${e.message}');
+    } catch (e) {
+      print('Unexpected Error: $e');
+    }
+    return null;
+  }
+
+  Future<EventData?> getEventData() async {
+    try {
+      final response = await repository.getEventData();
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load event data DioError: ${e.message}');
+    } catch (e) {
+      print('Unexpected Error: $e');
+    }
+    return null;
+  }
+
+  Future<RealTimeWeatherInfo?> getCurrentWeather() async {
+    try {
+      final response = await repository.getRealTimeData(position.latitude, position.longitude);
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load current weather data. DioError: ${e.message}');
+    } catch (e) {
+      print('Unexpected Error: $e');
+    }
+    return null;
   }
 
   Future<List<WeatherData>> getWeeklyWeather() async {
-    final url = Uri.parse('$baseUrl/home?type=week&lat=36.14578&lon=128.39394');
-
     try {
-      final response = await http.get(
-        url,
-        headers: await _createHeaders(),
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data.map((json) => WeatherData.fromJson(json)).toList();
-      } else {
-        throw Exception('Failed to load weekly weather data');
-      }
+      final response = await repository.getWeekData(position.latitude, position.longitude);
+      return response;
+    } on DioException catch (e) {
+      print('Failed to load weekly weather data. DioError: ${e.message}');
     } catch (e) {
-      throw Exception('Error: $e');
+      print('여기 ? Unexpected Error: $e');
+    }
+    return [];
+  }
+
+  Future<Position> getCurrentLocation() async {
+    try {
+      Position currentLocation = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      return currentLocation;
+    } catch (e) {
+      print("Error getting current location: $e");
+      rethrow;
     }
   }
 }

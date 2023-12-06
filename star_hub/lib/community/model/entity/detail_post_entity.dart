@@ -13,7 +13,7 @@ class DetailPostEntity {
   @JsonKey(name: "writerLevel")
   String level;
   @JsonKey(name: "writerImage")
-  String writerImage;
+  String? writerImage;
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "contextText")

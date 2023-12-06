@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_icons/weather_icons.dart';
 
-import '../../model/home_repository.dart';
+import '../../model/home_entity.dart';
 
 class SunMoonInfo extends StatelessWidget {
   final TodayWeatherData? todayWeatherData;

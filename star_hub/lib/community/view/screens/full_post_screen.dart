@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
+import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
+import 'package:star_hub/community/model/entity/scope_post_entity.dart';
+import 'package:star_hub/community/model/state/state.dart';
+import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:intl/intl.dart';
+
+import '../../../my_page/model/state.dart';
+import '../../../my_page/view_model/my_page_viewmodel.dart';
+
+const limit = "수성";
 
 class FullPostPage extends ConsumerStatefulWidget {
   const FullPostPage({super.key});
@@ -21,6 +31,11 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   final ScrollController _scopeScrollController = ScrollController();
   final ScrollController _placeScrollController = ScrollController();
   final ScrollController _photoScrollController = ScrollController();
+  late PostViewModel viewModel;
+  int scopePage = 0;
+  int placePage = 0;
+  int photoPage = 0;
+  int prevList = 10;
 
   @override
   void initState() {
@@ -29,6 +44,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
     _tabController = TabController(length: tabs.length, vsync: this);
+    viewModel = ref.read(postViewModelProvider)
+      ..getNextPage("scope", scopePage++)
+      ..getNextPage("place", placePage++)
+      ..getNextPage("photo", photoPage++);
+    viewModel.scopeState.addListener(_setState);
+    viewModel.placeState.addListener(_setState);
+    viewModel.photoState.addListener(_setState);
+  }
+
+  @override
+  void dispose() {
+    viewModel.scopeState.removeListener(_setState);
+    viewModel.placeState.removeListener(_setState);
+    viewModel.photoState.removeListener(_setState);
+    super.dispose();
   }
 
   void _scopeScrollListener() {
@@ -78,17 +108,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     switch (selectedCategory) {
       case "관측도구":
         if (viewModel.getHasNext("scope") == true) {
-          viewModel.getNextPage("scope");
+          viewModel.getNextPage("scope", scopePage++);
         }
         break;
       case "관측장소":
         if (viewModel.getHasNext("place") == true) {
-          viewModel.getNextPage("place");
+          viewModel.getNextPage("place", placePage++);
         }
         break;
       case "사진자랑":
         if (viewModel.getHasNext("photo") == true) {
-          viewModel.getNextPage("photo");
+          viewModel.getNextPage("photo", photoPage++);
         }
         break;
       default:
@@ -97,46 +127,85 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshScope() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("scope");
+    scopePage = 0;
+    setState(() {
+      viewModel.refreshData("scope", scopePage++);
+    });
     return Future.value();
   }
 
   Future<void> _refreshPlace() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("place");
+    placePage = 0;
+    viewModel.refreshData("place", placePage++);
     return Future.value();
   }
 
   Future<void> _refreshPhoto() async {
-    final viewModel = ref.read(postViewModelProvider);
-    viewModel.refreshData("photo");
+    photoPage = 0;
+    viewModel.refreshData("photo", photoPage++);
     return Future.value();
   }
 
-  final scopeList = [];
+  void _setState() => setState(() {});
+
+  List<ScopeFullPostEntity> scopeList = [];
   final placeList = [];
   final photoList = [];
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = ref.watch(postViewModelProvider);
+    final userViewmodel = ref.watch(myPageViewModelProvider);
 
-    if (viewModel.getScopeList().isEmpty) scopeList.clear();
-    if (viewModel.getPlaceList().isEmpty) placeList.clear();
-    if (viewModel.getPhotoList().isEmpty) photoList.clear();
-    scopeList.addAll(viewModel.getScopeEntity("scope").where(
-          (newItem) =>
-              !scopeList.any((existingItem) => existingItem.id == newItem.id),
-        ));
-    placeList.addAll(viewModel.getPlaceEntity("place").where(
-          (newItem) =>
-              !placeList.any((existingItem) => existingItem.id == newItem.id),
-        ));
-    photoList.addAll(viewModel.getPhotoEntity("photo").where(
-          (newItem) =>
-              !photoList.any((existingItem) => existingItem.id == newItem.id),
-        ));
+    if (userViewmodel.state is MyPageStateSuccess) {
+      print(userViewmodel.entity.level);
+    }
+
+    if (viewModel.scopeList.isEmpty) scopeList.clear();
+    if (viewModel.placeList.isEmpty) placeList.clear();
+    if (viewModel.photoList.isEmpty) photoList.clear();
+    print(prevList == viewModel.scopeList.length);
+    print(scopeList != viewModel.scopeList);
+    if (viewModel.scopeReset) {
+      prevList = viewModel.scopeList.length;
+      print("!");
+      scopeList.clear();
+      scopePage = 1;
+      print(viewModel.scopeList);
+      scopeList.addAll(viewModel.scopeList);
+      viewModel.makeNotRecentScope();
+
+      //_scopeScrollController.jumpTo(0.0);
+    } else {
+      prevList = scopeList.length;
+      scopeList.addAll(viewModel.scopeList.where(
+        (newItem) =>
+            !scopeList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
+    if (viewModel.isPlaceReset) {
+      placeList.clear();
+      placePage = 1;
+      placeList.addAll(viewModel.placeList);
+      //_placeScrollController.jumpTo(0.0);
+    } else {
+      placeList.addAll(viewModel.placeList.where(
+        (newItem) =>
+            !placeList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
+    if (viewModel.isPhotoReset) {
+      print("!photo 리셋 빌드");
+      viewModel.makeNotRecentPhoto();
+      photoList.clear();
+      photoPage = 1;
+      photoList.addAll(viewModel.photoList);
+      //
+    } else {
+      photoList.addAll(viewModel.photoList.where(
+        (newItem) =>
+            !photoList.any((existingItem) => existingItem.id == newItem.id),
+      ));
+    }
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -145,6 +214,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         child: Column(
           children: [
             TabBar(
+              overlayColor: const MaterialStatePropertyAll(Colors.transparent),
               padding: const EdgeInsets.only(bottom: 15.0),
               controller: _tabController,
               isScrollable: true,
@@ -163,6 +233,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       child: Center(
                         child: GestureDetector(
                           onTap: () {
+                            if (e.label == "관측장소" &&
+                                userViewmodel.state is MyPageStateSuccess &&
+                                userViewmodel.entity.level == limit) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "금성 레벨 이상이어야 관측장소를 열람할 수 있습니다.",
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                  behavior: SnackBarBehavior.floating,
+                                  margin: EdgeInsets.only(bottom: 520),
+                                ),
+                              );
+                              return;
+                            }
+
                             _tabController.animateTo(tabs.indexOf(e));
                           },
                           child: Container(
@@ -172,15 +258,44 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(30.0),
-                              border:
-                                  Border.all(color: Colors.white, width: 2.0),
+                              border: Border.all(
+                                color: e.label == "관측장소" &&
+                                        userViewmodel.state
+                                            is MyPageStateSuccess &&
+                                        userViewmodel.entity.level == limit
+                                    ? Colors.grey
+                                    : Colors.white,
+                                width: 2.0,
+                              ),
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(e.icon),
+                                Icon(
+                                  e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? Icons.lock
+                                      : e.icon,
+                                  color: e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? Colors.grey
+                                      : null,
+                                ),
                                 const SizedBox(width: 10),
-                                Text(e.label, style: kTextContentStyleSmall),
+                                Text(
+                                  e.label,
+                                  style: e.label == "관측장소" &&
+                                          userViewmodel.state
+                                              is MyPageStateSuccess &&
+                                          userViewmodel.entity.level == limit
+                                      ? kTextContentStyleSmall.copyWith(
+                                          color: Colors.grey)
+                                      : kTextContentStyleSmall,
+                                ),
                               ],
                             ),
                           ),
@@ -192,6 +307,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
             ),
             Expanded(
               child: TabBarView(
+                physics: const BouncingScrollPhysics(),
                 controller: _tabController,
                 children: [
                   scopeList.isNotEmpty
@@ -202,34 +318,66 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
                                   index < scopeList.length;
                                   index++)
                                 PostBox2(
-                                  title: scopeList[index].title,
-                                  content: scopeList[index].contentText,
-                                  nickName: scopeList[index].nickName,
-                                  writerId: scopeList[index].writerId,
-                                  writeDate: formatTimeDifference(
-                                      scopeList[index].writeDate),
-                                  level: scopeList[index].level,
-                                  likes: scopeList[index].likes,
-                                  clips: scopeList[index].clips,
-                                  comments: scopeList[index].comments,
-                                  onTap: () => viewModel.navigateToDetailPage(
-                                    context,
-                                    scopeList[index].id,
-                                    scopeList[index].categoryId,
-                                    scopeList[index].writerId,
-                                  ),
-                                ),
+                                    title: scopeList[index].title,
+                                    content: scopeList[index].contentText,
+                                    nickName: scopeList[index].nickName,
+                                    writerId: scopeList[index].writerId,
+                                    writeDate: formatTimeDifference(
+                                        scopeList[index].writeDate),
+                                    level: scopeList[index].level,
+                                    likes: scopeList[index].likes,
+                                    clips: scopeList[index].clips,
+                                    comments: scopeList[index].comments,
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                    scopeList[index].categoryId,
+                                                    scopeList[index].id,
+                                                    scopeList[index].writerId,
+                                                    scopeCommunityState:
+                                                        viewModel.scopeState,
+                                                  ))).then((value) {
+                                        if (value != null) {
+                                          if (value is bool) {
+                                            _scopeScrollController.jumpTo(0.0);
+                                          } else {
+                                            setState(() {
+                                              scopeList[index] =
+                                                  scopeList[index].copyWith(
+                                                      title: value.title,
+                                                      contentText:
+                                                          value.content,
+                                                      likes: value.likes,
+                                                      clips: value.clips,
+                                                      comments:
+                                                          value.comments.length,
+                                                      isClipped:
+                                                          value.isClipped,
+                                                      isLike: value.isLike);
+                                            });
+                                          }
+                                        }
+                                      });
+                                    }),
                               if (viewModel.getHasNext("scope"))
                                 const Center(
                                     child: CircularProgressIndicator(
                                   color: Colors.white,
                                 ))
                               else
-                                Container(),
+                                Container(
+                                  height: 30,
+                                ),
                             ],
                           ),
                         )
@@ -243,36 +391,73 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onRefresh: _refreshPlace,
                           child: ListView(
                             physics: const BouncingScrollPhysics(),
-                            controller: _scopeScrollController,
+                            controller: _placeScrollController,
                             children: [
+                              // TODO: 여기 인기 게시물 추가
+                              Text('data'),
                               for (int index = 0;
-                                  index < placeList.length;
+                                  index < viewModel.placeList.length;
                                   index++)
                                 PostBox2(
-                                  title: placeList[index].title,
-                                  content: placeList[index].contentText,
-                                  nickName: placeList[index].nickName,
-                                  writerId: placeList[index].writerId,
-                                  writeDate: formatTimeDifference(
-                                      placeList[index].writeDate),
-                                  level: placeList[index].level,
-                                  likes: placeList[index].likes,
-                                  clips: placeList[index].clips,
-                                  comments: placeList[index].comments,
-                                  onTap: () => viewModel.navigateToDetailPage(
-                                    context,
-                                    placeList[index].id,
-                                    placeList[index].categoryId,
-                                    placeList[index].writerId,
-                                  ),
-                                ),
+                                    writerId:
+                                        viewModel.placeList[index].writerId,
+                                    title: viewModel.placeList[index].title,
+                                    content:
+                                        viewModel.placeList[index].contentText,
+                                    nickName:
+                                        viewModel.placeList[index].nickName,
+                                    writeDate: formatTimeDifference(
+                                        viewModel.placeList[index].writeDate),
+                                    level: viewModel.placeList[index].level,
+                                    likes: viewModel.placeList[index].likes,
+                                    clips: viewModel.placeList[index].clips,
+                                    comments:
+                                        viewModel.placeList[index].comments,
+                                    onTap: () {
+                                      FocusManager.instance.primaryFocus
+                                          ?.unfocus();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                    placeList[index].categoryId,
+                                                    placeList[index].id,
+                                                    placeList[index].writerId,
+                                                    placeCommunityState:
+                                                        viewModel.placeState,
+                                                  ))).then((value) {
+                                        if (value != null) {
+                                          setState(() {
+                                            if (value is bool) {
+                                              viewModel.getPlaceReset();
+                                            } else {
+                                              viewModel.makeNotRecentPlace();
+                                              placeList[index] =
+                                                  placeList[index].copyWith(
+                                                      title: value.title,
+                                                      contentText:
+                                                          value.content,
+                                                      likes: value.likes,
+                                                      clips: value.clips,
+                                                      comments:
+                                                          value.comments.length,
+                                                      isClipped:
+                                                          value.isClipped,
+                                                      isLike: value.isLike);
+                                            }
+                                          });
+                                        }
+                                      });
+                                    }),
                               if (viewModel.getHasNext("place"))
                                 const Center(
                                     child: CircularProgressIndicator(
                                   color: Colors.white,
                                 ))
                               else
-                                Container(),
+                                Container(
+                                  height: 30,
+                                ),
                             ],
                           ),
                         )
@@ -285,6 +470,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           color: Colors.white,
                           onRefresh: _refreshPhoto,
                           child: GridView.builder(
+                            controller: _photoScrollController,
                             physics: const BouncingScrollPhysics(),
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -292,15 +478,43 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               crossAxisSpacing: 8.0,
                               mainAxisSpacing: 8.0,
                             ),
-                            itemCount: photoList.length,
+                            itemCount: viewModel.photoList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              final post = photoList[index];
+                              final post = viewModel.photoList[index];
                               return GestureDetector(
-                                onTap: () => viewModel.navigateToDetailPage(
-                                    context,
-                                    post.id,
-                                    post.categoryId,
-                                    post.writerId),
+                                onTap: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => DetailPage(
+                                                photoList[index].categoryId,
+                                                photoList[index].id,
+                                                photoList[index].writerId,
+                                                photoCommunityState:
+                                                    viewModel.photoState,
+                                              ))).then((value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        if (value is bool) {
+                                          viewModel.getPhotoReset();
+                                        } else {
+                                          viewModel.makeNotRecentPhoto();
+                                          photoList[index] = photoList[index]
+                                              .copyWith(
+                                                  title: value.title,
+                                                  contentText: value.content,
+                                                  likes: value.likes,
+                                                  clips: value.clips,
+                                                  comments:
+                                                      value.comments.length,
+                                                  isClipped: value.isClipped,
+                                                  isLike: value.isLike);
+                                        }
+                                      });
+                                    }
+                                  });
+                                },
                                 child: Image.network(
                                   post.photos[0],
                                   fit: BoxFit.cover,
@@ -361,13 +575,30 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
 
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
-    Navigator.of(context).push(_createRoute(selectedCategory, viewModel));
+    Navigator.of(context)
+        .push(_createRoute(selectedCategory, viewModel)).then((value) {
+          print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      if (selectedCategory == "scope") {
+        _scopeScrollController.jumpTo(0.0);
+      } else if (selectedCategory == "place") {
+        print("1");
+        _placeScrollController.jumpTo(0.0);
+      } else {
+        _photoScrollController.jumpTo(0.0);
+      }
+    });
   }
 
   Route _createRoute(String selectedCategory, PostViewModel viewModel) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => WritePostPage(
-          selectedCategory: selectedCategory, viewModel: viewModel),
+        selectedCategory: selectedCategory,
+        viewModel: viewModel,
+        userLevel:
+            (ref.watch(myPageViewModelProvider).state is MyPageStateSuccess)
+                ? ref.watch(myPageViewModelProvider).entity.level
+                : null,
+      ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const begin = Offset(0.0, 1.0);
         const end = Offset.zero;

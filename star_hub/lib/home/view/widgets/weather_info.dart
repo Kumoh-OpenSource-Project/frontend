@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/home_repository.dart';
+import '../../model/home_entity.dart';
 
 class WeatherInfo extends StatelessWidget {
   final RealTimeWeatherInfo? realTimeWeatherData;
@@ -13,6 +13,7 @@ class WeatherInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       scrollDirection: Axis.horizontal,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 30),

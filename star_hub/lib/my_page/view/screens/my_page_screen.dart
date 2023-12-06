@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -28,7 +29,13 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
       'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
   final TextEditingController _nicknameController = TextEditingController();
 
+
   static String get routeName => 'myPage';
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +56,12 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
-                                viewmodel.entity.profilePhoto ??
-                                    profileImageUrl),
+                              viewmodel.entity.profilePhoto
+                                          ?.startsWith('https') ==
+                                      true
+                                  ? viewmodel.entity.profilePhoto.toString()
+                                  : profileImageUrl,
+                            ),
                             radius: 30,
                           ),
                           const SizedBox(width: 16),
@@ -101,38 +112,61 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
+                                color: Colors.white.withOpacity(0.5),
+                                width: 1.0,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(15),
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
-                                    child: const Text(
-                                      '닉네임 변경',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: const Text(
+                                              '닉네임 변경',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     onTap: () {
                                       _showNicknameDialog(context, viewmodel);
                                     },
                                   ),
-                                  const SizedBox(height: 15),
                                   InkWell(
-                                    child: const Text(
-                                      '프로필 이미지 변경',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: const Text(
+                                              '프로필 이미지 변경',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     onTap: () async {
                                       final url = await _selectProfileImage();
@@ -177,24 +211,37 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
+                                color: Colors.white.withOpacity(0.5),
+                                width: 1.0,
                               ),
                               borderRadius: const BorderRadius.all(
                                 Radius.circular(15),
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(20.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   InkWell(
-                                    child: const Text(
-                                      '내가 쓴 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              '내가 쓴 글',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     onTap: () {
@@ -203,7 +250,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                         PageRouteBuilder(
                                           pageBuilder: (context, animation,
                                                   secondaryAnimation) =>
-                                              const MyPostsPage(),
+                                              MyPostsPage(
+                                                  viewmodel.entity.nickName),
                                           transitionsBuilder: (context,
                                               animation,
                                               secondaryAnimation,
@@ -225,13 +273,24 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       );
                                     },
                                   ),
-                                  const SizedBox(height: 15),
                                   InkWell(
-                                    child: const Text(
-                                      '좋아요한 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              '좋아요한 글',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     onTap: () {
@@ -262,13 +321,24 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                       );
                                     },
                                   ),
-                                  const SizedBox(height: 15),
                                   InkWell(
-                                    child: const Text(
-                                      '스크랩한 글',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: const Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            Text(
+                                              '스크랩한 글',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     onTap: () {
@@ -403,6 +473,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                     newNickname = value;
                   });
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(10),
+                ],
               ),
               actions: <Widget>[
                 TextButton(
