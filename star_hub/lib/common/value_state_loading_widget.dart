@@ -13,10 +13,6 @@ class ValueStateLoadingWidget<T> extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(
-        color: Colors.white,
-      ),
-    );
+    return const CircularProgressIndicator(color: Colors.white,);
   }
 }

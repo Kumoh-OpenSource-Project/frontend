@@ -249,7 +249,9 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           content: const Text('정말로 삭제하시겠습니까?'),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text(
                 '취소',
                 style: TextStyle(color: Colors.white),

@@ -32,7 +32,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
-  int prevList = 10;
 
   @override
   void initState() {
@@ -84,34 +83,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     DateTime now = DateTime.now();
     String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
     DateTime nowDate = DateTime.parse(formattedNow);
-
     Duration difference = nowDate.difference(date);
-
-
-    if (difference.inDays > 365) {
-      int years = (difference.inDays / 365).floor();
-      return '$years년 전';
-    } else if (difference.inDays > 0) {
-      return DateFormat('MM-dd').format(date);
-    } else if (difference.inHours > 0) {
-      return '${difference.inHours}시간 전';
-    } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}분 전';
-    } else {
-      return '방금 전';
-    }
-  }
-
-  String formatTimeDifference1(String dateStr) {
-    DateTime date = DateTime.parse(dateStr);
-    DateTime now = DateTime.now();
-    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
-    DateTime nowDate = DateTime.parse(formattedNow);
-    Duration difference = nowDate.difference(date);
-
-    print('받은 시간 : $date');
-    print('현재 시간 : $now');
-    print('시간 차이 : $difference');
 
     if (difference.inDays > 365) {
       int years = (difference.inDays / 365).floor();
@@ -152,10 +124,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshScope() async {
-    scopePage = 0;
-    setState(() {
-      viewModel.refreshData("scope", scopePage++);
-    });
+    viewModel.getScopeReset();
     return Future.value();
   }
 
@@ -185,40 +154,32 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       print(userViewmodel.entity.level);
     }
     if (viewModel.scopeReset) {
-      prevList = viewModel.scopeList.length;
-      print("!");
       scopeList.clear();
       scopePage = 1;
-      print(viewModel.scopeList);
       scopeList.addAll(viewModel.scopeList);
       viewModel.makeNotRecentScope();
-
-      //_scopeScrollController.jumpTo(0.0);
     } else {
-      prevList = scopeList.length;
       scopeList.addAll(viewModel.scopeList.where(
         (newItem) =>
             !scopeList.any((existingItem) => existingItem.id == newItem.id),
       ));
     }
-    if (viewModel.isPlaceReset) {
+    if (viewModel.placeReset) {
       placeList.clear();
       placePage = 1;
       placeList.addAll(viewModel.placeList);
-      //_placeScrollController.jumpTo(0.0);
+      viewModel.makeNotRecentPlace();
     } else {
       placeList.addAll(viewModel.placeList.where(
         (newItem) =>
             !placeList.any((existingItem) => existingItem.id == newItem.id),
       ));
     }
-    if (viewModel.isPhotoReset) {
-      print("!photo 리셋 빌드");
-      viewModel.makeNotRecentPhoto();
+    if (viewModel.photoReset) {
       photoList.clear();
       photoPage = 1;
       photoList.addAll(viewModel.photoList);
-      //
+      viewModel.makeNotRecentScope();
     } else {
       photoList.addAll(viewModel.photoList.where(
         (newItem) =>
@@ -339,9 +300,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             itemCount: scopeList.length + 2,
                             itemBuilder: (context, index) {
                               if (index == 0) {
-                                return Text('data');
-                              } else if (index == scopeList.length+1) {
-                                // 마지막 아이템일 경우: CircularProgressIndicator를 표시하거나 빈 컨테이너를 반환
+                                return const Text('data');
+                              } else if (index == scopeList.length + 1) {
                                 return viewModel.getHasNext("scope")
                                     ? const Center(
                                         child: CircularProgressIndicator(
@@ -354,7 +314,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   content: scopeList[scopeIndex].contentText,
                                   nickName: scopeList[scopeIndex].nickName,
                                   writerId: scopeList[scopeIndex].writerId,
-                                  writeDate: formatTimeDifference1(
+                                  writeDate: formatTimeDifference(
                                       scopeList[scopeIndex].writeDate),
                                   level: scopeList[scopeIndex].level,
                                   likes: scopeList[scopeIndex].likes,
@@ -407,78 +367,71 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshPlace,
-                          child: ListView(
+                          child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             controller: _placeScrollController,
-                            children: [
-                              // TODO: 여기 인기 게시물 추가
-                              Text('data'),
-                              for (int index = 0;
-                                  index < viewModel.placeList.length;
-                                  index++)
-                                PostBox2(
-                                    writerId:
-                                        viewModel.placeList[index].writerId,
-                                    title: viewModel.placeList[index].title,
-                                    content:
-                                        viewModel.placeList[index].contentText,
-                                    nickName:
-                                        viewModel.placeList[index].nickName,
-                                    writeDate: formatTimeDifference(
-                                        viewModel.placeList[index].writeDate),
-                                    level: viewModel.placeList[index].level,
-                                    likes: viewModel.placeList[index].likes,
-                                    clips: viewModel.placeList[index].clips,
-                                    comments:
-                                        viewModel.placeList[index].comments,
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                    placeList[index].categoryId,
-                                                    placeList[index].id,
-                                                    placeList[index].writerId,
-                                                    placeCommunityState:
-                                                        viewModel.placeState,
-                                                  ))).then((value) {
-                                        if (value != null) {
+                            itemCount: placeList.length + 2,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return const Text('data');
+                              } else if (index == placeList.length + 1) {
+                                return viewModel.getHasNext("place")
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.white))
+                                    : Container(height: 30);
+                              } else {
+                                int placeIndex = index - 1;
+                                return PostBox2(
+                                  title: placeList[placeIndex].title,
+                                  content: placeList[placeIndex].contentText,
+                                  nickName: placeList[placeIndex].nickName,
+                                  writerId: placeList[placeIndex].writerId,
+                                  writeDate: formatTimeDifference(
+                                      placeList[placeIndex].writeDate),
+                                  level: placeList[placeIndex].level,
+                                  likes: placeList[placeIndex].likes,
+                                  clips: placeList[placeIndex].clips,
+                                  comments: placeList[placeIndex].comments,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          placeList[placeIndex].categoryId,
+                                          placeList[placeIndex].id,
+                                          placeList[placeIndex].writerId,
+                                          placeCommunityState:
+                                              viewModel.placeState,
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        if (value is bool) {
+                                          _placeScrollController.jumpTo(0.0);
+                                        } else {
                                           setState(() {
-                                            if (value is bool) {
-                                              viewModel.getPlaceReset();
-                                            } else {
-                                              viewModel.makeNotRecentPlace();
-                                              placeList[index] =
-                                                  placeList[index].copyWith(
-                                                      title: value.title,
-                                                      contentText:
-                                                          value.content,
-                                                      likes: value.likes,
-                                                      clips: value.clips,
-                                                      comments:
-                                                          value.comments.length,
-                                                      isClipped:
-                                                          value.isClipped,
-                                                      isLike: value.isLike);
-                                            }
+                                            placeList[placeIndex] =
+                                                placeList[placeIndex].copyWith(
+                                              title: value.title,
+                                              contentText: value.content,
+                                              likes: value.likes,
+                                              clips: value.clips,
+                                              comments: value.comments.length,
+                                              isClipped: value.isClipped,
+                                              isLike: value.isLike,
+                                            );
                                           });
                                         }
-                                      });
-                                    }),
-                              if (viewModel.getHasNext("place"))
-                                const Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                              else
-                                Container(
-                                  height: 30,
-                                ),
-                            ],
-                          ),
-                        )
+                                      }
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          ))
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
@@ -517,7 +470,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                         if (value is bool) {
                                           viewModel.getPhotoReset();
                                         } else {
-                                          viewModel.makeNotRecentPhoto();
                                           photoList[index] = photoList[index]
                                               .copyWith(
                                                   title: value.title,

@@ -8,6 +8,7 @@ part of 'my_likes_entity.dart';
 
 MyLikesEntity _$MyLikesEntityFromJson(Map<String, dynamic> json) =>
     MyLikesEntity(
+      categoryId: json['category'] as int,
       articleId: json['articleId'] as int,
       title: json['title'] as String,
       writeDate: json['writeDate'] as String,
@@ -18,6 +19,7 @@ MyLikesEntity _$MyLikesEntityFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MyLikesEntityToJson(MyLikesEntity instance) =>
     <String, dynamic>{
       'articleId': instance.articleId,
+      'category': instance.categoryId,
       'title': instance.title,
       'content': instance.content,
       'writeDate': instance.writeDate,

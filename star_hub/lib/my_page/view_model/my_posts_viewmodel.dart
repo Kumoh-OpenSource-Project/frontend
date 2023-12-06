@@ -13,14 +13,9 @@ class MyPostViewModel extends ChangeNotifier {
   Ref ref;
   late final MyPostService myPostService;
   MyPostState state = MyPostState();
-  ValueNotifier<List<MyPostEntity>> _entityNotifier =
-  ValueNotifier<List<MyPostEntity>>([]);
 
   MyPostViewModel(this.ref) {
     myPostService = ref.read(myPostPostServiceProvider);
-    _entityNotifier.addListener(() {
-      getInfo();
-    });
   }
 
   List<MyPostEntity> get entity => myPostService.postEntity;

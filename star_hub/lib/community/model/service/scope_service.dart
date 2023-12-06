@@ -17,7 +17,6 @@ class ScopePostService {
   final CommunityRepository repository;
   bool hasNextScope = true;
   List<ScopeFullPostEntity> scopeList = [];
-  List<ScopeFullPostEntity> scopeEntity = [];
   ScopePostService(this.repository);
   bool isScopeReset = false;
   int scopePage = 0;
@@ -26,7 +25,6 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> getFullScopePosts(
       int offset) async {
     try {
-      scopeEntity.clear();
       if (offset == 0) {
         scopeList.clear();
         hasNextScope = true;
@@ -42,8 +40,6 @@ class ScopePostService {
       scopePage = offset;
       if (offset == 0) {
         isScopeReset = true;
-        print(scopeList);
-        print("서비스에서 리셋함");
       } else {
         isScopeReset = false;
       }
@@ -66,11 +62,6 @@ class ScopePostService {
     return hasNextScope;
   }
 
-  // vm에 ScopeEntity 전달한다.(동기)
-  List<ScopeFullPostEntity> getScopeEntity() {
-    return scopeEntity;
-  }
-
   // DELETE scopePost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<ScopeFullPostEntity>>> deleteScopePost(
       DeleteArticleEntity entity) async {
@@ -82,7 +73,6 @@ class ScopePostService {
   Future<ResponseEntity<List<ScopeFullPostEntity>>> updateScopePost(
       UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
-    //isScopeReset = true;
     return getFullScopePosts(0);
   }
 

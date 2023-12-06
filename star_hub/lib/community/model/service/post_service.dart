@@ -31,7 +31,7 @@ class DetailPostService {
       return ResponseEntity.success(entity: post);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
-        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+        return ResponseEntity.error(message: e.message ?? "200 알 수 없는 에러가 발생했습니다.");
       }
       if (e.response?.statusCode == 404) {
         return ResponseEntity.error(message: "삭제된 게시물입니다.");
