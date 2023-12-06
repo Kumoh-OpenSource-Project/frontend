@@ -293,7 +293,6 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     } else {
       viewModel.writeComment(entity.id, _commentController.text);
       setState(() {
-
         _commentController.clear();
         FocusScope.of(context).unfocus();
       });
@@ -423,7 +422,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                           Row(
                                             children: [
                                               if (state.value!.writerImage
-                                                  ?.startsWith('https') ==
+                                                      ?.startsWith('https') ==
                                                   true)
                                                 CircleAvatar(
                                                   radius: 15,
@@ -502,7 +501,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                               .builder(
                                                             options:
                                                                 CarouselOptions(
-                                                                  enableInfiniteScroll: false,
+                                                              enableInfiniteScroll:
+                                                                  false,
                                                               initialPage: 0,
                                                               viewportFraction:
                                                                   1,
@@ -526,8 +526,26 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                                       .value!
                                                                       .photos[
                                                                   index];
-                                                              return imageSlider(
-                                                                  path, index);
+                                                              return GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              FullImagePage(
+                                                                        imagePath:
+                                                                            path,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                child:
+                                                                    imageSlider(
+                                                                        path,
+                                                                        index),
+                                                              );
                                                             },
                                                           ),
                                                           Align(
