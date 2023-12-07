@@ -292,6 +292,54 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
+  Future<ScopeBestEntity> getScopeBestPost() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ScopeBestEntity>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'articles/bests?type=scope',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ScopeBestEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<PlaceBestEntity> getPlaceBestPost() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<PlaceBestEntity>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'articles/bests?type=place',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = PlaceBestEntity.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<dynamic> writeComment(WriteCommentEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

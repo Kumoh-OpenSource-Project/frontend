@@ -7,6 +7,8 @@ import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
 import 'package:star_hub/community/model/repository/community_repository.dart';
 
+import '../entity/scope_best_entity.dart';
+
 final scopePostServiceProvider = Provider((ref) {
   final repository = ref.watch(communityRepositoryProvider);
   return ScopePostService(repository);
@@ -95,5 +97,16 @@ class ScopePostService {
 
   void makeScopeNonReset() {
     isScopeReset = false;
+  }
+
+  Future<ResponseEntity<ScopeBestEntity>> getScopeBestPost() async {
+    try {
+      final ScopeBestEntity bestPost = await repository.getScopeBestPost();
+      return ResponseEntity.success(entity: bestPost);
+    } on DioException catch (e) {
+      return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+    } catch (e) {
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
+    }
   }
 }

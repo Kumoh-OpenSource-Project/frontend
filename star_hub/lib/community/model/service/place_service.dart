@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -92,5 +93,16 @@ class PlacePostService {
     await repository.postArticle(entity);
     isPlaceReset = true;
     return getFullPlacePosts(0);
+  }
+
+  Future<ResponseEntity<PlaceBestEntity>> getPlaceBestPost() async {
+    try {
+      final PlaceBestEntity bestPost = await repository.getPlaceBestPost();
+      return ResponseEntity.success(entity: bestPost);
+    } on DioException catch (e) {
+      return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+    } catch (e) {
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
+    }
   }
 }

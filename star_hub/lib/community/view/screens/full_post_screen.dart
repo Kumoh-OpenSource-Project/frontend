@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
@@ -6,6 +7,7 @@ import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_post_entity.dart';
+import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
@@ -13,8 +15,12 @@ import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:intl/intl.dart';
 
+import '../../../common/entity/response_entity.dart';
 import '../../../my_page/model/state.dart';
 import '../../../my_page/view_model/my_page_viewmodel.dart';
+import '../../model/entity/scope_best_entity.dart';
+import '../../model/service/scope_service.dart';
+import '../widgets/icon_num.dart';
 
 const limit = "수성";
 
@@ -32,6 +38,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   final ScrollController _placeScrollController = ScrollController();
   final ScrollController _photoScrollController = ScrollController();
   late PostViewModel viewModel;
+  late final bestScopePost;
+  late final bestPlacePost;
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
@@ -40,6 +48,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   @override
   void initState() {
     super.initState();
+    _fetchBestScopePost();
+    _fetchBestPlacePost();
     _scopeScrollController.addListener(_scopeScrollListener);
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
@@ -51,6 +61,14 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     viewModel.scopeState.addListener(_setState);
     viewModel.placeState.addListener(_setState);
     viewModel.photoState.addListener(_setState);
+  }
+
+  Future<void> _fetchBestScopePost() async {
+    bestScopePost = await ref.read(scopePostServiceProvider).getScopeBestPost();
+  }
+
+  Future<void> _fetchBestPlacePost() async {
+    bestPlacePost = await ref.read(placePostServiceProvider).getPlaceBestPost();
   }
 
   @override
@@ -199,7 +217,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       photoList.clear();
       photoPage = 1;
       photoList.addAll(viewModel.photoList);
-      //
     } else {
       photoList.addAll(viewModel.photoList.where(
         (newItem) =>
@@ -318,8 +335,71 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
                             children: [
-                              // TODO: 여기 인기 게시물 추가
-                              Text('data'),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPage(
+                                        1,
+                                        bestScopePost.entity?.id,
+                                        null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
+                                    bottom: 15.0,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.local_fire_department),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0,
+                                            vertical: 15.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            color: Colors.white10,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                bestScopePost.entity?.title ??
+                                                    '',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              IconWithNumber(
+                                                icon: FontAwesomeIcons.heart,
+                                                number: bestScopePost
+                                                        .entity?.like ??
+                                                    0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               for (int index = 0;
                                   index < scopeList.length;
                                   index++)
@@ -393,8 +473,71 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _placeScrollController,
                             children: [
-                              // TODO: 여기 인기 게시물 추가
-                              Text('data'),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailPage(
+                                        2,
+                                        bestPlacePost.entity?.id,
+                                        null,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 10.0,
+                                    right: 10.0,
+                                    bottom: 15.0,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.local_fire_department),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10.0,
+                                            vertical: 15.0,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            color: Colors.white10,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                bestPlacePost.entity?.title ??
+                                                    '',
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              IconWithNumber(
+                                                icon: FontAwesomeIcons.heart,
+                                                number: bestPlacePost
+                                                        .entity?.like ??
+                                                    0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                               for (int index = 0;
                                   index < viewModel.placeList.length;
                                   index++)
@@ -576,8 +719,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     selectedCategory = categoryMap[selectedCategory] ?? selectedCategory;
 
     Navigator.of(context)
-        .push(_createRoute(selectedCategory, viewModel)).then((value) {
-          print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        .push(_createRoute(selectedCategory, viewModel))
+        .then((value) {
+      print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       if (selectedCategory == "scope") {
         _scopeScrollController.jumpTo(0.0);
       } else if (selectedCategory == "place") {

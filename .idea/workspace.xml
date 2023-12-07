@@ -4,17 +4,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Redesign buttons">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Redesign image slider and system bar color">
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_best_entity.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/place_best_entity.g.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_best_entity.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/scope_best_entity.g.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/app/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/entity/detail_post_entity.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/repository/community_repository.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/service/place_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/place_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/model/service/scope_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/model/service/scope_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
