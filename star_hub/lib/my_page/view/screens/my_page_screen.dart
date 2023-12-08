@@ -40,6 +40,33 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   Widget build(BuildContext context) {
     final viewmodel = ref.watch(myPageViewModelProvider);
 
+    Color getBorderColor(String level) {
+      switch (level) {
+        case '수성':
+          return Colors.grey;
+        case '금성':
+          return Colors.yellow;
+        case '지구':
+          return Colors.green;
+        case '화성':
+          return Colors.orange;
+        case '목성':
+          return Colors.brown;
+        case '토성':
+          return Colors.brown.shade200;
+        case '천왕성':
+          return Colors.blueAccent;
+        case '해왕성':
+          return Colors.lightBlueAccent;
+        case '블랙홀':
+          return Colors.deepPurple.shade900;
+        case '대은하':
+          return Colors.pinkAccent;
+        default:
+          return Colors.white;
+      }
+    }
+
     return viewmodel.state is MyPageStateSuccess
         ? Scaffold(
             backgroundColor: Colors.black,
@@ -53,15 +80,24 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              viewmodel.entity.profilePhoto
-                                          ?.startsWith('https') ==
-                                      true
-                                  ? viewmodel.entity.profilePhoto.toString()
-                                  : profileImageUrl,
+                          Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: getBorderColor(viewmodel.entity.level),
+                                width: 4.0,
+                              ),
                             ),
-                            radius: 30,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                viewmodel.entity.profilePhoto
+                                            ?.startsWith('https') ==
+                                        true
+                                    ? viewmodel.entity.profilePhoto.toString()
+                                    : profileImageUrl,
+                              ),
+                              radius: 30,
+                            ),
                           ),
                           const SizedBox(width: 16),
                           Column(
@@ -75,10 +111,13 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                              const SizedBox(
+                                height: 5,
+                              ),
                               Text(
                                 viewmodel.entity.level,
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.blueGrey,
                                   fontSize: 16,
                                 ),
                               ),

@@ -11,8 +11,10 @@ import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/full_post_entity.dart';
 import 'package:star_hub/community/model/entity/add_like_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
+import 'package:star_hub/community/model/entity/scope_best_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -78,6 +80,14 @@ abstract class CommunityRepository {
   @DELETE('articles')
   @Headers({'accessToken': 'true'})
   Future deletePost(@Body() DeleteArticleEntity entity);
+
+  @GET('articles/bests?type=scope')
+  @Headers({'accessToken': 'true'})
+  Future<ScopeBestEntity> getScopeBestPost();
+
+  @GET('articles/bests?type=place')
+  @Headers({'accessToken': 'true'})
+  Future<PlaceBestEntity> getPlaceBestPost();
 
   @POST('articles/comment')
   @Headers({'accessToken': 'true'})

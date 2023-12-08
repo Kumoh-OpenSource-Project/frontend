@@ -22,19 +22,19 @@ import 'full_image_page.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
   const DetailPage(
-    this.type,
-    this.postId,
-    this.writerId, {
-    this.word,
-    Key? key,
-    this.searchState,
-    this.myPostState,
-    this.myPostLikeState,
-    this.myPostClipState,
-    this.scopeCommunityState,
-    this.placeCommunityState,
-    this.photoCommunityState,
-  }) : super(key: key);
+      this.type,
+      this.postId,
+      this.writerId, {
+        this.word,
+        Key? key,
+        this.searchState,
+        this.myPostState,
+        this.myPostLikeState,
+        this.myPostClipState,
+        this.scopeCommunityState,
+        this.placeCommunityState,
+        this.photoCommunityState,
+      }) : super(key: key);
   final int? type;
   final int? writerId;
   final int postId;
@@ -158,7 +158,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       Navigator.pop(context);
                     },
                     child:
-                        const Text('취소', style: TextStyle(color: Colors.white)),
+                    const Text('취소', style: TextStyle(color: Colors.white)),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -169,7 +169,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       primary: Colors.black,
                     ),
                     child:
-                        const Text('신고', style: TextStyle(color: Colors.red)),
+                    const Text('신고', style: TextStyle(color: Colors.red)),
                   ),
                 ],
               ),
@@ -349,7 +349,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
                   },
                   child: Scaffold(
-                      //key: _scaffoldKey.key,
+                    //key: _scaffoldKey.key,
                       backgroundColor: Colors.black,
                       appBar: AppBar(
                         leading: IconButton(
@@ -761,31 +761,31 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           } else {
             return const Center(
                 child: CircularProgressIndicator(
-              color: Colors.white,
-            ));
+                  color: Colors.white,
+                ));
           }
         });
   }
 
   Widget imageSlider(path, index) => Container(
-        width: double.infinity,
-        height: 240,
-        color: Colors.grey,
-        child: Image.network(path, fit: BoxFit.cover),
-      );
+    width: double.infinity,
+    height: 240,
+    color: Colors.grey,
+    child: Image.network(path, fit: BoxFit.cover),
+  );
 
   Widget indicator(DetailPostEntity entity) => Container(
-        margin: const EdgeInsets.only(bottom: 20.0),
-        alignment: Alignment.bottomCenter,
-        child: AnimatedSmoothIndicator(
-          activeIndex: activeIndex,
-          count: entity.photos.length,
-          effect: JumpingDotEffect(
-            dotHeight: 6,
-            dotWidth: 6,
-            activeDotColor: Colors.white,
-            dotColor: Colors.white.withOpacity(0.6),
-          ),
-        ),
-      );
+    margin: const EdgeInsets.only(bottom: 20.0),
+    alignment: Alignment.bottomCenter,
+    child: AnimatedSmoothIndicator(
+      activeIndex: activeIndex,
+      count: entity.photos.length,
+      effect: JumpingDotEffect(
+        dotHeight: 6,
+        dotWidth: 6,
+        activeDotColor: Colors.white,
+        dotColor: Colors.white.withOpacity(0.6),
+      ),
+    ),
+  );
 }

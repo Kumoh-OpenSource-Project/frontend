@@ -16,6 +16,8 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class SplashScreenState extends ConsumerState<SplashScreen> {
+  double _opacity = 0.0; // Initial opacity value
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +25,9 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _checkLoginStatusAfterDelay() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() => _opacity = 1.0);
+    await Future.delayed(const Duration(seconds: 3));
     _checkLoginStatus();
   }
 
@@ -62,16 +66,36 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SizedBox.expand(
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 200.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Image.asset(
-                'assets/starhub_letter.png',
-                height: MediaQuery.of(context).size.height / 2,
+              AnimatedOpacity(
+                opacity: _opacity,
+                duration: const Duration(seconds: 1),
+                child: const Text(
+                  'STAR HUB',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 38,
+                  ),
+                ),
               ),
-              const SizedBox(height: 16.0),
-              const CircularProgressIndicator(color: Colors.white),
+              const SizedBox(
+                height: 10,
+              ),
+              AnimatedOpacity(
+                opacity: _opacity,
+                duration: const Duration(seconds: 1),
+                child: const Text(
+                  '우주를 기억하는 법',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
