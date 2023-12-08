@@ -155,7 +155,7 @@ class _CommentBoxState extends State<CommentBox> {
                 )
               : Text(
                   _editedContent.isNotEmpty ? _editedContent : widget.content,
-                  style: kTextContentStyleSmall,
+                  style: kTextContentStyleSmall3,
                 ),
         ],
       ),

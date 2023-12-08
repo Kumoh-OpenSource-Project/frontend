@@ -570,7 +570,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                 : Container(),
                                             Text(
                                               state.value!.content,
-                                              style: kTextContentStyleSmall,
+                                              style: kTextContentStyleSmall3,
                                             ),
                                             const SizedBox(
                                               height: kPaddingMiddleSize,

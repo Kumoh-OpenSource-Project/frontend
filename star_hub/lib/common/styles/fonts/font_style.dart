@@ -24,6 +24,13 @@ const TextStyle kTextContentStyleSmall = TextStyle(
   height: kTextHeight,
 );
 
+const TextStyle kTextContentStyleSmall3 = TextStyle(
+  fontSize: kTextSmallSize,
+  fontWeight: FontWeight.normal,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
+
 const TextStyle kTextContentStyleXSmall = TextStyle(
   color: Colors.white,
   fontSize: kTextXSmallSize,
