@@ -22,19 +22,19 @@ import 'full_image_page.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
   const DetailPage(
-    this.type,
-    this.postId,
-    this.writerId, {
-    this.word,
-    Key? key,
-    this.searchState,
-    this.myPostState,
-    this.myPostLikeState,
-    this.myPostClipState,
-    this.scopeCommunityState,
-    this.placeCommunityState,
-    this.photoCommunityState,
-  }) : super(key: key);
+      this.type,
+      this.postId,
+      this.writerId, {
+        this.word,
+        Key? key,
+        this.searchState,
+        this.myPostState,
+        this.myPostLikeState,
+        this.myPostClipState,
+        this.scopeCommunityState,
+        this.placeCommunityState,
+        this.photoCommunityState,
+      }) : super(key: key);
   final int? type;
   final int? writerId;
   final int postId;
@@ -158,7 +158,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       Navigator.pop(context);
                     },
                     child:
-                        const Text('취소', style: TextStyle(color: Colors.white)),
+                    const Text('취소', style: TextStyle(color: Colors.white)),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -169,7 +169,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                       primary: Colors.black,
                     ),
                     child:
-                        const Text('신고', style: TextStyle(color: Colors.red)),
+                    const Text('신고', style: TextStyle(color: Colors.red)),
                   ),
                 ],
               ),
@@ -249,7 +249,9 @@ class _DetailPageState extends ConsumerState<DetailPage> {
           content: const Text('정말로 삭제하시겠습니까?'),
           actions: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               child: const Text(
                 '취소',
                 style: TextStyle(color: Colors.white),
@@ -326,427 +328,435 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             // Future가 완료되었으므로 snapshot.data를 사용합니다.
             String userId = snapshot.data!;
 
-            return GestureDetector(
-                onTap: () {
-                  FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
-                },
-                child: Scaffold(
+            return WillPopScope(
+              onWillPop: () async {
+                Navigator.pop(context, viewModel.state.value);
+                return true;
+              },
+              child: GestureDetector(
+                  onTap: () {
+                    FocusManager.instance.primaryFocus?.unfocus(); // 키보드 닫기 이벤트
+                  },
+                  child: Scaffold(
                     //key: _scaffoldKey.key,
-                    backgroundColor: Colors.black,
-                    appBar: AppBar(
-                      leading: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          print("뒤로 가기 버튼 클릭!");
-
-                          Navigator.pop(context, viewModel.state.value);
-
-                          // 예를 들면, Navigator.pop(context) 대신 다른 화면으로 이동하게 할 수 있습니다.
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => OtherPage()));
-                        },
-                      ),
                       backgroundColor: Colors.black,
-                      actions: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: InkWell(
-                            onTap: () => _onMoreVertTap(
-                                viewModel.state.value!, viewModel, widget.type),
-                            child: const Icon(
-                              Icons.more_vert,
-                            ),
-                          ),
+                      appBar: AppBar(
+                        leading: IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: () {
+                            print("뒤로 가기 버튼 클릭!");
+
+                            Navigator.pop(context, viewModel.state.value);
+
+                            // 예를 들면, Navigator.pop(context) 대신 다른 화면으로 이동하게 할 수 있습니다.
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => OtherPage()));
+                          },
                         ),
-                      ],
-                    ),
-                    body: ValueStateListener(
-                      errorBuilder: (_, state) => state.message == "삭제된 게시물입니다."
-                          ? AlertDialog(
-                              backgroundColor: Colors.black,
-                              // 배경색
-                              elevation: 24.0,
-                              // 그림자 높이
-                              shape: const RoundedRectangleBorder(
-                                side: BorderSide(color: Colors.white), // 테두리 색상
+                        backgroundColor: Colors.black,
+                        actions: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: InkWell(
+                              onTap: () => _onMoreVertTap(
+                                  viewModel.state.value!, viewModel, widget.type),
+                              child: const Icon(
+                                Icons.more_vert,
                               ),
-                              content: const Text(
-                                "삭제된 게시물 입니다.",
-                                style: TextStyle(color: Colors.white), // 텍스트 색상
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text(
-                                    '확인',
-                                    style: TextStyle(
-                                        color: Colors.white), // 버튼 텍스트 색상
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Container(
-                              child: Text("${state.message}"),
-                            ),
-                      state: viewModel.state,
-                      successBuilder: (_, state) => Column(
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border.symmetric(
-                                        horizontal: BorderSide(
-                                          color: Colors.white,
-                                          width: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 10.0,
-                                        left: 16.0,
-                                        right: 16.0,
-                                        bottom: 0.0,
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              if (state.value!.writerImage
-                                                      ?.startsWith('https') ==
-                                                  true)
-                                                CircleAvatar(
-                                                  radius: 15,
-                                                  backgroundImage: NetworkImage(
-                                                    state.value!.writerImage!,
-                                                  ),
-                                                )
-                                              else
-                                                const CircleAvatar(
-                                                  backgroundColor: Colors.white,
-                                                  foregroundColor: Colors.black,
-                                                  radius: 15,
-                                                  child: Icon(
-                                                    Icons.person,
-                                                    size: 25,
-                                                  ),
-                                                ),
-                                              const SizedBox(
-                                                width: kPaddingSmallSize,
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        state.value!.nickName,
-                                                        style:
-                                                            kTextContentStyleSmall,
-                                                      ),
-                                                      const Text(" • "),
-                                                      Text(
-                                                        _formatWriteDate(state
-                                                            .value!.writeDate),
-                                                        style:
-                                                            kTextContentStyleXSmall,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    state.value!.level,
-                                                    style:
-                                                        kTextSubContentStyleXSmall,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: kPaddingMiddleSize,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                state.value!.title,
-                                                style: kTextContentStyleMiddle,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: kPaddingMiddleSize,
-                                          ),
-                                          state.value!.photos.isNotEmpty
-                                              ? Column(
-                                                  children: [
-                                                    Stack(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        children: <Widget>[
-                                                          CarouselSlider
-                                                              .builder(
-                                                            options:
-                                                                CarouselOptions(
-                                                              enableInfiniteScroll:
-                                                                  false,
-                                                              initialPage: 0,
-                                                              viewportFraction:
-                                                                  1,
-                                                              enlargeCenterPage:
-                                                                  true,
-                                                              onPageChanged: (index,
-                                                                      reason) =>
-                                                                  setState(() {
-                                                                activeIndex =
-                                                                    index;
-                                                              }),
-                                                            ),
-                                                            itemCount: state
-                                                                .value!
-                                                                .photos
-                                                                .length,
-                                                            itemBuilder:
-                                                                (context, index,
-                                                                    realIndex) {
-                                                              final path = state
-                                                                      .value!
-                                                                      .photos[
-                                                                  index];
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              FullImagePage(
-                                                                        imagePath:
-                                                                            path,
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child:
-                                                                    imageSlider(
-                                                                        path,
-                                                                        index),
-                                                              );
-                                                            },
-                                                          ),
-                                                          Align(
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              child: indicator(
-                                                                  state
-                                                                      .value!)),
-                                                        ]),
-                                                    const SizedBox(
-                                                      height: 10,
-                                                    )
-                                                  ],
-                                                )
-                                              : Container(),
-                                          Text(
-                                            state.value!.content,
-                                            style: kTextContentStyleSmall,
-                                          ),
-                                          const SizedBox(
-                                            height: kPaddingMiddleSize,
-                                          ),
-                                          Row(
-                                            children: [
-                                              IconWithNumber(
-                                                icon: FontAwesomeIcons.heart,
-                                                number: state.value!.likes,
-                                              ),
-                                              IconWithNumber(
-                                                icon: Icons.bookmark_border,
-                                                number: state.value!.clips,
-                                              ),
-                                              IconWithNumber(
-                                                icon: Icons.messenger_outline,
-                                                number: state
-                                                    .value!.comments.length,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              !state.value!.isLike
-                                                  ? InkWell(
-                                                      onTap: () =>
-                                                          viewModel.addLike(
-                                                              state.value!.id),
-                                                      child: const Icon(
-                                                          FontAwesomeIcons
-                                                              .heart))
-                                                  : InkWell(
-                                                      onTap: () =>
-                                                          viewModel.cancelLike(
-                                                              state.value!.id),
-                                                      child: const Icon(
-                                                          FontAwesomeIcons
-                                                              .solidHeart),
-                                                    ),
-                                              const SizedBox(
-                                                width: 7,
-                                              ),
-                                              const Text('좋아요'),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              !state.value!.isClipped
-                                                  ? InkWell(
-                                                      onTap: () =>
-                                                          viewModel.addClip(
-                                                              state.value!.id),
-                                                      child: const Icon(Icons
-                                                          .bookmark_border))
-                                                  : InkWell(
-                                                      onTap: () =>
-                                                          viewModel.cancelClip(
-                                                              state.value!.id),
-                                                      child: const Icon(
-                                                          Icons.bookmark)),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              const Text('스크랩'),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: kPaddingSmallSize,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  if (state.value!.comments.isEmpty)
-                                    const Padding(
-                                      padding: EdgeInsets.all(20.0),
-                                      child: Text(
-                                        '댓글이 없습니다.',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16.0,
-                                        ),
-                                      ),
-                                    )
-                                  else
-                                    Container(
-                                      child: Column(
-                                        children: state.value!.comments
-                                            .map((comment) => CommentBox(
-                                                  articleId: state.value!.id,
-                                                  content: comment.content,
-                                                  nickName: comment.nickName,
-                                                  writeDate: comment.writeDate,
-                                                  userId: comment.userId,
-                                                  level: comment.level,
-                                                  commentId: comment.id,
-                                                  viewModel: viewModel,
-                                                  currentUserId: userId,
-                                                  userImage: comment.userImage,
-                                                ))
-                                            .toList(),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 16.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: _commentController,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        newComment = value;
-                                      });
-                                    },
-                                    style: kTextContentStyleMiddle.copyWith(
-                                        color: Colors.black),
-                                    cursorColor: Colors.black,
-                                    decoration: InputDecoration(
-                                      hintText: '댓글을 입력하세요...',
-                                      hintStyle:
-                                          kTextContentStyleMiddle.copyWith(
-                                        color: Colors.grey,
-                                      ),
-                                      enabledBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
-                                      ),
-                                      focusedBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () => newComment.isNotEmpty
-                                      ? _submitComment(widget.type,
-                                          state.value!, viewModel, context)
-                                      : null,
-                                  icon: const Icon(Icons.send,
-                                      color: Colors.black),
-                                ),
-                              ],
                             ),
                           ),
                         ],
                       ),
-                    )));
+                      body: ValueStateListener(
+                        errorBuilder: (_, state) => state.message == "삭제된 게시물입니다."
+                            ? AlertDialog(
+                          backgroundColor: Colors.black,
+                          // 배경색
+                          elevation: 24.0,
+                          // 그림자 높이
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.white), // 테두리 색상
+                          ),
+                          content: const Text(
+                            "삭제된 게시물 입니다.",
+                            style: TextStyle(color: Colors.white), // 텍스트 색상
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                '확인',
+                                style: TextStyle(
+                                    color: Colors.white), // 버튼 텍스트 색상
+                              ),
+                            ),
+                          ],
+                        )
+                            : Container(
+                          child: Text("${state.message}"),
+                        ),
+                        state: viewModel.state,
+                        successBuilder: (_, state) => Column(
+                          children: [
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: const BoxDecoration(
+                                        border: Border.symmetric(
+                                          horizontal: BorderSide(
+                                            color: Colors.white,
+                                            width: 1,
+                                          ),
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 10.0,
+                                          left: 16.0,
+                                          right: 16.0,
+                                          bottom: 0.0,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                if (state.value!.writerImage
+                                                    ?.startsWith('https') ==
+                                                    true)
+                                                  CircleAvatar(
+                                                    radius: 15,
+                                                    backgroundImage: NetworkImage(
+                                                      state.value!.writerImage!,
+                                                    ),
+                                                  )
+                                                else
+                                                  const CircleAvatar(
+                                                    backgroundColor: Colors.white,
+                                                    foregroundColor: Colors.black,
+                                                    radius: 15,
+                                                    child: Icon(
+                                                      Icons.person,
+                                                      size: 25,
+                                                    ),
+                                                  ),
+                                                const SizedBox(
+                                                  width: kPaddingSmallSize,
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          state.value!.nickName,
+                                                          style:
+                                                          kTextContentStyleSmall,
+                                                        ),
+                                                        const Text(" • "),
+                                                        Text(
+                                                          _formatWriteDate(state
+                                                              .value!.writeDate),
+                                                          style:
+                                                          kTextContentStyleXSmall,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Text(
+                                                      state.value!.level,
+                                                      style:
+                                                      kTextSubContentStyleXSmall,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: kPaddingMiddleSize,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  state.value!.title,
+                                                  style: kTextContentStyleMiddle,
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: kPaddingMiddleSize,
+                                            ),
+                                            state.value!.photos.isNotEmpty
+                                                ? Column(
+                                              children: [
+                                                Stack(
+                                                    alignment: Alignment
+                                                        .bottomCenter,
+                                                    children: <Widget>[
+                                                      CarouselSlider
+                                                          .builder(
+                                                        options:
+                                                        CarouselOptions(
+                                                          enableInfiniteScroll:
+                                                          false,
+                                                          initialPage: 0,
+                                                          viewportFraction:
+                                                          1,
+                                                          enlargeCenterPage:
+                                                          true,
+                                                          onPageChanged: (index,
+                                                              reason) =>
+                                                              setState(() {
+                                                                activeIndex =
+                                                                    index;
+                                                              }),
+                                                        ),
+                                                        itemCount: state
+                                                            .value!
+                                                            .photos
+                                                            .length,
+                                                        itemBuilder:
+                                                            (context, index,
+                                                            realIndex) {
+                                                          final path = state
+                                                              .value!
+                                                              .photos[
+                                                          index];
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              Navigator
+                                                                  .push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                      FullImagePage(
+                                                                        imagePath:
+                                                                        path,
+                                                                      ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            child:
+                                                            imageSlider(
+                                                                path,
+                                                                index),
+                                                          );
+                                                        },
+                                                      ),
+                                                      Align(
+                                                          alignment: Alignment
+                                                              .bottomCenter,
+                                                          child: indicator(
+                                                              state
+                                                                  .value!)),
+                                                    ]),
+                                                const SizedBox(
+                                                  height: 10,
+                                                )
+                                              ],
+                                            )
+                                                : Container(),
+                                            Text(
+                                              state.value!.content,
+                                              style: kTextContentStyleSmall,
+                                            ),
+                                            const SizedBox(
+                                              height: kPaddingMiddleSize,
+                                            ),
+                                            Row(
+                                              children: [
+                                                IconWithNumber(
+                                                  icon: FontAwesomeIcons.heart,
+                                                  number: state.value!.likes,
+                                                ),
+                                                IconWithNumber(
+                                                  icon: Icons.bookmark_border,
+                                                  number: state.value!.clips,
+                                                ),
+                                                IconWithNumber(
+                                                  icon: Icons.messenger_outline,
+                                                  number: state
+                                                      .value!.comments.length,
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                !state.value!.isLike
+                                                    ? InkWell(
+                                                    onTap: () =>
+                                                        viewModel.addLike(
+                                                            state.value!.id),
+                                                    child: const Icon(
+                                                        FontAwesomeIcons
+                                                            .heart))
+                                                    : InkWell(
+                                                  onTap: () =>
+                                                      viewModel.cancelLike(
+                                                          state.value!.id),
+                                                  child: const Icon(
+                                                      FontAwesomeIcons
+                                                          .solidHeart),
+                                                ),
+                                                const SizedBox(
+                                                  width: 7,
+                                                ),
+                                                const Text('좋아요'),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                !state.value!.isClipped
+                                                    ? InkWell(
+                                                    onTap: () =>
+                                                        viewModel.addClip(
+                                                            state.value!.id),
+                                                    child: const Icon(Icons
+                                                        .bookmark_border))
+                                                    : InkWell(
+                                                    onTap: () =>
+                                                        viewModel.cancelClip(
+                                                            state.value!.id),
+                                                    child: const Icon(
+                                                        Icons.bookmark)),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                const Text('스크랩'),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: kPaddingSmallSize,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    if (state.value!.comments.isEmpty)
+                                      const Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: Text(
+                                          '댓글이 없습니다.',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16.0,
+                                          ),
+                                        ),
+                                      )
+                                    else
+                                      Container(
+                                        child: Column(
+                                          children: state.value!.comments
+                                              .map((comment) => CommentBox(
+                                            articleId: state.value!.id,
+                                            content: comment.content,
+                                            nickName: comment.nickName,
+                                            writeDate: comment.writeDate,
+                                            userId: comment.userId,
+                                            level: comment.level,
+                                            commentId: comment.id,
+                                            viewModel: viewModel,
+                                            currentUserId: userId,
+                                            userImage: comment.userImage,
+                                          ))
+                                              .toList(),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              color: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0, horizontal: 16.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextFormField(
+                                      controller: _commentController,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          newComment = value;
+                                        });
+                                      },
+                                      style: kTextContentStyleMiddle.copyWith(
+                                          color: Colors.black),
+                                      cursorColor: Colors.black,
+                                      decoration: InputDecoration(
+                                        hintText: '댓글을 입력하세요...',
+                                        hintStyle:
+                                        kTextContentStyleMiddle.copyWith(
+                                          color: Colors.grey,
+                                        ),
+                                        enabledBorder: const UnderlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: Colors.white),
+                                        ),
+                                        focusedBorder: const UnderlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () => newComment.isNotEmpty
+                                        ? _submitComment(widget.type,
+                                        state.value!, viewModel, context)
+                                        : null,
+                                    icon: const Icon(Icons.send,
+                                        color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))),
+            );
           } else {
-            // Future가 완료되지 않았으므로 로딩 스피너 또는 다른 로딩 상태를 표시할 수 있습니다.
-            return const CircularProgressIndicator();
+            return const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ));
           }
         });
   }
 
   Widget imageSlider(path, index) => Container(
-        width: double.infinity,
-        height: 240,
-        color: Colors.grey,
-        child: Image.network(path, fit: BoxFit.cover),
-      );
+    width: double.infinity,
+    height: 240,
+    color: Colors.grey,
+    child: Image.network(path, fit: BoxFit.cover),
+  );
 
   Widget indicator(DetailPostEntity entity) => Container(
-        margin: const EdgeInsets.only(bottom: 20.0),
-        alignment: Alignment.bottomCenter,
-        child: AnimatedSmoothIndicator(
-          activeIndex: activeIndex,
-          count: entity.photos.length,
-          effect: JumpingDotEffect(
-            dotHeight: 6,
-            dotWidth: 6,
-            activeDotColor: Colors.white,
-            dotColor: Colors.white.withOpacity(0.6),
-          ),
-        ),
-      );
+    margin: const EdgeInsets.only(bottom: 20.0),
+    alignment: Alignment.bottomCenter,
+    child: AnimatedSmoothIndicator(
+      activeIndex: activeIndex,
+      count: entity.photos.length,
+      effect: JumpingDotEffect(
+        dotHeight: 6,
+        dotWidth: 6,
+        activeDotColor: Colors.white,
+        dotColor: Colors.white.withOpacity(0.6),
+      ),
+    ),
+  );
 }

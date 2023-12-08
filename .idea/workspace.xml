@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add best post">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add splash page">
+      <change afterPath="$PROJECT_DIR$/star_hub/assets/galaxy.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/assets/kakaotalk.png" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/assets/kakaotalk.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/auth/view/screens/login_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,9 +67,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets\fonts" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
-      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
     </key>
   </component>
   <component name="RunManager">
@@ -375,7 +381,14 @@
       <option name="project" value="LOCAL" />
       <updated>1701952725744</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Feat: Add splash page">
+      <created>1702024616834</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1702024616834</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -434,7 +447,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix: Add of exception handling to photo category" />
     <MESSAGE value="Feat: Add moon image in calendar" />
     <MESSAGE value="Fix: Add ModalBottomSheet in detail screen" />
     <MESSAGE value="Feat: Get user information" />
@@ -459,6 +471,7 @@
     <MESSAGE value="Feat: Add full image page" />
     <MESSAGE value="Style: Redesign buttons" />
     <MESSAGE value="Feat: Add best post" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add best post" />
+    <MESSAGE value="Feat: Add splash page" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add splash page" />
   </component>
 </project>

@@ -26,7 +26,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
   Future<void> _checkLoginStatusAfterDelay() async {
     await Future.delayed(const Duration(seconds: 1));
     setState(() => _opacity = 1.0);
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     _checkLoginStatus();
   }
 
@@ -57,14 +57,14 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
       backgroundColor: Colors.black,
       body: SizedBox.expand(
         child: Padding(
-          padding: EdgeInsets.only(top: 200.0),
+          padding: const EdgeInsets.only(top: 200.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               AnimatedOpacity(
                 opacity: _opacity,
-                duration: Duration(seconds: 1),
-                child: Text(
+                duration: const Duration(seconds: 1),
+                child: const Text(
                   'STAR HUB',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -72,13 +72,13 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               AnimatedOpacity(
                 opacity: _opacity,
-                duration: Duration(seconds: 1),
-                child: Text(
+                duration: const Duration(seconds: 1),
+                child: const Text(
                   '우주를 기억하는 법',
                   style: TextStyle(
                     color: Colors.white70,

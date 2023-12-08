@@ -66,8 +66,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         );
       } catch (error) {
         debugPrint("로그인 실패: $error");
-
-
       }
     }
   }
@@ -86,27 +84,44 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/galaxy.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const SizedBox(
-              height: 200,
+              height: 70,
             ),
-            const SizedBox(
-              height: 250,
-              child: Text(
-                'Star Hub',
-                style: kTextContentStyleLargeLogo,
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              child: Row(
+                children: [
+                  Text(
+                    "천체의\n조각을 한데 얽다",
+                    style: TextStyle(
+                      fontSize: 28,
+                      height: 1.4,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 _handleKakaoLogin();
               },
               style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
               child: Image.asset('assets/kakaotalk.png'),
+            ),
+            const SizedBox(
+              height: 50,
             ),
           ],
         ),

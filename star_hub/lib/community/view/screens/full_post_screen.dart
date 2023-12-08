@@ -427,8 +427,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                                     scopeCommunityState:
                                                         viewModel.scopeState,
                                                   ))).then((value) {
+                                        print('아무거나');
                                         if (value != null) {
                                           if (value is bool) {
+                                            print('다른말');
                                             _scopeScrollController.jumpTo(0.0);
                                           } else {
                                             setState(() {
