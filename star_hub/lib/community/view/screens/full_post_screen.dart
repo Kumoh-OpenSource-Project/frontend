@@ -44,6 +44,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       ..getNextPage("scope", scopePage++)
       ..getNextPage("place", placePage++)
       ..getNextPage("photo", photoPage++);
+    print("init");
+    print(photoPage);
     viewModel.scopeState.addListener(_setState);
     viewModel.placeState.addListener(_setState);
     viewModel.photoState.addListener(_setState);
@@ -74,6 +76,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _photoScrollListener() {
     if (_photoScrollController.position.pixels ==
         _photoScrollController.position.maxScrollExtent) {
+      print("끝도착");
       _loadMoreData();
     }
   }
@@ -100,7 +103,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _loadMoreData() async {
-    final viewModel = ref.read(postViewModelProvider);
     String selectedCategory = tabs[_tabController.index].label;
     switch (selectedCategory) {
       case "관측도구":
@@ -116,6 +118,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       case "사진자랑":
         if (viewModel.getHasNext("photo") == true) {
           viewModel.getNextPage("photo", photoPage++);
+          print(photoPage);
         }
         break;
       default:
@@ -135,6 +138,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshPhoto() async {
+    print("refresh????????????????????");
     photoPage = 0;
     viewModel.refreshData("photo", photoPage++);
     return Future.value();
@@ -345,10 +349,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                         ),
                                       ),
                                     ).then((value) {
+                                      print("아무거나");
                                       if (value != null) {
                                         if (value is bool) {
                                           _scopeScrollController.jumpTo(0.0);
                                         } else {
+                                          print("아무거나1");
                                           setState(() {
                                             scopeList[scopeIndex] =
                                                 scopeList[scopeIndex].copyWith(
@@ -460,78 +466,74 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshPhoto,
-                          child: GridView.builder(
+                          child: CustomScrollView(
                             controller: _photoScrollController,
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
+                            slivers: [
+                              // SliverToBoxAdapter(
+                              //   child: Container(
+                              //     color: Colors.tealAccent,
+                              //     alignment: Alignment.center,
+                              //     height: 200,
+                              //     child: const Text('This is Container'),
+                              //   ),
+                              // ),
+                              SliverGrid(
+                                gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, // 5열
-                              crossAxisSpacing: 8.0,
-                              mainAxisSpacing: 8.0,
-                            ),
-                            padding: const EdgeInsets.all(8.0),
-                            itemCount: viewModel.photoList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final post = viewModel.photoList[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(
-                                                photoList[index].categoryId,
-                                                photoList[index].id,
-                                                photoList[index].writerId,
-                                                photoCommunityState:
-                                                    viewModel.photoState,
-                                              ))).then((value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        if (value is bool) {
-                                          viewModel.getPhotoReset();
-                                        } else {
-                                          photoList[index] = photoList[index]
-                                              .copyWith(
-                                                  title: value.title,
-                                                  contentText: value.content,
-                                                  likes: value.likes,
-                                                  clips: value.clips,
-                                                  comments:
-                                                      value.comments.length,
-                                                  isClipped: value.isClipped,
-                                                  isLike: value.isLike);
-                                        }
-                                      });
-                                    }
-                                  });
-                                },
-                                child: Image.network(
-                                  post.photos[0],
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Container(
-                                        color:
-                                            Colors.grey[300]?.withOpacity(0.1),
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                      );
-                                    }
-                                  },
+                                  crossAxisCount: 2, // 5열
+                                  crossAxisSpacing: 8.0,
+                                  mainAxisSpacing: 8.0,
                                 ),
-                              );
-                            },
+                                delegate: SliverChildBuilderDelegate(
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: (){
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailPage(
+                                              photoList[index].categoryId,
+                                              photoList[index].id,
+                                              photoList[index].writerId,
+                                              photoCommunityState:
+                                              viewModel.photoState,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.network(
+                                        photoList[index].photos[0],
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          } else {
+                                            return Container(
+                                              color: Colors.grey[300]
+                                                  ?.withOpacity(0.1),
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  childCount: photoList.length,
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       : const Center(
                           child: CircularProgressIndicator(
-                          color: Colors.white,
-                        )),
+                            color: Colors.white,
+                          ),
+                        )
                 ],
               ),
             ),

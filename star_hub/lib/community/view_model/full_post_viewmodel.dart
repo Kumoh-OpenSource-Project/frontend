@@ -27,11 +27,15 @@ class PostViewModel extends ChangeNotifier {
   PhotoCommunityState photoState = PhotoCommunityState();
 
   bool get scopeReset => scopePostService.isScopeReset;
+
   bool get placeReset => placePostService.isPlaceReset;
+
   bool get photoReset => photoPostService.isPhotoReset;
 
   List<ScopeFullPostEntity> get scopeList => scopePostService.scopeList;
+
   List<PlaceFullPostEntity> get placeList => placePostService.placeList;
+
   List<PhotoFullPostEntity> get photoList => photoPostService.photoList;
 
   bool hasNextScope = true;
@@ -60,9 +64,11 @@ class PostViewModel extends ChangeNotifier {
   void makeNotRecentScope() {
     scopePostService.makeScopeNonReset();
   }
+
   void makeNotRecentPlace() {
     placePostService.makePlaceNonReset();
   }
+
   void makeNotRecentPhoto() {
     photoPostService.makePhotoNonReset();
   }
@@ -130,7 +136,10 @@ class PostViewModel extends ChangeNotifier {
         placeState.withResponse(placePostService.getFullPlacePosts(page));
       }
       return false;
-    } else {
+    } else if (type == "photo") {
+      print("-------------------------------");
+      print(page);
+      print("-------------------------------");
       hasNextPhoto = photoPostService.returnPhotoPage();
       if (page == 0) hasNextPhoto = true;
       if (page == 0) {
@@ -138,6 +147,8 @@ class PostViewModel extends ChangeNotifier {
       } else if (hasNextPhoto) {
         photoState.withResponse(photoPostService.getFullPhotoPosts(page));
       }
+      return false;
+    } else {
       return false;
     }
   }
