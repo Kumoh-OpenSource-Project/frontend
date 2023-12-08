@@ -88,7 +88,7 @@ class DetailPostViewModel extends ChangeNotifier {
         PhotoCommunityState? photoCommunityState,}) {
     if (type == 1) {
       scopeCommunityState!.withResponse(scopePostService.updateScopePost(
-          UpdateArticleEntity(content: content, articleId: articleId)));
+          UpdateArticleEntity(content: content, articleId: articleId),));
     } else if (type == 2) {
       placeCommunityState!.withResponse(placePostService.updatePlacePost(
           UpdateArticleEntity(content: content, articleId: articleId)));
