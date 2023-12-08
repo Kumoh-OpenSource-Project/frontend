@@ -135,11 +135,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           cursorColor: Colors.white,
           focusNode: _searchFocusNode,
           onSubmitted: (text) {
-            setState(() {
-              page = 0;
-              searchList.clear();
-              viewModel.getNextPage(text, true, page++);
-            });
+            if (text.trim().length < 2) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "최소 두 글자 이상 입력해주세요.",
+                  ),
+                  duration: Duration(seconds: 1),
+                  behavior: SnackBarBehavior.floating,
+                  margin: EdgeInsets.only(bottom: 770),
+                ),
+              );
+            } else {
+              setState(() {
+                page = 0;
+                searchList.clear();
+                viewModel.getNextPage(text, true, page++);
+              });
+            }
           },
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -152,9 +165,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       setState(() {
                         print("클리어");
                         searchList.clear();
-                        _searchFocusNode.requestFocus(); // x 버튼 누를 때 커서 활성화
-                        _animationController
-                            .reverse(); // 검색창이 활성화된 상태에서 x 버튼 누를 때 애니메이션 역방향으로 실행
+                        _searchFocusNode.requestFocus();
+                        _animationController.reverse();
                       });
                     },
                   )
