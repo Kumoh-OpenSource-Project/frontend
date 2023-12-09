@@ -637,6 +637,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           color: Colors.white,
                           onRefresh: _refreshPhoto,
                           child: CustomScrollView(
+                            physics: const BouncingScrollPhysics(),
                             controller: _photoScrollController,
                             slivers: [
                               // SliverToBoxAdapter(
