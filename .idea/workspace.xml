@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add app icon">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Add location permission">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/widgets/post_box_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/widgets/post_box_widget.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,13 +87,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697873441555</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Chore: Modifying mock data">
-      <created>1699798745995</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1699798745995</updated>
     </task>
     <task id="LOCAL-00006" summary="Feat: Connected to home server">
       <created>1699956618507</created>
@@ -437,7 +424,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702124986794</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Fix: Add location permission">
+      <created>1702130805440</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1702130805441</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -496,7 +490,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Feat: Add profile image function" />
     <MESSAGE value="Feat: Add my posts, likes and scraps page" />
     <MESSAGE value="Style: Change loading bar color" />
     <MESSAGE value="Style: Change dropdown button color" />
@@ -521,6 +514,7 @@
     <MESSAGE value="Fix: Remove scroll grow in photo category" />
     <MESSAGE value="Fix: Remove expended" />
     <MESSAGE value="Feat: Add app icon" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add app icon" />
+    <MESSAGE value="Fix: Add location permission" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Add location permission" />
   </component>
 </project>

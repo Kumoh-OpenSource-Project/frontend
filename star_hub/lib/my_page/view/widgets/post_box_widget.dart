@@ -84,7 +84,7 @@ class PostBox extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: 2.0),
                     child: Text(
                       category[post.categoryId],
                       style: kTextContentStyleSmall2.copyWith(
@@ -134,9 +134,11 @@ class PostBox extends StatelessWidget {
                           icon: Icons.bookmark_border,
                           number: post.clips!,
                         ),
+                      if (post.clips != null)
+                        Text("|  "),
                       Row(
                         children: [
-                          Text("|  ${post.nickName}",
+                          Text("${post.nickName}",
                               style: kTextContentStyleXSmall),
                           const Text(
                             "  |  ",
