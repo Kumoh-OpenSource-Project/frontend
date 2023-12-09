@@ -8,7 +8,13 @@ const TextStyle kTextContentStyleMiddle2 = TextStyle(
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
-
+const TextStyle kTextContentStyleLarge = TextStyle(
+  color: Colors.white,
+  fontSize: kTextMiddleSize -2,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
 const TextStyle kTextContentStyleMiddle = TextStyle(
   color: Colors.white,
   fontSize: kTextMediumSize,

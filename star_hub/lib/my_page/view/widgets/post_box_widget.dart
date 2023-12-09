@@ -65,6 +65,7 @@ class PostBox extends StatelessWidget {
       categoryId: categoryId,
     );
     return Container(
+      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(

@@ -16,7 +16,7 @@ class HomeService extends StateNotifier<HomeState> {
   late final Position position;
 
   HomeService(this.repository) : super(HomeStateNone()) {
-    _initialize();
+    //_initialize();
   }
 
   Future<void> _initialize() async {
@@ -27,7 +27,6 @@ class HomeService extends StateNotifier<HomeState> {
       TodayWeatherData? todayWeatherData = await getTodayWeatherData();
       RealTimeWeatherInfo? currentWeather = await getCurrentWeather();
       List<WeatherData> weeklyWeather = await getWeeklyWeather();
-
       if (todayWeatherData != null && currentWeather != null && eventData != null) {
         state =
             HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData);

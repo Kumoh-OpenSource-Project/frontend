@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/my_page/view/widgets/post_box_widget.dart';
@@ -37,7 +38,21 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text('내가 쓴 글'),
+          title: Row(
+            children: [
+              const Text(
+                '내가 쓴 글 ',
+                style: kTextContentStyleLarge,
+              ),
+              viewModel.state.isSuccess
+                  ? Text(
+                      viewModel.state.value!.length.toString(),
+                      style: kTextContentStyleMiddle.copyWith(
+                          color: Colors.yellow),
+                    )
+                  : Container()
+            ],
+          ),
         ),
         backgroundColor: Colors.black,
         body: ValueStateListener(
