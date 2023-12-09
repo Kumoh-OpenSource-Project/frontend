@@ -142,8 +142,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                     "최소 두 글자 이상 입력해주세요.",
                   ),
                   duration: Duration(seconds: 1),
-                  behavior: SnackBarBehavior.floating,
-                  margin: EdgeInsets.only(bottom: 770),
+                  behavior: SnackBarBehavior.fixed,
                 ),
               );
             } else {
