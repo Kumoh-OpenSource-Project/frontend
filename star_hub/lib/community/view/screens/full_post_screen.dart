@@ -324,7 +324,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
             ),
             Expanded(
               child: TabBarView(
-                physics: const BouncingScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: [
                   scopeList.isNotEmpty

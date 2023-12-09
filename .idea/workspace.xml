@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove expended">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Feat: Add app icon">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,11 +62,17 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/star_hub/build/app/outputs/apk/debug" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\build\app\outputs\apk\debug" />
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\android\app\src\main\res" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets\fonts" />
@@ -86,13 +93,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697873441555</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Feat: Add dummy data">
-      <created>1699699961390</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1699699961390</updated>
     </task>
     <task id="LOCAL-00005" summary="Chore: Modifying mock data">
       <created>1699798745995</created>
@@ -430,7 +430,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702122675755</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Feat: Add app icon">
+      <created>1702124986794</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1702124986794</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -489,7 +496,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Feat: Add logo font" />
     <MESSAGE value="Feat: Add profile image function" />
     <MESSAGE value="Feat: Add my posts, likes and scraps page" />
     <MESSAGE value="Style: Change loading bar color" />
@@ -514,6 +520,7 @@
     <MESSAGE value="Style: Add enter" />
     <MESSAGE value="Fix: Remove scroll grow in photo category" />
     <MESSAGE value="Fix: Remove expended" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove expended" />
+    <MESSAGE value="Feat: Add app icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: Add app icon" />
   </component>
 </project>
