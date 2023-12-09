@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Add border colors by level">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Redesign font weight">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/styles/fonts/font_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/styles/fonts/font_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/widgets/comment_box.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_page_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -391,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702041642029</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Style: Redesign font weight">
+      <created>1702048485246</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1702048485246</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,7 +455,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix: Add ModalBottomSheet in detail screen" />
     <MESSAGE value="Feat: Get user information" />
     <MESSAGE value="Feat: Add TODO" />
     <MESSAGE value="Feat: Add lunar data" />
@@ -475,6 +479,7 @@
     <MESSAGE value="Feat: Add best post" />
     <MESSAGE value="Feat: Add splash page" />
     <MESSAGE value="Style: Add border colors by level" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style: Add border colors by level" />
+    <MESSAGE value="Style: Redesign font weight" />
+    <option name="LAST_COMMIT_MESSAGE" value="Style: Redesign font weight" />
   </component>
 </project>
