@@ -136,6 +136,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           focusNode: _searchFocusNode,
           onSubmitted: (text) {
             if (text.trim().length < 2) {
+              setState(() {
+                page = 0;
+                searchList.clear();
+                viewModel.getNextPage(text, true, page++);
+              });
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(
@@ -143,7 +148,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   ),
                   duration: Duration(seconds: 1),
                   behavior: SnackBarBehavior.floating,
-                  margin: EdgeInsets.only(bottom: 770),
+                  margin: EdgeInsets.only(bottom: 500),
                 ),
               );
             } else {
@@ -177,9 +182,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
         ),
       ),
       backgroundColor: Colors.black,
-      body: _searchFocusNode.hasFocus
+      body: viewModel.searchState.isError == true
           ? _buildAnimatedNewTextWidget()
-          : _buildSearchResults(),
+          : _searchFocusNode.hasFocus
+              ? _buildAnimatedNewTextWidget()
+              : _buildSearchResults(),
     );
   }
 

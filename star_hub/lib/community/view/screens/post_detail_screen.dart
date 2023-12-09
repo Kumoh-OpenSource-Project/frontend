@@ -410,40 +410,40 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                             ),
                           ],
                         ),
-                        body: entity == null
+                        body: viewModel.state.isError == true ?
+                        AlertDialog(
+                          backgroundColor: Colors.black,
+                          // 배경색
+                          elevation: 24.0,
+                          // 그림자 높이
+                          shape: const RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.white), // 테두리 색상
+                          ),
+                          content: Text(
+                            viewModel.state.message,
+                            style: const TextStyle(
+                                color: Colors.white), // 텍스트 색상
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text(
+                                '확인',
+                                style: TextStyle(
+                                    color: Colors.white), // 버튼 텍스트 색상
+                              ),
+                            ),
+                          ],
+                        )
+                        :entity == null
                             ? const Center(
                                 child: CircularProgressIndicator(
                                   color: Colors.white,
                                 ),
                               )
-                            : viewModel.state.isError
-                                ? AlertDialog(
-                                    backgroundColor: Colors.black,
-                                    // 배경색
-                                    elevation: 24.0,
-                                    // 그림자 높이
-                                    shape: const RoundedRectangleBorder(
-                                      side: BorderSide(
-                                          color: Colors.white), // 테두리 색상
-                                    ),
-                                    content: const Text(
-                                      "삭제된 게시물 입니다.",
-                                      style: TextStyle(
-                                          color: Colors.white), // 텍스트 색상
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text(
-                                          '확인',
-                                          style: TextStyle(
-                                              color: Colors.white), // 버튼 텍스트 색상
-                                        ),
-                                      ),
-                                    ],
-                                  )
                                 : Column(
                                     children: [
                                       Expanded(
