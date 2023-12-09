@@ -326,13 +326,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         _commentController.clear();
         FocusScope.of(context).unfocus();
       });
-        Future.delayed(const Duration(milliseconds: 500), () {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );}
-      );
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
     }
   }
 
@@ -448,6 +448,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                     children: [
                                       Expanded(
                                         child: SingleChildScrollView(
+                                          physics:
+                                              const BouncingScrollPhysics(),
                                           controller: _scrollController,
                                           child: Column(
                                             children: [

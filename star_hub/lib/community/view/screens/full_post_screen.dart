@@ -251,13 +251,16 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 userViewmodel.state is MyPageStateSuccess &&
                                 userViewmodel.entity.level == limit) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
+                                SnackBar(
+                                  content: const Text(
                                     "금성 레벨 이상이어야 관측장소를 열람할 수 있습니다.",
                                   ),
-                                  duration: Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
                                   behavior: SnackBarBehavior.floating,
-                                  margin: EdgeInsets.only(bottom: 520),
+                                  margin: EdgeInsets.only(
+                                      bottom:
+                                          MediaQuery.of(context).size.height -
+                                              250),
                                 ),
                               );
                               return;

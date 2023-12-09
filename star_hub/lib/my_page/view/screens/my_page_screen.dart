@@ -60,8 +60,6 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
           return Colors.lightBlueAccent;
         case '블랙홀':
           return Colors.deepPurple.shade900;
-        case '대은하':
-          return Colors.pinkAccent;
         default:
           return Colors.white;
       }
@@ -83,20 +81,41 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                           Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(
-                                color: getBorderColor(viewmodel.entity.level),
-                                width: 4.0,
-                              ),
+                              border: viewmodel.entity.level == '대은하'
+                                  ? null
+                                  : Border.all(
+                                      color: getBorderColor(
+                                          viewmodel.entity.level),
+                                      width: 4.0,
+                                    ),
+                              gradient: viewmodel.entity.level == '대은하'
+                                  ? const LinearGradient(
+                                      colors: [
+                                        Colors.red,
+                                        Colors.orange,
+                                        Colors.yellow,
+                                        Colors.green,
+                                        Colors.blue,
+                                        Colors.indigo,
+                                        Colors.purple,
+                                      ],
+                                    )
+                                  : null,
                             ),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                viewmodel.entity.profilePhoto
-                                            ?.startsWith('https') ==
-                                        true
-                                    ? viewmodel.entity.profilePhoto.toString()
-                                    : profileImageUrl,
+                            child: Padding(
+                              padding: viewmodel.entity.level == '대은하'
+                                  ? const EdgeInsets.all(4.0)
+                                  : const EdgeInsets.all(0.0),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  viewmodel.entity.profilePhoto
+                                              ?.startsWith('https') ==
+                                          true
+                                      ? viewmodel.entity.profilePhoto.toString()
+                                      : profileImageUrl,
+                                ),
+                                radius: 30,
                               ),
-                              radius: 30,
                             ),
                           ),
                           const SizedBox(width: 16),

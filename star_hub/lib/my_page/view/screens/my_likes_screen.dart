@@ -51,6 +51,7 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
                   ),
                 )
               : ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: viewModel.entity.length + 1,
                   itemBuilder: (BuildContext context, int index) {
                     if (index == viewModel.entity.length) {
@@ -59,14 +60,14 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
                       //   thickness: 1,
                       // );
                       return Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                color: Colors.white24,
-                                width: 1,
-                              ),
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.white24,
+                              width: 1,
                             ),
                           ),
+                        ),
                       );
                     }
                     final post = viewModel.entity[index];
