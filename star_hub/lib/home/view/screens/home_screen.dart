@@ -250,7 +250,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/gif/moon.gif',
+                  'assets/gif/moon2.gif',
                   height: 250.0,
                   width: 250.0,
                 ),
@@ -259,7 +259,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Text(messages[currentIndex],
                     style: const TextStyle(
-                      fontFamily: "Gaegu-Regular",
+                      fontFamily: "Dovemayo_gothic",
                       fontSize: 18,
                     )),
               ],

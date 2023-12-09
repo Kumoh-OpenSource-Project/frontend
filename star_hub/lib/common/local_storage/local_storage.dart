@@ -29,7 +29,7 @@ class LocalStorage {
     final accessToken = await _storage.read(key: 'access_token');
     // print("현 토큰");
     // print(accessToken);
-    return "vJGaqIPUgEFWWnX-ebfE1Q9xCyCIS3JD9HEKPXWbAAABjEn2z7_OkqTnJF629A";
+    return "LQJwqLLTSAAX22lZYg8_kRxOCBFFKGYIfycKKiVPAAABjE0LmynOkqTnJF629A";
     //todo: 고쳐요
     //return "qhtaoPKUS4R5aLO9RfElyq63ctK5rf0cyGgKPXUbAAABjDIj7drOkqTnJF629A";
   }

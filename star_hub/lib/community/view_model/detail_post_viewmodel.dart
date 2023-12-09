@@ -25,6 +25,8 @@ class DetailPostViewModel extends ChangeNotifier {
   late final PhotoPostService photoPostService;
   late final MyPostService myPostService;
 
+  bool get isLiked => ref.read(detailPostServiceProvider).isLike;
+
   DetailPostState state = DetailPostState();
 
   DetailPostViewModel(this.ref) {
@@ -38,6 +40,14 @@ class DetailPostViewModel extends ChangeNotifier {
 
   void getInfo(int postId) =>
       state.withResponse(detailPostService.getPosts(postId));
+
+  DetailPostEntity? getPost() {
+    return ref.read(detailPostServiceProvider).entity;
+  }
+
+  void resetPost() {
+    ref.read(detailPostServiceProvider).reset();
+  }
 
   // 게시물 삭제
   void deletePost(
@@ -77,18 +87,23 @@ class DetailPostViewModel extends ChangeNotifier {
   }
 
   // 게시물 수정
-  void updatePost(int? type, int articleId, String content,
-      {String? word,
-      SearchState? searchState,
-      MyPostState? myPostState,
-      MyPostLikeState? myPostLikeState,
-      MyPostClipState? myPostClipState,
-        ScopeCommunityState? scopeCommunityState,
-        PlaceCommunityState? placeCommunityState,
-        PhotoCommunityState? photoCommunityState,}) {
+  void updatePost(
+    int? type,
+    int articleId,
+    String content, {
+    String? word,
+    SearchState? searchState,
+    MyPostState? myPostState,
+    MyPostLikeState? myPostLikeState,
+    MyPostClipState? myPostClipState,
+    ScopeCommunityState? scopeCommunityState,
+    PlaceCommunityState? placeCommunityState,
+    PhotoCommunityState? photoCommunityState,
+  }) {
     if (type == 1) {
       scopeCommunityState!.withResponse(scopePostService.updateScopePost(
-          UpdateArticleEntity(content: content, articleId: articleId),));
+        UpdateArticleEntity(content: content, articleId: articleId),
+      ));
     } else if (type == 2) {
       placeCommunityState!.withResponse(placePostService.updatePlacePost(
           UpdateArticleEntity(content: content, articleId: articleId)));

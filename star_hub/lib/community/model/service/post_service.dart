@@ -22,16 +22,21 @@ final detailPostServiceProvider = Provider((ref) {
 
 class DetailPostService {
   final CommunityRepository repository;
+  bool isLike = false;
+  late DetailPostEntity? entity = null;
 
   DetailPostService(this.repository);
 
   Future<ResponseEntity<DetailPostEntity>> getPosts(int postId) async {
     try {
       DetailPostEntity post = await repository.getDetailPost(postId);
+      isLike = post.isLike;
+      entity = post;
       return ResponseEntity.success(entity: post);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
-        return ResponseEntity.error(message: e.message ?? "200 알 수 없는 에러가 발생했습니다.");
+        return ResponseEntity.error(
+            message: e.message ?? "200 알 수 없는 에러가 발생했습니다.");
       }
       if (e.response?.statusCode == 404) {
         return ResponseEntity.error(message: "삭제된 게시물입니다.");
@@ -40,6 +45,10 @@ class DetailPostService {
     } catch (e) {
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다. $e");
     }
+  }
+
+  void reset() {
+    entity = null;
   }
 
   Future deletePosts(int? type, int postId) async {
