@@ -55,6 +55,7 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
                   ),
                 )
               : ListView.builder(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: viewModel.entity.length + 1,
                   itemBuilder: (BuildContext context, int index) {
                     if (index == viewModel.entity.length) {
