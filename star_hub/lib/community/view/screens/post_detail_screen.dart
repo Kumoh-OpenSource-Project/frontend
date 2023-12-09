@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +15,7 @@ import 'package:star_hub/community/view/widgets/button_view.dart';
 import 'package:star_hub/community/view/widgets/comment_box.dart';
 import 'package:star_hub/community/view/widgets/icon_num.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/entity/comment_entity.dart';
 import '../../model/entity/report_entity.dart';
@@ -137,6 +139,71 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         );
       },
     );
+  }
+
+  TextSpan buildTextWithLinks(BuildContext context, String text) {
+    final List<TextSpan> spans = [];
+
+    final RegExp linkRegExp = RegExp(
+      r"https?://(?:[a-z0-9\-]+\.)+[a-z]{2,}(?:/[a-z0-9\-._~:/?#[\]@!$&'()*+,;=]*)?",
+      caseSensitive: false,
+    );
+
+    final Iterable<RegExpMatch> matches = linkRegExp.allMatches(text);
+
+    int lastMatchEnd = 0;
+
+    for (RegExpMatch match in matches) {
+      final String linkText = match.group(0)!;
+      final int matchStart = match.start;
+
+      if (matchStart > lastMatchEnd) {
+        spans.add(
+          TextSpan(
+            text: text.substring(lastMatchEnd, matchStart),
+            style: kTextContentStyleSmall3, // 스타일을 직접 적용
+          ),
+        );
+      }
+
+      spans.add(
+        TextSpan(
+          text: linkText,
+          style: const TextStyle(
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+            fontSize: 14.0,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              _launchURL(context, linkText);
+            },
+        ),
+      );
+      lastMatchEnd = match.end;
+    }
+
+    if (lastMatchEnd < text.length) {
+      spans.add(
+        TextSpan(
+          text: text.substring(lastMatchEnd),
+          style: kTextContentStyleSmall3,
+        ),
+      );
+    }
+
+    return TextSpan(
+      style: kTextContentStyleSmall3, // 스타일을 직접 적용
+      children: spans,
+    );
+  }
+
+  void _launchURL(BuildContext context, String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   void _showReportDialog(
@@ -410,40 +477,40 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                             ),
                           ],
                         ),
-                        body: viewModel.state.isError == true ?
-                        AlertDialog(
-                          backgroundColor: Colors.black,
-                          // 배경색
-                          elevation: 24.0,
-                          // 그림자 높이
-                          shape: const RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Colors.white), // 테두리 색상
-                          ),
-                          content: Text(
-                            viewModel.state.message,
-                            style: const TextStyle(
-                                color: Colors.white), // 텍스트 색상
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text(
-                                '확인',
-                                style: TextStyle(
-                                    color: Colors.white), // 버튼 텍스트 색상
-                              ),
-                            ),
-                          ],
-                        )
-                        :entity == null
-                            ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
+                        body: viewModel.state.isError == true
+                            ? AlertDialog(
+                                backgroundColor: Colors.black,
+                                // 배경색
+                                elevation: 24.0,
+                                // 그림자 높이
+                                shape: const RoundedRectangleBorder(
+                                  side:
+                                      BorderSide(color: Colors.white), // 테두리 색상
                                 ),
+                                content: Text(
+                                  viewModel.state.message,
+                                  style: const TextStyle(
+                                      color: Colors.white), // 텍스트 색상
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text(
+                                      '확인',
+                                      style: TextStyle(
+                                          color: Colors.white), // 버튼 텍스트 색상
+                                    ),
+                                  ),
+                                ],
                               )
+                            : entity == null
+                                ? const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  )
                                 : Column(
                                     children: [
                                       Expanded(
@@ -630,10 +697,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                               ],
                                                             )
                                                           : Container(),
-                                                      Text(
-                                                        entity!.content,
+                                                      SelectableText.rich(
+                                                        buildTextWithLinks(
+                                                            context,
+                                                            entity!.content),
                                                         style:
-                                                            kTextContentStyleSmall,
+                                                            kTextContentStyleSmall3,
                                                       ),
                                                       const SizedBox(
                                                         height:

@@ -49,6 +49,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   flutter_secure_storage: ^8.0.0
   smooth_page_indicator: ^1.1.0
+  url_launcher: ^6.0.6
 
   # REST Api
   build_runner: ^2.4.6
