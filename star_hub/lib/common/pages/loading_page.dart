@@ -79,6 +79,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 38,
+                    fontFamily: "JustAnotherHand-Regular",
                   ),
                 ),
               ),
@@ -93,6 +94,7 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 18,
+                      fontFamily: "Dovemayo_gothic"
                   ),
                 ),
               ),

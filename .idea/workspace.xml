@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Redesign snack bar's margin">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove scroll grow">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/post_detail_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_likes_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_likes_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_posts_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_posts_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_scraps_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/my_page/view/screens/my_scraps_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/styles/fonts/font_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/styles/fonts/font_style.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/home/view/widgets/description.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -420,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702109644597</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Fix: Remove scroll grow">
+      <created>1702110045608</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1702110045608</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -493,7 +500,6 @@
     <MESSAGE value="Fix: Add init lunar data" />
     <MESSAGE value="Feat: Add report function and moon's name" />
     <MESSAGE value="Fix: Solve buildPage's problem" />
-    <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Feat: Add real location and level, number of characters limit" />
     <MESSAGE value="Feat: Add event D-Day" />
     <MESSAGE value="Feat: Add full image page" />
@@ -504,6 +510,7 @@
     <MESSAGE value="Style: Redesign font weight" />
     <MESSAGE value="Style: Redesign border color in case The Galaxy" />
     <MESSAGE value="Style: Redesign snack bar's margin" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style: Redesign snack bar's margin" />
+    <MESSAGE value="Fix: Remove scroll grow" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove scroll grow" />
   </component>
 </project>

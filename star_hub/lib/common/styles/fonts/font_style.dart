@@ -18,7 +18,7 @@ const TextStyle kTextContentStyleMiddle = TextStyle(
 );
 const TextStyle kTextContentStyleSmall3 = TextStyle(
   fontSize: kTextSmallSize,
-  fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.normal,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
@@ -44,6 +44,7 @@ const TextStyle kTextContentStyleXSmall = TextStyle(
 );
 
 const TextStyle kTextContentStyleMini = TextStyle(
+  fontFamily: "Dovemayo_gothic",
   color: Colors.white,
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,
@@ -51,6 +52,7 @@ const TextStyle kTextContentStyleMini = TextStyle(
   height: kTextHeight,
 );
 const TextStyle kTextSubContentStyleXSmall = TextStyle(
+  fontFamily: "Dovemayo_gothic",
   color: Colors.blueGrey,
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,
@@ -59,6 +61,7 @@ const TextStyle kTextSubContentStyleXSmall = TextStyle(
 );
 
 const TextStyle kTextContentStyleSmallLogo = TextStyle(
+  fontFamily: "Dovemayo_gothic",
   letterSpacing: -1,
   color: Colors.white,
   fontSize: kTextMediumSize,
@@ -68,6 +71,7 @@ const TextStyle kTextContentStyleSmallLogo = TextStyle(
 );
 
 const TextStyle kTextContentStyleLargeLogo = TextStyle(
+  fontFamily: "Dovemayo_gothic",
   letterSpacing: -1,
   color: Colors.white,
   fontSize: kTextLargeSize,

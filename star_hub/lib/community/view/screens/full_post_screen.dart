@@ -258,7 +258,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   duration: const Duration(seconds: 1),
                                   behavior: SnackBarBehavior.floating,
                                   margin: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).size.height - 250),                                ),
+                                      bottom:
+                                          MediaQuery.of(context).size.height -
+                                              250),
+                                ),
                               );
                               return;
                             }
