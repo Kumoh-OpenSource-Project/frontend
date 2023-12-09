@@ -103,12 +103,11 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
               AnimatedOpacity(
                   opacity: _opacity,
                   duration: const Duration(seconds: 1),
-                  child: Expanded(
-                      child: Image.asset(
+                  child: Image.asset(
                     'assets/abc.png',
                     height: 250,
                     width: 250,
-                  ))),
+                  )),
             ],
           ),
         ),

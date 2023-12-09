@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Style: Add enter">
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/community/view/screens/full_post_screen.dart" afterDir="false" />
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove scroll grow in photo category">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,13 +84,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697873441555</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Design: Add home design">
-      <created>1699346834067</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1699346834067</updated>
     </task>
     <task id="LOCAL-00003" summary="Feat: Add dummy data">
       <created>1699433285654</created>
@@ -423,7 +421,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702118601662</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Fix: Remove scroll grow in photo category">
+      <created>1702119508359</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1702119508359</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -482,7 +487,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix: Add outside builder" />
     <MESSAGE value="Feat: Add font" />
     <MESSAGE value="Feat: Add logo font" />
     <MESSAGE value="Feat: Add profile image function" />
@@ -507,6 +511,7 @@
     <MESSAGE value="Style: Redesign snack bar's margin" />
     <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Style: Add enter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Style: Add enter" />
+    <MESSAGE value="Fix: Remove scroll grow in photo category" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove scroll grow in photo category" />
   </component>
 </project>
