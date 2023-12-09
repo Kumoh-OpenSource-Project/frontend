@@ -40,8 +40,11 @@ class MyPostService {
 
   Future<ResponseEntity<List<MyLikesEntity>>> getLikePost() async {
     try {
+      print("!!!!");
       final List<MyLikesEntity> post = await repository.getLikePost();
       likeEntity = post;
+      print("!!!!");
+
       return ResponseEntity.success(entity: post);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
@@ -55,15 +58,21 @@ class MyPostService {
 
   Future<ResponseEntity<List<MyPostEntity>>> getMyPost() async {
     try {
+      print("!!!!!!!!!!!!!!!!");
+
       final List<MyPostEntity> post = await repository.getMyPost();
+
       postEntity = post;
       return ResponseEntity.success(entity: post);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
-        return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+        print('Hey $e');
+        return ResponseEntity.error(message: e.message ?? "200 알 수 없는 에러가 발생했습니다.");
       }
       return ResponseEntity.error(message: "서버와 연결할 수 없습니다.");
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print('Hey!! $e');
+      print('Stack Trace: $stackTrace');
       return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
     }
   }

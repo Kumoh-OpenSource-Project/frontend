@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:star_hub/community/model/entity/search_post_entity.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view_model/search_post_viewmodel.dart';
+import '../../../common/value_state_listener.dart';
 import '../widgets/post_box2.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -64,21 +65,23 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
     }
   }
 
-
   String formatTimeDifference(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
+    Duration difference = nowDate.difference(date);
 
-    Duration difference = now.difference(date);
-
-    if (difference.inDays > 0) {
-      return DateFormat('yyyy-MM-dd').format(date);
+    if (difference.inDays > 365) {
+      return DateFormat('YYYY-MM-dd').format(date);
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
     } else if (difference.inHours > 0) {
-      return '${difference.inHours}시간 전';
+      return DateFormat('HH:mm').format(date);
     } else if (difference.inMinutes > 0) {
-      return '${difference.inMinutes}분 전';
+      return DateFormat('HH:mm').format(date);
     } else {
-      return '방금 전';
+      return DateFormat('HH:mm').format(date);
     }
   }
 
@@ -116,8 +119,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       //_scopeScrollController.jumpTo(0.0);
     } else {
       searchList.addAll(viewModel.searchList.where(
-            (newItem) =>
-        !searchList.any((existingItem) => existingItem.id == newItem.id),
+        (newItem) =>
+            !searchList.any((existingItem) => existingItem.id == newItem.id),
       ));
     }
     // searchList.addAll(viewModel.searchList.where(
@@ -132,12 +135,24 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
           cursorColor: Colors.white,
           focusNode: _searchFocusNode,
           onSubmitted: (text) {
-            setState(() {
-
-              page = 0;
-              searchList.clear();
-              viewModel.getNextPage(text, true, page++);
-            });
+            if (text.trim().length < 2) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "최소 두 글자 이상 입력해주세요.",
+                  ),
+                  duration: Duration(seconds: 1),
+                  behavior: SnackBarBehavior.floating,
+                  margin: EdgeInsets.only(bottom: 770),
+                ),
+              );
+            } else {
+              setState(() {
+                page = 0;
+                searchList.clear();
+                viewModel.getNextPage(text, true, page++);
+              });
+            }
           },
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -150,9 +165,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       setState(() {
                         print("클리어");
                         searchList.clear();
-                        _searchFocusNode.requestFocus(); // x 버튼 누를 때 커서 활성화
-                        _animationController
-                            .reverse(); // 검색창이 활성화된 상태에서 x 버튼 누를 때 애니메이션 역방향으로 실행
+                        _searchFocusNode.requestFocus();
+                        _animationController.reverse();
                       });
                     },
                   )
@@ -202,58 +216,111 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
       builder: (context, child) {
         return Opacity(
           opacity: 1.0 - _animationController.value,
-          // 검색창이 활성화된 상태일 때는 리스트뷰가 투명해지도록 설정
           child: child,
         );
       },
-      child: searchList.isNotEmpty
-          ? ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              controller: _searchScrollController,
-              itemCount: searchList.length,
-              itemBuilder: (context, index) {
-                final post = searchList[index];
-                return PostBox2(
-                    title: post.title,
-                    content: post.contentText,
-                    nickName: post.nickName,
-                    writerId: post.writerId,
-                    writeDate: post.writeDate,
-                    level: post.level,
-                    likes: post.likes,
-                    clips: post.clips,
-                    comments: post.comments,
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => DetailPage(
-                                      4, post.id, post.writerId,
-                                      word: _searchController.text,
-                                      searchState: viewModel.searchState)))
-                          .then((value) {
-                        if (value != null) {
-                          setState(() {
-                            if (value is bool) {
-                              viewModel.getInfo(_searchController.text, 0);
-                            } else {
-                              searchList[index] = post.copyWith(
-                                title: value.title,
-                                contentText: value.content,
-                                likes: value.likes,
-                                clips: value.clips,
-                                comments: value.comments.length,
-                              );
-                            }
-                          });
-                        }
+      child: ValueStateListener(
+        state: viewModel.searchState,
+        loadingBuilder: (_, __) => searchList.isNotEmpty
+            ? ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: _searchScrollController,
+                itemCount: searchList.length,
+                itemBuilder: (context, index) {
+                  final post = searchList[index];
+                  return PostBox2(
+                      title: post.title,
+                      content: post.contentText,
+                      nickName: post.nickName,
+                      writerId: post.writerId,
+                      writeDate: formatTimeDifference(post.writeDate),
+                      level: post.level,
+                      likes: post.likes,
+                      clips: post.clips,
+                      comments: post.comments,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                        4, post.id, post.writerId,
+                                        word: _searchController.text,
+                                        searchState: viewModel.searchState)))
+                            .then((value) {
+                          if (value != null) {
+                            setState(() {
+                              if (value is bool) {
+                                viewModel.getInfo(_searchController.text, 0);
+                              } else {
+                                searchList[index] = post.copyWith(
+                                  title: value.title,
+                                  contentText: value.content,
+                                  likes: value.likes,
+                                  clips: value.clips,
+                                  comments: value.comments.length,
+                                );
+                              }
+                            });
+                          }
+                        });
                       });
-                    });
-              },
-            )
-          : Center(
-              child: Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+        successBuilder: (_, state) => searchList.isNotEmpty
+            ? ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                controller: _searchScrollController,
+                itemCount: searchList.length,
+                itemBuilder: (context, index) {
+                  final post = searchList[index];
+                  return PostBox2(
+                      title: post.title,
+                      content: post.contentText,
+                      nickName: post.nickName,
+                      writerId: post.writerId,
+                      writeDate: formatTimeDifference(post.writeDate),
+                      level: post.level,
+                      likes: post.likes,
+                      clips: post.clips,
+                      comments: post.comments,
+                      onTap: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                        4, post.id, post.writerId,
+                                        word: _searchController.text,
+                                        searchState: viewModel.searchState)))
+                            .then((value) {
+                          if (value != null) {
+                            setState(() {
+                              if (value is bool) {
+                                viewModel.getInfo(_searchController.text, 0);
+                              } else {
+                                searchList[index] = post.copyWith(
+                                  title: value.title,
+                                  contentText: value.content,
+                                  likes: value.likes,
+                                  clips: value.clips,
+                                  comments: value.comments.length,
+                                );
+                              }
+                            });
+                          }
+                        });
+                      });
+                },
+              )
+            : Center(
+                child: Text("\"${_searchController.text}\" 에 대한 검색 결과가 없습니다.")),
+      ),
     );
   }
 }

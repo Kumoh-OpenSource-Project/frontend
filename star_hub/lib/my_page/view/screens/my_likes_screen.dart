@@ -18,8 +18,7 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
   @override
   void initState() {
     super.initState();
-    viewModel = ref.read(myLikeViewModelProvider)
-      ..getInfo();
+    viewModel = ref.read(myLikeViewModelProvider)..getInfo();
     viewModel.state.addListener(_setState);
   }
 
@@ -28,67 +27,76 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
     viewModel.state.removeListener(_setState);
     super.dispose();
   }
+
   void _setState() => setState(() {});
+
   @override
   Widget build(BuildContext context) {
-    return ValueStateListener(
-      successBuilder: (_, state) {
-        if (state.value!.isEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: const Text('내가 좋아요한 글'),
-            ),
-            backgroundColor: Colors.black,
-            body: Center(
-              child: Text(
-                '좋아요한 글이 없습니다.',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          );
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: const Text('내가 좋아요한 글'),
-            ),
-            backgroundColor: Colors.black,
-            body: ListView.builder(
-              itemCount: viewModel.entity.length,
-              itemBuilder: (BuildContext context, int index) {
-                final post = viewModel.entity[index];
-                return GestureDetector(
-                  onTap: () {},
-                  child: PostBox(
-                      title: post.title,
-                      content: post.content,
-                      nickName: post.nickName,
-                      writeDate: post.writeDate,
-                      likes: null,
-                      clips: null,
-                      onTap: () {
-                        FocusManager.instance.primaryFocus?.unfocus();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailPage(6, post.articleId, null, myPostLikeState: viewModel.state,))).then(
-                                (value) {
-                                  setState(() {
-                                    viewModel.getInfo();
-
-                                  });
-                            }
-                        );
-                      }),
-                );
-              },
-            ),
-          );
-        }
-      },
-      state: viewModel.state,
-    );
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text('내가 좋아요한 글'),
+        ),
+        backgroundColor: Colors.black,
+        body: ValueStateListener(
+          state: viewModel.state,
+          loadingBuilder: (_, __) => const CircularProgressIndicator(
+            color: Colors.white,
+          ),
+          successBuilder: (_, state) => state.value!.isEmpty
+              ? const Center(
+                  child: Text(
+                    '좋아요한 글이 없습니다.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: viewModel.entity.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == viewModel.entity.length) {
+                      // return const Divider(
+                      //   color: Colors.white24,
+                      //   thickness: 1,
+                      // );
+                      return Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.white24,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                      );
+                    }
+                    final post = viewModel.entity[index];
+                    return GestureDetector(
+                      onTap: () {},
+                      child: PostBox(
+                          categoryId: post.categoryId,
+                          title: post.title,
+                          content: post.content,
+                          nickName: post.nickName,
+                          writeDate: post.writeDate,
+                          likes: null,
+                          clips: null,
+                          onTap: () {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => DetailPage(
+                                          6,
+                                          post.articleId,
+                                          null,
+                                          myPostLikeState: viewModel.state,
+                                        ))).then((value) {
+                              viewModel.getInfo();
+                            });
+                          }),
+                    );
+                  },
+                ),
+        ));
   }
 }

@@ -3,19 +3,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
-import 'package:star_hub/common/value_state_listener.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
+import 'package:star_hub/community/model/entity/place_best_entity.dart';
+import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
-import 'package:star_hub/community/model/entity/scope_post_entity.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
-import 'package:star_hub/community/model/state/state.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
 import 'package:star_hub/community/view/widgets/post_box2.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:intl/intl.dart';
-
-import '../../../common/entity/response_entity.dart';
 import '../../../my_page/model/state.dart';
 import '../../../my_page/view_model/my_page_viewmodel.dart';
 import '../../model/entity/scope_best_entity.dart';
@@ -38,12 +36,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   final ScrollController _placeScrollController = ScrollController();
   final ScrollController _photoScrollController = ScrollController();
   late PostViewModel viewModel;
-  late final bestScopePost;
-  late final bestPlacePost;
+  late final bestScopePost2;
+  late final bestPlacePost2;
+  late ScopeBestEntity bestScopePost;
+  late PlaceBestEntity bestPlacePost;
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
-  int prevList = 10;
 
   @override
   void initState() {
@@ -58,17 +57,29 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       ..getNextPage("scope", scopePage++)
       ..getNextPage("place", placePage++)
       ..getNextPage("photo", photoPage++);
+    print("init");
+    print(photoPage);
     viewModel.scopeState.addListener(_setState);
     viewModel.placeState.addListener(_setState);
     viewModel.photoState.addListener(_setState);
   }
 
   Future<void> _fetchBestScopePost() async {
-    bestScopePost = await ref.read(scopePostServiceProvider).getScopeBestPost();
+    bestScopePost2 = await ref
+        .read(scopePostServiceProvider)
+        .getScopeBestPost()
+        .then((value) {
+      bestScopePost = ref.read(scopePostServiceProvider).scopeBestEntity;
+    });
   }
 
   Future<void> _fetchBestPlacePost() async {
-    bestPlacePost = await ref.read(placePostServiceProvider).getPlaceBestPost();
+    bestPlacePost2 = await ref
+        .read(placePostServiceProvider)
+        .getPlaceBestPost()
+        .then((value) {
+      bestPlacePost = ref.read(placePostServiceProvider).placeBestEntity;
+    });
   }
 
   @override
@@ -82,7 +93,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _scopeScrollListener() {
     if (_scopeScrollController.position.pixels ==
         _scopeScrollController.position.maxScrollExtent) {
-      print("끝도착");
       _loadMoreData();
     }
   }
@@ -90,7 +100,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _placeScrollListener() {
     if (_placeScrollController.position.pixels ==
         _placeScrollController.position.maxScrollExtent) {
-      print("끝도착");
       _loadMoreData();
     }
   }
@@ -106,11 +115,15 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   String formatTimeDifference(String dateStr) {
     DateTime date = DateTime.parse(dateStr);
     DateTime now = DateTime.now();
+    String formattedNow = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'").format(now);
+    DateTime nowDate = DateTime.parse(formattedNow);
+    Duration difference = nowDate.difference(date);
 
-    Duration difference = now.difference(date);
-
-    if (difference.inDays > 0) {
-      return DateFormat('yyyy-MM-dd').format(date);
+    if (difference.inDays > 365) {
+      int years = (difference.inDays / 365).floor();
+      return '$years년 전';
+    } else if (difference.inDays > 0) {
+      return DateFormat('MM-dd').format(date);
     } else if (difference.inHours > 0) {
       return '${difference.inHours}시간 전';
     } else if (difference.inMinutes > 0) {
@@ -121,7 +134,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _loadMoreData() async {
-    final viewModel = ref.read(postViewModelProvider);
     String selectedCategory = tabs[_tabController.index].label;
     switch (selectedCategory) {
       case "관측도구":
@@ -137,6 +149,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       case "사진자랑":
         if (viewModel.getHasNext("photo") == true) {
           viewModel.getNextPage("photo", photoPage++);
+          print(photoPage);
         }
         break;
       default:
@@ -145,10 +158,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshScope() async {
-    scopePage = 0;
-    setState(() {
-      viewModel.refreshData("scope", scopePage++);
-    });
+    viewModel.getScopeReset();
     return Future.value();
   }
 
@@ -167,8 +177,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   void _setState() => setState(() {});
 
   List<ScopeFullPostEntity> scopeList = [];
-  final placeList = [];
-  final photoList = [];
+  List<PlaceFullPostEntity> placeList = [];
+  List<PhotoFullPostEntity> photoList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -177,46 +187,33 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     if (userViewmodel.state is MyPageStateSuccess) {
       print(userViewmodel.entity.level);
     }
-
-    if (viewModel.scopeList.isEmpty) scopeList.clear();
-    if (viewModel.placeList.isEmpty) placeList.clear();
-    if (viewModel.photoList.isEmpty) photoList.clear();
-    print(prevList == viewModel.scopeList.length);
-    print(scopeList != viewModel.scopeList);
     if (viewModel.scopeReset) {
-      prevList = viewModel.scopeList.length;
-      print("!");
       scopeList.clear();
       scopePage = 1;
-      print(viewModel.scopeList);
       scopeList.addAll(viewModel.scopeList);
       viewModel.makeNotRecentScope();
-
-      //_scopeScrollController.jumpTo(0.0);
     } else {
-      prevList = scopeList.length;
       scopeList.addAll(viewModel.scopeList.where(
         (newItem) =>
             !scopeList.any((existingItem) => existingItem.id == newItem.id),
       ));
     }
-    if (viewModel.isPlaceReset) {
+    if (viewModel.placeReset) {
       placeList.clear();
       placePage = 1;
       placeList.addAll(viewModel.placeList);
-      //_placeScrollController.jumpTo(0.0);
+      viewModel.makeNotRecentPlace();
     } else {
       placeList.addAll(viewModel.placeList.where(
         (newItem) =>
             !placeList.any((existingItem) => existingItem.id == newItem.id),
       ));
     }
-    if (viewModel.isPhotoReset) {
-      print("!photo 리셋 빌드");
-      viewModel.makeNotRecentPhoto();
+    if (viewModel.photoReset) {
       photoList.clear();
       photoPage = 1;
       photoList.addAll(viewModel.photoList);
+      viewModel.makeNotRecentScope();
     } else {
       photoList.addAll(viewModel.photoList.where(
         (newItem) =>
@@ -331,138 +328,153 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshScope,
-                          child: ListView(
+                          child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             controller: _scopeScrollController,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailPage(
-                                        1,
-                                        bestScopePost.entity?.id,
-                                        null,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 10.0,
-                                    bottom: 15.0,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.local_fire_department),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                            vertical: 15.0,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            color: Colors.white10,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                bestScopePost.entity?.title ??
-                                                    '',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              IconWithNumber(
-                                                icon: FontAwesomeIcons.heart,
-                                                number: bestScopePost
-                                                        .entity?.like ??
-                                                    0,
-                                              ),
-                                            ],
-                                          ),
+                            itemCount: scopeList.length + 2,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          1,
+                                          bestScopePost.id,
+                                          null,
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              for (int index = 0;
-                                  index < scopeList.length;
-                                  index++)
-                                PostBox2(
-                                    title: scopeList[index].title,
-                                    content: scopeList[index].contentText,
-                                    nickName: scopeList[index].nickName,
-                                    writerId: scopeList[index].writerId,
-                                    writeDate: formatTimeDifference(
-                                        scopeList[index].writeDate),
-                                    level: scopeList[index].level,
-                                    likes: scopeList[index].likes,
-                                    clips: scopeList[index].clips,
-                                    comments: scopeList[index].comments,
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                    scopeList[index].categoryId,
-                                                    scopeList[index].id,
-                                                    scopeList[index].writerId,
-                                                    scopeCommunityState:
-                                                        viewModel.scopeState,
-                                                  ))).then((value) {
-                                        print('아무거나');
-                                        if (value != null) {
-                                          if (value is bool) {
-                                            print('다른말');
-                                            _scopeScrollController.jumpTo(0.0);
-                                          } else {
-                                            setState(() {
-                                              scopeList[index] =
-                                                  scopeList[index].copyWith(
-                                                      title: value.title,
-                                                      contentText:
-                                                          value.content,
-                                                      likes: value.likes,
-                                                      clips: value.clips,
-                                                      comments:
-                                                          value.comments.length,
-                                                      isClipped:
-                                                          value.isClipped,
-                                                      isLike: value.isLike);
-                                            });
-                                          }
-                                        }
+                                    ).then((value) {
+                                      setState(() {
+                                        bestScopePost.like = value.likes;
                                       });
-                                    }),
-                              if (viewModel.getHasNext("scope"))
-                                const Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                              else
-                                Container(
-                                  height: 30,
-                                ),
-                            ],
-                          ),
-                        )
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 15.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.local_fire_department),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0,
+                                              vertical: 15.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: Colors.white10,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  bestScopePost.title ?? '',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                IconWithNumber(
+                                                  icon: FontAwesomeIcons.heart,
+                                                  number:
+                                                      bestScopePost.like ?? 0,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else if (index == scopeList.length + 1) {
+                                return viewModel.getHasNext("scope")
+                                    ? Center(
+                                        child: Image.asset(
+                                        'assets/gif/star55.gif',
+                                        height: 125.0,
+                                        width: 125.0,
+                                      ))
+                                    : Container(
+                                        height: 30,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            top: BorderSide(
+                                              color: Colors.white24,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                              } else {
+                                int scopeIndex = index - 1;
+                                return PostBox2(
+                                  title: scopeList[scopeIndex].title,
+                                  content: scopeList[scopeIndex].contentText,
+                                  nickName: scopeList[scopeIndex].nickName,
+                                  writerId: scopeList[scopeIndex].writerId,
+                                  writeDate: formatTimeDifference(
+                                      scopeList[scopeIndex].writeDate),
+                                  level: scopeList[scopeIndex].level,
+                                  likes: scopeList[scopeIndex].likes,
+                                  clips: scopeList[scopeIndex].clips,
+                                  comments: scopeList[scopeIndex].comments,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          scopeList[scopeIndex].categoryId,
+                                          scopeList[scopeIndex].id,
+                                          scopeList[scopeIndex].writerId,
+                                          scopeCommunityState:
+                                              viewModel.scopeState,
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      print("아무거나");
+                                      if (value != null) {
+                                        if (value is bool) {
+                                          _scopeScrollController.jumpTo(0.0);
+                                        } else {
+                                          print("아무거나1");
+                                          setState(() {
+                                            scopeList[scopeIndex] =
+                                                scopeList[scopeIndex].copyWith(
+                                              title: value.title,
+                                              contentText: value.content,
+                                              likes: value.likes,
+                                              clips: value.clips,
+                                              comments: value.comments.length,
+                                              isClipped: value.isClipped,
+                                              isLike: value.isLike,
+                                            );
+                                          });
+                                        }
+                                      }
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          ))
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
@@ -471,141 +483,148 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshPlace,
-                          child: ListView(
+                          child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             controller: _placeScrollController,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DetailPage(
-                                        2,
-                                        bestPlacePost.entity?.id,
-                                        null,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 10.0,
-                                    bottom: 15.0,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(Icons.local_fire_department),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10.0,
-                                            vertical: 15.0,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            color: Colors.white10,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                bestPlacePost.entity?.title ??
-                                                    '',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              IconWithNumber(
-                                                icon: FontAwesomeIcons.heart,
-                                                number: bestPlacePost
-                                                        .entity?.like ??
-                                                    0,
-                                              ),
-                                            ],
-                                          ),
+                            itemCount: placeList.length + 2,
+                            itemBuilder: (context, index) {
+                              if (index == 0) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          2,
+                                          bestPlacePost.id,
+                                          null,
                                         ),
                                       ),
-                                    ],
+                                    ).then((value) {
+                                      setState(() {
+                                        bestPlacePost.like = value.likes;
+                                      });
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 15.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.local_fire_department),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0,
+                                              vertical: 15.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: Colors.white10,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  bestPlacePost.title ?? '',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                IconWithNumber(
+                                                  icon: FontAwesomeIcons.heart,
+                                                  number:
+                                                      bestPlacePost.like ?? 0,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                              for (int index = 0;
-                                  index < viewModel.placeList.length;
-                                  index++)
-                                PostBox2(
-                                    writerId:
-                                        viewModel.placeList[index].writerId,
-                                    title: viewModel.placeList[index].title,
-                                    content:
-                                        viewModel.placeList[index].contentText,
-                                    nickName:
-                                        viewModel.placeList[index].nickName,
-                                    writeDate: formatTimeDifference(
-                                        viewModel.placeList[index].writeDate),
-                                    level: viewModel.placeList[index].level,
-                                    likes: viewModel.placeList[index].likes,
-                                    clips: viewModel.placeList[index].clips,
-                                    comments:
-                                        viewModel.placeList[index].comments,
-                                    onTap: () {
-                                      FocusManager.instance.primaryFocus
-                                          ?.unfocus();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                    placeList[index].categoryId,
-                                                    placeList[index].id,
-                                                    placeList[index].writerId,
-                                                    placeCommunityState:
-                                                        viewModel.placeState,
-                                                  ))).then((value) {
-                                        if (value != null) {
+                                );
+                              } else if (index == placeList.length + 1) {
+                                return viewModel.getHasNext("place")
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.white))
+                                    : Container(
+                                        height: 30,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            top: BorderSide(
+                                              color: Colors.white24,
+                                              width: 1,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                              } else {
+                                int placeIndex = index - 1;
+                                return PostBox2(
+                                  title: placeList[placeIndex].title,
+                                  content: placeList[placeIndex].contentText,
+                                  nickName: placeList[placeIndex].nickName,
+                                  writerId: placeList[placeIndex].writerId,
+                                  writeDate: formatTimeDifference(
+                                      placeList[placeIndex].writeDate),
+                                  level: placeList[placeIndex].level,
+                                  likes: placeList[placeIndex].likes,
+                                  clips: placeList[placeIndex].clips,
+                                  comments: placeList[placeIndex].comments,
+                                  onTap: () {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          placeList[placeIndex].categoryId,
+                                          placeList[placeIndex].id,
+                                          placeList[placeIndex].writerId,
+                                          placeCommunityState:
+                                              viewModel.placeState,
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      if (value != null) {
+                                        if (value is bool) {
+                                          _placeScrollController.jumpTo(0.0);
+                                        } else {
                                           setState(() {
-                                            if (value is bool) {
-                                              viewModel.getPlaceReset();
-                                            } else {
-                                              viewModel.makeNotRecentPlace();
-                                              placeList[index] =
-                                                  placeList[index].copyWith(
-                                                      title: value.title,
-                                                      contentText:
-                                                          value.content,
-                                                      likes: value.likes,
-                                                      clips: value.clips,
-                                                      comments:
-                                                          value.comments.length,
-                                                      isClipped:
-                                                          value.isClipped,
-                                                      isLike: value.isLike);
-                                            }
+                                            placeList[placeIndex] =
+                                                placeList[placeIndex].copyWith(
+                                              title: value.title,
+                                              contentText: value.content,
+                                              likes: value.likes,
+                                              clips: value.clips,
+                                              comments: value.comments.length,
+                                              isClipped: value.isClipped,
+                                              isLike: value.isLike,
+                                            );
                                           });
                                         }
-                                      });
-                                    }),
-                              if (viewModel.getHasNext("place"))
-                                const Center(
-                                    child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ))
-                              else
-                                Container(
-                                  height: 30,
-                                ),
-                            ],
-                          ),
-                        )
+                                      }
+                                    });
+                                  },
+                                );
+                              }
+                            },
+                          ))
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
@@ -614,78 +633,74 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                       ? RefreshIndicator(
                           color: Colors.white,
                           onRefresh: _refreshPhoto,
-                          child: GridView.builder(
+                          child: CustomScrollView(
                             controller: _photoScrollController,
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2, // 5열
-                              crossAxisSpacing: 8.0,
-                              mainAxisSpacing: 8.0,
-                            ),
-                            itemCount: viewModel.photoList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final post = viewModel.photoList[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailPage(
-                                                photoList[index].categoryId,
-                                                photoList[index].id,
-                                                photoList[index].writerId,
-                                                photoCommunityState:
-                                                    viewModel.photoState,
-                                              ))).then((value) {
-                                    if (value != null) {
-                                      setState(() {
-                                        if (value is bool) {
-                                          viewModel.getPhotoReset();
-                                        } else {
-                                          viewModel.makeNotRecentPhoto();
-                                          photoList[index] = photoList[index]
-                                              .copyWith(
-                                                  title: value.title,
-                                                  contentText: value.content,
-                                                  likes: value.likes,
-                                                  clips: value.clips,
-                                                  comments:
-                                                      value.comments.length,
-                                                  isClipped: value.isClipped,
-                                                  isLike: value.isLike);
-                                        }
-                                      });
-                                    }
-                                  });
-                                },
-                                child: Image.network(
-                                  post.photos[0],
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    } else {
-                                      return Container(
-                                        color:
-                                            Colors.grey[300]?.withOpacity(0.1),
-                                        width: double.infinity,
-                                        height: double.infinity,
-                                      );
-                                    }
-                                  },
+                            slivers: [
+                              // SliverToBoxAdapter(
+                              //   child: Container(
+                              //     color: Colors.tealAccent,
+                              //     alignment: Alignment.center,
+                              //     height: 200,
+                              //     child: const Text('This is Container'),
+                              //   ),
+                              // ),
+                              SliverGrid(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, // 5열
+                                  crossAxisSpacing: 8.0,
+                                  mainAxisSpacing: 8.0,
                                 ),
-                              );
-                            },
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailPage(
+                                              photoList[index].categoryId,
+                                              photoList[index].id,
+                                              photoList[index].writerId,
+                                              photoCommunityState:
+                                                  viewModel.photoState,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.network(
+                                        photoList[index].photos[0],
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (BuildContext context,
+                                            Widget child,
+                                            ImageChunkEvent? loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          } else {
+                                            return Container(
+                                              color: Colors.grey[300]
+                                                  ?.withOpacity(0.1),
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  childCount: photoList.length,
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       : const Center(
                           child: CircularProgressIndicator(
-                          color: Colors.white,
-                        )),
+                            color: Colors.white,
+                          ),
+                        )
                 ],
               ),
             ),

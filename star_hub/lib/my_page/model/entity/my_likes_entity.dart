@@ -6,6 +6,8 @@ part 'my_likes_entity.g.dart';
 class MyLikesEntity {
   @JsonKey(name: "articleId")
   int articleId;
+  @JsonKey(name: "category")
+  int categoryId;
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "content")
@@ -16,7 +18,8 @@ class MyLikesEntity {
   String nickName;
 
   MyLikesEntity(
-      {required this.articleId,
+      {required this.categoryId,
+      required this.articleId,
       required this.title,
       required this.writeDate,
       required this.content,

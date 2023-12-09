@@ -6,6 +6,8 @@ part 'my_clip_entity.g.dart';
 class MyClipEntity {
   @JsonKey(name: "articleId")
   int articleId;
+  @JsonKey(name: "category")
+  int categoryId;
   @JsonKey(name: "title")
   String title;
   @JsonKey(name: "content")
@@ -16,7 +18,8 @@ class MyClipEntity {
   String nickName;
 
   MyClipEntity(
-      {required this.articleId,
+      {required this.categoryId,
+      required this.articleId,
       required this.title,
       required this.writeDate,
       required this.content,

@@ -15,23 +15,17 @@ final placePostServiceProvider = Provider((ref) {
 
 class PlacePostService {
   final CommunityRepository repository;
-
-  // 다음 페이지가 있는가.
   bool hasNextPlace = true;
-
   List<PlaceFullPostEntity> placeList = [];
-  List<PlaceFullPostEntity> placeEntity = [];
-
   PlacePostService(this.repository);
-
   bool isPlaceReset = false;
   int placePage = 0;
+  late PlaceBestEntity placeBestEntity;
 
   // 전체 PlacePost 가져와서 변수에 저장한다.
   Future<ResponseEntity<List<PlaceFullPostEntity>>> getFullPlacePosts(
       int offset) async {
     try {
-      placeEntity.clear();
       if (offset == 0) {
         placeList.clear();
         hasNextPlace = true;
@@ -42,12 +36,15 @@ class PlacePostService {
         hasNextPlace = false;
       } else {
         hasNextPlace = true;
-        placeEntity.addAll(fullPosts);
         placeList.addAll(fullPosts);
       }
       placePage = offset;
-
-      return ResponseEntity.success(entity: fullPosts);
+      if (offset == 0) {
+        isPlaceReset = true;
+      } else {
+        isPlaceReset = false;
+      }
+      return ResponseEntity.success(entity: placeList);
     } on DioException catch (e) {
       if (e.response?.statusCode == 200) {
         return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
@@ -66,16 +63,10 @@ class PlacePostService {
     return hasNextPlace;
   }
 
-  // vm에 PlaceEntity 전달한다.(동기)
-  List<PlaceFullPostEntity> getPlaceEntity() {
-    return placeEntity;
-  }
-
   // DELETE placePost : 글을 삭제한다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<PlaceFullPostEntity>>> deletePlacePost(
       DeleteArticleEntity entity) async {
     await repository.deletePost(entity);
-    isPlaceReset = true;
     return getFullPlacePosts(0);
   }
 
@@ -83,7 +74,6 @@ class PlacePostService {
   Future<ResponseEntity<List<PlaceFullPostEntity>>> updatePlacePost(
       UpdateArticleEntity entity) async {
     await repository.updateArticle(entity);
-    isPlaceReset = true;
     return getFullPlacePosts(0);
   }
 
@@ -91,13 +81,17 @@ class PlacePostService {
   Future<ResponseEntity<List<PlaceFullPostEntity>>> postPlacePost(
       PostArticleEntity entity) async {
     await repository.postArticle(entity);
-    isPlaceReset = true;
     return getFullPlacePosts(0);
+  }
+
+  void makePlaceNonReset() {
+    isPlaceReset = false;
   }
 
   Future<ResponseEntity<PlaceBestEntity>> getPlaceBestPost() async {
     try {
       final PlaceBestEntity bestPost = await repository.getPlaceBestPost();
+      placeBestEntity = bestPost;
       return ResponseEntity.success(entity: bestPost);
     } on DioException catch (e) {
       return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");

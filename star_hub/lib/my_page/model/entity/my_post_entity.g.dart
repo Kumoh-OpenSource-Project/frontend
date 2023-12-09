@@ -7,20 +7,24 @@ part of 'my_post_entity.dart';
 // **************************************************************************
 
 MyPostEntity _$MyPostEntityFromJson(Map<String, dynamic> json) => MyPostEntity(
-      articleId: json['articleId'] as int,
+      articleId: json['id'] as int,
+      categoryId: json['categoryId'] as int,
+      writerId: json['writerId'] as int,
       title: json['title'] as String,
-      writeDate: json['writeDate'] as String,
-      clips: json['clips'] as int,
-      content: json['content'] as String,
-      likes: json['likes'] as int,
+      writeDate: json['date'] as String,
+      clips: json['clipped'] as int,
+      content: json['contextText'] as String,
+      likes: json['like'] as int,
     );
 
 Map<String, dynamic> _$MyPostEntityToJson(MyPostEntity instance) =>
     <String, dynamic>{
-      'articleId': instance.articleId,
+      'id': instance.articleId,
+      'categoryId': instance.categoryId,
       'title': instance.title,
-      'content': instance.content,
-      'writeDate': instance.writeDate,
-      'likes': instance.likes,
-      'clips': instance.clips,
+      'writerId': instance.writerId,
+      'contextText': instance.content,
+      'date': instance.writeDate,
+      'like': instance.likes,
+      'clipped': instance.clips,
     };

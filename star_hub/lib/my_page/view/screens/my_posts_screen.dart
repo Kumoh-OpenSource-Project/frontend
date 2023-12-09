@@ -7,6 +7,7 @@ import 'package:star_hub/my_page/view_model/my_posts_viewmodel.dart';
 
 class MyPostsPage extends ConsumerStatefulWidget {
   final String nickName;
+
   const MyPostsPage(this.nickName, {super.key});
 
   @override
@@ -21,78 +22,88 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
     super.initState();
     viewModel = ref.read(myPostViewModelProvider)..getInfo();
     viewModel.state.addListener(_setState);
-    // entity 값이 변경될 때마다 _setState 메서드 호출
-    viewModel.addListener(_setState);
   }
 
   @override
   void dispose() {
     viewModel.state.removeListener(_setState);
-    // dispose 시에 listener 제거
-    viewModel.removeListener(_setState);
     super.dispose();
   }
 
-  void _setState() => setState(() {
-    print("갱갱신");
-  });
+  void _setState() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    return ValueStateListener(
-      successBuilder: (_, state) {
-        if (state.value!.isEmpty) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: const Text('내가 쓴 글'),
-            ),
-            backgroundColor: Colors.black,
-            body: const Center(
-              child: Text(
-                '글이 없습니다.',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          );
-        } else {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: const Text('내가 쓴 글'),
-            ),
-            backgroundColor: Colors.black,
-            body: ListView.builder(
-              itemCount: viewModel.entity.length,
-              itemBuilder: (BuildContext context, int index) {
-                final post = viewModel.entity[index];
-                return GestureDetector(
-                  onTap: () {},
-                  child: PostBox(
-                    title: post.title,
-                    content: post.content,
-                    nickName: widget.nickName,
-                    writeDate: post.writeDate,
-                    likes: post.likes,
-                    clips: post.clips,
-                    onTap: () {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailPage(5, post.articleId, null, myPostState: viewModel.state,),
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: const Text('내가 쓴 글'),
+        ),
+        backgroundColor: Colors.black,
+        body: ValueStateListener(
+          state: viewModel.state,
+          errorBuilder: (_, state) => Text(state.message),
+          noneBuilder: (_, __) => Text("뭐야!"),
+          loadingBuilder: (_, __) => const CircularProgressIndicator(
+            color: Colors.white,
+          ),
+          successBuilder: (_, state) => state.value!.isEmpty
+              ? const Center(
+                  child: Text(
+                    '글이 없습니다.',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: viewModel.entity.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == viewModel.entity.length) {
+                      // return const Divider(
+                      //   color: Colors.white24,
+                      //   thickness: 1,
+                      // );
+                      return Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            top: BorderSide(
+                              color: Colors.white24,
+                              width: 1,
+                            ),
+                          ),
                         ),
                       );
-                    },
-                  ),
-                );
-              },
-            ),
-          );
-        }
-      },
-      state: viewModel.state,
-    );
+                    }
+                    final post = viewModel.entity[index];
+                    return GestureDetector(
+                      onTap: () {},
+                      child: PostBox(
+                        title: post.title,
+                        content: post.content,
+                        nickName: widget.nickName,
+                        writeDate: post.writeDate,
+                        likes: post.likes,
+                        clips: post.clips,
+                        categoryId: post.categoryId,
+                        onTap: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPage(
+                                5,
+                                post.articleId,
+                                null,
+                                myPostState: viewModel.state,
+                              ),
+                            ),
+                          ).then((value) {
+                            viewModel.getInfo();
+                          });
+                        },
+                      ),
+                    );
+                  },
+                ),
+        ));
   }
 }

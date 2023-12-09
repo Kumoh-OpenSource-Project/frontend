@@ -432,8 +432,10 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
               ),
             ),
           )
-        : const CircularProgressIndicator(
-            color: Colors.white,
+        : const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
           );
   }
 

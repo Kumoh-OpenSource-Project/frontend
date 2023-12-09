@@ -16,16 +16,20 @@ const TextStyle kTextContentStyleMiddle = TextStyle(
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
-
+const TextStyle kTextContentStyleSmall3 = TextStyle(
+  fontSize: kTextSmallSize,
+  fontWeight: FontWeight.bold,
+  overflow: TextOverflow.visible,
+  height: kTextHeight,
+);
 const TextStyle kTextContentStyleSmall = TextStyle(
   fontSize: kTextSmallSize,
   fontWeight: FontWeight.bold,
   overflow: TextOverflow.visible,
   height: kTextHeight,
 );
-
-const TextStyle kTextContentStyleSmall3 = TextStyle(
-  fontSize: kTextSmallSize,
+const TextStyle kTextContentStyleSmall2 = TextStyle(
+  fontSize: kTextMiniSize,
   fontWeight: FontWeight.normal,
   overflow: TextOverflow.visible,
   height: kTextHeight,

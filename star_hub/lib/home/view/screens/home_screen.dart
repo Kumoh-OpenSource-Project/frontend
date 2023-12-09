@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +23,13 @@ class HomePage extends ConsumerStatefulWidget {
 }
 
 class _HomePageState extends ConsumerState<HomePage> {
+  int currentIndex = 0;
+  List<String> messages = [
+    "달 따오는 중",
+    "달 따오는 중 .",
+    "달 따오는 중 . .",
+    "달 따오는 중 . . ."
+  ];
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
 
   late TodayWeatherData todayWeatherData;
@@ -29,16 +38,38 @@ class _HomePageState extends ConsumerState<HomePage> {
   late RealTimeWeatherInfo dummyRealTimeWeatherInfo2;
   late DateTime currentDate;
   late DateTime today;
+  late Timer _timer;
 
+  void startTimer() {
+    const halfSecond = Duration(milliseconds: 500);
+    _timer = Timer.periodic(halfSecond, (timer) {
+      // Update the index every 0.5 seconds
+      setState(() {
+        currentIndex = (currentIndex + 1) % messages.length;
+      });
+    });
+  }
+
+  void stopTimer() {
+    if (_timer.isActive) {
+      _timer.cancel();
+    }
+  }
   @override
   void initState() {
     super.initState();
     today = DateTime.now();
     currentDate = today;
-
     fetchData();
     fetchData2();
     fetchData3();
+    startTimer();
+  }
+
+  @override
+  void dispose() {
+    stopTimer(); // Stop the timer when the widget is disposed
+    super.dispose();
   }
 
   TodayWeatherData fetchData() {
@@ -117,7 +148,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final viewModel = ref.watch(homeViewModelProvider);
     bool isToday = currentDate.isAtSameMomentAs(today);
-
+    if (viewModel.homeState is HomeStateSuccess) {
+      stopTimer();
+    }
     final pages = [
       _buildPage(
           imagePath: viewModel.homeState is HomeStateSuccess
@@ -210,53 +243,27 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           )
-        : SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
+        : Scaffold(
+            backgroundColor: Colors.black,
+            body: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                DateNavigation(
-                  currentDate: currentDate,
-                  onDateSelected: (selectedDate) {
-                    setState(() {
-                      currentDate = selectedDate;
-                    });
-                  },
+                Image.asset(
+                  'assets/gif/moon2.gif',
+                  height: 250.0,
+                  width: 250.0,
                 ),
-                ImageSlider(controller: controller, pages: pages),
-                PageIndicator(controller: controller, pages: pages),
-                isToday
-                    ? Description(realTimeWeatherInfo: dummyRealTimeWeatherInfo)
-                    : Description(
-                        otherDayWeatherData: dummyWeatherData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
-                if (isToday) SunMoonInfo(todayWeatherData: todayWeatherData),
-                if (!isToday && (dummyWeatherData).isNotEmpty)
-                  SunMoonInfo(
-                    weatherData: (dummyWeatherData).firstWhere(
-                      (data) =>
-                          data.date ==
-                          DateFormat('yyyy-MM-dd').format(currentDate),
-                    ),
-                  ),
-                if (isToday)
-                  WeatherInfo(realTimeWeatherData: dummyRealTimeWeatherInfo),
-                isToday
-                    ? HourlyWeatherInfo(
-                        todayWeatherData: todayWeatherData,
-                        realTimeWeatherData: dummyRealTimeWeatherInfo)
-                    : HourlyWeatherInfo(
-                        otherDayWeatherData: dummyWeatherData.firstWhere(
-                          (data) =>
-                              data.date ==
-                              DateFormat('yyyy-MM-dd').format(currentDate),
-                        ),
-                      ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(messages[currentIndex],
+                    style: const TextStyle(
+                      fontFamily: "Dovemayo_gothic",
+                      fontSize: 18,
+                    )),
               ],
-            ),
+            )),
           );
   }
 

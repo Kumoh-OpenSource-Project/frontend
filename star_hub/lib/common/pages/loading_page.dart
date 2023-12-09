@@ -1,3 +1,4 @@
+// Import necessary packages
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/model/service/auth_service.dart';
@@ -43,12 +44,21 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
         print("로그인 성공");
       } catch (error) {
         print("액세스 토큰 만료, 다시 로그인");
+        _showSnackbar("Error: Unable to communicate with the server.");
         Navigator.of(context).pushReplacement(_createLoginPageRoute());
       }
     } else {
       print("처음 로그인");
       Navigator.of(context).pushReplacement(_createLoginPageRoute());
     }
+  }
+
+  void _showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
