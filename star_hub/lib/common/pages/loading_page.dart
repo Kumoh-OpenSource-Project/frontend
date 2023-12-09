@@ -92,12 +92,23 @@ class SplashScreenState extends ConsumerState<SplashScreen> {
                 child: const Text(
                   '우주를 기억하는 법',
                   style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 18,
-                      fontFamily: "Dovemayo_gothic"
-                  ),
+                      color: Colors.white70,
+                      fontSize: 18,
+                      fontFamily: "Dovemayo_gothic"),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              AnimatedOpacity(
+                  opacity: _opacity,
+                  duration: const Duration(seconds: 1),
+                  child: Expanded(
+                      child: Image.asset(
+                    'assets/abc.png',
+                    height: 250,
+                    width: 250,
+                  ))),
             ],
           ),
         ),
