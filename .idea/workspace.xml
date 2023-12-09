@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove scroll grow in photo category">
+    <list default="true" id="1ce77454-e869-4d37-b29f-032067adae25" name="Changes" comment="Fix: Remove expended">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/pages/loading_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/star_hub/lib/common/local_storage/local_storage.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +66,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\android\app\src\main\res" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\assets\fonts" />
       <recent name="C:\Users\LG\StudioProjects\frontend\star_hub\lib\common\pages" />
@@ -84,13 +86,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1697873441555</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Feat: Add dummy data">
-      <created>1699433285654</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1699433285654</updated>
     </task>
     <task id="LOCAL-00004" summary="Feat: Add dummy data">
       <created>1699699961390</created>
@@ -428,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702119508359</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Fix: Remove expended">
+      <created>1702122675755</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1702122675755</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -487,7 +489,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Feat: Add font" />
     <MESSAGE value="Feat: Add logo font" />
     <MESSAGE value="Feat: Add profile image function" />
     <MESSAGE value="Feat: Add my posts, likes and scraps page" />
@@ -512,6 +513,7 @@
     <MESSAGE value="Fix: Remove scroll grow" />
     <MESSAGE value="Style: Add enter" />
     <MESSAGE value="Fix: Remove scroll grow in photo category" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove scroll grow in photo category" />
+    <MESSAGE value="Fix: Remove expended" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: Remove expended" />
   </component>
 </project>
