@@ -562,9 +562,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 );
                               } else if (index == placeList.length + 1) {
                                 return viewModel.getHasNext("place")
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                            color: Colors.white))
+                                    ? Center(
+                                        child: Image.asset(
+                                        'assets/gif/star55.gif',
+                                        height: 125.0,
+                                        width: 125.0,
+                                      ))
                                     : Container(
                                         height: 30,
                                         decoration: const BoxDecoration(
