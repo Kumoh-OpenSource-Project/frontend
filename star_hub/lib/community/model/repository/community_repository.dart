@@ -23,6 +23,8 @@ import 'package:star_hub/my_page/model/entity/my_clip_entity.dart';
 import 'package:star_hub/my_page/model/entity/my_likes_entity.dart';
 import 'package:star_hub/my_page/model/entity/my_post_entity.dart';
 import 'package:star_hub/my_page/model/entity/user_info_entity.dart';
+
+import '../entity/photo_best_entity.dart';
 part 'community_repository.g.dart';
 
 final communityRepositoryProvider = Provider((ref) {
@@ -86,6 +88,10 @@ abstract class CommunityRepository {
   @GET('articles/bests?type=place')
   @Headers({'accessToken': 'true'})
   Future<PlaceBestEntity> getPlaceBestPost();
+
+  @GET('articles/bests?type=photo')
+  @Headers({'accessToken': 'true'})
+  Future<PhotoBestEntity> getPhotoBestPost();
 
   @POST('articles/comment')
   @Headers({'accessToken': 'true'})

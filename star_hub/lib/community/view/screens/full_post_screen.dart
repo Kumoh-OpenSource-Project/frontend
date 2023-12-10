@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
+import 'package:star_hub/community/model/entity/photo_best_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
@@ -18,6 +19,7 @@ import 'package:intl/intl.dart';
 import '../../../my_page/model/state.dart';
 import '../../../my_page/view_model/my_page_viewmodel.dart';
 import '../../model/entity/scope_best_entity.dart';
+import '../../model/service/photo_service.dart';
 import '../../model/service/scope_service.dart';
 import '../widgets/icon_num.dart';
 
@@ -39,8 +41,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   late PostViewModel viewModel;
   late final bestScopePost2;
   late final bestPlacePost2;
+  late final bestPhotoPost2;
   late ScopeBestEntity bestScopePost;
   late PlaceBestEntity bestPlacePost;
+  late PhotoBestEntity bestPhotoPost;
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
@@ -50,6 +54,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     super.initState();
     _fetchBestScopePost();
     _fetchBestPlacePost();
+    _fetchBestPhotoPost();
     _scopeScrollController.addListener(_scopeScrollListener);
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
@@ -80,6 +85,15 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         .getPlaceBestPost()
         .then((value) {
       bestPlacePost = ref.read(placePostServiceProvider).placeBestEntity;
+    });
+  }
+
+  Future<void> _fetchBestPhotoPost() async {
+    bestPhotoPost2 = await ref
+        .read(photoPostServiceProvider)
+        .getPhotoBestPost()
+        .then((value) {
+      bestPhotoPost = ref.read(photoPostServiceProvider).photoBestEntity;
     });
   }
 
@@ -644,14 +658,76 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                             physics: const BouncingScrollPhysics(),
                             controller: _photoScrollController,
                             slivers: [
-                              // SliverToBoxAdapter(
-                              //   child: Container(
-                              //     color: Colors.tealAccent,
-                              //     alignment: Alignment.center,
-                              //     height: 200,
-                              //     child: const Text('This is Container'),
-                              //   ),
-                              // ),
+                              SliverToBoxAdapter(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailPage(
+                                          1,
+                                          bestPhotoPost.id,
+                                          null,
+                                        ),
+                                      ),
+                                    ).then((value) {
+                                      setState(() {
+                                        bestPhotoPost.like = value.likes;
+                                      });
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 15.0,
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        const Icon(Icons.local_fire_department),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10.0,
+                                              vertical: 15.0,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(10.0),
+                                              color: Colors.white10,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  bestPhotoPost.title ?? '',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                IconWithNumber(
+                                                  icon: FontAwesomeIcons.heart,
+                                                  number:
+                                                  bestPhotoPost.like ?? 0,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                               SliverGrid(
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
