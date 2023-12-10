@@ -15,6 +15,4 @@ abstract class AuthRepository {
 
   @GET("user")
   Future<LoginRequestDto> getUser(@Header("Authorization") String token);
-
-  //todo: patch 추가
 }
