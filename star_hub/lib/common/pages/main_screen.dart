@@ -225,6 +225,7 @@ class _MainPageState extends ConsumerState<MainPage>
           style: const TextStyle(
               fontFamily: "JustAnotherHand-Regular", fontSize: 30)),
       actions: actions != null ? [actions] : null,
+      leading: null,
     );
   }
 
