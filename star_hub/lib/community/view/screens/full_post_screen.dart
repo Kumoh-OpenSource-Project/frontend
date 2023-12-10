@@ -653,19 +653,33 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               //   ),
                               // ),
                               SliverGrid(
-                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 8.0,
                                   mainAxisSpacing: 8.0,
                                 ),
                                 delegate: SliverChildBuilderDelegate(
-                                      (BuildContext context, int index) {
+                                  (BuildContext context, int index) {
                                     return buildGridItem(context, index);
                                   },
                                   childCount: photoList.length,
                                 ),
                               ),
+                              // Check if it's the last item in the grid
+                              SliverToBoxAdapter(
+                                child: viewModel.getHasNext("photo")
+                                    ? Center(
+                                        child: Image.asset(
+                                          'assets/gif/star55.gif',
+                                          height: 125.0,
+                                          width: 125.0,
+                                        ),
+                                      )
+                                    : Container(
 
+                                      ),
+                              ),
                             ],
                           ),
                         )
@@ -762,7 +776,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       },
       child: CachedNetworkImage(
         key: Key(photoList[index].photos[0]), // Unique key for each image
-        imageUrl: '${photoList[index].photos[0].replaceFirst('https', 'http')}?width=150&height=150',
+        imageUrl:
+            '${photoList[index].photos[0].replaceFirst('https', 'http')}?width=150&height=150',
         fit: BoxFit.cover,
         placeholder: (context, url) => Container(
           color: Colors.grey[300]?.withOpacity(0.1),
@@ -772,5 +787,4 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       ),
     );
   }
-
 }

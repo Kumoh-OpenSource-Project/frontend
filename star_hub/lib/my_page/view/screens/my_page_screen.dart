@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
+import 'package:star_hub/common/pages/loading_page.dart';
 import 'package:star_hub/my_page/model/state.dart';
 import 'package:star_hub/my_page/view/screens/my_likes_screen.dart';
 import 'package:star_hub/my_page/view/screens/my_scraps_screen.dart';
@@ -462,7 +463,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
     final localStorage = LocalStorage();
     localStorage.deleteTokens();
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const LoginPage()));
+        .pushReplacement(MaterialPageRoute(builder: (_) => const SplashScreen()));
   }
 
   Future<String> _selectProfileImage() async {
