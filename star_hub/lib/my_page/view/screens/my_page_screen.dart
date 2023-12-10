@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
+import 'package:star_hub/community/model/service/photo_service.dart';
+import 'package:star_hub/community/model/service/place_service.dart';
+import 'package:star_hub/community/model/service/scope_service.dart';
+import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
 import 'package:star_hub/my_page/model/state.dart';
 import 'package:star_hub/my_page/view/screens/my_likes_screen.dart';
 import 'package:star_hub/my_page/view/screens/my_scraps_screen.dart';
@@ -29,8 +32,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   String profileImageUrl =
       'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
   final TextEditingController _nicknameController = TextEditingController();
-
-  static String get routeName => 'myPage';
+  late bool isLevelUp;
+  String? level = null;
 
   @override
   void initState() {
@@ -40,7 +43,19 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
     final viewmodel = ref.watch(myPageViewModelProvider);
+    if(viewmodel.state is MyPageStateSuccess) level = viewmodel.entity.level;
+    if (ref.read(postViewModelProvider).level != null && level != null) {
+      if (level != ref.read(postViewModelProvider).level) {
+        level = ref.read(postViewModelProvider).level;
+        print("마이페이지 레벨업");
 
+      }
+      print("레벨업은 안함");
+    } else {
+      print("마이페이지 레벨업ㄴㄴ");
+      print(level);
+      print(ref.read(postViewModelProvider).level);
+    }
     Color getBorderColor(String level) {
       switch (level) {
         case '수성':
@@ -82,14 +97,14 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                           Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: viewmodel.entity.level == '대은하'
+                              border: (level ?? viewmodel.entity.level) == '대은하'
                                   ? null
                                   : Border.all(
                                       color: getBorderColor(
-                                          viewmodel.entity.level),
+                                          (level ?? viewmodel.entity.level)),
                                       width: 4.0,
                                     ),
-                              gradient: viewmodel.entity.level == '대은하'
+                              gradient: (level ?? viewmodel.entity.level) == '대은하'
                                   ? const LinearGradient(
                                       colors: [
                                         Colors.red,
@@ -104,7 +119,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                   : null,
                             ),
                             child: Padding(
-                              padding: viewmodel.entity.level == '대은하'
+                              padding: (level ?? viewmodel.entity.level) == '대은하'
                                   ? const EdgeInsets.all(4.0)
                                   : const EdgeInsets.all(0.0),
                               child: CircleAvatar(
@@ -135,7 +150,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                 height: 5,
                               ),
                               Text(
-                                viewmodel.entity.level,
+                                level ?? viewmodel.entity.level,
                                 style: const TextStyle(
                                   color: Colors.blueGrey,
                                   fontSize: 16,
@@ -462,8 +477,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   Future<void> _logout(BuildContext context) async {
     final localStorage = LocalStorage();
     localStorage.deleteTokens();
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => const SplashScreen()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const SplashScreen()));
   }
 
   Future<String> _selectProfileImage() async {

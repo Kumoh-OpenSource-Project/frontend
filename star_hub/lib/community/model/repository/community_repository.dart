@@ -9,6 +9,7 @@ import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/delete_comment_entity.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/add_like_entity.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
@@ -69,7 +70,7 @@ abstract class CommunityRepository {
 
   @POST('articles')
   @Headers({'accessToken': 'true'})
-  Future postArticle(@Body() PostArticleEntity entity);
+  Future<LevelUpEntity> postArticle(@Body() PostArticleEntity entity);
 
   @PATCH('articles')
   @Headers({'accessToken': 'true'})

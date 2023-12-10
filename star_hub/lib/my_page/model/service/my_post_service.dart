@@ -40,10 +40,8 @@ class MyPostService {
 
   Future<ResponseEntity<List<MyLikesEntity>>> getLikePost() async {
     try {
-      print("!!!!");
       final List<MyLikesEntity> post = await repository.getLikePost();
       likeEntity = post;
-      print("!!!!");
 
       return ResponseEntity.success(entity: post);
     } on DioException catch (e) {

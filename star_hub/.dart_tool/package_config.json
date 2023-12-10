@@ -14,6 +14,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "another_flushbar",
+      "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/another_flushbar-1.12.30",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "archive",
       "rootUri": "file:///C:/Users/dbswl/AppData/Local/Pub/Cache/hosted/pub.dev/archive-3.4.9",
       "packageUri": "lib/",
@@ -1004,7 +1010,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-12-10T06:59:58.207684Z",
+  "generated": "2023-12-10T19:59:58.400385Z",
   "generator": "pub",
   "generatorVersion": "3.1.3"
 }

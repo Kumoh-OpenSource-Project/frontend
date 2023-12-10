@@ -220,26 +220,27 @@ class _CommunityRepository implements CommunityRepository {
   }
 
   @override
-  Future<dynamic> postArticle(PostArticleEntity entity) async {
+  Future<LevelUpEntity> postArticle(PostArticleEntity entity) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(entity.toJson());
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<LevelUpEntity>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          'articles',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = _result.data;
+            .compose(
+              _dio.options,
+              'articles',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = LevelUpEntity.fromJson(_result.data!);
     return value;
   }
 

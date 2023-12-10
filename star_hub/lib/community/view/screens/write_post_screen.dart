@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/view_model/full_post_viewmodel.dart';
-
 
 class WritePostPage extends StatefulWidget {
   final String? selectedCategory;
@@ -68,8 +68,7 @@ class _WritePostPageState extends State<WritePostPage> {
       postData["title"],
       postData["photo"] ?? [],
     );
-
-    Navigator.pop(context);
+      Navigator.pop(context);
   }
 
   Future<String> _uploadImageToS3(File imageFile) async {
