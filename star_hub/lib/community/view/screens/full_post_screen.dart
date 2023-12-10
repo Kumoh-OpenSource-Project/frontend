@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -213,7 +214,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       photoList.clear();
       photoPage = 1;
       photoList.addAll(viewModel.photoList);
-      viewModel.makeNotRecentScope();
+      viewModel.makeNotRecentPhoto();
     } else {
       photoList.addAll(viewModel.photoList.where(
         (newItem) =>
@@ -652,54 +653,19 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               //   ),
                               // ),
                               SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, // 5열
+                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
                                   crossAxisSpacing: 8.0,
                                   mainAxisSpacing: 8.0,
                                 ),
                                 delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        FocusManager.instance.primaryFocus
-                                            ?.unfocus();
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => DetailPage(
-                                              photoList[index].categoryId,
-                                              photoList[index].id,
-                                              photoList[index].writerId,
-                                              photoCommunityState:
-                                                  viewModel.photoState,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Image.network(
-                                        photoList[index].photos[0],
-                                        fit: BoxFit.cover,
-                                        loadingBuilder: (BuildContext context,
-                                            Widget child,
-                                            ImageChunkEvent? loadingProgress) {
-                                          if (loadingProgress == null) {
-                                            return child;
-                                          } else {
-                                            return Container(
-                                              color: Colors.grey[300]
-                                                  ?.withOpacity(0.1),
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                            );
-                                          }
-                                        },
-                                      ),
-                                    );
+                                      (BuildContext context, int index) {
+                                    return buildGridItem(context, index);
                                   },
                                   childCount: photoList.length,
                                 ),
                               ),
+
                             ],
                           ),
                         )
@@ -745,11 +711,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     Navigator.of(context)
         .push(_createRoute(selectedCategory, viewModel))
         .then((value) {
-      print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       if (selectedCategory == "scope") {
         _scopeScrollController.jumpTo(0.0);
       } else if (selectedCategory == "place") {
-        print("1");
         _placeScrollController.jumpTo(0.0);
       } else {
         _photoScrollController.jumpTo(0.0);
@@ -779,4 +743,34 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       },
     );
   }
+
+  Widget buildGridItem(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailPage(
+              photoList[index].categoryId,
+              photoList[index].id,
+              photoList[index].writerId,
+              photoCommunityState: viewModel.photoState,
+            ),
+          ),
+        );
+      },
+      child: CachedNetworkImage(
+        key: Key(photoList[index].photos[0]), // Unique key for each image
+        imageUrl: '${photoList[index].photos[0].replaceFirst('https', 'http')}?width=150&height=150',
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          color: Colors.grey[300]?.withOpacity(0.1),
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+    );
+  }
+
 }
