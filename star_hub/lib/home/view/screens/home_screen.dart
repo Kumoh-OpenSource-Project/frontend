@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:star_hub/home/model/state.dart';
 import 'package:star_hub/home/view_model/home_viewmodel.dart';
-
 import '../../model/home_entity.dart';
 import '../widgets/description.dart';
 import '../widgets/hourly_weather_info.dart';

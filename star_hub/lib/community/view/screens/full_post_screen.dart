@@ -6,10 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/const/tabs.dart';
 import 'package:star_hub/community/model/entity/photo_best_entity.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
+import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/view/screens/post_detail_screen.dart';
 import 'package:star_hub/community/view/screens/write_post_screen.dart';
@@ -58,13 +60,11 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _scopeScrollController.addListener(_scopeScrollListener);
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(length: tabs.length, vsync: this, initialIndex: 2);
     viewModel = ref.read(postViewModelProvider)
       ..getNextPage("scope", scopePage++)
       ..getNextPage("place", placePage++)
       ..getNextPage("photo", photoPage++);
-    print("init");
-    print(photoPage);
     viewModel.scopeState.addListener(_setState);
     viewModel.placeState.addListener(_setState);
     viewModel.photoState.addListener(_setState);
@@ -199,9 +199,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   Widget build(BuildContext context) {
     final userViewmodel = ref.watch(myPageViewModelProvider);
 
+    if (viewModel.isLevelUp() == true) {
+      print('왜?');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        viewModel.makeNotLevelUp();
+        _showCongratulationsPopup(context, viewModel.level!);
+      });
+    }else{
+      print("shsh");
+    }
+
     if (userViewmodel.state is MyPageStateSuccess) {
       print(userViewmodel.entity.level);
     }
+
+
     if (viewModel.scopeReset) {
       scopeList.clear();
       scopePage = 1;
@@ -264,7 +276,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onTap: () {
                             if (e.label == "관측장소" &&
                                 userViewmodel.state is MyPageStateSuccess &&
-                                userViewmodel.entity.level == limit) {
+                                (viewModel.level ?? userViewmodel.entity.level) == limit) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: const Text(
@@ -294,7 +306,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 color: e.label == "관측장소" &&
                                         userViewmodel.state
                                             is MyPageStateSuccess &&
-                                        userViewmodel.entity.level == limit
+                                    (viewModel.level ?? userViewmodel.entity.level) == limit
                                     ? Colors.grey
                                     : Colors.white,
                                 width: 2.0,
@@ -307,13 +319,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? Icons.lock
                                       : e.icon,
                                   color: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? Colors.grey
                                       : null,
                                 ),
@@ -323,7 +335,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   style: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? kTextContentStyleSmall.copyWith(
                                           color: Colors.grey)
                                       : kTextContentStyleSmall,
@@ -728,18 +740,22 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   ),
                                 ),
                               ),
-                              SliverGrid(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 8.0,
-                                  mainAxisSpacing: 8.0,
-                                ),
-                                delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                    return buildGridItem(context, index);
-                                  },
-                                  childCount: photoList.length,
+                              SliverPadding(
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                                sliver: SliverGrid(
+                                  gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 8.0,
+                                    mainAxisSpacing: 8.0,
+                                  ),
+                                  delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                      return buildGridItem(context, index);
+                                    },
+                                    childCount: photoList.length,
+                                  ),
                                 ),
                               ),
                               // Check if it's the last item in the grid
@@ -752,9 +768,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                           width: 125.0,
                                         ),
                                       )
-                                    : Container(
-
-                                      ),
+                                    : Container(),
                               ),
                             ],
                           ),
@@ -808,6 +822,42 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
       } else {
         _photoScrollController.jumpTo(0.0);
       }
+    });
+  }
+
+  void _showCongratulationsPopup(BuildContext context, String level) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.black,
+          title: const Center(
+              child: Text(
+            '레벨업!',
+            style: kTextContentStyleMiddle,
+          )),
+          content: Row(
+            children: [
+              Image.asset(
+                'assets/gif/rocket.gif', // 적절한 이미지 경로로 변경
+                height: 90.0,
+                width: 90.0,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                  child: Text(
+                "축하합니다~!\n '$level'에 도달하셨습니다~!",
+                style: kTextContentStyleMiddle,
+              )),
+            ],
+          ),
+        );
+      },
+    );
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.of(context).pop();
     });
   }
 

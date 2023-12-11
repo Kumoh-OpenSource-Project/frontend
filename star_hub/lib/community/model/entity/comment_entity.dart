@@ -12,7 +12,7 @@ class CommentEntity {
   @JsonKey(name: "userLevel")
   String level;
   @JsonKey(name: "userImage")
-  String userImage;
+  String? userImage;
   @JsonKey(name: "userId")
   int userId;
   @JsonKey(name: "id")

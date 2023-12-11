@@ -28,8 +28,7 @@ class HomeService extends StateNotifier<HomeState> {
       RealTimeWeatherInfo? currentWeather = await getCurrentWeather();
       List<WeatherData> weeklyWeather = await getWeeklyWeather();
       if (todayWeatherData != null && currentWeather != null && eventData != null) {
-        state =
-            HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData);
+        state = HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData);
       } else {
         state = HomeStateError('에러: 데이터를 불러올 수 없습니다.');
       }

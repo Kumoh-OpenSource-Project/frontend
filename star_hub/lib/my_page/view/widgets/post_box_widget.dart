@@ -65,7 +65,6 @@ class PostBox extends StatelessWidget {
       categoryId: categoryId,
     );
     return Container(
-      padding: const EdgeInsets.only(top: 4, bottom: 4, left: 8),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -80,7 +79,7 @@ class PostBox extends StatelessWidget {
           InkWell(
             onTap: onTap,
             child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(top:14, bottom: 14, left: 18, right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

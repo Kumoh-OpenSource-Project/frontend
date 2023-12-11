@@ -25,6 +25,7 @@ class MyPageViewModel extends ChangeNotifier {
         notifyListeners();
       }
     });
+
   }
 
   void getUserInfo(){

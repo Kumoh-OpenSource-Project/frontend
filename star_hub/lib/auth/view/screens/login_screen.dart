@@ -85,7 +85,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
+          color: Colors.black,
           image: DecorationImage(
             image: AssetImage("assets/galaxy.jpg"),
             fit: BoxFit.cover,

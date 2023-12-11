@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/place_best_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
@@ -21,6 +22,9 @@ class PlacePostService {
   bool isPlaceReset = false;
   int placePage = 0;
   late PlaceBestEntity placeBestEntity;
+  String level = "수성";
+  bool isLevelUp = false;
+  LevelUpEntity? levelUpEntity = null;
 
   // 전체 PlacePost 가져와서 변수에 저장한다.
   Future<ResponseEntity<List<PlaceFullPostEntity>>> getFullPlacePosts(
@@ -80,12 +84,21 @@ class PlacePostService {
   // POST placePost : 글을 올린다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<PlaceFullPostEntity>>> postPlacePost(
       PostArticleEntity entity) async {
-    await repository.postArticle(entity);
+    levelUpEntity = await repository.postArticle(entity);
+    print("place $levelUpEntity levelUpEntity");
+
+    level = levelUpEntity!.level;
+    isLevelUp = levelUpEntity!.isLevelUp;
     return getFullPlacePosts(0);
   }
 
   void makePlaceNonReset() {
     isPlaceReset = false;
+  }
+
+  void notLevelUp() {
+    levelUpEntity!.isLevelUp = false;
+
   }
 
   Future<ResponseEntity<PlaceBestEntity>> getPlaceBestPost() async {

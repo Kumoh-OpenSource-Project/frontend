@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/scope_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -23,6 +24,10 @@ class ScopePostService {
   bool isScopeReset = false;
   int scopePage = 0;
   late ScopeBestEntity scopeBestEntity;
+
+  String level = "수성";
+  bool isLevelUp = false;
+  LevelUpEntity? levelUpEntity = null;
 
   // 전체 ScopePost 가져와서 변수에 저장한다.
   Future<ResponseEntity<List<ScopeFullPostEntity>>> getFullScopePosts(
@@ -82,12 +87,20 @@ class ScopePostService {
   // POST scopePost : 글을 올린다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<ScopeFullPostEntity>>> postScopePost(
       PostArticleEntity entity) async {
-    await repository.postArticle(entity);
+    levelUpEntity = await repository.postArticle(entity);
+        print("scope $levelUpEntity levelUpEntity");
+    print("scope ${levelUpEntity!.level} levelUpEntity");
+    level = levelUpEntity!.level;
+    isLevelUp = levelUpEntity!.isLevelUp;
     return getFullScopePosts(0);
   }
 
   void makeScopeNonReset() {
     isScopeReset = false;
+  }
+
+  void notLevelUp() {
+    levelUpEntity!.isLevelUp = false;
   }
 
   Future<ResponseEntity<ScopeBestEntity>> getScopeBestPost() async {

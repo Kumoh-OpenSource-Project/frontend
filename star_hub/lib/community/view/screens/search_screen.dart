@@ -273,11 +273,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                       });
                 },
               )
-            : const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
+            : Center(
+            child: Image.asset(
+              'assets/gif/space.gif',
+              height: 50.0,
+              width: 50.0,
+            )),
         successBuilder: (_, state) => searchList.isNotEmpty
             ? ListView.builder(
                 physics: const BouncingScrollPhysics(),

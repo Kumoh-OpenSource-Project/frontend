@@ -34,57 +34,77 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Row(
-            children: [
-              const Text(
-                '내가 좋아요한 글 ',
-                style: kTextContentStyleLarge,
-              ),
-              viewModel.state.isSuccess
-                  ? Text(
-                      viewModel.state.value!.length.toString(),
-                      style: kTextContentStyleMiddle.copyWith(
-                          color: Colors.yellow),
-                    )
-                  : Container()
-            ],
-          ),
-        ),
+      appBar: AppBar(
         backgroundColor: Colors.black,
-        body: ValueStateListener(
-          state: viewModel.state,
-          loadingBuilder: (_, __) => const CircularProgressIndicator(
-            color: Colors.white,
+        title: Row(
+          children: [
+            const Text(
+              '내가 좋아요한 글 ',
+              style: kTextContentStyleLarge,
+            ),
+            viewModel.state.isSuccess
+                ? Text(
+                    viewModel.state.value!.length.toString(),
+                    style: kTextContentStyleMiddle.copyWith(
+                      color: Colors.yellow,
+                    ),
+                  )
+                : Container()
+          ],
+        ),
+      ),
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          // 배경 이미지
+          Positioned.fill(
+            child: ColorFiltered(
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.3),
+                BlendMode.dstATop,
+              ),
+              child: Image.asset(
+                'assets/back2.png',
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          successBuilder: (_, state) => state.value!.isEmpty
-              ? const Center(
-                  child: Text(
-                    '좋아요한 글이 없습니다.',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
-              : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: viewModel.entity.length + 1,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == viewModel.entity.length) {
-                      return Container(
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            top: BorderSide(
-                              color: Colors.white24,
-                              width: 1,
+
+          ValueStateListener(
+            state: viewModel.state,
+            loadingBuilder: (_, __) => Center(
+                child: Image.asset(
+              'assets/gif/space.gif',
+              height: 50.0,
+              width: 50.0,
+            )),
+            successBuilder: (_, state) => state.value!.isEmpty
+                ? const Center(
+                    child: Text(
+                      '좋아요한 글이 없습니다.',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                : ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: viewModel.entity.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == viewModel.entity.length) {
+                        return Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(
+                                color: Colors.white24,
+                                width: 1,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    final post = viewModel.entity[index];
-                    return GestureDetector(
-                      onTap: () {},
-                      child: PostBox(
+                        );
+                      }
+                      final post = viewModel.entity[index];
+                      return GestureDetector(
+                        onTap: () {},
+                        child: PostBox(
                           categoryId: post.categoryId,
                           title: post.title,
                           content: post.content,
@@ -95,20 +115,26 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
                           onTap: () {
                             FocusManager.instance.primaryFocus?.unfocus();
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailPage(
-                                          6,
-                                          post.articleId,
-                                          null,
-                                          myPostLikeState: viewModel.state,
-                                        ))).then((value) {
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailPage(
+                                  6,
+                                  post.articleId,
+                                  null,
+                                  myPostLikeState: viewModel.state,
+                                ),
+                              ),
+                            ).then((value) {
                               viewModel.getInfo();
                             });
-                          }),
-                    );
-                  },
-                ),
-        ));
+                          },
+                        ),
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
   }
 }

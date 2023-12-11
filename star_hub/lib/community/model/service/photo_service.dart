@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/photo_best_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
@@ -23,6 +24,15 @@ class PhotoPostService {
 
   bool isPhotoReset = false;
   int photoPage = 0;
+  String level = "수성";
+  bool isLevelUp = false;
+  LevelUpEntity? levelUpEntity = null;
+
+  void notLevelUp() {
+    levelUpEntity!.isLevelUp = false;
+
+  }
+
 
   Future<ResponseEntity<List<PhotoFullPostEntity>>> getFullPhotoPosts(
       int offset) async {
@@ -81,7 +91,10 @@ class PhotoPostService {
   // POST photoPost : 글을 올린다. 페이지 초기화 진행 (비동기)
   Future<ResponseEntity<List<PhotoFullPostEntity>>> postPhotoPost(
       PostArticleEntity entity) async {
-    await repository.postArticle(entity);
+    levelUpEntity = await repository.postArticle(entity);
+    print("photo $levelUpEntity ${levelUpEntity!.isLevelUp} levelUpEntity");
+    level = levelUpEntity!.level;
+    isLevelUp = levelUpEntity!.isLevelUp;
     return getFullPhotoPosts(0);
   }
 

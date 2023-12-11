@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/value_state_util.dart';
+import 'package:star_hub/community/model/entity/level_up_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
@@ -42,11 +43,51 @@ class PostViewModel extends ChangeNotifier {
   bool hasNextPlace = true;
   bool hasNextPhoto = true;
 
+  late LevelUpEntity? levelUpEntity;
+  String? level = null;
+
   PostViewModel(this.ref) {
     scopePostService = ref.read(scopePostServiceProvider);
     photoPostService = ref.read(photoPostServiceProvider);
     placePostService = ref.read(placePostServiceProvider);
     detailPostService = ref.read(detailPostServiceProvider);
+  }
+
+  void makeNotLevelUp(){
+    if(scopePostService.levelUpEntity != null) scopePostService.levelUpEntity!.isLevelUp = false;
+    if(placePostService.levelUpEntity != null) placePostService.levelUpEntity!.isLevelUp = false;
+    if(photoPostService.levelUpEntity != null) photoPostService.levelUpEntity!.isLevelUp = false;
+  }
+
+  bool isLevelUp() {
+    if (scopePostService.levelUpEntity != null) {
+      level = scopePostService.levelUpEntity!.level;
+      if (scopePostService.levelUpEntity!.isLevelUp) {
+        print("level");
+        print(level);
+        print("level");
+
+        return true;
+      }
+      print("level2");
+      print(level);
+      print("level2");
+    }
+    if (placePostService.levelUpEntity != null) {
+      level = placePostService.levelUpEntity!.level;
+
+      if (placePostService.levelUpEntity!.isLevelUp) {
+        return true;
+      }
+    }
+    if (photoPostService.levelUpEntity != null) {
+      level = photoPostService.levelUpEntity!.level;
+
+      if (photoPostService.levelUpEntity!.isLevelUp) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void getScopeReset() {
@@ -137,9 +178,6 @@ class PostViewModel extends ChangeNotifier {
       }
       return false;
     } else if (type == "photo") {
-      print("-------------------------------");
-      print(page);
-      print("-------------------------------");
       hasNextPhoto = photoPostService.returnPhotoPage();
       if (page == 0) hasNextPhoto = true;
       if (page == 0) {
