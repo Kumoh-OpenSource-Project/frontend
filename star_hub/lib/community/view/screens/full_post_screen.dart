@@ -996,7 +996,21 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
               photoCommunityState: viewModel.photoState,
             ),
           ),
-        );
+        ).then((value) {
+          print("dfd");
+          print(value);
+          if (value != null) {
+            if (value is bool) {
+              _photoScrollController
+                  .jumpTo(0.0);
+            } else {
+              setState(() {
+                bestPhotoPost.like =
+                    value.likes;
+              });
+            }
+          }
+        });
       },
       child: CachedNetworkImage(
         key: Key(photoList[index].photos[0]), // Unique key for each image
