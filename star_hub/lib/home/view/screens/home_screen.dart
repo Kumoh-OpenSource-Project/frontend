@@ -255,7 +255,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             height: 150,
                             width: 150,
                             child: Image.asset(
@@ -267,6 +267,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           const Text(
                             "잠시 뒤 시도해주세요",
                             style: TextStyle(
+                              fontFamily: "Dovemayo_gothic",
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white, // 글자 색상을 흰색으로 변경
@@ -278,6 +279,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               Text(
                                 "통신이 원활하지 않아",
                                 style: TextStyle(
+                                  fontFamily: "Dovemayo_gothic",
                                   fontSize: 16,
                                   color: Colors.grey[300], // 글자 색상을 연한 회색으로 변경
                                 ),
@@ -285,6 +287,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               Text(
                                 "데이터를 불러올 수 없습니다.",
                                 style: TextStyle(
+                                  fontFamily: "Dovemayo_gothic",
                                   fontSize: 16,
                                   color: Colors.grey[300], // 글자 색상을 연한 회색으로 변경
                                 ),
@@ -306,6 +309,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                               child: const Text(
                                 "재시도",
                                 style: TextStyle(
+                                  fontFamily: "Dovemayo_gothic",
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
