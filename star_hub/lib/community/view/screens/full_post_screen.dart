@@ -200,10 +200,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     final userViewmodel = ref.watch(myPageViewModelProvider);
 
     if (viewModel.isLevelUp() == true) {
+      print('왜?');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.makeNotLevelUp();
         _showCongratulationsPopup(context, viewModel.level!);
       });
+    }else{
+      print("shsh");
     }
 
     if (userViewmodel.state is MyPageStateSuccess) {
@@ -273,7 +276,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onTap: () {
                             if (e.label == "관측장소" &&
                                 userViewmodel.state is MyPageStateSuccess &&
-                                userViewmodel.entity.level == limit) {
+                                (viewModel.level ?? userViewmodel.entity.level) == limit) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: const Text(
@@ -303,7 +306,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 color: e.label == "관측장소" &&
                                         userViewmodel.state
                                             is MyPageStateSuccess &&
-                                        userViewmodel.entity.level == limit
+                                    (viewModel.level ?? userViewmodel.entity.level) == limit
                                     ? Colors.grey
                                     : Colors.white,
                                 width: 2.0,
@@ -316,13 +319,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? Icons.lock
                                       : e.icon,
                                   color: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? Colors.grey
                                       : null,
                                 ),
@@ -332,7 +335,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   style: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                          userViewmodel.entity.level == limit
+                                      (viewModel.level ?? userViewmodel.entity.level) == limit
                                       ? kTextContentStyleSmall.copyWith(
                                           color: Colors.grey)
                                       : kTextContentStyleSmall,

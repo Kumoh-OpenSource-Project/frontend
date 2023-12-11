@@ -100,7 +100,7 @@ class ScopePostService {
   }
 
   void notLevelUp() {
-    isLevelUp = false;
+    levelUpEntity!.isLevelUp = false;
   }
 
   Future<ResponseEntity<ScopeBestEntity>> getScopeBestPost() async {

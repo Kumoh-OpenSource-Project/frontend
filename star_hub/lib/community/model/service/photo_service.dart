@@ -29,7 +29,8 @@ class PhotoPostService {
   LevelUpEntity? levelUpEntity = null;
 
   void notLevelUp() {
-    isLevelUp = false;
+    levelUpEntity!.isLevelUp = false;
+
   }
 
 

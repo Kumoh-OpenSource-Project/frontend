@@ -506,11 +506,12 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                 ],
                               )
                             : entity == null
-                                ? const Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  )
+                                ? Center(
+                                    child: Image.asset(
+                                    'assets/gif/space.gif',
+                                    height: 50.0,
+                                    width: 50.0,
+                                  ))
                                 : Column(
                                     children: [
                                       Expanded(

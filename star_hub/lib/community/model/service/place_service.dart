@@ -97,7 +97,8 @@ class PlacePostService {
   }
 
   void notLevelUp() {
-    isLevelUp = false;
+    levelUpEntity!.isLevelUp = false;
+
   }
 
   Future<ResponseEntity<PlaceBestEntity>> getPlaceBestPost() async {

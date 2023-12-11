@@ -14,7 +14,7 @@ CommentEntity _$CommentEntityFromJson(Map<String, dynamic> json) =>
       level: json['userLevel'] as String,
       id: json['id'] as int,
       userId: json['userId'] as int,
-      userImage: json['userImage'] as String,
+      userImage: json['userImage'] as String?,
     );
 
 Map<String, dynamic> _$CommentEntityToJson(CommentEntity instance) =>

@@ -54,9 +54,9 @@ class PostViewModel extends ChangeNotifier {
   }
 
   void makeNotLevelUp(){
-    scopePostService.isLevelUp = false;
-    placePostService.isLevelUp = false;
-    photoPostService.isLevelUp = false;
+    if(scopePostService.levelUpEntity != null) scopePostService.levelUpEntity!.isLevelUp = false;
+    if(placePostService.levelUpEntity != null) placePostService.levelUpEntity!.isLevelUp = false;
+    if(photoPostService.levelUpEntity != null) photoPostService.levelUpEntity!.isLevelUp = false;
   }
 
   bool isLevelUp() {

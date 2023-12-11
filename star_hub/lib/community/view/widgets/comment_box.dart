@@ -22,7 +22,7 @@ class CommentBox extends StatefulWidget {
   });
 
   final String content;
-  final String userImage;
+  final String? userImage;
   final String nickName;
   final String writeDate;
   final int userId;
@@ -62,10 +62,10 @@ class _CommentBoxState extends State<CommentBox> {
             children: [
               Row(
                 children: [
-                  if (widget.userImage.startsWith('https') == true)
+                  if (widget.userImage?.startsWith('https') == true)
                     CircleAvatar(
                       radius: 15,
-                      backgroundImage: NetworkImage(widget.userImage),
+                      backgroundImage: NetworkImage(widget.userImage!),
                     )
                   else
                     const CircleAvatar(
