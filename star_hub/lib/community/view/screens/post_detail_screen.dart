@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -1288,7 +1289,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         width: double.infinity,
         height: 240,
         color: Colors.grey[300]?.withOpacity(0.1),
-        child: Image.network(path, fit: BoxFit.cover),
+        child: CachedNetworkImage(
+            key: Key(path),
+            imageUrl: '${path.replaceFirst('https', 'http')}',
+            fit: BoxFit.cover),
       );
 
   Widget indicator(DetailPostEntity entity) => Container(

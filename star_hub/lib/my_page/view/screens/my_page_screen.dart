@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
@@ -481,6 +482,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   Future<void> _logout(BuildContext context) async {
     final localStorage = LocalStorage();
     localStorage.deleteTokens();
+    await UserApi.instance.unlink();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const SplashScreen()));
   }

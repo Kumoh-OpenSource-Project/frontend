@@ -91,15 +91,16 @@ class _MyLikePageState extends ConsumerState<MyLikesPage> {
                     itemBuilder: (BuildContext context, int index) {
                       if (index == viewModel.entity.length) {
                         return Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              top: BorderSide(
-                                color: Colors.white24,
-                                width: 1,
-                              ),
-                            ),
-                          ),
+                          height: 30,
+                          margin: const EdgeInsets.symmetric(horizontal: 5),
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  top: BorderSide(
+                                    color: Colors.white.withOpacity(0.3),
+                                    width: 1,
+                                  ))),
                         );
+                      } else {
                       }
                       final post = viewModel.entity[index];
                       return GestureDetector(

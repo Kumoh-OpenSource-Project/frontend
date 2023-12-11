@@ -16,7 +16,7 @@ class HomeService extends StateNotifier<HomeState> {
   late final Position position;
 
   HomeService(this.repository) : super(HomeStateNone()) {
-    _initialize();
+   // _initialize();
   }
 
   Future<void> _initialize() async {

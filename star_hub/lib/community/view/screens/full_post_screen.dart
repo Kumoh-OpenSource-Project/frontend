@@ -60,7 +60,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _scopeScrollController.addListener(_scopeScrollListener);
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
-    _tabController = TabController(length: tabs.length, vsync: this, initialIndex: 2);
+    _tabController =
+        TabController(length: tabs.length, vsync: this, initialIndex: 2);
     viewModel = ref.read(postViewModelProvider)
       ..getNextPage("scope", scopePage++)
       ..getNextPage("place", placePage++)
@@ -205,14 +206,13 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         viewModel.makeNotLevelUp();
         _showCongratulationsPopup(context, viewModel.level!);
       });
-    }else{
+    } else {
       print("shsh");
     }
 
     if (userViewmodel.state is MyPageStateSuccess) {
       print(userViewmodel.entity.level);
     }
-
 
     if (viewModel.scopeReset) {
       scopeList.clear();
@@ -276,7 +276,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           onTap: () {
                             if (e.label == "관측장소" &&
                                 userViewmodel.state is MyPageStateSuccess &&
-                                (viewModel.level ?? userViewmodel.entity.level) == limit) {
+                                (viewModel.level ??
+                                        userViewmodel.entity.level) ==
+                                    limit) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: const Text(
@@ -306,7 +308,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 color: e.label == "관측장소" &&
                                         userViewmodel.state
                                             is MyPageStateSuccess &&
-                                    (viewModel.level ?? userViewmodel.entity.level) == limit
+                                        (viewModel.level ??
+                                                userViewmodel.entity.level) ==
+                                            limit
                                     ? Colors.grey
                                     : Colors.white,
                                 width: 2.0,
@@ -319,13 +323,17 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                      (viewModel.level ?? userViewmodel.entity.level) == limit
+                                          (viewModel.level ??
+                                                  userViewmodel.entity.level) ==
+                                              limit
                                       ? Icons.lock
                                       : e.icon,
                                   color: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                      (viewModel.level ?? userViewmodel.entity.level) == limit
+                                          (viewModel.level ??
+                                                  userViewmodel.entity.level) ==
+                                              limit
                                       ? Colors.grey
                                       : null,
                                 ),
@@ -335,7 +343,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   style: e.label == "관측장소" &&
                                           userViewmodel.state
                                               is MyPageStateSuccess &&
-                                      (viewModel.level ?? userViewmodel.entity.level) == limit
+                                          (viewModel.level ??
+                                                  userViewmodel.entity.level) ==
+                                              limit
                                       ? kTextContentStyleSmall.copyWith(
                                           color: Colors.grey)
                                       : kTextContentStyleSmall,
@@ -355,423 +365,511 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                 controller: _tabController,
                 children: [
                   scopeList.isNotEmpty
-                      ? RefreshIndicator(
-                          color: Colors.white,
-                          onRefresh: _refreshScope,
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _scopeScrollController,
-                            itemCount: scopeList.length + 2,
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                          1,
-                                          bestScopePost.id,
-                                          null,
-                                        ),
-                                      ),
-                                    ).then((value) {
-                                      setState(() {
-                                        bestScopePost.like = value.likes;
-                                      });
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      bottom: 15.0,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.local_fire_department),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0,
-                                              vertical: 15.0,
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.3),
+                                  BlendMode.dstATop,
+                                ),
+                                child: Image.asset(
+                                  'assets/back2.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            RefreshIndicator(
+                                color: Colors.white,
+                                onRefresh: _refreshScope,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  controller: _scopeScrollController,
+                                  itemCount: scopeList.length + 2,
+                                  itemBuilder: (context, index) {
+                                    if (index == 0) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                1,
+                                                bestScopePost.id,
+                                                null,
+                                              ),
                                             ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.white10,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  bestScopePost.title ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
+                                          ).then((value) {
+                                            setState(() {
+                                              bestScopePost.like = value.likes;
+                                            });
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            bottom: 15.0,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.local_fire_department),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 10.0,
+                                                    vertical: 15.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    color: Colors.white10,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        bestScopePost.title ??
+                                                            '',
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      IconWithNumber(
+                                                        icon: FontAwesomeIcons
+                                                            .heart,
+                                                        number: bestScopePost
+                                                                .like ??
+                                                            0,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                IconWithNumber(
-                                                  icon: FontAwesomeIcons.heart,
-                                                  number:
-                                                      bestScopePost.like ?? 0,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else if (index == scopeList.length + 1) {
-                                return viewModel.getHasNext("scope")
-                                    ? Center(
-                                        child: Image.asset(
-                                        'assets/gif/star55.gif',
-                                        height: 125.0,
-                                        width: 125.0,
-                                      ))
-                                    : Container(
-                                        height: 30,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                              color: Colors.white24,
-                                              width: 1,
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       );
-                              } else {
-                                int scopeIndex = index - 1;
-                                return PostBox2(
-                                  title: scopeList[scopeIndex].title,
-                                  content: scopeList[scopeIndex].contentText,
-                                  nickName: scopeList[scopeIndex].nickName,
-                                  writerId: scopeList[scopeIndex].writerId,
-                                  writeDate: formatTimeDifference(
-                                      scopeList[scopeIndex].writeDate),
-                                  level: scopeList[scopeIndex].level,
-                                  likes: scopeList[scopeIndex].likes,
-                                  clips: scopeList[scopeIndex].clips,
-                                  comments: scopeList[scopeIndex].comments,
-                                  onTap: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                          scopeList[scopeIndex].categoryId,
-                                          scopeList[scopeIndex].id,
-                                          scopeList[scopeIndex].writerId,
-                                          scopeCommunityState:
-                                              viewModel.scopeState,
-                                        ),
-                                      ),
-                                    ).then((value) {
-                                      print("아무거나");
-                                      if (value != null) {
-                                        if (value is bool) {
-                                          _scopeScrollController.jumpTo(0.0);
-                                        } else {
-                                          print("아무거나1");
-                                          setState(() {
-                                            scopeList[scopeIndex] =
-                                                scopeList[scopeIndex].copyWith(
-                                              title: value.title,
-                                              contentText: value.content,
-                                              likes: value.likes,
-                                              clips: value.clips,
-                                              comments: value.comments.length,
-                                              isClipped: value.isClipped,
-                                              isLike: value.isLike,
+                                    } else if (index == scopeList.length + 1) {
+                                      return viewModel.getHasNext("scope")
+                                          ? Center(
+                                              child: Image.asset(
+                                              'assets/gif/star55.gif',
+                                              height: 125.0,
+                                              width: 125.0,
+                                            ))
+                                          : Container(
+                                              height: 30,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      top: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.3),
+                                                width: 1,
+                                              ))),
                                             );
+                                    } else {
+                                      int scopeIndex = index - 1;
+                                      return PostBox2(
+                                        title: scopeList[scopeIndex].title,
+                                        content:
+                                            scopeList[scopeIndex].contentText,
+                                        nickName:
+                                            scopeList[scopeIndex].nickName,
+                                        writerId:
+                                            scopeList[scopeIndex].writerId,
+                                        writeDate: formatTimeDifference(
+                                            scopeList[scopeIndex].writeDate),
+                                        level: scopeList[scopeIndex].level,
+                                        likes: scopeList[scopeIndex].likes,
+                                        clips: scopeList[scopeIndex].clips,
+                                        comments:
+                                            scopeList[scopeIndex].comments,
+                                        onTap: () {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                scopeList[scopeIndex]
+                                                    .categoryId,
+                                                scopeList[scopeIndex].id,
+                                                scopeList[scopeIndex].writerId,
+                                                scopeCommunityState:
+                                                    viewModel.scopeState,
+                                              ),
+                                            ),
+                                          ).then((value) {
+                                            print("아무거나");
+                                            if (value != null) {
+                                              if (value is bool) {
+                                                _scopeScrollController
+                                                    .jumpTo(0.0);
+                                              } else {
+                                                print("아무거나1");
+                                                setState(() {
+                                                  scopeList[scopeIndex] =
+                                                      scopeList[scopeIndex]
+                                                          .copyWith(
+                                                    title: value.title,
+                                                    contentText: value.content,
+                                                    likes: value.likes,
+                                                    clips: value.clips,
+                                                    comments:
+                                                        value.comments.length,
+                                                    isClipped: value.isClipped,
+                                                    isLike: value.isLike,
+                                                  );
+                                                });
+                                              }
+                                            }
                                           });
-                                        }
-                                      }
-                                    });
+                                        },
+                                      );
+                                    }
                                   },
-                                );
-                              }
-                            },
-                          ))
+                                )),
+                          ],
+                        )
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
                         )),
                   placeList.isNotEmpty
-                      ? RefreshIndicator(
-                          color: Colors.white,
-                          onRefresh: _refreshPlace,
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _placeScrollController,
-                            itemCount: placeList.length + 2,
-                            itemBuilder: (context, index) {
-                              if (index == 0) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                          2,
-                                          bestPlacePost.id,
-                                          null,
-                                        ),
-                                      ),
-                                    ).then((value) {
-                                      setState(() {
-                                        bestPlacePost.like = value.likes;
-                                      });
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      bottom: 15.0,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.local_fire_department),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0,
-                                              vertical: 15.0,
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.3),
+                                  BlendMode.dstATop,
+                                ),
+                                child: Image.asset(
+                                  'assets/back2.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            RefreshIndicator(
+                                color: Colors.white,
+                                onRefresh: _refreshPlace,
+                                child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
+                                  controller: _placeScrollController,
+                                  itemCount: placeList.length + 2,
+                                  itemBuilder: (context, index) {
+                                    if (index == 0) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                2,
+                                                bestPlacePost.id,
+                                                null,
+                                              ),
                                             ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              color: Colors.white10,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  bestPlacePost.title ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
+                                          ).then((value) {
+                                            setState(() {
+                                              bestPlacePost.like = value.likes;
+                                            });
+                                          });
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 10.0,
+                                            right: 10.0,
+                                            bottom: 15.0,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              const Icon(
+                                                  Icons.local_fire_department),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 10.0,
+                                                    vertical: 15.0,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    color: Colors.white10,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        bestPlacePost.title ??
+                                                            '',
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      IconWithNumber(
+                                                        icon: FontAwesomeIcons
+                                                            .heart,
+                                                        number: bestPlacePost
+                                                                .like ??
+                                                            0,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                IconWithNumber(
-                                                  icon: FontAwesomeIcons.heart,
-                                                  number:
-                                                      bestPlacePost.like ?? 0,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else if (index == placeList.length + 1) {
-                                return viewModel.getHasNext("place")
-                                    ? Center(
-                                        child: Image.asset(
-                                        'assets/gif/star55.gif',
-                                        height: 125.0,
-                                        width: 125.0,
-                                      ))
-                                    : Container(
-                                        height: 30,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            top: BorderSide(
-                                              color: Colors.white24,
-                                              width: 1,
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       );
-                              } else {
-                                int placeIndex = index - 1;
-                                return PostBox2(
-                                  title: placeList[placeIndex].title,
-                                  content: placeList[placeIndex].contentText,
-                                  nickName: placeList[placeIndex].nickName,
-                                  writerId: placeList[placeIndex].writerId,
-                                  writeDate: formatTimeDifference(
-                                      placeList[placeIndex].writeDate),
-                                  level: placeList[placeIndex].level,
-                                  likes: placeList[placeIndex].likes,
-                                  clips: placeList[placeIndex].clips,
-                                  comments: placeList[placeIndex].comments,
-                                  onTap: () {
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                          placeList[placeIndex].categoryId,
-                                          placeList[placeIndex].id,
-                                          placeList[placeIndex].writerId,
-                                          placeCommunityState:
-                                              viewModel.placeState,
-                                        ),
-                                      ),
-                                    ).then((value) {
-                                      if (value != null) {
-                                        if (value is bool) {
-                                          _placeScrollController.jumpTo(0.0);
-                                        } else {
-                                          setState(() {
-                                            placeList[placeIndex] =
-                                                placeList[placeIndex].copyWith(
-                                              title: value.title,
-                                              contentText: value.content,
-                                              likes: value.likes,
-                                              clips: value.clips,
-                                              comments: value.comments.length,
-                                              isClipped: value.isClipped,
-                                              isLike: value.isLike,
+                                    } else if (index == placeList.length + 1) {
+                                      return viewModel.getHasNext("place")
+                                          ? Center(
+                                              child: Image.asset(
+                                              'assets/gif/star55.gif',
+                                              height: 125.0,
+                                              width: 125.0,
+                                            ))
+                                          : Container(
+                                              height: 30,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              decoration: BoxDecoration(
+                                                  border: Border(
+                                                      top: BorderSide(
+                                                color: Colors.white
+                                                    .withOpacity(0.3),
+                                                width: 1,
+                                              ))),
                                             );
+                                    } else {
+                                      int placeIndex = index - 1;
+                                      return PostBox2(
+                                        title: placeList[placeIndex].title,
+                                        content:
+                                            placeList[placeIndex].contentText,
+                                        nickName:
+                                            placeList[placeIndex].nickName,
+                                        writerId:
+                                            placeList[placeIndex].writerId,
+                                        writeDate: formatTimeDifference(
+                                            placeList[placeIndex].writeDate),
+                                        level: placeList[placeIndex].level,
+                                        likes: placeList[placeIndex].likes,
+                                        clips: placeList[placeIndex].clips,
+                                        comments:
+                                            placeList[placeIndex].comments,
+                                        onTap: () {
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                placeList[placeIndex]
+                                                    .categoryId,
+                                                placeList[placeIndex].id,
+                                                placeList[placeIndex].writerId,
+                                                placeCommunityState:
+                                                    viewModel.placeState,
+                                              ),
+                                            ),
+                                          ).then((value) {
+                                            if (value != null) {
+                                              if (value is bool) {
+                                                _placeScrollController
+                                                    .jumpTo(0.0);
+                                              } else {
+                                                setState(() {
+                                                  placeList[placeIndex] =
+                                                      placeList[placeIndex]
+                                                          .copyWith(
+                                                    title: value.title,
+                                                    contentText: value.content,
+                                                    likes: value.likes,
+                                                    clips: value.clips,
+                                                    comments:
+                                                        value.comments.length,
+                                                    isClipped: value.isClipped,
+                                                    isLike: value.isLike,
+                                                  );
+                                                });
+                                              }
+                                            }
                                           });
-                                        }
-                                      }
-                                    });
+                                        },
+                                      );
+                                    }
                                   },
-                                );
-                              }
-                            },
-                          ))
+                                )),
+                          ],
+                        )
                       : const Center(
                           child: CircularProgressIndicator(
                           color: Colors.white,
                         )),
                   photoList.isNotEmpty
-                      ? RefreshIndicator(
-                          color: Colors.white,
-                          onRefresh: _refreshPhoto,
-                          child: CustomScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            controller: _photoScrollController,
-                            slivers: [
-                              SliverToBoxAdapter(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => DetailPage(
-                                          1,
-                                          bestPhotoPost.id,
-                                          null,
-                                        ),
-                                      ),
-                                    ).then((value) {
-                                      setState(() {
-                                        bestPhotoPost.like = value.likes;
-                                      });
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                      bottom: 15.0,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        const Icon(Icons.local_fire_department),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 10.0,
-                                              vertical: 15.0,
-                                            ),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                              BorderRadius.circular(10.0),
-                                              color: Colors.white10,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  bestPhotoPost.title ?? '',
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                IconWithNumber(
-                                                  icon: FontAwesomeIcons.heart,
-                                                  number:
-                                                  bestPhotoPost.like ?? 0,
-                                                ),
-                                              ],
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.3),
+                                  BlendMode.dstATop,
+                                ),
+                                child: Image.asset(
+                                  'assets/back2.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            RefreshIndicator(
+                              color: Colors.white,
+                              onRefresh: _refreshPhoto,
+                              child: CustomScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                controller: _photoScrollController,
+                                slivers: [
+                                  SliverToBoxAdapter(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailPage(
+                                              1,
+                                              bestPhotoPost.id,
+                                              null,
                                             ),
                                           ),
+                                        ).then((value) {
+                                          setState(() {
+                                            bestPhotoPost.like = value.likes;
+                                          });
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10.0,
+                                          right: 10.0,
+                                          bottom: 15.0,
                                         ),
-                                      ],
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                                Icons.local_fire_department),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 15.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  color: Colors.white10,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      bestPhotoPost.title ?? '',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    IconWithNumber(
+                                                      icon: FontAwesomeIcons
+                                                          .heart,
+                                                      number:
+                                                          bestPhotoPost.like ??
+                                                              0,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              SliverPadding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                                sliver: SliverGrid(
-                                  gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 8.0,
-                                    mainAxisSpacing: 8.0,
-                                  ),
-                                  delegate: SliverChildBuilderDelegate(
+                                  SliverPadding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    sliver: SliverGrid(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8.0,
+                                        mainAxisSpacing: 8.0,
+                                      ),
+                                      delegate: SliverChildBuilderDelegate(
                                         (BuildContext context, int index) {
-                                      return buildGridItem(context, index);
-                                    },
-                                    childCount: photoList.length,
+                                          return buildGridItem(context, index);
+                                        },
+                                        childCount: photoList.length,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  // Check if it's the last item in the grid
+                                  SliverToBoxAdapter(
+                                    child: viewModel.getHasNext("photo")
+                                        ? Center(
+                                            child: Image.asset(
+                                              'assets/gif/star55.gif',
+                                              height: 125.0,
+                                              width: 125.0,
+                                            ),
+                                          )
+                                        : Container(),
+                                  ),
+                                ],
                               ),
-                              // Check if it's the last item in the grid
-                              SliverToBoxAdapter(
-                                child: viewModel.getHasNext("photo")
-                                    ? Center(
-                                        child: Image.asset(
-                                          'assets/gif/star55.gif',
-                                          height: 125.0,
-                                          width: 125.0,
-                                        ),
-                                      )
-                                    : Container(),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         )
                       : const Center(
                           child: CircularProgressIndicator(

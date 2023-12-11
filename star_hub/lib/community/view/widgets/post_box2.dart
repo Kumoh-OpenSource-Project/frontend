@@ -47,10 +47,11 @@ class PostBox2 extends StatelessWidget {
         clips: clips,
         comments: comments);
     return Container(
-      decoration: const BoxDecoration(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
           border: Border(
               top: BorderSide(
-        color: Colors.white24,
+        color: Colors.white.withOpacity(0.3),
         width: 1,
       ))),
       child: Column(
