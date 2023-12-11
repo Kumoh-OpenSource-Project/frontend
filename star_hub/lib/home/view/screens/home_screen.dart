@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/home/model/state.dart';
 import 'package:star_hub/home/view_model/home_viewmodel.dart';
 import '../../model/home_entity.dart';
@@ -28,6 +29,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     "달 따오는 중 . .",
     "달 따오는 중 . . ."
   ];
+
   final controller = PageController(viewportFraction: 0.8, keepPage: true);
 
   late TodayWeatherData todayWeatherData;
@@ -53,6 +55,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       _timer.cancel();
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -241,28 +244,103 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           )
-        : Scaffold(
-            backgroundColor: Colors.black,
-            body: Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/gif/moon2.gif',
-                  height: 250.0,
-                  width: 250.0,
+        : viewModel.homeState is HomeStateError
+            ? Scaffold(
+                backgroundColor: Colors.black,
+                body: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: 150,
+                            child: Image.asset(
+                              'assets/fail.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            "잠시 뒤 시도해주세요",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white, // 글자 색상을 흰색으로 변경
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Column(
+                            children: [
+                              Text(
+                                "통신이 원활하지 않아",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[300], // 글자 색상을 연한 회색으로 변경
+                                ),
+                              ),
+                              Text(
+                                "데이터를 불러올 수 없습니다.",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[300], // 글자 색상을 연한 회색으로 변경
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          InkWell(
+                            onTap: () {
+                              viewModel.getReData();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              decoration: BoxDecoration(
+                                color: Colors.cyan,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Text(
+                                "재시도",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(messages[currentIndex],
-                    style: const TextStyle(
-                      fontFamily: "Dovemayo_gothic",
-                      fontSize: 18,
-                    )),
-              ],
-            )),
-          );
+              )
+            : Scaffold(
+                backgroundColor: Colors.black,
+                body: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/gif/moon2.gif',
+                      height: 250.0,
+                      width: 250.0,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(messages[currentIndex],
+                        style: const TextStyle(
+                          fontFamily: "Dovemayo_gothic",
+                          fontSize: 18,
+                        )),
+                  ],
+                )),
+              );
   }
 
   Widget _buildPage(

@@ -248,6 +248,7 @@ class _WritePostPageState extends State<WritePostPage> {
       margin: const EdgeInsets.only(top: 16.0),
       height: 100.0,
       child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: _pickedImages.length,
         itemBuilder: (context, index) => Stack(

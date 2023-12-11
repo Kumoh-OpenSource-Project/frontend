@@ -89,6 +89,7 @@ class _MyScrapsPageState extends ConsumerState<MyScrapsPage> {
                       itemBuilder: (BuildContext context, int index) {
                         if (index == viewModel.entity.length) {
                           return Container(
+                            margin: EdgeInsets.symmetric(horizontal: 5),
                             decoration: const BoxDecoration(
                               border: Border(
                                 top: BorderSide(

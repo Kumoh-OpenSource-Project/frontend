@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
@@ -31,7 +32,7 @@ class MyPageScreen extends ConsumerStatefulWidget {
 class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   String userName = '';
   String profileImageUrl =
-      'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
+      'http://res.cloudinary.com/dnbf7czsn/image/upload/v1702310928/pluto-197_g74xnv.png';
   final TextEditingController _nicknameController = TextEditingController();
   late bool isLevelUp;
   String? level = null;
@@ -74,6 +75,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
           return Colors.blueAccent;
         case '해왕성':
           return Colors.lightBlueAccent;
+        case '태양':
+          return Colors.red;
         case '블랙홀':
           return Colors.deepPurple.shade900;
         default:
@@ -481,6 +484,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   Future<void> _logout(BuildContext context) async {
     final localStorage = LocalStorage();
     localStorage.deleteTokens();
+    await UserApi.instance.unlink();
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const SplashScreen()));
   }

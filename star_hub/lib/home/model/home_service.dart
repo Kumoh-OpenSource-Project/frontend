@@ -13,21 +13,20 @@ StateNotifierProvider<HomeService, HomeState>((ref) {
 
 class HomeService extends StateNotifier<HomeState> {
   final HomeRepository repository;
-  late final Position position;
-
+  late Position position;
   HomeService(this.repository) : super(HomeStateNone()) {
-    _initialize();
+   initialize();
   }
 
-  Future<void> _initialize() async {
+  Future<void> initialize() async {
     try {
       state = HomeStateLoading();
       position = await getCurrentLocation();
       EventData? eventData = await getEventData();
       TodayWeatherData? todayWeatherData = await getTodayWeatherData();
       RealTimeWeatherInfo? currentWeather = await getCurrentWeather();
-      List<WeatherData> weeklyWeather = await getWeeklyWeather();
-      if (todayWeatherData != null && currentWeather != null && eventData != null) {
+      List<WeatherData>? weeklyWeather = await getWeeklyWeather();
+      if (todayWeatherData != null && currentWeather != null && eventData != null && weeklyWeather != null) {
         state = HomeStateSuccess(todayWeatherData, currentWeather, weeklyWeather, eventData);
       } else {
         state = HomeStateError('에러: 데이터를 불러올 수 없습니다.');
@@ -79,22 +78,26 @@ class HomeService extends StateNotifier<HomeState> {
       return response;
     } on DioException catch (e) {
       print('Failed to load current weather data. DioError: ${e.message}');
+      return null;
     } catch (e) {
       print('Unexpected Error: $e');
     }
     return null;
   }
 
-  Future<List<WeatherData>> getWeeklyWeather() async {
+  Future<List<WeatherData>?> getWeeklyWeather() async {
     try {
       final response = await repository.getWeekData(position.latitude, position.longitude);
       return response;
     } on DioException catch (e) {
       print('Failed to load weekly weather data. DioError: ${e.message}');
+      return null;
     } catch (e) {
       print('여기 ? Unexpected Error: $e');
+      return null;
     }
-    return [];
+    return null;
+
   }
 
   Future<Position> getCurrentLocation() async {

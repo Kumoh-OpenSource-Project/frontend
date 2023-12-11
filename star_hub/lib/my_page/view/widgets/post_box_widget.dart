@@ -65,6 +65,7 @@ class PostBox extends StatelessWidget {
       categoryId: categoryId,
     );
     return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
       decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -135,7 +136,7 @@ class PostBox extends StatelessWidget {
                           number: post.clips!,
                         ),
                       if (post.clips != null)
-                        Text("|  "),
+                        const Text("|  "),
                       Row(
                         children: [
                           Text("${post.nickName}",

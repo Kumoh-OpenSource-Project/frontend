@@ -21,6 +21,7 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   late final authService;
+  bool isLoggingIn = false;
 
   Future<void> _handleKakaoLogin() async {
     // print(await KakaoSdk.origin);
@@ -48,7 +49,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         debugPrint('카카오계정으로 로그인 실패 $error');
       }
     }
-
+    setState(() {
+      isLoggingIn = true; // 버튼 클릭 시 로그인 중 상태로 변경
+    });
     if (token != null) {
       authService = AuthService(token.accessToken);
       await _saveTokensToLocalStorage(token.accessToken, token.refreshToken);
@@ -114,16 +117,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               ),
             ),
             const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                _handleKakaoLogin();
-              },
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
-              child: Image.asset('assets/kakaotalk.png'),
+            InkWell(
+              onTap: isLoggingIn ? null : _handleKakaoLogin,
+              child: Container(
+                padding: EdgeInsets.zero,
+                child: isLoggingIn
+                    ? const CircularProgressIndicator(color: Colors.white,)
+                    : Image.asset('assets/kakaotalk.png'),
+              ),
             ),
             const SizedBox(
               height: 50,
             ),
+
           ],
         ),
       ),

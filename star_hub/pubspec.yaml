@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.0.6
   cached_network_image: ^3.3.0
   another_flushbar: ^1.12.30
+  permission_handler: ^10.2.0
 
   # REST Api
   build_runner: ^2.4.6

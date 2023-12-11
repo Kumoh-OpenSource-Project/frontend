@@ -1,3 +1,4 @@
+import 'package:star_hub/auth/model/dto/login_request_dto.dart';
 import 'package:star_hub/common/value_state.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
@@ -77,7 +78,7 @@ class SearchState extends ValueStateNotifier<List<SearchPostEntity>> {}
 
 class MyPageState extends ValueStateNotifier<UserInfoEntity> {}
 
-
+class LoginState extends ValueStateNotifier<LoginRequestDto> {}
 class MyPostLikeState extends ValueStateNotifier<List<MyLikesEntity>> {}
 class MyPostClipState extends ValueStateNotifier<List<MyClipEntity>> {}
 class MyPostState extends ValueStateNotifier<List<MyPostEntity>> {}
