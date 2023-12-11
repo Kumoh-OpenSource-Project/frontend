@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/common/entity/response_entity.dart';
 import 'package:star_hub/community/model/entity/delete_article_entity.dart';
 import 'package:star_hub/community/model/entity/level_up_entity.dart';
+import 'package:star_hub/community/model/entity/photo_best_entity.dart';
 import 'package:star_hub/community/model/entity/photo_full_post_entity.dart';
 import 'package:star_hub/community/model/entity/post_article_entity.dart';
 import 'package:star_hub/community/model/entity/update_article_entity.dart';
@@ -17,6 +18,7 @@ class PhotoPostService {
   final CommunityRepository repository;
   bool hasNextPhoto = true;
   List<PhotoFullPostEntity> photoList = [];
+  late PhotoBestEntity photoBestEntity;
 
   PhotoPostService(this.repository);
 
@@ -97,5 +99,17 @@ class PhotoPostService {
 
   void makePhotoNonReset() {
     isPhotoReset = false;
+  }
+
+  Future<ResponseEntity<PhotoBestEntity>> getPhotoBestPost() async {
+    try {
+      final PhotoBestEntity bestPost = await repository.getPhotoBestPost();
+      photoBestEntity = bestPost;
+      return ResponseEntity.success(entity: bestPost);
+    } on DioException catch (e) {
+      return ResponseEntity.error(message: e.message ?? "알 수 없는 에러가 발생했습니다.");
+    } catch (e) {
+      return ResponseEntity.error(message: "알 수 없는 에러가 발생했습니다.");
+    }
   }
 }

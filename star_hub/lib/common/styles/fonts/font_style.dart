@@ -58,7 +58,7 @@ const TextStyle kTextContentStyleMini = TextStyle(
   height: kTextHeight,
 );
 const TextStyle kTextSubContentStyleXSmall = TextStyle(
-  fontFamily: "Dovemayo_gothic",
+ // fontFamily: "Dovemayo_gothic",
   color: Colors.blueGrey,
   fontSize: kTextMiniSize,
   fontWeight: FontWeight.bold,

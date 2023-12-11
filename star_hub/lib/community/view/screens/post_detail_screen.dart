@@ -1286,7 +1286,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
   Widget imageSlider(path, index) => Container(
         width: double.infinity,
         height: 240,
-        color: Colors.grey,
+        color: Colors.grey[300]?.withOpacity(0.1),
         child: Image.network(path, fit: BoxFit.cover),
       );
 

@@ -58,7 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         await authService.login(token.accessToken);
         debugPrint("로그인 성공");
         if (!mounted) return;
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const MainPage(),
@@ -85,7 +85,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
+          color: Colors.black,
           image: DecorationImage(
             image: AssetImage("assets/galaxy.jpg"),
             fit: BoxFit.cover,

@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:star_hub/auth/view/screens/login_screen.dart';
 import 'package:star_hub/common/pages/loading_page.dart';
+import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/community/model/service/photo_service.dart';
 import 'package:star_hub/community/model/service/place_service.dart';
 import 'package:star_hub/community/model/service/scope_service.dart';
@@ -43,12 +44,11 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   @override
   Widget build(BuildContext context) {
     final viewmodel = ref.watch(myPageViewModelProvider);
-    if(viewmodel.state is MyPageStateSuccess) level = viewmodel.entity.level;
+    if (viewmodel.state is MyPageStateSuccess) level = viewmodel.entity.level;
     if (ref.read(postViewModelProvider).level != null && level != null) {
       if (level != ref.read(postViewModelProvider).level) {
         level = ref.read(postViewModelProvider).level;
         print("마이페이지 레벨업");
-
       }
       print("레벨업은 안함");
     } else {
@@ -104,24 +104,26 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                                           (level ?? viewmodel.entity.level)),
                                       width: 4.0,
                                     ),
-                              gradient: (level ?? viewmodel.entity.level) == '대은하'
-                                  ? const LinearGradient(
-                                      colors: [
-                                        Colors.red,
-                                        Colors.orange,
-                                        Colors.yellow,
-                                        Colors.green,
-                                        Colors.blue,
-                                        Colors.indigo,
-                                        Colors.purple,
-                                      ],
-                                    )
-                                  : null,
+                              gradient:
+                                  (level ?? viewmodel.entity.level) == '대은하'
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Colors.red,
+                                            Colors.orange,
+                                            Colors.yellow,
+                                            Colors.green,
+                                            Colors.blue,
+                                            Colors.indigo,
+                                            Colors.purple,
+                                          ],
+                                        )
+                                      : null,
                             ),
                             child: Padding(
-                              padding: (level ?? viewmodel.entity.level) == '대은하'
-                                  ? const EdgeInsets.all(4.0)
-                                  : const EdgeInsets.all(0.0),
+                              padding:
+                                  (level ?? viewmodel.entity.level) == '대은하'
+                                      ? const EdgeInsets.all(4.0)
+                                      : const EdgeInsets.all(0.0),
                               child: CircleAvatar(
                                 backgroundImage: NetworkImage(
                                   viewmodel.entity.profilePhoto
@@ -455,10 +457,12 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                         onPressed: () async {
                           await _logout(context);
                         },
-                        style:
-                            ElevatedButton.styleFrom(primary: Colors.redAccent),
-                        child: const Text(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.transparent),
+                        child: Text(
                           '로그아웃',
+                          style: kTextContentStyleMiddle.copyWith(
+                              color: Colors.red),
                         ),
                       ),
                     ),

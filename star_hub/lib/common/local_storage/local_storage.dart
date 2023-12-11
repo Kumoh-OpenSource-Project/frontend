@@ -24,9 +24,8 @@ class LocalStorage {
 
   Future<String?> getAccessToken() async {
     final accessToken = await _storage.read(key: 'access_token');
-    // print(accessToken);
-    //return accessToken;
-    return "1IJeSxBN0KPXX0WUVTQJEa1FrQ1iAUoMgVQKKclfAAABjFVTg3zOkqTnJF629A";
+    return accessToken;
+    //return "SMZ9bQxIns2jiTIhqiLk7JDbXsMQgdnG74YKKcjZAAABjFXhnV7OkqTnJF629A";
   }
 
   Future<String?> getRefreshToken() async {
