@@ -380,7 +380,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               ),
                             ),
                             RefreshIndicator(
-                                color: Colors.white,
+                                backgroundColor: Colors.white,
+                                color: Colors.black,
                                 onRefresh: _refreshScope,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
@@ -568,7 +569,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               ),
                             ),
                             RefreshIndicator(
-                                color: Colors.white,
+                                backgroundColor: Colors.white,
+                                color: Colors.black,
                                 onRefresh: _refreshPlace,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
@@ -754,7 +756,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                               ),
                             ),
                             RefreshIndicator(
-                              color: Colors.white,
+                              backgroundColor: Colors.white,
+                              color: Colors.black,
                               onRefresh: _refreshPhoto,
                               child: CustomScrollView(
                                 physics: const BouncingScrollPhysics(),
