@@ -33,4 +33,11 @@ class HomeViewModel extends ChangeNotifier {
       }
     });
   }
+
+  void getReData(){
+    if (homeState is HomeStateError){
+      ref.read(homeServiceProvider.notifier).initialize();
+    }
+  }
+
 }
