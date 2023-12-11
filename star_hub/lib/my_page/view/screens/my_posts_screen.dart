@@ -74,9 +74,12 @@ class _MyPostsPageState extends ConsumerState<MyPostsPage> {
             state: viewModel.state,
             errorBuilder: (_, state) => Text(state.message),
             noneBuilder: (_, __) => Text("뭐야!"),
-            loadingBuilder: (_, __) => const CircularProgressIndicator(
-              color: Colors.white,
-            ),
+            loadingBuilder: (_, __) => Center(
+                child: Image.asset(
+              'assets/gif/space.gif',
+              height: 50.0,
+              width: 50.0,
+            )),
             successBuilder: (_, state) => state.value!.isEmpty
                 ? const Center(
                     child: Text(

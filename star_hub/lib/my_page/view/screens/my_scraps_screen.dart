@@ -70,9 +70,12 @@ class _MyScrapsPageState extends ConsumerState<MyScrapsPage> {
           ),
           ValueStateListener(
               state: viewModel.state,
-              loadingBuilder: (_, __) => const CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
+              loadingBuilder: (_, __) => Center(
+                      child: Image.asset(
+                    'assets/gif/space.gif',
+                    height: 50.0,
+                    width: 50.0,
+                  )),
               successBuilder: (_, state) => state.value!.isEmpty
                   ? const Center(
                       child: Text(
