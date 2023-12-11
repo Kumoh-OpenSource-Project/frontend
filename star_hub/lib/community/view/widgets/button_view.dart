@@ -1,52 +1,68 @@
 import 'package:flutter/material.dart';
 
-class ButtonView extends StatefulWidget {
+class AnimatedIconButton extends StatefulWidget {
   final VoidCallback onTap;
-  final Widget child;
-  final String heroTag;
+  final IconData iconData;
+  final String text;
 
-  ButtonView(
-      {super.key,
-      required this.onTap,
-      required this.child,
-      required this.heroTag});
+  AnimatedIconButton({
+    Key? key,
+    required this.onTap,
+    required this.iconData,
+    required this.text,
+  }) : super(key: key);
 
   @override
-  State<ButtonView> createState() => _ButtonViewState();
+  _AnimatedIconButtonState createState() => _AnimatedIconButtonState();
 }
 
-class _ButtonViewState extends State<ButtonView>
+class _AnimatedIconButtonState extends State<AnimatedIconButton>
     with SingleTickerProviderStateMixin {
-  final Duration time = const Duration(microseconds: 100);
-
   late AnimationController _buttonController = AnimationController(
     vsync: this,
-    duration: time,
+    duration: Duration(milliseconds: 200),
     lowerBound: 0.0,
-    upperBound: 0.4,
-  )..addListener(() => setState(() {}));
-
-  @override
-  void initState() {
-    super.initState();
-  }
+    upperBound: 0.3,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
+    return InkWell(
+      onTap: () {
         _buttonController.forward();
-        print('forward!!');
-        Future.delayed(time, () {
+        Future.delayed(Duration(milliseconds: 200), () {
           _buttonController.reverse();
         });
-        print('backward!!');
         widget.onTap();
       },
-      child: Transform.scale(
-        scale: 1 + _buttonController.value,
-        child: widget.child,
+      borderRadius: BorderRadius.circular(10.0), // 모서리를 둥글게 만들기
+      child: Padding(
+        padding: const EdgeInsets.all(0.0), // 패딩 추가
+        child: Row(
+          children: [
+            ScaleTransition(
+              scale: Tween<double>(begin: 1.0, end: 1.6).animate(_buttonController),
+              child: Icon(
+                widget.iconData,
+                size: 24.0,
+              ),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            Text(widget.text),
+            const SizedBox(
+              width: 5,
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _buttonController.dispose();
+    super.dispose();
   }
 }

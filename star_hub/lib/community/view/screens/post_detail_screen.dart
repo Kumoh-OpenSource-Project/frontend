@@ -449,14 +449,26 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                     child: Scaffold(
                         backgroundColor: Colors.black,
                         appBar: AppBar(
+                          title: widget.type != null
+                              ? widget.type == 1
+                                  ? const Text(
+                                      "관측도구 게시판",
+                                      style: kTextContentStyleLarge,
+                                    )
+                                  : widget.type == 2
+                                      ? const Text("관측장소 게시판",
+                                          style: kTextContentStyleLarge)
+                                      : widget.type == 3
+                                          ? const Text("사진자랑 게시판",
+                                              style: kTextContentStyleLarge)
+                                          : const Text("")
+                              : const Text(""),
                           leading: IconButton(
-                            icon: Icon(Icons.arrow_back),
+                            icon: const Icon(Icons.arrow_back),
                             onPressed: () {
-                              print("뒤로 가기 버튼 클릭!");
                               isInit = true;
                               setState(() {
                                 entity = null;
-                                print("d");
                               });
                               Navigator.pop(context, viewModel.state.value);
                             },
@@ -481,17 +493,13 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                         body: viewModel.state.isError == true
                             ? AlertDialog(
                                 backgroundColor: Colors.black,
-                                // 배경색
                                 elevation: 24.0,
-                                // 그림자 높이
                                 shape: const RoundedRectangleBorder(
-                                  side:
-                                      BorderSide(color: Colors.white), // 테두리 색상
+                                  side: BorderSide(color: Colors.white),
                                 ),
                                 content: Text(
                                   viewModel.state.message,
-                                  style: const TextStyle(
-                                      color: Colors.white), // 텍스트 색상
+                                  style: const TextStyle(color: Colors.white),
                                 ),
                                 actions: <Widget>[
                                   TextButton(
@@ -677,7 +685,8 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                                                 context,
                                                                                 MaterialPageRoute(
                                                                                   builder: (context) => FullImagePage(
-                                                                                    imagePath: path,
+                                                                                    imagePaths: entity!.photos,
+                                                                                    initialPageIndex: index,
                                                                                   ),
                                                                                 ),
                                                                               );
@@ -739,52 +748,43 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                       ),
                                                       Row(
                                                         children: [
-                                                          !entity!.isLike
-                                                              ? InkWell(
-                                                                  onTap: () =>
-                                                                      viewModel.addLike(
-                                                                          entity!
-                                                                              .id),
-                                                                  child: const Icon(
-                                                                      FontAwesomeIcons
-                                                                          .heart))
-                                                              : InkWell(
-                                                                  onTap: () => viewModel
-                                                                      .cancelLike(
-                                                                          entity!
-                                                                              .id),
-                                                                  child: const Icon(
-                                                                      FontAwesomeIcons
-                                                                          .solidHeart),
-                                                                ),
-                                                          const SizedBox(
-                                                            width: 7,
+                                                          AnimatedIconButton(
+                                                            onTap: !entity!
+                                                                    .isLike
+                                                                ? () => viewModel
+                                                                    .addLike(
+                                                                        entity!
+                                                                            .id)
+                                                                : () => viewModel
+                                                                    .cancelLike(
+                                                                        entity!
+                                                                            .id),
+                                                            iconData: !entity!
+                                                                    .isLike
+                                                                ? FontAwesomeIcons
+                                                                    .heart
+                                                                : FontAwesomeIcons
+                                                                    .solidHeart,
+                                                            text: "좋아요",
                                                           ),
-                                                          const Text('좋아요'),
-                                                          const SizedBox(
-                                                            width: 5,
+                                                          AnimatedIconButton(
+                                                            onTap: !entity!
+                                                                    .isClipped
+                                                                ? () => viewModel
+                                                                    .addClip(
+                                                                        entity!
+                                                                            .id)
+                                                                : () => viewModel
+                                                                    .cancelClip(
+                                                                        entity!
+                                                                            .id),
+                                                            iconData: !entity!
+                                                                    .isClipped
+                                                                ? Icons
+                                                                    .bookmark_border
+                                                                : Icons
+                                                                    .bookmark, text: '스크랩',
                                                           ),
-                                                          !entity!.isClipped
-                                                              ? InkWell(
-                                                                  onTap: () =>
-                                                                      viewModel.addClip(
-                                                                          entity!
-                                                                              .id),
-                                                                  child: const Icon(
-                                                                      Icons
-                                                                          .bookmark_border))
-                                                              : InkWell(
-                                                                  onTap: () => viewModel
-                                                                      .cancelClip(
-                                                                          entity!
-                                                                              .id),
-                                                                  child: const Icon(
-                                                                      Icons
-                                                                          .bookmark)),
-                                                          const SizedBox(
-                                                            width: 3,
-                                                          ),
-                                                          const Text('스크랩'),
                                                         ],
                                                       ),
                                                       const SizedBox(
@@ -894,8 +894,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                         ),
                                       ),
                                     ],
-                                  )
-                        )));
+                                  ))));
           } else {
             return const Center(
                 child: CircularProgressIndicator(
@@ -915,18 +914,23 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             fit: BoxFit.cover),
       );
 
-  Widget indicator(DetailPostEntity entity) => Container(
-        margin: const EdgeInsets.only(bottom: 20.0),
-        alignment: Alignment.bottomCenter,
-        child: AnimatedSmoothIndicator(
-          activeIndex: activeIndex,
-          count: entity.photos.length,
-          effect: JumpingDotEffect(
-            dotHeight: 6,
-            dotWidth: 6,
-            activeDotColor: Colors.white,
-            dotColor: Colors.white.withOpacity(0.6),
-          ),
+  Widget indicator(DetailPostEntity entity) {
+    if (entity.photos.length <= 1) {
+      return Container();
+    }
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20.0),
+      alignment: Alignment.bottomCenter,
+      child: AnimatedSmoothIndicator(
+        activeIndex: activeIndex,
+        count: entity.photos.length,
+        effect: JumpingDotEffect(
+          dotHeight: 6,
+          dotWidth: 6,
+          activeDotColor: Colors.white,
+          dotColor: Colors.white.withOpacity(0.6),
         ),
-      );
+      ),
+    );
+  }
 }
