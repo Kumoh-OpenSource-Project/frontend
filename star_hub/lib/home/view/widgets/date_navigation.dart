@@ -68,9 +68,9 @@ class _DateNavigationState extends State<DateNavigation> {
             ),
             color: isPreviousButtonEnabled ? Colors.white : Colors.grey,
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           SizedBox(
-            width: 100,
+            width: 130,
             child: Column(
               children: [
                 Text(
@@ -84,7 +84,7 @@ class _DateNavigationState extends State<DateNavigation> {
               ],
             ),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           IconButton(
             onPressed: isNextButtonEnabled ? goToNextDay : null,
             icon: const Icon(

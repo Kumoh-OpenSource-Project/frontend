@@ -31,7 +31,7 @@ class MyPageScreen extends ConsumerStatefulWidget {
 class _MyPageScreenState extends ConsumerState<MyPageScreen> {
   String userName = '';
   String profileImageUrl =
-      'https://e1.pngegg.com/pngimages/249/454/png-clipart-frost-pro-for-os-x-icon-set-now-free-blank-white-circle-thumbnail.png';
+      'http://res.cloudinary.com/dnbf7czsn/image/upload/v1702310928/pluto-197_g74xnv.png';
   final TextEditingController _nicknameController = TextEditingController();
   late bool isLevelUp;
   String? level = null;
@@ -74,6 +74,8 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
           return Colors.blueAccent;
         case '해왕성':
           return Colors.lightBlueAccent;
+        case '태양':
+          return Colors.red;
         case '블랙홀':
           return Colors.deepPurple.shade900;
         default:
