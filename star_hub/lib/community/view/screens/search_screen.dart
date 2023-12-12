@@ -109,7 +109,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.scopeReset) {
+    if (viewModel.searchReset) {
       searchList.clear();
       page = 1;
       print(viewModel.searchList);

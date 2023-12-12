@@ -21,7 +21,7 @@ class SearchPostViewModel extends ChangeNotifier {
 
   List<SearchPostEntity> get searchList => searchService.searchList;
 
-  bool get scopeReset => searchService.isSearchReset;
+  bool get searchReset => searchService.isSearchReset;
 
   bool isSearchReset = false;
 
