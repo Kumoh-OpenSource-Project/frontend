@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:star_hub/common/styles/fonts/font_style.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/view_model/detail_post_viewmodel.dart';
@@ -185,6 +186,9 @@ class _CommentBoxState extends State<CommentBox> {
                 onChanged: (value) {
                   reportContent = value;
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(50),
+                ],
                 style: kTextContentStyleSmall.copyWith(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(

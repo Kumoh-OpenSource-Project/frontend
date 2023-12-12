@@ -150,6 +150,21 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                   behavior: SnackBarBehavior.fixed,
                 ),
               );
+            } else if (text.contains(' ')) {
+              setState(() {
+                page = 0;
+                searchList.clear();
+                viewModel.getNextPage(text, true, page++);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "띄어쓰기를 포함할 수 없습니다.",
+                  ),
+                  duration: Duration(seconds: 1),
+                  behavior: SnackBarBehavior.fixed,
+                ),
+              );
             } else {
               setState(() {
                 page = 0;
@@ -274,11 +289,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen>
                 },
               )
             : Center(
-            child: Image.asset(
-              'assets/gif/space.gif',
-              height: 50.0,
-              width: 50.0,
-            )),
+                child: Image.asset(
+                'assets/gif/space.gif',
+                height: 50.0,
+                width: 50.0,
+              )),
         successBuilder: (_, state) => searchList.isNotEmpty
             ? ListView.builder(
                 physics: const BouncingScrollPhysics(),

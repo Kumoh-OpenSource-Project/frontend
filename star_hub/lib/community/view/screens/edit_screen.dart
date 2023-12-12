@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:star_hub/common/styles/sizes/sizes.dart';
 import 'package:star_hub/community/model/entity/detail_post_entity.dart';
 import 'package:star_hub/community/model/entity/place_post_entity.dart';
@@ -55,53 +56,58 @@ class _EditPageState extends State<EditPage> {
         backgroundColor: Colors.black,
       ),
       backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _contentController,
-              maxLines: null, // Allow multiple lines
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                hintText: '내용을 작성하세요.',
-              ),
-              cursorColor: Colors.white,
-            ),
-            const SizedBox(height: kPaddingMiddleSize),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    String editedContent = _contentController.text;
-                    viewmodel.updatePost(
-                        widget.type, widget.post.id, _contentController.text,
-                        scopeCommunityState: widget.scopeCommunityState,
-                        searchState: widget.searchState,
-                        placeCommunityState: widget.placeCommunityState,
-                        photoCommunityState: widget.photoCommunityState,
-                        myPostClipState: widget.myPostClipState,
-                        myPostLikeState: widget.myPostLikeState,
-                        myPostState: widget.myPostState,
-                    word: widget.word);
-                    Navigator.pop(context, editedContent);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // Background color
-                    onPrimary: Colors.black, // Text color
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(300),
+                ],
+                controller: _contentController,
+                maxLines: null, // Allow multiple lines
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
                   ),
-                  child: const Text('저장하기'),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  hintText: '내용을 작성하세요.',
                 ),
-              ],
-            )
-          ],
+                cursorColor: Colors.white,
+              ),
+              const SizedBox(height: kPaddingMiddleSize),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      String editedContent = _contentController.text;
+                      viewmodel.updatePost(
+                          widget.type, widget.post.id, _contentController.text,
+                          scopeCommunityState: widget.scopeCommunityState,
+                          searchState: widget.searchState,
+                          placeCommunityState: widget.placeCommunityState,
+                          photoCommunityState: widget.photoCommunityState,
+                          myPostClipState: widget.myPostClipState,
+                          myPostLikeState: widget.myPostLikeState,
+                          myPostState: widget.myPostState,
+                      word: widget.word);
+                      Navigator.pop(context, editedContent);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white, // Background color
+                      onPrimary: Colors.black, // Text color
+                    ),
+                    child: const Text('저장하기'),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
