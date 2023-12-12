@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -223,6 +224,9 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                 onChanged: (value) {
                   reportContent = value;
                 },
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(50),
+                ],
                 style: kTextContentStyleMiddle.copyWith(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
@@ -854,6 +858,9 @@ class _DetailPageState extends ConsumerState<DetailPage> {
                                                     newComment = value;
                                                   });
                                                 },
+                                                inputFormatters: [
+                                                  LengthLimitingTextInputFormatter(100),
+                                                ],
                                                 style: kTextContentStyleMiddle
                                                     .copyWith(
                                                         color: Colors.black),

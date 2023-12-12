@@ -41,12 +41,12 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   final ScrollController _placeScrollController = ScrollController();
   final ScrollController _photoScrollController = ScrollController();
   late PostViewModel viewModel;
-  late final bestScopePost2;
-  late final bestPlacePost2;
-  late final bestPhotoPost2;
-  late ScopeBestEntity bestScopePost;
-  late PlaceBestEntity bestPlacePost;
-  late PhotoBestEntity bestPhotoPost;
+  late ScopeBestEntity? bestScopePost2;
+  late PlaceBestEntity? bestPlacePost2;
+  late PhotoBestEntity? bestPhotoPost2;
+  late ScopeBestEntity? bestScopePost;
+  late PlaceBestEntity? bestPlacePost;
+  late PhotoBestEntity? bestPhotoPost;
   int scopePage = 0;
   int placePage = 0;
   int photoPage = 0;
@@ -174,19 +174,24 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   Future<void> _refreshScope() async {
+    _fetchBestScopePost();
     viewModel.getScopeReset();
     return Future.value();
   }
 
   Future<void> _refreshPlace() async {
-    placePage = 0;
-    viewModel.refreshData("place", placePage++);
+    _fetchBestPlacePost();
+    viewModel.getPlaceReset();
+    //placePage = 0;
+    //viewModel.refreshData("place", placePage++);
     return Future.value();
   }
 
   Future<void> _refreshPhoto() async {
-    photoPage = 0;
-    viewModel.refreshData("photo", photoPage++);
+    _fetchBestPhotoPost();
+    viewModel.getPhotoReset();
+    //photoPage = 0;
+    //viewModel.refreshData("photo", photoPage++);
     return Future.value();
   }
 
@@ -199,9 +204,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   @override
   Widget build(BuildContext context) {
     final userViewmodel = ref.watch(myPageViewModelProvider);
-
     if (viewModel.isLevelUp() == true) {
-      print('왜?');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         viewModel.makeNotLevelUp();
         _showCongratulationsPopup(context, viewModel.level!);
@@ -388,80 +391,95 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                 controller: _photoScrollController,
                                 slivers: [
                                   SliverToBoxAdapter(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => DetailPage(
-                                              1,
-                                              bestPhotoPost.id,
-                                              null,
-                                            ),
-                                          ),
-                                        ).then((value) {
-                                          setState(() {
-                                            bestPhotoPost.like = value.likes;
-                                          });
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 10.0,
-                                          right: 10.0,
-                                          bottom: 15.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                                Icons.local_fire_department),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10.0,
-                                                  vertical: 15.0,
+                                    child: bestPhotoPost == null
+                                        ? Container()
+                                        : GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DetailPage(
+                                                    1,
+                                                    bestPhotoPost!.id,
+                                                    null,
+                                                  ),
                                                 ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  color: Colors.white10,
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      bestPhotoPost.title ?? '',
-                                                      style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                              ).then((value) {
+                                                setState(() {
+                                                  bestPhotoPost!.like =
+                                                      value.likes;
+                                                });
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 10.0,
+                                                right: 10.0,
+                                                bottom: 15.0,
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  const Icon(Icons
+                                                      .local_fire_department),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Expanded(
+                                                    child: Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                        horizontal: 10.0,
+                                                        vertical: 15.0,
+                                                      ),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10.0),
+                                                        color: Colors.white10,
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            (bestPhotoPost!.title ??
+                                                                            '')
+                                                                        .length >
+                                                                    16
+                                                                ? '${bestPhotoPost!.title.substring(0, 16)}...'
+                                                                : bestPhotoPost!
+                                                                        .title ??
+                                                                    '',
+                                                            style:
+                                                                const TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          IconWithNumber(
+                                                            icon:
+                                                                FontAwesomeIcons
+                                                                    .heart,
+                                                            number:
+                                                                bestPhotoPost!
+                                                                        .like ??
+                                                                    0,
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    IconWithNumber(
-                                                      icon: FontAwesomeIcons
-                                                          .heart,
-                                                      number:
-                                                          bestPhotoPost.like ??
-                                                              0,
-                                                    ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                          ),
                                   ),
                                   SliverPadding(
                                     padding: const EdgeInsets.symmetric(
@@ -528,81 +546,98 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   itemCount: scopeList.length + 2,
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                1,
-                                                bestScopePost.id,
-                                                null,
-                                              ),
-                                            ),
-                                          ).then((value) {
-                                            setState(() {
-                                              bestScopePost.like = value.likes;
-                                            });
-                                          });
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 10.0,
-                                            right: 10.0,
-                                            bottom: 15.0,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              const Icon(
-                                                  Icons.local_fire_department),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10.0,
-                                                    vertical: 15.0,
+                                      return bestScopePost == null
+                                          ? Container()
+                                          : GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailPage(
+                                                      1,
+                                                      bestScopePost!.id,
+                                                      null,
+                                                    ),
                                                   ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    color: Colors.white10,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        bestScopePost.title ??
-                                                            '',
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                ).then((value) {
+                                                  setState(() {
+                                                    bestScopePost!.like =
+                                                        value.likes;
+                                                  });
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10.0,
+                                                  right: 10.0,
+                                                  bottom: 15.0,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons
+                                                        .local_fire_department),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10.0,
+                                                          vertical: 15.0,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          color: Colors.white10,
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              (bestScopePost!.title ??
+                                                                              '')
+                                                                          .length >
+                                                                      16
+                                                                  ? '${bestScopePost!.title.substring(0, 16)}...'
+                                                                  : bestScopePost!
+                                                                          .title ??
+                                                                      '',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            IconWithNumber(
+                                                              icon:
+                                                                  FontAwesomeIcons
+                                                                      .heart,
+                                                              number:
+                                                                  bestScopePost!
+                                                                          .like ??
+                                                                      0,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      IconWithNumber(
-                                                        icon: FontAwesomeIcons
-                                                            .heart,
-                                                        number: bestScopePost
-                                                                .like ??
-                                                            0,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
+                                            );
                                     } else if (index == scopeList.length + 1) {
                                       return viewModel.getHasNext("scope")
                                           ? Center(
@@ -665,6 +700,14 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                               } else {
                                                 print("아무거나1");
                                                 setState(() {
+                                                  if (bestScopePost != null) {
+                                                    if (bestScopePost!.id ==
+                                                        scopeList[scopeIndex]
+                                                            .id) {
+                                                      bestScopePost!.like =
+                                                          value.likes;
+                                                    }
+                                                  }
                                                   scopeList[scopeIndex] =
                                                       scopeList[scopeIndex]
                                                           .copyWith(
@@ -717,81 +760,98 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                   itemCount: placeList.length + 2,
                                   itemBuilder: (context, index) {
                                     if (index == 0) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => DetailPage(
-                                                2,
-                                                bestPlacePost.id,
-                                                null,
-                                              ),
-                                            ),
-                                          ).then((value) {
-                                            setState(() {
-                                              bestPlacePost.like = value.likes;
-                                            });
-                                          });
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 10.0,
-                                            right: 10.0,
-                                            bottom: 15.0,
-                                          ),
-                                          child: Row(
-                                            children: [
-                                              const Icon(
-                                                  Icons.local_fire_department),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    horizontal: 10.0,
-                                                    vertical: 15.0,
+                                      return bestPlacePost == null
+                                          ? Container()
+                                          : GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DetailPage(
+                                                      2,
+                                                      bestPlacePost!.id,
+                                                      null,
+                                                    ),
                                                   ),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    color: Colors.white10,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        bestPlacePost.title ??
-                                                            '',
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.bold,
+                                                ).then((value) {
+                                                  setState(() {
+                                                    bestPlacePost!.like =
+                                                        value.likes;
+                                                  });
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 10.0,
+                                                  right: 10.0,
+                                                  bottom: 15.0,
+                                                ),
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(Icons
+                                                        .local_fire_department),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          horizontal: 10.0,
+                                                          vertical: 15.0,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      10.0),
+                                                          color: Colors.white10,
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              (bestPlacePost!.title ??
+                                                                              '')
+                                                                          .length >
+                                                                      16
+                                                                  ? '${bestPlacePost!.title.substring(0, 16)}...'
+                                                                  : bestPlacePost!
+                                                                          .title ??
+                                                                      '',
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            IconWithNumber(
+                                                              icon:
+                                                                  FontAwesomeIcons
+                                                                      .heart,
+                                                              number:
+                                                                  bestPlacePost!
+                                                                          .like ??
+                                                                      0,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      IconWithNumber(
-                                                        icon: FontAwesomeIcons
-                                                            .heart,
-                                                        number: bestPlacePost
-                                                                .like ??
-                                                            0,
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
+                                            );
                                     } else if (index == placeList.length + 1) {
                                       return viewModel.getHasNext("place")
                                           ? Center(
@@ -852,6 +912,14 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                                                     .jumpTo(0.0);
                                               } else {
                                                 setState(() {
+                                                  if (bestPlacePost != null) {
+                                                    if (bestPlacePost!.id ==
+                                                        placeList[placeIndex]
+                                                            .id) {
+                                                      bestPlacePost!.like =
+                                                          value.likes;
+                                                    }
+                                                  }
                                                   placeList[placeIndex] =
                                                       placeList[placeIndex]
                                                           .copyWith(
@@ -927,6 +995,9 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
   }
 
   void _showCongratulationsPopup(BuildContext context, String level) {
+    if(level == "금성") {
+      viewModel.getNextPage("place", 0);
+    }
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -969,7 +1040,8 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
         viewModel: viewModel,
         userLevel:
             (ref.watch(myPageViewModelProvider).state is MyPageStateSuccess)
-                ? ref.watch(myPageViewModelProvider).entity.level
+                ? (viewModel.level ??
+                    ref.watch(myPageViewModelProvider).entity.level)
                 : null,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -1000,14 +1072,16 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
             ),
           ),
         ).then((value) {
-          print("dfd");
-          print(value);
           if (value != null) {
             if (value is bool) {
               _photoScrollController.jumpTo(0.0);
             } else {
               setState(() {
-                bestPhotoPost.like = value.likes;
+                if (bestPhotoPost != null) {
+                  if (bestPhotoPost!.id == value.id) {
+                    bestPhotoPost!.like = value.likes;
+                  }
+                }
               });
             }
           }
