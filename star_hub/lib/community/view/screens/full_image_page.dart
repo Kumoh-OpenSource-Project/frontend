@@ -55,11 +55,14 @@ class _FullImagePageState extends State<FullImagePage> {
           itemCount: widget.imagePaths.length,
           itemBuilder: (context, index) {
             final path = widget.imagePaths[index];
-            return Center(
-              child: CachedNetworkImage(
-                key: Key(path),
-                imageUrl: '${path.replaceFirst('https', 'http')}',
-                fit: BoxFit.cover,
+            return InteractiveViewer(
+              constrained: true,
+              child: Center(
+                child: CachedNetworkImage(
+                  key: Key(path),
+                  imageUrl: '${path.replaceFirst('https', 'http')}',
+                  fit: BoxFit.cover,
+                ),
               ),
             );
           },
