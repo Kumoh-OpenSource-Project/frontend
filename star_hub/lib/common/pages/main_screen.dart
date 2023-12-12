@@ -81,7 +81,10 @@ class _MainPageState extends ConsumerState<MainPage>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.black26,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          backgroundColor: Colors.black,
           content: Container(
             width: 300,
             height: 400,
@@ -175,7 +178,7 @@ class _MainPageState extends ConsumerState<MainPage>
                           ),
                           Text(
                             '${date.day}',
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12, color: Colors.amberAccent),
                           ),
                         ],
                       ),

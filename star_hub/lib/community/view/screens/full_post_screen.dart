@@ -61,7 +61,7 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
     _placeScrollController.addListener(_placeScrollListener);
     _photoScrollController.addListener(_photoScrollListener);
     _tabController =
-        TabController(length: tabs.length, vsync: this, initialIndex: 2);
+        TabController(length: tabs.length, vsync: this, initialIndex: 0);
     viewModel = ref.read(postViewModelProvider)
       ..getNextPage("scope", scopePage++)
       ..getNextPage("place", placePage++)
@@ -364,6 +364,145 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _tabController,
                 children: [
+                  photoList.isNotEmpty
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                  Colors.black.withOpacity(0.3),
+                                  BlendMode.dstATop,
+                                ),
+                                child: Image.asset(
+                                  'assets/back2.png',
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            RefreshIndicator(
+                              backgroundColor: Colors.white,
+                              color: Colors.black,
+                              onRefresh: _refreshPhoto,
+                              child: CustomScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                controller: _photoScrollController,
+                                slivers: [
+                                  SliverToBoxAdapter(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DetailPage(
+                                              1,
+                                              bestPhotoPost.id,
+                                              null,
+                                            ),
+                                          ),
+                                        ).then((value) {
+                                          setState(() {
+                                            bestPhotoPost.like = value.likes;
+                                          });
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 10.0,
+                                          right: 10.0,
+                                          bottom: 15.0,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                                Icons.local_fire_department),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10.0,
+                                                  vertical: 15.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10.0),
+                                                  color: Colors.white10,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      bestPhotoPost.title ?? '',
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    IconWithNumber(
+                                                      icon: FontAwesomeIcons
+                                                          .heart,
+                                                      number:
+                                                          bestPhotoPost.like ??
+                                                              0,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SliverPadding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    sliver: SliverGrid(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8.0,
+                                        mainAxisSpacing: 8.0,
+                                      ),
+                                      delegate: SliverChildBuilderDelegate(
+                                        (BuildContext context, int index) {
+                                          return buildGridItem(context, index);
+                                        },
+                                        childCount: photoList.length,
+                                      ),
+                                    ),
+                                  ),
+                                  // Check if it's the last item in the grid
+                                  SliverToBoxAdapter(
+                                    child: viewModel.getHasNext("photo")
+                                        ? Center(
+                                            child: Image.asset(
+                                              'assets/gif/star55.gif',
+                                              height: 125.0,
+                                              width: 125.0,
+                                            ),
+                                          )
+                                        : Container(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
                   scopeList.isNotEmpty
                       ? Stack(
                           children: [
@@ -740,145 +879,6 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
                           child: CircularProgressIndicator(
                           color: Colors.white,
                         )),
-                  photoList.isNotEmpty
-                      ? Stack(
-                          children: [
-                            Positioned.fill(
-                              child: ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.3),
-                                  BlendMode.dstATop,
-                                ),
-                                child: Image.asset(
-                                  'assets/back2.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                            RefreshIndicator(
-                              backgroundColor: Colors.white,
-                              color: Colors.black,
-                              onRefresh: _refreshPhoto,
-                              child: CustomScrollView(
-                                physics: const BouncingScrollPhysics(),
-                                controller: _photoScrollController,
-                                slivers: [
-                                  SliverToBoxAdapter(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => DetailPage(
-                                              1,
-                                              bestPhotoPost.id,
-                                              null,
-                                            ),
-                                          ),
-                                        ).then((value) {
-                                          setState(() {
-                                            bestPhotoPost.like = value.likes;
-                                          });
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 10.0,
-                                          right: 10.0,
-                                          bottom: 15.0,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                                Icons.local_fire_department),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 10.0,
-                                                  vertical: 15.0,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                  color: Colors.white10,
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      bestPhotoPost.title ?? '',
-                                                      style: const TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    IconWithNumber(
-                                                      icon: FontAwesomeIcons
-                                                          .heart,
-                                                      number:
-                                                          bestPhotoPost.like ??
-                                                              0,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SliverPadding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    sliver: SliverGrid(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        crossAxisSpacing: 8.0,
-                                        mainAxisSpacing: 8.0,
-                                      ),
-                                      delegate: SliverChildBuilderDelegate(
-                                        (BuildContext context, int index) {
-                                          return buildGridItem(context, index);
-                                        },
-                                        childCount: photoList.length,
-                                      ),
-                                    ),
-                                  ),
-                                  // Check if it's the last item in the grid
-                                  SliverToBoxAdapter(
-                                    child: viewModel.getHasNext("photo")
-                                        ? Center(
-                                            child: Image.asset(
-                                              'assets/gif/star55.gif',
-                                              height: 125.0,
-                                              width: 125.0,
-                                            ),
-                                          )
-                                        : Container(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        )
                 ],
               ),
             ),
@@ -1004,12 +1004,10 @@ class _FullPostPageState extends ConsumerState<FullPostPage>
           print(value);
           if (value != null) {
             if (value is bool) {
-              _photoScrollController
-                  .jumpTo(0.0);
+              _photoScrollController.jumpTo(0.0);
             } else {
               setState(() {
-                bestPhotoPost.like =
-                    value.likes;
+                bestPhotoPost.like = value.likes;
               });
             }
           }
