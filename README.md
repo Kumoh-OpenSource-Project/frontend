@@ -50,16 +50,29 @@
 
 ## 📄 기능 구현 사항
 
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/2b64fdbf-d4f5-4cc6-a19b-e293ce927d02">
+</p>
+
 ### 초기화면
   - Splash 화면이 잠시 나타난 뒤 다음 페이지로 넘어간다.
     * 로그인이 되어 있는 경우 : Star Hub의 Home 화면
     * 로그인이 되어 있지 않은 경우 : 카카오톡 로그인 페이지
       
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/ec936996-2352-4935-90a6-9817028755c3">
+</p>
+
 ### 로그인
   - 카카오 로그인을 제공한다.
     * 카카오톡이 설치되어 있는 경우 : 카카오톡으로 로그인
     * 카카오톡이 설치되어 있지 않은 경우 : 카카오 계정으로 로그인
-   
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/124e27e0-a798-417a-b724-2b0534af48f2">
+</p>
+
 ### 홈 화면
   - 사용자가 접속한 날짜의 날씨, 실시간 날씨, 월령, 천체와 관련된 가장 가까운 이벤트의 디데이를 제공한다.
   - 접속한 날짜로부터 5일간의 날씨 데이터를 제공한다.
@@ -73,16 +86,32 @@
     * 관측 도구 게시판 : 리스트 형식
     * 관측 장소 게시판 : 리스트 형식, 단 사용자의 등급에 따라 접근 제한이 있다. 첫 등급인 '수성'에서 두 번째 등급인 '금성'으로 등업하지 않은 사용자는 접근이 불가능하며, 이를 시도할 경우 "금성 레벨 이상이어야 관측장소를 열람할 수 있습니다."라는 내용의 스낵바가 상단에 1초간 나타난다.
     * 각 게시판 최상단에 주간 인기 게시물 제공
-   
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/d1fa92c5-a30d-4521-a531-6fcaf97f320a">
+</p>
+
 #### 게시물 작성
   - 커뮤니티 화면의 플로팅 액션 버튼을 통해 글쓰기 화면을 제공한다.
   - 사용자는 카테고리를 선택하고, 제목과 내용을 작성할 수 있으며, 사진을 첨부할 수 있다.
     * 사진 자랑 카테고리에서는 사진이 필수 요소로 하나 이상 첨부해야만 한다.
     * 모든 카테고리에서 제목과 내용은 반드시 포함되어야 글쓰기 버튼이 활성화된다.
 
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/d54e3ab7-cb5d-46df-bd21-4bdc85ccb666">
+</p>
+
 #### 게시물 검색
   - 검색 아이콘을 통해 검색 화면을 제공한다.
   - 사용자는 두 글자 이상의 키워드를 띄어쓰기 없이 입력해 검색어에 해당하는 게시글들을 확인할 수 있다.
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/063f9925-6334-4b5b-8699-dfebbe34d228">
+</p>
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/10b63bcc-6b8c-483c-a098-82576ada0b79">
+</p>
 
 #### 게시물 상세 조회
   - 각 게시물마다 상세 페이지를 제공한다.
@@ -91,6 +120,10 @@
   - 사용자는 버튼을 통해 좋아요나 스크랩을 남길 수 있다.
   - 사용자는 댓글을 작성할 수 있으며, 직접 남긴 댓글은 삭제가 가능하다.
   - 사용자가 직접 남긴 게시글이나 댓글이 아니라면 신고가 가능하다.
+
+<p align="center">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/f189159b-772e-46ba-b6a3-7270dd5cb64f">
+</p>
 
 ### 마이페이지 화면
   - 사용자 개인의 프로필과 레벨을 제공한다.
