@@ -115,9 +115,6 @@
 
 <p align="center">
 <img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/063f9925-6334-4b5b-8699-dfebbe34d228">
-</p>
-
-<p align="center">
 <img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/10b63bcc-6b8c-483c-a098-82576ada0b79">
 </p>
 
