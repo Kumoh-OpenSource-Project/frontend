@@ -115,7 +115,7 @@
 
 <p align="center">
 <img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/063f9925-6334-4b5b-8699-dfebbe34d228">
-<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/10b63bcc-6b8c-483c-a098-82576ada0b79">
+<img src="https://github.com/Kumoh-OpenSource-Project/frontend/assets/135759058/ffe03aa3-56f1-40c5-b304-a8e2f399f62c">
 </p>
 
 ### 마이페이지 화면
